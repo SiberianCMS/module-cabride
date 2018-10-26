@@ -1,0 +1,35 @@
+{
+    "name": "Cabride",
+    "code": "cabride",
+    "version": "0.0.1",
+    "category": "contact",
+    "model": "Cabride_Model_Cabride",
+    "desktop_uri": "cabride/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "cabride-home",
+            "controller": "CabrideHome",
+            "url": "cabride/mobile_home/index/value_id/:value_id",
+            "template": "l1/home.html",
+            "cache": false
+        }
+    ],
+    "layouts": [
+        1
+    ],
+    "icons": [
+        "icons/cabride1-flat.png",
+        "icons/cabride2-flat.png",
+        "icons/cabride3-flat.png"
+    ],
+    "files": [
+        "js/controllers/cabride.js",
+        "js/factory/cabride.js",
+        "js/css/cabride.scss"
+    ],
+    "compile": true,
+    "use_account": true,
+    "only_once": true,
+    "load_on_start": true
+}

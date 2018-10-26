@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * Class Cabride_Form_Client_Delete
+ */
+class Cabride_Form_Client_Delete extends Siberian_Form_Abstract
+{
+    /**
+     * init wrapper
+     */
+    public function init()
+    {
+        parent::init();
+
+        $this
+            ->setAction(__path("/cabride/client/deletepost"))
+            ->setAttrib("id", "form-delete-cabride-client")
+            ->setConfirmText("You are about to remove this Client ! Are you sure ?");
+
+        /** Bind as a delete form */
+        self::addClass("delete", $this);
+
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+            ->from('cabride_client')
+            ->where('cabride_client.client_id = :value');
+
+        $client_id = $this->addSimpleHidden("client_id", __("Client"));
+        $client_id->addValidator("Db_RecordExists", true, $select);
+        $client_id->setMinimalDecorator();
+
+        $miniSubmit = $this->addMiniSubmit();
+    }
+}

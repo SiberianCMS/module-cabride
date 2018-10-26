@@ -1,0 +1,8 @@
+!.
+.DS_Store
+npm-debug.log
+.idea
+*.un~
+*.swp
+*.swo
+*.swn
