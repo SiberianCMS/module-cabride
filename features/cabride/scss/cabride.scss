@@ -1,0 +1,191 @@
+.cabride {
+  /** Cab-Ride design */
+  .cr-home-title {
+    text-align: center;
+    margin: 15px 0;
+  }
+
+  .cr-user-choice {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+
+    .cr-passenger,
+    .cr-driver {
+      padding: 2vh;
+      border: 2px solid darken($general-custom-bg, 10%);
+      width: 30vh;
+      height: 30vh;
+      border-radius: 2px;
+      font-size: 1rem;
+      background-color: lighten($general-custom-bg, 10%);
+      line-height: 1.75rem;
+      text-transform: uppercase;
+      margin: 0 auto;
+
+      img {
+        width: 20vh;
+      }
+    }
+    .cr-passenger {
+      margin-bottom: 2vh;
+    }
+    .cr-driver {
+
+    }
+  }
+
+  .cr-passenger-home {
+    #crMap {
+      width: 100vw;
+      height: calc(100vh - 44px);
+    }
+
+    #cr-map-overlay {
+
+      /** Map pickup/dropoff */
+      .cr-map-location {
+        position: absolute;
+        width: calc(100vw - 2rem - 2px);
+        top: 0;
+        left: 0;
+        margin: 1rem;
+        border: 1px solid lightgrey;
+        border-radius: 4px;
+        overflow: hidden;
+        background-color: #fefefe;
+
+        .cr-map-pickup,
+        .cr-map-dropoff {
+          border-bottom: 1px solid lightgrey;
+          border-radius: 4px 4px 0 0;
+
+          label {
+            width: 100%;
+
+            input {
+              width: 100%;
+              padding: 6px 2rem 6px 12px;
+              font-variant: all-petite-caps;
+              font-size: 1rem;
+              text-overflow: ellipsis;
+            }
+          }
+
+          i.pickup {
+            position: absolute;
+            right: 6px;
+            margin-top: -29px;
+            font-size: 1.5rem;
+            opacity: 0.75;
+          }
+
+          i.dropoff {
+            position: absolute;
+            right: 10px;
+            margin-top: -29px;
+            font-size: 1.5rem;
+            opacity: 0.75;
+          }
+        }
+
+        .cr-map-dropoff {
+          border-bottom: 0;
+          border-radius: 0 0 4px 4px;
+        }
+      }
+
+      /** Map zoom actions */
+      .cr-map-zoom {
+        position: absolute;
+        right: 1rem;
+        bottom: 1rem;
+        text-align: center;
+        overflow: hidden;
+
+        .cr-zoom-center-me {
+          border: 1px solid lightgrey;
+          background-color: #fefefe;
+          padding: .4rem 0.75rem;
+          border-radius: 4px;
+          margin-bottom: 1rem;
+        }
+        .cr-zoom-in {
+          border: 1px solid lightgrey;
+          background-color: #fefefe;
+          padding: .4rem 0.75rem;
+          border-radius: 4px 4px 0 0;
+        }
+        .cr-zoom-out {
+          border: 1px solid lightgrey;
+          border-top: 0;
+          background-color: #fefefe;
+          padding: .4rem 0.75rem;
+          border-radius: 0 0 4px 4px;
+        }
+      }
+
+      /** Map pin overlay */
+      .cr-map-pin {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: calc(100vh - 44px);
+        pointer-events: none;
+
+        .cr-pin-text {
+          background-color: $button-positive-custom-bg;
+          border: 1px solid $button-positive-custom-border;
+          color: $button-positive-custom-text;
+          position: absolute;
+          top: calc(50% - 4.5rem);
+          left: 50%;
+          transform: translate(-50%, -50%);
+          padding: .2rem .75rem .25rem .75rem;
+          border-radius: 100px;
+          font-variant: all-small-caps;
+          font-size: 1rem;
+          pointer-events: all !important;
+          white-space: nowrap;
+        }
+
+        .cr-pin-icon {
+          width: 3rem;
+          position: absolute;
+          top: calc(50% - 1.5rem);
+          left: 50%;
+          transform: translate(-50%, -50%);
+          height: 3rem;
+        }
+      }
+    }
+  }
+
+  @media (orientation: landscape) {
+    .cr-user-choice {
+      flex-direction: row !important;
+      .cr-passenger,
+      .cr-driver {
+        width: 30vw;
+        height: 30vw;
+
+        img {
+          width: 20vw;
+        }
+      }
+
+      .cr-passenger {
+        margin-bottom: 0 !important;
+        margin-right: 2vw !important;
+      }
+    }
+  }
+}
+
+/** Overriding layout_taxi icon colors */
+.layout_taxi {
+  i.icon.line-icon {
+    color: $homepage-custom-image;
+  }
+}

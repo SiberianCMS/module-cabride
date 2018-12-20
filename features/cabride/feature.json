@@ -1,7 +1,7 @@
 {
     "name": "Cabride",
     "code": "cabride",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "category": "contact",
     "model": "Cabride_Model_Cabride",
     "desktop_uri": "cabride/application/",
@@ -10,8 +10,50 @@
             "root": true,
             "state": "cabride-home",
             "controller": "CabrideHome",
-            "url": "cabride/mobile_home/index/value_id/:value_id",
+            "url": "cabride/mobile_home/index",
             "template": "l1/home.html",
+            "cache": false
+        },
+        {
+            "state": "cabride-pending-requests",
+            "controller": "CabridePendingRequests",
+            "url": "cabride/mobile_pending_requests/index",
+            "template": "l1/pending-requests.html",
+            "cache": false
+        },
+        {
+            "state": "cabride-accepted-requests",
+            "controller": "CabrideAcceptedRequests",
+            "url": "cabride/mobile_accepted_requests/index",
+            "template": "l1/accepted-requests.html",
+            "cache": false
+        },
+        {
+            "state": "cabride-completed-rides",
+            "controller": "CabrideCompletedRides",
+            "url": "cabride/mobile_completed_rides/index",
+            "template": "l1/completed-rides.html",
+            "cache": false
+        },
+        {
+            "state": "cabride-cancelled",
+            "controller": "CabrideCancelled",
+            "url": "cabride/mobile_pending_requests/index",
+            "template": "l1/cancelled.html",
+            "cache": false
+        },
+        {
+            "state": "cabride-vehicle-information",
+            "controller": "CabrideVehicleInformation",
+            "url": "cabride/mobile_vehicle_information/index",
+            "template": "l1/vehicle-information.html",
+            "cache": false
+        },
+        {
+            "state": "cabride-payment-history",
+            "controller": "CabridePaymentHistory",
+            "url": "cabride/mobile_payment_history/index",
+            "template": "l1/payment-history.html",
             "cache": false
         }
     ],
@@ -24,12 +66,14 @@
         "icons/cabride3-flat.png"
     ],
     "files": [
-        "js/controllers/cabride.js",
+        "js/services/cabride-socket.js",
         "js/factory/cabride.js",
-        "js/css/cabride.scss"
+        "js/controllers/cabride.js",
+        "scss/cabride.scss"
     ],
     "compile": true,
     "use_account": true,
     "only_once": true,
-    "load_on_start": true
+    "load_on_start": true,
+    "on_start_factory": "Cabride"
 }

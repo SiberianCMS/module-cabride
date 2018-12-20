@@ -1,0 +1,25 @@
+{
+  "name": "cabride-server-uws",
+  "version": "0.0.1",
+  "description": "uWS WebSocket server for cabride",
+  "main": "cabride.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "atob": "^2.1.2",
+    "axios": "^0.17.0",
+    "btoa": "^1.2.1",
+    "buffer": "^5.0.8",
+    "https": "^1.0.0",
+    "lodash": "^4.17.4",
+    "nano-time": "^1.0.0",
+    "native-promise-deferred": "^1.0.1",
+    "uuid": "^3.1.0",
+    "websocket": "^1.0.25",
+    "ws": "^6.1.2",
+    "xhr-request": "^1.0.1"
+  }
+}

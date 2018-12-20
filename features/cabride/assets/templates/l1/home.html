@@ -1,8 +1,89 @@
 <ion-view sb-page-background
-          class="cabride">
-    <ion-nav-title>{{ page_title }}</ion-nav-title>
+          class="cabride cabride-view cabride-home">
+    <ion-nav-title>{{ pageTitle }}</ion-nav-title>
 
-    <ion-content>
+    <ion-content scroll="false">
+        <div ng-if="!isDriver && !isPassenger">
+            <h3 class="cr-home-title">{{ "cr0001_who_are_you" | translate }}</h3>
+
+            <div class="cr-user-choice">
+                <div class="cr-passenger"
+                     ng-click="selectPassenger();">
+                    <img src="./features/cabride/assets/templates/images/001-passenger.svg" />
+                    <br />
+                    {{ "cr0002_passenger" | translate }}
+                </div>
+                <div class="cr-driver"
+                     ng-click="selectDriver();">
+                    <img src="./features/cabride/assets/templates/images/002-driver.svg" />
+                    <br />
+                    {{ "cr0003_driver" | translate }}
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="isPassenger || isDriver">
+            <div class="cr-passenger-home">
+                <div id="crMap"></div>
+                <div id="cr-map-overlay">
+                    <div class="cr-map-location">
+                        <div class="cr-map-pickup">
+                            <label class="cr-pickup-text">
+                                <input type="text"
+                                       name="cr-pickup"
+                                       placeholder="{{ 'cr0017_pickup_location' | translate }}"
+                                       sb-google-autocomplete
+                                       options="gmapsAutocompleteOptions"
+                                       on-address-change="setPickupAddress()"
+                                       place="ride.pickupPlace"
+                                       ng-model="ride.pickupAddress" />
+                            </label>
+                            <span ng-click="geoPickup()">
+                                <i class="icon ion-android-locate pickup"></i>
+                            </span>
+                        </div>
+                        <div class="cr-map-dropoff">
+                            <label class="cr-dropoff-text">
+                                <input type="text"
+                                       name="cr-dropoff"
+                                       placeholder="{{ 'cr0018_dropoff_location' | translate }}"
+                                       sb-google-autocomplete
+                                       options="gmapsAutocompleteOptions"
+                                       on-address-change="setDropoffAddress()"
+                                       place="ride.dropoffPlace"
+                                       ng-model="ride.dropoffAddress" />
+                            </label>
+                            <span ng-click="geoDropoff()">
+                                <i class="icon ion-ios-flag dropoff"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="cr-map-zoom">
+                        <div class="cr-zoom-center-me"
+                             ng-click="centerMe()">
+                            <i class="icon ion-navigate"></i>
+                        </div>
+                        <div class="cr-zoom-in"
+                             ng-click="zoomIn()">
+                            <i class="icon ion-plus"></i>
+                        </div>
+                        <div class="cr-zoom-out"
+                             ng-click="zoomOut()">
+                            <i class="icon ion-minus"></i>
+                        </div>
+                    </div>
+                    <div class="cr-map-pin">
+                        <div class="cr-pin-text"
+                             ng-if="pinText().action !== 'none'"
+                             ng-click="setPinLocation(pinText().action)"
+                             ng-bind-html="pinText().text"></div>
+                        <div class="cr-pin-icon">
+                            <img src="./features/cabride/assets/templates/images/003-pin.svg" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </ion-content>
 </ion-view>
