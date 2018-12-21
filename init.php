@@ -4,8 +4,8 @@ $initializeApiUser = function () {
         ->find('cabride', 'username');
 
     $acl = [];
-    foreach (Siberian_Api::$acl_keys as $key => $subkeys) {
-        // Filter only chatroom API endpoints
+    foreach (\Siberian_Api::$acl_keys as $key => $subkeys) {
+        // Filter only cabride API endpoints
         if ($key === 'cabride') {
             if (!isset($acl[$key])) {
                 $acl[$key] = [];
@@ -28,7 +28,7 @@ $initializeApiUser = function () {
             ->setUsername('cabride')
             ->setPassword($password)
             ->setIsVisible(0)
-            ->setAcl(Siberian_Json::encode($acl))
+            ->setAcl(\Siberian_Json::encode($acl))
             ->save();
 
         // Save Credentials for chatrooms server
@@ -43,7 +43,7 @@ $initializeApiUser = function () {
             explode(':', $_SERVER['HTTP_HOST'])[0]
         );
 
-        $configFile = Core_Model_Directory::getBasePathTo('/app/local/modules/Cabride/resources/server/config.json');
+        $configFile = \Core_Model_Directory::getBasePathTo('/app/local/modules/Cabride/resources/server/config.json');
         $config = [
             'apiUrl' => $serverHost,
             'wssHost' => $wssHost,
@@ -51,16 +51,24 @@ $initializeApiUser = function () {
             'username' => 'cabride',
             'password' => base64_encode($password)
         ];
-        file_put_contents($configFile, Siberian_Json::encode($config));
+        file_put_contents($configFile, \Siberian_Json::encode($config));
 
     } else {
         // Update ACL to full access after any updates, in case there is new API Endpoints
         $cabrideUser
             ->setIsVisible(0)
-            ->setAcl(Siberian_Json::encode($acl))
+            ->setAcl(\Siberian_Json::encode($acl))
             ->save();
     }
 };
+
+/**
+ * @param $payload
+ * @return mixed
+ */
+function dashboardNav ($payload) {
+    return Cabride_Model_Cabride::dashboardNav($payload);
+}
 
 $init = function($bootstrap) use ($initializeApiUser) {
 
@@ -81,6 +89,10 @@ $init = function($bootstrap) use ($initializeApiUser) {
     \Siberian_Assets::registerScss([
         "/app/local/modules/Cabride/features/cabride/scss/cabride.scss"
     ]);
+
+    //require Core_Model_Directory::getBasePathTo("/app/local/modules/Cabride/Model/Cabride.php");
+
+    \Siberian\Hook::listen('editor.left.menu.ready', "cabride_nav", "dashboardNav");
 
     $initializeApiUser();
 };

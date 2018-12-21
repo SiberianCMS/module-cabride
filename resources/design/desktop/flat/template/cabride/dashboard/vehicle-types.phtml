@@ -1,0 +1,109 @@
+<?php
+$application = $this->getApplication();
+$request = $this->getRequest();
+
+$formVehicleType = new Cabride_Form_Vehicle();
+$vehicles = [
+    [
+        "id" => "1",
+        "type" => "Luxe",
+        "is_visible" => "1",
+        "base_fare" => "10",
+        "distance_fare" => "1.5",
+        "time_fare" => "0.5",
+        "base_address" => "Marseille",
+    ],
+    [
+        "id" => "2",
+        "type" => "SUV",
+        "is_visible" => "1",
+        "base_fare" => "8",
+        "distance_fare" => "1.5",
+        "time_fare" => "1",
+        "base_address" => "Paris",
+    ],
+    [
+        "id" => "3",
+        "type" => "Berline",
+        "is_visible" => "1",
+        "base_fare" => "15",
+        "distance_fare" => "2",
+        "time_fare" => "1",
+        "base_address" => "Toulouse",
+    ],
+    [
+        "id" => "4",
+        "type" => "Scooter",
+        "is_visible" => "0",
+        "base_fare" => "3",
+        "distance_fare" => "0.5",
+        "time_fare" => "0.1",
+        "base_address" => "Reims",
+    ],
+    [
+        "id" => "5",
+        "type" => "8 Places +",
+        "is_visible" => "1",
+        "base_fare" => "10",
+        "distance_fare" => "1.5",
+        "time_fare" => "0.5",
+        "base_address" => "Lille",
+    ],
+    [
+        "id" => "6",
+        "type" => "Berline",
+        "is_visible" => "1",
+        "base_fare" => "10",
+        "distance_fare" => "1.5",
+        "time_fare" => "0.5",
+        "base_address" => "Paris",
+    ],
+];
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+            <div id="apis_content"
+                 class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo __("CabRide vehicle types"); ?>
+                </h3>
+                <div class="subcontent content-color">
+                    <div class="col-md-12">
+                        <?php echo $formVehicleType ?>
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr class="content-white-bkg">
+                                    <th>ID</th>
+                                    <th>Type de vehicule</th>
+                                    <th>Is_Visible</th>
+                                    <th>Base fare</th>
+                                    <th>Distance fare</th>
+                                    <th>Time fare</th>
+                                    <th>Base address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($vehicles as $vehicle): ?>
+                                    <tr>
+                                        <td><?php echo $vehicle["id"]; ?></td>
+                                        <td><?php echo $vehicle["type"]; ?></td>
+                                        <td><?php echo $vehicle["is_visible"]; ?></td>
+                                        <td><?php echo $vehicle["base_fare"]; ?></td>
+                                        <td><?php echo $vehicle["distance_fare"]; ?></td>
+                                        <td><?php echo $vehicle["time_fare"]; ?></td>
+                                        <td><?php echo $vehicle["base_address"]; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+</script>

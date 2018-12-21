@@ -6,7 +6,7 @@
 class Cabride_Form_Cabride extends Siberian_Form_Abstract
 {
     /**
-     * init wrapper
+     * @throws Zend_Form_Exception
      */
     public function init()
     {
@@ -14,9 +14,7 @@ class Cabride_Form_Cabride extends Siberian_Form_Abstract
 
         $this
             ->setAction(__path("/cabride/cabride/editpost"))
-            ->setAttrib("id", "form-cabride")
-            ->addNav("nav-cabride");
-
+            ->setAttrib("id", "form-cabride");
         // Bind as a create form!
         self::addClass("create", $this);
 
@@ -24,28 +22,66 @@ class Cabride_Form_Cabride extends Siberian_Form_Abstract
 
         // Builds the default form from schema!
         
-        $value_id = $this->addSimpleText("value_id", __("Value Id"));
-        $value_id->setRequired(true);
+        $this->addSimpleHidden("value_id", __("Value Id"));
 
-        $distance_unit = $this->addSimpleText("distance_unit", __("Distance Unit"));
+        $distance_unit = $this->addSimpleSelect(
+            "distance_unit",
+            __("Distance Unit"),
+            [
+                "km" => __("Km"),
+                "mi" => __("Miles"),
+            ]);
         $distance_unit->setRequired(true);
 
-        $search_timeout = $this->addSimpleText("search_timeout", __("Search Timeout"));
+        $search_timeout = $this->addSimpleNumber(
+            "search_timeout",
+            __("Search Timeout"), 60, 3600, true, 1);
         $search_timeout->setRequired(true);
 
-        $search_radius = $this->addSimpleText("search_radius", __("Search Radius"));
+        $search_radius = $this->addSimpleNumber(
+            "search_radius",
+            __("Search Radius"), 10, 5000, true, 1);
         $search_radius->setRequired(true);
 
-        $accepted_payments = $this->addSimpleTextarea("accepted_payments", __("Accepted Payments"));
+        $accepted_payments = $this->addSimpleSelect(
+            "accepted_payments",
+            __("Accepted Payments"),
+            [
+                "credit-card" => __("Credit card"),
+                "cash" => __("Cash"),
+                "all" => __("Credit card & Cash"),
+            ]);
         $accepted_payments->setRequired(true);
+
+        $commissionType = $this->addSimpleSelect(
+            "commission_type",
+            __("Commission type"),
+            [
+                "disabled" => __("Disabled"),
+                "fixed" => __("Fixed amount"),
+                "percentage" => __("Percentage"),
+            ]);
+        $commissionType->setRequired(true);
 
         $commission = $this->addSimpleText("commission", __("Commission"));
         $commission->setRequired(true);
 
-        $course_mode = $this->addSimpleText("course_mode", __("Course Mode"));
+        $course_mode = $this->addSimpleSelect(
+            "course_mode",
+            __("Course Mode"),
+            [
+                "immediate" => __("Immediate"),
+                "all" => __("Immediate & Scheduled"),
+            ]);
         $course_mode->setRequired(true);
 
-        $pricing_mode = $this->addSimpleText("pricing_mode", __("Pricing Mode"));
+        $pricing_mode = $this->addSimpleSelect(
+            "pricing_mode",
+            __("Pricing Mode"),
+            [
+                "fixed" => __("Fixed by vehicle type (Admin)"),
+                "driver" => __("Fixed by the drivers"),
+            ]);
         $pricing_mode->setRequired(true);
 
         $driver_can_register = $this->addSimpleCheckbox("driver_can_register", __("Driver Can Register"));

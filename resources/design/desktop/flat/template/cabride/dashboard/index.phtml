@@ -1,0 +1,162 @@
+<?php
+$application = $this->getApplication();
+$request = $this->getRequest();
+
+$payments = [
+    [
+        "id" => "1",
+        "type" => "Cash",
+        "date" => "12 Déc. 2018",
+        "amount" => "15.60",
+    ],
+    [
+        "id" => "2",
+        "type" => "Credit Card (Stripe)",
+        "date" => "13 Déc. 2018",
+        "amount" => "156.00",
+    ],
+    [
+        "id" => "3",
+        "type" => "Credit Card (2Checkout)",
+        "date" => "16 Déc. 2018",
+        "amount" => "120",
+    ],
+    [
+        "id" => "4",
+        "type" => "Credit Card (Stripe)",
+        "date" => "16 Déc. 2018",
+        "amount" => "12.20",
+    ],
+    [
+        "id" => "5",
+        "type" => "Credit Card (2Checkout)",
+        "date" => "1 Jan. 2019",
+        "amount" => "23.57",
+    ],
+    [
+        "id" => "6",
+        "type" => "Cash",
+        "date" => "1 Jan. 2019",
+        "amount" => "25.00",
+    ],
+    [
+        "id" => "7",
+        "type" => "Web (PayPal)",
+        "date" => "1 Jan. 2019",
+        "amount" => "154.60",
+    ],
+    [
+        "id" => "8",
+        "type" => "Cash",
+        "date" => "1 Jan. 2019",
+        "amount" => "20.00",
+    ],
+];
+?>
+<div class="cabride row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+            <div id="apis_content"
+                 class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo __("CabRide Dashboard"); ?>
+                </h3>
+                <div class="subcontent content-color">
+                    <div class="col-md-3">
+                        <div class="alert alert-info">
+                            <p class="dashboard-income">120.24 €</p>
+                            <p class="income-hint income-day">TOTAL REVENUE TODAY</p>
+                            <p class="income-more">MORE INFO</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="alert alert-warning">
+                            <p class="dashboard-income">1756.76 €</p>
+                            <p class="income-hint income-week">TOTAL REVENUE OF LAST 7 DAYS</p>
+                            <p class="income-more">MORE INFO</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="alert alert-success">
+                            <p class="dashboard-income">4780.60 €</p>
+                            <p class="income-hint income-month">TOTAL REVENUE OF LAST 30 DAYS</p>
+                            <p class="income-more">MORE INFO</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="alert alert-danger">
+                            <p class="dashboard-income">72,333.78 €</p>
+                            <p class="income-hint income-year">TOTAL REVENUE OF LAST 365 DAYS</p>
+                            <p class="income-more">MORE INFO</p>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr class="content-white-bkg">
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($payments as $payment): ?>
+                                <tr>
+                                    <td><?php echo $payment["id"]; ?></td>
+                                    <td><?php echo $payment["type"]; ?></td>
+                                    <td><?php echo $payment["amount"]; ?></td>
+                                    <td><?php echo $payment["date"]; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+</script>
+<style type="text/css">
+    @import url("https://fonts.googleapis.com/css?family=Titillium+Web&text=0123456789%C2%A3$%E2%82%AC.,");
+
+    p.dashboard-income {
+        font-family: "Titillium Web", monospace;
+        font-size: 3rem;
+    }
+
+    p.income-hint {
+        font-size: 1rem;
+        padding: 15px 0 10px;
+    }
+
+    p.income-more {
+        margin: -13px;
+        padding: 10px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .alert-info p.income-more {
+        background-color: #48829e;
+    }
+
+    .alert-warning p.income-more {
+        background-color: #966e25;
+    }
+
+    .alert-success p.income-more {
+        background-color: #3c763d;
+    }
+
+    .alert-danger p.income-more {
+        background-color: #823231;
+    }
+</style>
