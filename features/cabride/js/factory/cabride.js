@@ -2,7 +2,8 @@
  * Cabride factory
  */
 angular.module('starter')
-    .factory('Cabride', function (CabrideSocket, Customer, Application, Pages, $q, $session, $rootScope, $timeout, $log,
+    .factory('Cabride', function (CabrideSocket, Customer, Application, Pages, Location, SB,
+                                  $q, $session, $rootScope, $interval, $timeout, $log, $ionicPlatform,
                                   $pwaRequest) {
         let factory = {
             value_id: null,
@@ -22,7 +23,9 @@ angular.module('starter')
             /** Settings */
             isPassenger: false,
             isDriver: false,
-            isTaxiLayout: false
+            isTaxiLayout: false,
+            /** Promises */
+            updatePositionPromise: null,
         };
 
         factory.setValueId = function (valueId) {
@@ -89,6 +92,12 @@ angular.module('starter')
                 case 'request-ko': // Acknowledgments
                     $log.info('CabRide request KO');
                     break;
+                case 'advert-drivers':
+                    $log.info('CabRide advert-drivers', message.drivers);
+
+                    // Broadcast to map Controller for instant refresh!
+                    $rootScope.$broadcast('cabride.advertDrivers', {drivers: message.drivers});
+                    break;
                 case 'ping': // Ping!
                     factory.sendEvent('pong');
                     break;
@@ -118,6 +127,45 @@ angular.module('starter')
             }, payload);
 
             CabrideSocket.sendMsg(localPayload);
+        };
+
+        /**
+         * Short aliases
+         */
+        factory.updatePosition = function () {
+            Location
+            .getLocation()
+            .then(function (position) {
+                console.log('position', position);
+                factory.sendEvent('update-position', {
+                    userId: Customer.customer.id,
+                    userType: factory.isDriver ? 'driver' : 'passenger',
+                    position: {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    }
+                });
+            }, function () {
+                // Skipping this time!
+            });
+        };
+
+        factory.startUpdatePosition = function () {
+            // Ensure we start only one the position poller
+            factory.updatePosition();
+            if (factory.updatePositionPromise === null) {
+                factory.updatePositionPromise = $interval(function () {
+                    factory.updatePosition();
+                }, 15000);
+            }
+        };
+
+        factory.stopUpdatePosition = function () {
+            // Stops only of started/promise exists!
+            if (factory.updatePositionPromise !== null) {
+                $interval.cancel(factory.updatePositionPromise);
+                factory.updatePositionPromise = null;
+            }
         };
 
         /**
@@ -279,6 +327,9 @@ angular.module('starter')
                             factory.joinLobby($session.getId(), APP_KEY)
                             .then(function () {
                                 deferred.resolve();
+
+                                // Send position updates to the server!
+                                factory.startUpdatePosition();
                             }).catch(function (error) {
                                 deferred.reject(error);
                             }).finally(function () {
@@ -297,6 +348,18 @@ angular.module('starter')
 
             return deferred.promise;
         };
+
+        $ionicPlatform.on('resume', function () {
+            if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
+                factory.startUpdatePosition();
+            }
+        });
+
+        $ionicPlatform.on('pause', function () {
+            if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
+                factory.stopUpdatePosition();
+            }
+        });
 
         return factory;
     });

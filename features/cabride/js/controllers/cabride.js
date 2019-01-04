@@ -12,6 +12,7 @@ angular.module('starter')
         crMap: null,
         crMapPin: null,
         crPinText: $translate.instant("cr0024_set_pickup_location"),
+        driverMarkers: [],
         gmapsAutocompleteOptions: {},
         ride: {
             pickupPlace: null,
@@ -33,6 +34,11 @@ angular.module('starter')
         $timeout(function () {
             $scope.isAlive = false;
         });
+    });
+
+    $rootScope.$on("cabride.advertDrivers", function (event, payload) {
+        // Refresh driver markers
+        $scope.drawDrivers(payload.drivers);
     });
 
     $scope.$on('$ionicView.enter', function(){
@@ -137,6 +143,26 @@ angular.module('starter')
                 $scope.crMapPin.setPosition(center);
             }, 500);
         });
+    };
+
+    $scope.drawDrivers = function (drivers) {
+        // Clear markers!
+        for(var index in $scope.driverMarkers) {
+            let driverMarker = $scope.driverMarkers[index];
+            driverMarker.setMap(null);  
+        }
+        $scope.driverMarkers = [];
+
+        for(var index in drivers) {
+            var driver = drivers[index];
+            var myLatlng = new google.maps.LatLng(driver.position.latitude, driver.position.longitude);
+            var tmpMarker = new google.maps.Marker({
+                position: myLatlng,
+                map: $scope.crMap,
+                icon: null,
+            });
+            $scope.driverMarkers.push(tmpMarker);
+        }
     };
 
     $scope.centerMe = function () {

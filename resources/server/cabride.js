@@ -9,6 +9,7 @@
 const WebSocketServer = require('ws'),
     request = require('xhr-request'), // Must replace request with axios!
     axios = require('axios'),
+    geolib = require('geolib'),
     btoa = require('btoa'),
     atob = require('atob'),
     https = require('https'),
@@ -30,6 +31,8 @@ let config = require('./config.json'),
     },
     globals = {
         allConnections: [],
+        drivers: [],
+        passengers: [],
         users: [],
         rooms: []
     };
@@ -190,12 +193,17 @@ const functions = {
                 }
             }
 
-            // Clear local user!
+            // Clear all globals
             if (uuid in globals.users) {
                 delete globals.users[uuid];
             }
-
-            // Clear from global connection registry!
+            if (uuid in globals.drivers) {
+                delete globals.drivers[uuid];
+            }
+            if (uuid in globals.passengers) {
+                delete globals.passengers[uuid];
+            }
+            // Then clear the connection itself
             if (uuid in globals.allConnections) {
                 delete globals.allConnections[uuid];
             }
@@ -227,6 +235,60 @@ const functions = {
             });
 
             return joinLobby;
+        },
+        updatePosition: function (localConnection, params) {
+            console.log("updatePosition", params);
+            switch (params.userType) {
+                case "driver":
+                    localConnection.user.id = params.userId;
+                    localConnection.user.type = "driver";
+                    globals.drivers[localConnection.uuid] = {
+                        position: params.position,
+                    };
+                    break;
+                case "passenger":
+                    localConnection.user.id = params.userId;
+                    localConnection.user.type = "passenger";
+                    globals.passengers[localConnection.uuid] = {
+                        position: params.position,
+                    };
+                    break;
+            }
+        },
+        /**
+         * Advertise drivers positions to nearby passengers
+         * @param localConnection
+         * @param params
+         */
+        advertDrivers : function(localConnection, params) {
+            let nearbyDrivers = [];
+            let passenger = globals.passengers[localConnection.uuid];
+            let center = {
+                latitude: passenger.position.latitude,
+                longitude: passenger.position.longitude,
+            };
+            for(let uuid in globals.drivers) {
+                let driver = globals.drivers[uuid];
+                let position = {
+                    latitude: driver.position.latitude,
+                    longitude: driver.position.longitude,
+                };
+
+                let inCircle = geolib.isPointInCircle(position, center, 10000);
+                if (inCircle) {
+                    nearbyDrivers.push(driver);
+                }
+            }
+
+            // Send nearby drivers
+            if (nearbyDrivers.length > 0) {
+                localConnection.websocket.send(toMsg(
+                    {
+                        event: 'advert-drivers',
+                        drivers: nearbyDrivers
+                    }
+                ));
+            }
         },
         sendRequest: function (localConnection, params) {
             // Definitive messageId in nanoseconds
@@ -288,7 +350,11 @@ let init = function (httpsOptions) {
             websocketUser: null,
             websocketUserId: null,
             waitPong: false,
-            waitHello: true
+            waitHello: true,
+            user: {
+                id: null,
+                type: null,
+            },
         };
 
         globals.allConnections[tmpUuid].websocket.on('message', function incoming(message) {
@@ -359,6 +425,10 @@ let init = function (httpsOptions) {
                             ));
                         });
                     break;
+                case 'update-position':
+                    // No-ACK blink update!
+                    functions.updatePosition(globals.allConnections[tmpUuid], payload);
+                    break;
                 case 'request':
                     // Send request to server
                     functions.sendRequest(globals.allConnections[tmpUuid], payload)
@@ -423,18 +493,31 @@ let init = function (httpsOptions) {
         pingInprogress = true;
         try {
             console.log('pingPong start');
-            globals.allConnections.forEach(function (localConnection) {
+
+            for (let uuid in globals.drivers) {
+                let localConnection = globals.allConnections[uuid];
                 console.log('pingPong', localConnection);
                 functions.pingPong(localConnection, true)
-                    .then(function () {
-                        // All ok
-                        functions.log('ping ok', localConnection.uuid);
-                    })
-                    .catch(function () {
-                        functions.log('ping ko', localConnection.uuid);
-                        functions.clearConnection(localConnection);
-                    });
-            });
+                .then(function () {
+                    // All ok
+                    functions.log('ping ok', localConnection.uuid);
+                })
+                .catch(function () {
+                    functions.log('ping ko', localConnection.uuid);
+                    functions.clearConnection(localConnection);
+                });
+            }
+
+            for (let uuid in globals.drivers) {
+                console.log('driver', globals.drivers[uuid]);
+            }
+
+            // Advert drivers to all passengers (for now), we will filter based on position in a future step
+            for (let uuid in globals.passengers) {
+                let localConnection = globals.allConnections[uuid];
+                functions.advertDrivers(localConnection, {});
+            }
+
             console.log('pingPong end');
         } catch (e) {
             functions.log(e, e.message);
