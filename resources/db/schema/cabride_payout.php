@@ -29,6 +29,22 @@ $schemas['cabride_payout'] = [
             'is_unique' => false,
         ],
     ],
+    'value_id' => [
+        'type' => 'int(11) unsigned',
+        'foreign_key' => [
+            'table' => 'application_option_value',
+            'column' => 'value_id',
+            'name' => 'FK_CABRIDE_PAYOUT_VID_AOV_VID',
+            'on_update' => 'CASCADE',
+            'on_delete' => 'CASCADE',
+        ],
+        'index' => [
+            'key_name' => 'value_id',
+            'index_type' => 'BTREE',
+            'is_null' => false,
+            'is_unique' => false,
+        ],
+    ],
     'amount' => [
         'type' => 'float',
     ],

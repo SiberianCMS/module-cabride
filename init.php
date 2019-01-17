@@ -90,8 +90,6 @@ $init = function($bootstrap) use ($initializeApiUser) {
         "/app/local/modules/Cabride/features/cabride/scss/cabride.scss"
     ]);
 
-    //require Core_Model_Directory::getBasePathTo("/app/local/modules/Cabride/Model/Cabride.php");
-
     \Siberian\Hook::listen('editor.left.menu.ready', "cabride_nav", "dashboardNav");
 
     $initializeApiUser();

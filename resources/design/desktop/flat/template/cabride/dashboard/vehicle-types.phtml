@@ -1,64 +1,14 @@
 <?php
 $application = $this->getApplication();
 $request = $this->getRequest();
+$valueId = Cabride_Model_Cabride::getCurrentValueId();
 
 $formVehicleType = new Cabride_Form_Vehicle();
-$vehicles = [
-    [
-        "id" => "1",
-        "type" => "Luxe",
-        "is_visible" => "1",
-        "base_fare" => "10",
-        "distance_fare" => "1.5",
-        "time_fare" => "0.5",
-        "base_address" => "Marseille",
-    ],
-    [
-        "id" => "2",
-        "type" => "SUV",
-        "is_visible" => "1",
-        "base_fare" => "8",
-        "distance_fare" => "1.5",
-        "time_fare" => "1",
-        "base_address" => "Paris",
-    ],
-    [
-        "id" => "3",
-        "type" => "Berline",
-        "is_visible" => "1",
-        "base_fare" => "15",
-        "distance_fare" => "2",
-        "time_fare" => "1",
-        "base_address" => "Toulouse",
-    ],
-    [
-        "id" => "4",
-        "type" => "Scooter",
-        "is_visible" => "0",
-        "base_fare" => "3",
-        "distance_fare" => "0.5",
-        "time_fare" => "0.1",
-        "base_address" => "Reims",
-    ],
-    [
-        "id" => "5",
-        "type" => "8 Places +",
-        "is_visible" => "1",
-        "base_fare" => "10",
-        "distance_fare" => "1.5",
-        "time_fare" => "0.5",
-        "base_address" => "Lille",
-    ],
-    [
-        "id" => "6",
-        "type" => "Berline",
-        "is_visible" => "1",
-        "base_fare" => "10",
-        "distance_fare" => "1.5",
-        "time_fare" => "0.5",
-        "base_address" => "Paris",
-    ],
-];
+$formVehicleType->setValueId($valueId);
+
+$vehicles = (new Cabride_Model_Vehicle())
+    ->findAll(["value_id" => $valueId]);
+
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -66,34 +16,54 @@ $vehicles = [
             <div id="apis_content"
                  class="content solo-page sb-tour">
                 <h3 class="title-editor border-blue text-center">
-                    <?php echo __("CabRide vehicle types"); ?>
+                    <?php echo p__("cabride", "CabRide vehicle types"); ?>
                 </h3>
                 <div class="subcontent content-color">
-                    <div class="col-md-12">
-                        <?php echo $formVehicleType ?>
 
-                        <table class="table table-striped">
+                    <div id="form-vehicle-type"
+                         class="col-md-12"
+                         style="display:none;">
+
+                        <div>
+                            <button class="toggle-form btn color-blue pull-right">
+                                <?php echo p__("cabride", "Close"); ?>
+                            </button>
+                        </div>
+
+                        <?php echo $formVehicleType ?>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div style="margin: 15px 0 15px 0;">
+                            <button class="toggle-form btn color-blue pull-right">
+                                <?php echo p__("cabride", "Add a vehicle type"); ?>
+                            </button>
+
+                            <div style="clear: both;"></div>
+                        </div>
+
+                        <table class="table table-striped margin-top">
                             <thead>
                                 <tr class="content-white-bkg">
-                                    <th>ID</th>
-                                    <th>Type de vehicule</th>
-                                    <th>Is_Visible</th>
-                                    <th>Base fare</th>
-                                    <th>Distance fare</th>
-                                    <th>Time fare</th>
-                                    <th>Base address</th>
+                                    <th><?php echo p__("cabride", "ID"); ?></th>
+                                    <th><?php echo p__("cabride", "Vehicle type"); ?></th>
+                                    <th><?php echo p__("cabride", "Is visible?"); ?></th>
+                                    <th><?php echo p__("cabride", "Base fare"); ?></th>
+                                    <th><?php echo p__("cabride", "Distance fare"); ?></th>
+                                    <th><?php echo p__("cabride", "Time fare"); ?></th>
+                                    <th><?php echo p__("cabride", "Base address"); ?></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($vehicles as $vehicle): ?>
                                     <tr>
-                                        <td><?php echo $vehicle["id"]; ?></td>
-                                        <td><?php echo $vehicle["type"]; ?></td>
-                                        <td><?php echo $vehicle["is_visible"]; ?></td>
-                                        <td><?php echo $vehicle["base_fare"]; ?></td>
-                                        <td><?php echo $vehicle["distance_fare"]; ?></td>
-                                        <td><?php echo $vehicle["time_fare"]; ?></td>
-                                        <td><?php echo $vehicle["base_address"]; ?></td>
+                                        <td><?php echo $vehicle->getId(); ?></td>
+                                        <td><?php echo $vehicle->getType(); ?></td>
+                                        <td><?php echo $vehicle->getIsVisible(); ?></td>
+                                        <td><?php echo $vehicle->getBaseFare(); ?></td>
+                                        <td><?php echo $vehicle->getDistanceFare(); ?></td>
+                                        <td><?php echo $vehicle->getTimeFare(); ?></td>
+                                        <td><?php echo $vehicle->getBaseAddress(); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -105,5 +75,15 @@ $vehicles = [
     </div>
 </div>
 <script type="text/javascript">
+$(document).ready(function () {
+    bindForms("#apis_content");
 
+    let toggleForm = $(".toggle-form");
+    let formVehicleType = $("#form-vehicle-type");
+
+    toggleForm.off("click");
+    toggleForm.on("click", function () {
+        formVehicleType.toggle();
+    });
+});
 </script>

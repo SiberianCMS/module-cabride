@@ -6,8 +6,9 @@
 class Cabride_Model_Payout extends Core_Model_Default
 {
     /**
-     *  constructor.
+     * Cabride_Model_Payout constructor.
      * @param array $params
+     * @throws Zend_Exception
      */
     public function __construct($params = [])
     {

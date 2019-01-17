@@ -13,86 +13,94 @@ class Cabride_Form_Cabride extends Siberian_Form_Abstract
         parent::init();
 
         $this
-            ->setAction(__path("/cabride/cabride/editpost"))
+            ->setAction(__path("/cabride/application/editpost"))
             ->setAttrib("id", "form-cabride");
+
         // Bind as a create form!
         self::addClass("create", $this);
 
-        $cabride_id = $this->addSimpleHidden("cabride_id");
+        $this->addSimpleHidden("cabride_id");
 
         // Builds the default form from schema!
-        
-        $this->addSimpleHidden("value_id", __("Value Id"));
+        $this->addSimpleHidden("value_id");
 
         $distance_unit = $this->addSimpleSelect(
             "distance_unit",
-            __("Distance Unit"),
+            p__("cabride", "Distance unit"),
             [
                 "km" => __("Km"),
                 "mi" => __("Miles"),
             ]);
-        $distance_unit->setRequired(true);
 
         $search_timeout = $this->addSimpleNumber(
             "search_timeout",
-            __("Search Timeout"), 60, 3600, true, 1);
+            p__("cabride", "Search timeout (seconds)"),
+            60,
+            3600,
+            true,
+            1);
         $search_timeout->setRequired(true);
 
         $search_radius = $this->addSimpleNumber(
             "search_radius",
-            __("Search Radius"), 10, 5000, true, 1);
+            p__("cabride", "Search radius (km/mi)"),
+            10,
+            5000,
+            true,
+            1);
         $search_radius->setRequired(true);
 
         $accepted_payments = $this->addSimpleSelect(
             "accepted_payments",
-            __("Accepted Payments"),
+            p__("cabride", "Accepted payments"),
             [
-                "credit-card" => __("Credit card"),
-                "cash" => __("Cash"),
-                "all" => __("Credit card & Cash"),
+                "credit-card" => p__("cabride", "Credit card"),
+                "cash" => p__("cabride", "Cash"),
+                "all" => p__("cabride", "Credit card & Cash"),
             ]);
-        $accepted_payments->setRequired(true);
 
         $commissionType = $this->addSimpleSelect(
             "commission_type",
-            __("Commission type"),
+            p__("cabride", "Commission type"),
             [
-                "disabled" => __("Disabled"),
-                "fixed" => __("Fixed amount"),
-                "percentage" => __("Percentage"),
+                "disabled" => p__("cabride", "Disabled"),
+                "fixed" => p__("cabride", "Fixed amount"),
+                "percentage" => p__("cabride", "Percentage"),
             ]);
-        $commissionType->setRequired(true);
 
-        $commission = $this->addSimpleText("commission", __("Commission"));
+        $commission = $this->addSimpleText("commission", p__("cabride", "Commission"));
         $commission->setRequired(true);
 
         $course_mode = $this->addSimpleSelect(
             "course_mode",
-            __("Course Mode"),
+            p__("cabride", "Course mode"),
             [
-                "immediate" => __("Immediate"),
-                "all" => __("Immediate & Scheduled"),
+                "immediate" => p__("cabride", "Immediate"),
+                "all" => p__("cabride", "Immediate & Scheduled"),
             ]);
-        $course_mode->setRequired(true);
 
         $pricing_mode = $this->addSimpleSelect(
             "pricing_mode",
-            __("Pricing Mode"),
+            p__("cabride", "Pricing mode"),
             [
-                "fixed" => __("Fixed by vehicle type (Admin)"),
-                "driver" => __("Fixed by the drivers"),
+                "fixed" => p__("cabride", "Fixed by vehicle type (Admin)"),
+                "driver" => p__("cabride", "Fixed by the drivers"),
             ]);
-        $pricing_mode->setRequired(true);
 
-        $driver_can_register = $this->addSimpleCheckbox("driver_can_register", __("Driver Can Register"));
-        $driver_can_register->setRequired(true);#
+        $driver_can_register = $this->addSimpleCheckbox("driver_can_register", p__("cabride", "Driver can register"));
+
+        $save = $this->addSubmit(p__("cabride", "Save"), p__("cabride", "Save"));
+        $save->addClass("pull-right");
     }
 
     /**
-     * @param $cabride_id
+     * @param $cabrideId
      */
-    public function setCabrideId($cabride_id)
+    public function setCabrideId($cabrideId)
     {
-        $this->getElement("cabride_id")->setValue($cabride_id)->setRequired(true);
+        $this
+            ->getElement("cabride_id")
+            ->setValue($cabrideId)
+            ->setRequired(true);
     }
 }

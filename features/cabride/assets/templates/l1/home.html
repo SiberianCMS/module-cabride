@@ -4,20 +4,20 @@
 
     <ion-content scroll="false">
         <div ng-if="!isDriver && !isPassenger">
-            <h3 class="cr-home-title">{{ "cr0001_who_are_you" | translate }}</h3>
+            <h3 class="cr-home-title">{{ "Who are you?" | translate }}</h3>
 
             <div class="cr-user-choice">
                 <div class="cr-passenger"
                      ng-click="selectPassenger();">
                     <img src="./features/cabride/assets/templates/images/001-passenger.svg" />
                     <br />
-                    {{ "cr0002_passenger" | translate }}
+                    {{ "Passenger" | translate }}
                 </div>
                 <div class="cr-driver"
                      ng-click="selectDriver();">
                     <img src="./features/cabride/assets/templates/images/002-driver.svg" />
                     <br />
-                    {{ "cr0003_driver" | translate }}
+                    {{ "Driver" | translate }}
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
                             <label class="cr-pickup-text">
                                 <input type="text"
                                        name="cr-pickup"
-                                       placeholder="{{ 'cr0017_pickup_location' | translate }}"
+                                       placeholder="{{ 'Pick-up location' | translate }}"
                                        sb-google-autocomplete
                                        options="gmapsAutocompleteOptions"
                                        on-address-change="setPickupAddress()"
@@ -46,7 +46,7 @@
                             <label class="cr-dropoff-text">
                                 <input type="text"
                                        name="cr-dropoff"
-                                       placeholder="{{ 'cr0018_dropoff_location' | translate }}"
+                                       placeholder="{{ 'Drop-off location' | translate }}"
                                        sb-google-autocomplete
                                        options="gmapsAutocompleteOptions"
                                        on-address-change="setDropoffAddress()"

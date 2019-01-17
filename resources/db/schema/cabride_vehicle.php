@@ -12,6 +12,21 @@ $schemas['cabride_vehicle'] = [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
+    ],'value_id' => [
+        'type' => 'int(11) unsigned',
+        'foreign_key' => [
+            'table' => 'application_option_value',
+            'column' => 'value_id',
+            'name' => 'FK_CABRIDE_VEHICLE_VID_AOV_VID',
+            'on_update' => 'CASCADE',
+            'on_delete' => 'CASCADE',
+        ],
+        'index' => [
+            'key_name' => 'value_id',
+            'index_type' => 'BTREE',
+            'is_null' => false,
+            'is_unique' => false,
+        ],
     ],
     'type' => [
         'type' => 'varchar(128)',

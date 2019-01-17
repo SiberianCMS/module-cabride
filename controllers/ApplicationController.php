@@ -50,22 +50,27 @@ class Cabride_ApplicationController extends Application_Controller_Default
         $values = $this->getRequest()->getPost();
 
         $form = new Cabride_Form_Cabride();
+
+        // Removes the require on commission if disabled!
+        if ($values["commission_type"] === "disabled") {
+            $form->getElement("commission")->setRequired(false);
+        }
+
         if ($form->isValid($values)) {
-            /** Do whatever you need when form is valid */
-            $Cabride = new Cabride_Model_Cabride();
-            $Cabride->addData($values);
-            $Cabride->save();
+            $cabride = new Cabride_Model_Cabride();
+            $cabride->addData($values);
+            $cabride->save();
 
             $payload = [
-                'success' => true,
-                'message' => __('Success.'),
+                "success" => true,
+                "message" => __("Success"),
             ];
         } else {
             /** Do whatever you need when form is not valid */
             $payload = [
-                'error' => true,
-                'message' => $form->getTextErrors(),
-                'errors' => $form->getTextErrors(true),
+                "error" => true,
+                "message" => $form->getTextErrors(),
+                "errors" => $form->getTextErrors(true),
             ];
         }
 

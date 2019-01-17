@@ -5,13 +5,13 @@ angular.module('starter')
 .controller('CabrideHome', function ($scope, $rootScope, $timeout, $translate, $ionicSideMenuDelegate,
                                      Cabride, Customer, GoogleMaps, Dialog, Location) {
     angular.extend($scope, {
-        pageTitle: $translate.instant("cr0010_cabride"),
+        pageTitle: $translate.instant("CabRide"),
         valueId: Cabride.getValueId(),
         isAlive: Cabride.isAlive,
         isLoggedIn: Customer.isLoggedIn(),
         crMap: null,
         crMapPin: null,
-        crPinText: $translate.instant("cr0024_set_pickup_location"),
+        crPinText: $translate.instant("Set Pick-Up Location"),
         driverMarkers: [],
         gmapsAutocompleteOptions: {},
         ride: {
@@ -173,9 +173,9 @@ angular.module('starter')
             $scope.crMap.setZoom(15);
         }, function () {
             Dialog.alert(
-                "cr0019_dialog_location",
-                "cr0020_sorry_we_are_unable_to_locate_you_please_check_your_gps_settings_and_authorization",
-                "cr0021_dialog_ok");
+                "Location",
+                "Sorry we are unable to locate you, please check your GPS settings & authorization.",
+                "OK");
         });
     };
 
@@ -191,13 +191,13 @@ angular.module('starter')
         if ($scope.ride.pickupAddress === "") {
             return {
                 action: "pickup",
-                text: $translate.instant("cr0024_set_pickup_location")
+                text: $translate.instant("Set Pick-Up Location")
             };
         }
         if ($scope.ride.dropoffAddress === "") {
             return {
                 action: "dropoff",
-                text: $translate.instant("cr0025_set_dropoff_location")
+                text: $translate.instant("Set Drop-Off Location")
             };
         }
         return {
@@ -222,9 +222,9 @@ angular.module('starter')
                     }
                 }, function () {
                     Dialog.alert(
-                        "cr0022_dialog_position",
-                        "cr0023_your_position_doesnt_resolve_to_a_valid_address",
-                        "cr0021_dialog_ok");
+                        "Position",
+                        "Your position doesn't resolve to a valid address.",
+                        "OK");
                 });
                 break;
             case "dropoff":
@@ -240,9 +240,9 @@ angular.module('starter')
                     }
                 }, function () {
                     Dialog.alert(
-                        "cr0022_dialog_position",
-                        "cr0023_your_position_doesnt_resolve_to_a_valid_address",
-                        "cr0021_dialog_ok");
+                        "Position",
+                        "Your position doesn't resolve to a valid address.",
+                        "OK");
                 });
                 break;
             case "none": default:
@@ -277,15 +277,15 @@ angular.module('starter')
                 }
             }, function () {
                 Dialog.alert(
-                    "cr0022_dialog_position",
-                    "cr0023_your_position_doesnt_resolve_to_a_valid_address",
-                    "cr0021_dialog_ok");
+                    "Position",
+                    "Your position doesn't resolve to a valid address.",
+                    "OK");
             })
         }, function () {
             Dialog.alert(
-                "cr0019_dialog_location",
-                "cr0020_sorry_we_are_unable_to_locate_you_please_check_your_gps_settings_and_authorization",
-                "cr0021_dialog_ok");
+                "Location",
+                "Sorry we are unable to locate you, please check your GPS settings & authorization.",
+                "OK");
         });
     };
 
@@ -303,15 +303,15 @@ angular.module('starter')
                 }
             }, function () {
                 Dialog.alert(
-                    "cr0022_dialog_position",
-                    "cr0023_your_position_doesnt_resolve_to_a_valid_address",
-                    "cr0021_dialog_ok");
+                    "Position",
+                    "Your position doesn't resolve to a valid address.",
+                    "OK");
             })
         }, function () {
             Dialog.alert(
-                "cr0019_dialog_location",
-                "cr0020_sorry_we_are_unable_to_locate_you_please_check_your_gps_settings_and_authorization",
-                "cr0021_dialog_ok");
+                "Location",
+                "Sorry we are unable to locate you, please check your GPS settings & authorization.",
+                "OK");
         });
     };
 
@@ -330,7 +330,7 @@ angular.module('starter')
 angular.module('starter')
 .controller('CabridePendingRequests', function ($scope, $translate, Cabride) {
     angular.extend($scope, {
-        pageTitle: $translate.instant("cr0011_pending_requests"),
+        pageTitle: $translate.instant("Pending requests"),
         valueId: Cabride.getValueId()
     });
 });
@@ -338,7 +338,7 @@ angular.module('starter')
 angular.module('starter')
 .controller('CabrideAcceptedRequests', function ($scope, $translate, Cabride) {
     angular.extend($scope, {
-        pageTitle: $translate.instant("cr0012_accepted_requests"),
+        pageTitle: $translate.instant("Accepted requests"),
         valueId: Cabride.getValueId()
     });
 });
@@ -346,7 +346,7 @@ angular.module('starter')
 angular.module('starter')
 .controller('CabrideCompletedRides', function ($scope, $translate, Cabride) {
     angular.extend($scope, {
-        pageTitle: $translate.instant("cr0013_completed_rides"),
+        pageTitle: $translate.instant("Completed rides"),
         valueId: Cabride.getValueId()
     });
 });
@@ -354,7 +354,7 @@ angular.module('starter')
 angular.module('starter')
 .controller('CabrideCancelled', function ($scope, $translate, Cabride) {
     angular.extend($scope, {
-        pageTitle: $translate.instant("cr0014_cancelled"),
+        pageTitle: $translate.instant("Cancelled"),
         valueId: Cabride.getValueId()
     });
 });
@@ -362,7 +362,7 @@ angular.module('starter')
 angular.module('starter')
 .controller('CabrideVehicleInformation', function ($scope, $translate, Cabride) {
     angular.extend($scope, {
-        pageTitle: $translate.instant("cr0015_vehicle_information"),
+        pageTitle: $translate.instant("Vehicle information"),
         valueId: Cabride.getValueId()
     });
 });
@@ -370,7 +370,7 @@ angular.module('starter')
 angular.module('starter')
 .controller('CabridePaymentHistory', function ($scope, $translate, Cabride) {
     angular.extend($scope, {
-        pageTitle: $translate.instant("cr0016_payment_history"),
+        pageTitle: $translate.instant("Payment history"),
         valueId: Cabride.getValueId()
     });
 });

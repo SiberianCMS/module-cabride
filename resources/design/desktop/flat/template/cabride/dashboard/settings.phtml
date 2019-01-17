@@ -1,37 +1,84 @@
 <?php
 $application = $this->getApplication();
 $request = $this->getRequest();
+$valueId = Cabride_Model_Cabride::getCurrentValueId();
 
 $formSettings = new Cabride_Form_Cabride();
+$formSettings->setValueId($valueId);
+
+$settings = (new Cabride_Model_Cabride())
+    ->find($valueId, "value_id");
+
+if ($settings->getId()) {
+    $formSettings->populate($settings->getData());
+}
+
+$formStripe = new Cabride_Form_Gateway_Stripe();
+$formStripe->setValueId($valueId);
+
 ?>
 <div class="row">
     <div class="col-md-12">
         <div class="page-content-wrapper">
-            <div id="apis_content"
+            <div id="settings_content"
                  class="content solo-page sb-tour">
                 <h3 class="title-editor border-blue text-center">
-                    <?php echo __("CabRide Settings"); ?>
+                    <?php echo p__("cabride", "CabRide settings"); ?>
                 </h3>
                 <div class="subcontent content-color">
                     <div class="col-md-12">
-                        <?php
-
-                        ?>
                         <?php echo $formSettings ?>
-
-                        <h1>APIs de paiements 2 day</h1>
-                        <ul>
-                            <li>Stripe</li>
-                            <li>2Checkout</li>
-                            <li>Paypal?</li>
-                        </ul>
 
                     </div>
                 </div>
+            </div>
+
+            <div id="apis_content"
+                 class="content solo-page sb-tour">
+
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo p__("cabride", "Payment API credentials"); ?>
+                </h3>
+                <div class="subcontent content-color">
+                    <div class="col-md-12">
+                        <?php echo $formStripe ?>
+
+
+                        <h1>APIs de paiements 2 day</h1>
+                        <ul>
+                            <li><strike>Stripe</strike></li>
+                            <li>2Checkout</li>
+                            <li>Paypal?</li>
+                        </ul>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
+$(document).ready(function () {
+    bindForms("#settings_content");
+    bindForms("#apis_content");
 
+    let commissionType = $("#commission_type");
+
+    commissionType.off("change");
+    commissionType.on("change", function () {
+        updateCommission();
+    });
+
+    let updateCommission = function () {
+        let value = commissionType.val();
+        if (value === "disabled") {
+            $("#commission").parents(".sb-form-line").hide();
+        } else {
+            $("#commission").parents(".sb-form-line").show();
+        }
+    };
+
+    updateCommission();
+});
 </script>

@@ -1,0 +1,188 @@
+msgid ""
+msgstr ""
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgctxt "cabride"
+msgid "Who are you?"
+msgstr "Who are you?"
+
+msgctxt "cabride"
+msgid "Passenger"
+msgstr "Passenger"
+
+msgctxt "cabride"
+msgid "Driver"
+msgstr "Driver"
+
+msgctxt "cabride"
+msgid "You have no requests"
+msgstr "You have no requests"
+
+msgctxt "cabride"
+msgid "You have no cancelled rides"
+msgstr "You have no cancelled rides"
+
+msgctxt "cabride"
+msgid "You have no completed rides"
+msgstr "You have no completed rides"
+
+msgctxt "cabride"
+msgid "You have payments"
+msgstr "You have no payment"
+
+msgctxt "cabride"
+msgid "You have no pending requests"
+msgstr "You have no pending requests"
+
+msgctxt "cabride"
+msgid "You have no vehicle"
+msgstr "You have no vehicle"
+
+msgctxt "cabride"
+msgid "CabRide"
+msgstr "CabRide"
+
+msgctxt "cabride"
+msgid "Pending requests"
+msgstr "Pending requests"
+
+msgctxt "cabride"
+msgid "Accepted requests"
+msgstr "Accepted requests"
+
+msgctxt "cabride"
+msgid "Completed rides"
+msgstr "Completed rides"
+
+msgctxt "cabride"
+msgid "Cancelled"
+msgstr "Cancelled"
+
+msgctxt "cabride"
+msgid "Vehicle information"
+msgstr "Vehicle information"
+
+msgctxt "cabride"
+msgid "Payment history"
+msgstr "Payment history"
+
+msgctxt "cabride"
+msgid "Pick-up location"
+msgstr "Pick-up Location"
+
+msgctxt "cabride"
+msgid "Drop-off location"
+msgstr "Drop-off Location"
+
+msgctxt "cabride"
+msgid "Location"
+msgstr "Location"
+
+msgctxt "cabride"
+msgid "Sorry we are unable to locate you, please check your GPS settings & authorization."
+msgstr "Sorry we are unable to locate you, please check your GPS settings & authorization."
+
+msgctxt "cabride"
+msgid "OK"
+msgstr "OK"
+
+msgctxt "cabride"
+msgid "Position"
+msgstr "Position"
+
+msgctxt "cabride"
+msgid "Your position doesn't resolve to a valid address."
+msgstr "Your position doesn't resolve to a valid address."
+
+msgctxt "cabride"
+msgid "cr0024_set_pickup_location"
+msgstr "Set Pick-Up Location"
+
+msgctxt "cabride"
+msgid "cr0025_set_dropoff_location"
+msgstr "Set Drop-Off Location"
+
+msgctxt "cabride"
+msgid "Save"
+msgstr "Save"
+
+msgctxt "cabride"
+msgid "Type"
+msgstr "Type"
+
+msgctxt "cabride"
+msgid "Icon"
+msgstr "Icon"
+
+msgctxt "cabride"
+msgid "Base fare"
+msgstr "Base fare"
+
+msgctxt "cabride"
+msgid "Distance fare"
+msgstr "Distance fare"
+
+msgctxt "cabride"
+msgid "Time fare"
+msgstr "Time fare"
+
+msgctxt "cabride"
+msgid "Base address"
+msgstr "Base address"
+
+msgctxt "cabride"
+msgid "Is visible"
+msgstr "Is visible"
+
+msgctxt "cabride"
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgctxt "cabride"
+msgid "Rides"
+msgstr "Rides"
+
+msgctxt "cabride"
+msgid "Payments"
+msgstr "Payments"
+
+msgctxt "cabride"
+msgid "Users"
+msgstr "Users"
+
+msgctxt "cabride"
+msgid "Drivers"
+msgstr "Drivers"
+
+msgctxt "cabride"
+msgid "Vehicle types"
+msgstr "Vehicle types"
+
+msgctxt "cabride"
+msgid "Settings"
+msgstr "Settings"
+
+msgctxt "cabride"
+msgid "Add a vehicle type"
+msgstr "Add a vehicle type"
+
+msgctxt "cabride"
+msgid "Distance fare (km/mi)"
+msgstr "Distance fare (km/mi)"
+
+msgctxt "cabride"
+msgid "Time fare (minute)"
+msgstr "Time fare (minute)"
+
+msgctxt "cabride"
+msgid "Distance fare (each km/mi)"
+msgstr "Distance fare (each km/mi)"
+
+msgctxt "cabride"
+msgid "Time fare (every minute)"
+msgstr "Time fare (every minute)"
