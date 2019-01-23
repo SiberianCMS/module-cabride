@@ -4,7 +4,21 @@
 
     <ion-content>
         <div class="list">
-            <div class="item item-custom">{{ "You have payments" | translate }}</div>
+            <div class="item item-custom">{{ "You have no payments" | translate }}</div>
         </div>
+
+        <div class="list">
+            <div class="item item-custom">
+                <button ng-click="payNow()">
+                    {{ "Pay now!" | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div id="dropin-container"></div>
+
+        <button id="validate-payment">
+            {{ "Validate!" | translate }}
+        </button>
     </ion-content>
 </ion-view>

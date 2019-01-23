@@ -2,7 +2,7 @@
  * Cabride factory
  */
 angular.module('starter')
-    .factory('Cabride', function (CabrideSocket, Customer, Application, Pages, Location, SB,
+    .factory('Cabride', function (CabrideSocket, CabridePayment, Customer, Application, Pages, Location, SB,
                                   $q, $session, $rootScope, $interval, $timeout, $log, $ionicPlatform,
                                   $pwaRequest) {
         let factory = {
@@ -151,7 +151,7 @@ angular.module('starter')
         };
 
         factory.startUpdatePosition = function () {
-            // Ensure we start only one the position poller
+            // Ensure we start only once the position poller!
             factory.updatePosition();
             if (factory.updatePositionPromise === null) {
                 factory.updatePositionPromise = $interval(function () {
@@ -169,7 +169,7 @@ angular.module('starter')
         };
 
         /**
-         * Short aliases
+         * Ping every minute!
          */
         factory.ping = function (retry, previousPromise) {
             var pingPromise = (previousPromise === undefined) ?
@@ -304,6 +304,8 @@ angular.module('starter')
 
             var deferred = $q.defer();
 
+            CabridePayment.init();
+
             factory
                 .fetchSettings()
                 .then(function (response) {
@@ -359,6 +361,10 @@ angular.module('starter')
             if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
                 factory.stopUpdatePosition();
             }
+        });
+
+        $rootScope.$on("cabride.isTaxiLayout", function () {
+            factory.setIsTaxiLayout(true);
         });
 
         return factory;

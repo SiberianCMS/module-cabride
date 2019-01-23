@@ -3,7 +3,7 @@
 /**
  * Class Cabride_VehicleController
  */
-class Cabride_VehicleController extends Application_Controller_Default
+class Cabride_VehicleController extends Cabride_Controller_Dashboard
 {
 
     /**
@@ -40,6 +40,28 @@ class Cabride_VehicleController extends Application_Controller_Default
         $this->_sendJson($payload);
     }
 
+    public function editAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $this->view->edit = false;
+            $vehicleId = $request->getParam("vehicle_id", null);
+            if ($vehicleId) {
+                $vehicle = (new Cabride_Model_Vehicle())
+                    ->find($vehicleId);
+
+                if ($vehicle->getId()) {
+                    $this->view->vehicle = $vehicle;
+                    $this->view->edit = true;
+                }
+            }
+        } catch (\Exception $e) {
+            // Create
+        }
+
+        parent::editAction();
+    }
+
     /**
      * Create/Edit Vehicle
      *
@@ -52,9 +74,9 @@ class Cabride_VehicleController extends Application_Controller_Default
         $form = new Cabride_Form_Vehicle();
         if ($form->isValid($values)) {
             /** Do whatever you need when form is valid */
-            $Vehicle = new Cabride_Model_Vehicle();
-            $Vehicle->addData($values);
-            $Vehicle->save();
+            $vehicle = new Cabride_Model_Vehicle();
+            $vehicle->addData($values);
+            $vehicle->save();
 
             $payload = [
                 'success' => true,
@@ -81,22 +103,19 @@ class Cabride_VehicleController extends Application_Controller_Default
 
         $form = new Cabride_Form_Vehicle_Delete();
         if ($form->isValid($values)) {
-            $Vehicle = new Cabride_Model_Vehicle();
-            $Vehicle->find($values["vehicle_id"]);
-            $Vehicle->delete();
+            $vehicle = new Cabride_Model_Vehicle();
+            $vehicle->find($values["vehicle_id"]);
+            $vehicle->delete();
 
             $payload = [
-                'success' => true,
-                'success_message' => __('Vehicle successfully deleted.'),
-                'message_loader' => 0,
-                'message_button' => 0,
-                'message_timeout' => 2
+                "success" => true,
+                "message" => __("Vehicle successfully deleted."),
             ];
         } else {
             $payload = [
-                'error' => 1,
-                'message' => $form->getTextErrors(),
-                'errors' => $form->getTextErrors(true),
+                "error" => true,
+                "message" => $form->getTextErrors(),
+                "errors" => $form->getTextErrors(true),
             ];
         }
 

@@ -73,11 +73,11 @@ msgstr "Paiements"
 
 msgctxt "cabride"
 msgid "Pick-up location"
-msgstr "Position"
+msgstr "Adresse de départ"
 
 msgctxt "cabride"
 msgid "Drop-off location"
-msgstr "Drop-off Location"
+msgstr "Adresse de destination"
 
 msgctxt "cabride"
 msgid "Location"
@@ -186,3 +186,7 @@ msgstr "Tarif distance (chaque km/mi)"
 msgctxt "cabride"
 msgid "Time fare (every minute)"
 msgstr "Tarif durée (par minute)"
+
+msgctxt "cabride"
+msgid "Pricing mode"
+msgstr "Mode de tarification"

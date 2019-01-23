@@ -236,22 +236,55 @@ const functions = {
 
             return joinLobby;
         },
+        /**snapToRoad : function (points) {
+            //let url = "https://roads.googleapis.com/v1/nearestRoads?points=43.5706202574322,1.479447844645505|43.5706202564322,1.479447844655505&key=";
+        },*/
         updatePosition: function (localConnection, params) {
             console.log("updatePosition", params);
             switch (params.userType) {
                 case "driver":
                     localConnection.user.id = params.userId;
                     localConnection.user.type = "driver";
-                    globals.drivers[localConnection.uuid] = {
-                        position: params.position,
-                    };
+
+                    try {
+                        let previous = globals.drivers[localConnection.uuid].position;
+                        if (previous.latitude !== params.position.latitude ||
+                            previous.longitude !== params.position.longitude) {
+
+                            globals.drivers[localConnection.uuid] = {
+                                position: params.position,
+                                previous: previous,
+                            };
+                        }
+                    } catch (e) {
+                        globals.drivers[localConnection.uuid] = {
+                            position: params.position,
+                            previous: params.position,
+                        };
+                    }
+
                     break;
                 case "passenger":
                     localConnection.user.id = params.userId;
                     localConnection.user.type = "passenger";
-                    globals.passengers[localConnection.uuid] = {
-                        position: params.position,
-                    };
+
+                    try {
+                        let previous = globals.passengers[localConnection.uuid].position;
+                        if (previous.latitude !== params.position.latitude ||
+                            previous.longitude !== params.position.longitude) {
+
+                            globals.passengers[localConnection.uuid] = {
+                                position: params.position,
+                                previous: previous,
+                            };
+                        }
+                    } catch (e) {
+                        globals.passengers[localConnection.uuid] = {
+                            position: params.position,
+                            previous: params.position,
+                        };
+                    }
+
                     break;
             }
         },

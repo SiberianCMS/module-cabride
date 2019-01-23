@@ -3,7 +3,7 @@
  */
 angular.module('starter')
 .controller('CabrideHome', function ($scope, $rootScope, $timeout, $translate, $ionicSideMenuDelegate,
-                                     Cabride, Customer, GoogleMaps, Dialog, Location) {
+                                     Cabride, CabrideUtils, Customer, ContextualMenu, GoogleMaps, Dialog, Location) {
     angular.extend($scope, {
         pageTitle: $translate.instant("CabRide"),
         valueId: Cabride.getValueId(),
@@ -11,17 +11,20 @@ angular.module('starter')
         isLoggedIn: Customer.isLoggedIn(),
         crMap: null,
         crMapPin: null,
-        crPinText: $translate.instant("Set Pick-Up Location"),
         driverMarkers: [],
         gmapsAutocompleteOptions: {},
         ride: {
+            isSearching: false,
             pickupPlace: null,
             pickupAddress: "",
             dropoffPlace: null,
             dropoffAddress: "",
+            distance: null,
+            duration: null,
         },
         isPassenger: false,
         isDriver: false,
+        removeSideMenu: null
     });
 
     $rootScope.$on("cabride.isAlive", function () {
@@ -50,6 +53,24 @@ angular.module('starter')
 
     $scope.reconnect = function () {
         Cabride.init();
+    };
+
+    $scope.isTaxiLayout = function () {
+        return Cabride.isTaxiLayout;
+    };
+
+    $scope.toggleRightMenu = function () {
+        // Toggling nav
+        ContextualMenu.toggle();
+    };
+
+    $scope.buildContextualMenu = function () {
+        $scope.removeSideMenu = ContextualMenu.set(
+            "./features/cabride/assets/templates/l1/nav/contextual-menu.html",
+            "275",
+            function () {
+                return true;
+            });
     };
 
     // Passenger / Driver choice!
@@ -121,7 +142,7 @@ angular.module('starter')
         });
 
         var icon = {
-            url: './features/cabride/assets/templates/images/004-blank.png',
+            url: "./features/cabride/assets/templates/images/004-blank.png",
             width: 48,
             height: 48,
             origin: new google.maps.Point(0, 0),
@@ -156,12 +177,41 @@ angular.module('starter')
         for(var index in drivers) {
             var driver = drivers[index];
             var myLatlng = new google.maps.LatLng(driver.position.latitude, driver.position.longitude);
-            var tmpMarker = new google.maps.Marker({
-                position: myLatlng,
-                map: $scope.crMap,
-                icon: null,
+
+            GoogleMaps
+            .reverseGeocode({latitude: driver.position.latitude, longitude: driver.position.longitude})
+            .then(function (results) {
+                if (results.length > 0) {
+                    var nearest = results[0];
+
+                    var a = {
+                        lat: function () {
+                            return driver.position.latitude
+                        },
+                        lng: function () {
+                            return driver.position.longitude
+                        },
+                    };
+                    var b = nearest.geometry.location;
+                    var heading = google.maps.geometry.spherical.computeHeading(a, b);
+                    console.log("heading", heading);
+
+                    var icon = {
+                        url: CabrideUtils.taxiIcon(heading),
+                        size: new google.maps.Size(120, 120),
+                        scaledSize: new google.maps.Size(36, 36),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(18, 18)
+                    };
+
+                    var tmpMarker = new google.maps.Marker({
+                        position: myLatlng,
+                        map: $scope.crMap,
+                        icon: icon,
+                    });
+                    $scope.driverMarkers.push(tmpMarker);
+                }
             });
-            $scope.driverMarkers.push(tmpMarker);
         }
     };
 
@@ -187,6 +237,27 @@ angular.module('starter')
         $scope.crMap.setZoom($scope.crMap.getZoom() - 1);
     };
 
+    $scope.canClear = function () {
+        return $scope.ride.isSearching ||
+            ($scope.ride.pickupAddress !== "") ||
+            ($scope.ride.dropoffAddress !== "");
+    };
+
+    // Pristine ride values!
+    $scope.clearSearch = function () {
+        $scope.ride = {
+            isSearching: false,
+            pickupPlace: null,
+            pickupAddress: "",
+            dropoffPlace: null,
+            dropoffAddress: "",
+            distance: null,
+            duration: null,
+        };
+
+        CabrideUtils.clearRoute();
+    };
+
     $scope.pinText = function() {
         if ($scope.ride.pickupAddress === "") {
             return {
@@ -198,6 +269,18 @@ angular.module('starter')
             return {
                 action: "dropoff",
                 text: $translate.instant("Set Drop-Off Location")
+            };
+        }
+        if ($scope.ride.isSearching) {
+            return {
+                action: "loading",
+                text: ""
+            };
+        }
+        if ($scope.ride.pickupAddress !== "" && $scope.ride.dropoffAddress !== "") {
+            return {
+                action: "search",
+                text: $translate.instant("Request a ride!")
             };
         }
         return {
@@ -217,8 +300,12 @@ angular.module('starter')
                         var pickupPlace = results[0];
                         $scope.ride.pickupAddress = pickupPlace.formatted_address;
                         $scope.ride.pickupPlace = pickupPlace;
+
+                        $scope.setPickupAddress();
                     } else {
                         $scope.ride.pickupAddress = center.lat() + "," + center.lng();
+
+                        $scope.setPickupAddress();
                     }
                 }, function () {
                     Dialog.alert(
@@ -228,6 +315,8 @@ angular.module('starter')
                 });
                 break;
             case "dropoff":
+                console.log(center.lat(), center.lng());
+
                 GoogleMaps
                 .reverseGeocode({latitude: center.lat(), longitude: center.lng()})
                 .then(function (results) {
@@ -235,8 +324,12 @@ angular.module('starter')
                         var dropoffPlace = results[0];
                         $scope.ride.dropoffAddress = dropoffPlace.formatted_address;
                         $scope.ride.dropoffPlace = dropoffPlace;
+
+                        $scope.setDropoffAddress();
                     } else {
                         $scope.ride.dropoffAddress = center.lat() + "," + center.lng();
+
+                        $scope.setDropoffAddress();
                     }
                 }, function () {
                     Dialog.alert(
@@ -244,6 +337,12 @@ angular.module('starter')
                         "Your position doesn't resolve to a valid address.",
                         "OK");
                 });
+                break;
+            case "search":
+                    $scope.ride.isSearching = true;
+                    $timeout(function () {
+                        $scope.ride.isSearching = false;
+                    }, 10000);
                 break;
             case "none": default:
                 console.log("setPinLocation(none)");
@@ -255,12 +354,45 @@ angular.module('starter')
         console.log("setPickupAddress",
             $scope.ride.pickupAddress,
             $scope.ride.pickupPlace);
+
+        $scope.checkRoute();
     };
 
     $scope.setDropoffAddress = function () {
         console.log("setDropoffAddress",
             $scope.ride.dropoffAddress,
             $scope.ride.dropoffPlace);
+
+        $scope.checkRoute();
+    };
+
+    $scope.checkRoute = function () {
+        if ($scope.ride.pickupPlace && $scope.ride.dropoffPlace) {
+            var pickup = {
+                latitude: $scope.ride.pickupPlace.geometry.location.lat(),
+                longitude: $scope.ride.pickupPlace.geometry.location.lng(),
+            };
+            var dropoff = {
+                latitude: $scope.ride.dropoffPlace.geometry.location.lat(),
+                longitude: $scope.ride.dropoffPlace.geometry.location.lng(),
+            };
+
+            CabrideUtils
+            .getSimpleDirection(
+                pickup,
+                dropoff,
+                {}
+            ).then(function (route) {
+                CabrideUtils.displayRoute($scope.crMap, route);
+                var leg = _.get(route, "routes[0].legs[0]", false);
+                if (leg) {
+                    $scope.ride.distance = leg.distance.text;
+                    $scope.ride.duration = leg.duration.text;
+                }
+            }, function () {
+                // Clear route
+            });
+        }
     };
 
     $scope.geoPickup = function () {
@@ -274,6 +406,8 @@ angular.module('starter')
                     var pickupPlace = results[0];
                     $scope.ride.pickupAddress = pickupPlace.formatted_address;
                     $scope.ride.pickupPlace = pickupPlace;
+
+                    $scope.setPickupAddress();
                 }
             }, function () {
                 Dialog.alert(
@@ -300,14 +434,16 @@ angular.module('starter')
                     var dropoffPlace = results[0];
                     $scope.ride.dropoffAddress = dropoffPlace.formatted_address;
                     $scope.ride.dropoffPlace = dropoffPlace;
+
+                    $scope.setDropoffAddress();
                 }
-            }, function () {
+            }, function () { // Error!
                 Dialog.alert(
                     "Position",
                     "Your position doesn't resolve to a valid address.",
                     "OK");
             })
-        }, function () {
+        }, function () { // Error!
             Dialog.alert(
                 "Location",
                 "Sorry we are unable to locate you, please check your GPS settings & authorization.",
@@ -325,6 +461,11 @@ angular.module('starter')
         .then(function () {
             $scope.rebuild();
         });
+
+    $scope.buildContextualMenu();
+
+    // Asking for the current layout!
+    $rootScope.$broadcast("cabride.isTaxiLayoutActive");
 });
 
 angular.module('starter')
@@ -368,9 +509,145 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabridePaymentHistory', function ($scope, $translate, Cabride) {
+.controller('CabridePaymentHistory', function ($scope, $translate, Cabride, CabridePayment) {
     angular.extend($scope, {
         pageTitle: $translate.instant("Payment history"),
         valueId: Cabride.getValueId()
     });
+
+    $scope.payNow = function () {
+        CabridePayment.pay();
+    };
 });
+
+angular.module('starter')
+.controller('CabrideContextualMenuController', function ($scope, $rootScope, $state,
+                                                         $ionicSideMenuDelegate,
+                                                         $ionicHistory, Customer,
+                                                         SB) {
+    angular.extend($scope, {
+        isOnline: false,
+        customer: null,
+        isLoggedIn: Customer.isLoggedIn(),
+        isDriver: true,
+    });
+
+    /**
+     * @param identifier
+     */
+    $scope.loadPage = function (identifier) {
+        if ($ionicSideMenuDelegate.isOpenLeft()) {
+            $ionicSideMenuDelegate.toggleLeft();
+        }
+        if ($ionicSideMenuDelegate.isOpenRight()) {
+            $ionicSideMenuDelegate.toggleRight();
+        }
+        switch (identifier) {
+            case "cabride-home":
+                $state.go("cabride-home");
+                break;
+            case "pending-requests":
+                $state.go("cabride-pending-requests");
+                break;
+            case "accepted-requests":
+                $state.go("cabride-accepted-requests");
+                break;
+            case "completed-rides":
+                $state.go("cabride-completed-rides");
+                break;
+            case "cancelled":
+                $state.go("cabride-cancelled");
+                break;
+            case "vehicle-information":
+                $state.go("cabride-vehicle-information");
+                break;
+            case "payment-history":
+                $state.go("cabride-payment-history");
+                break;
+        }
+    };
+
+    $scope.toggleStatus = function () {
+        $scope.isOnline = !$scope.isOnline;
+
+        // Broadcasting online/offline status
+        $rootScope.$broadcast("cabride.isOnline", $scope.isOnline);
+    };
+
+    $scope.loginOrSignup = function () {
+        Customer.loginModal($scope);
+    };
+
+    $scope.customerName = function () {
+        if ($scope.customer) {
+            var fname = $scope.customer.firstname.toLowerCase();
+            fname = fname.charAt(0).toUpperCase() + fname.slice(1);
+            var lname = $scope.customer.lastname.toUpperCase();
+
+            return fname + ' ' + lname
+        }
+        return '';
+    };
+
+    // On load!
+    Customer.find()
+    .then(function(customer) {
+        $scope.customer = customer;
+        $scope.customer.metadatas = _.isObject($scope.customer.metadatas)
+            ? $scope.customer.metadatas
+            : {};
+        $scope.avatarUrl = Customer.getAvatarUrl($scope.customer.id);
+
+        return customer;
+    });
+
+    /**
+     * Hooks
+     */
+    $scope.rebuildMenu = function () {
+        $scope.isLoggedIn = Customer.isLoggedIn();
+        if ($scope.isLoggedIn) {
+            Customer
+            .find()
+            .then(function(customer) {
+                $scope.customer = customer;
+                $scope.customer.metadatas = _.isObject($scope.customer.metadatas)
+                    ? $scope.customer.metadatas
+                    : {};
+                $scope.avatarUrl = Customer.getAvatarUrl($scope.customer.id);
+
+                return customer;
+            });
+        } else {
+            $scope.customer = null;
+        }
+    };
+
+    $rootScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
+        $scope.rebuildMenu();
+    });
+
+    $rootScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
+        $scope.rebuildMenu();
+    });
+
+    $rootScope.$on(SB.EVENTS.AUTH.registerSuccess, function () {
+        $scope.rebuildMenu();
+    });
+
+    $rootScope.$on(SB.EVENTS.AUTH.editSuccess, function () {
+        $scope.rebuildMenu();
+    });
+
+    $rootScope.$on("cabride.isPassenger", function () {
+        $scope.isDriver = false;
+        $scope.rebuildMenu();
+    });
+
+    $rootScope.$on("cabride.isDriver", function () {
+        $scope.isDriver = true;
+        $scope.rebuildMenu();
+    });
+
+});
+

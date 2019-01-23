@@ -1,0 +1,53 @@
+<?php
+$application = $this->getApplication();
+$request = $this->getRequest();
+$valueId = Cabride_Model_Cabride::getCurrentValueId();
+$isEdit = $this->getEdit();
+
+$formVehicleType = new Cabride_Form_Vehicle();
+$formVehicleType->setValueId($valueId);
+
+if ($isEdit) {
+    $formVehicleType->populate($this->getVehicle()->getData());
+}
+
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+            <div id="vehicle_type"
+                 class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php
+                        if ($isEdit) {
+                            echo p__("cabride", "Edit vehicle type");
+                        } else {
+                            echo p__("cabride", "Create vehicle type");
+                        }
+                    ?>
+                </h3>
+                <div class="subcontent content-color">
+                    <div id="form-vehicle-type"
+                         class="col-md-12">
+
+                        <div>
+                            <a href="<?php echo __path("/cabride/dashboard/vehicle-types"); ?>"
+                               class="toggle-form btn color-blue pull-right">
+                                <?php echo p__("cabride", "Go back"); ?>
+                            </a>
+                        </div>
+
+                        <div>
+                            <?php echo $formVehicleType ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+    bindForms("#vehicle_type");
+});
+</script>

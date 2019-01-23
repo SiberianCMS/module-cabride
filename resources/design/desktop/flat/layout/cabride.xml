@@ -97,6 +97,20 @@
         </views>
     </cabride_dashboard_vehicle-types>
 
+    <cabride_vehicle_edit>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Vehicle type</title>
+        </base>
+        <views>
+            <content class="admin_view_default"
+                     template="cabride/vehicle/edit.phtml" />
+            <customization_sidebar_left class="admin_view_default"
+                                        template="application/customization/index/sidebar_left.phtml" />
+        </views>
+    </cabride_vehicle_edit>
+
     <cabride_dashboard_settings>
         <addLayout name="admin_menu" />
         <addLayout name="customization_default" />

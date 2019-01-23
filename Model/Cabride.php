@@ -35,6 +35,21 @@ class Cabride_Model_Cabride extends Core_Model_Default
     }
 
     /**
+     * @param $url
+     * @param $matches
+     * @return bool
+     */
+    public static function startsWith($url, $matches)
+    {
+        foreach ($matches as $match) {
+            if (strpos($url, $match) === 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * @param $editorTree
      * @return mixed
      */
@@ -122,7 +137,10 @@ class Cabride_Model_Cabride extends Core_Model_Default
                     'label' => p__("cabride", 'Vehicle types'),
                     'icon' => 'fa fa-car',
                     'url' => self::getUrl('cabride/dashboard/vehicle-types'),
-                    'is_current' => ('/cabride/dashboard/vehicle-types' === $currentUrl),
+                    'is_current' => self::startsWith($currentUrl, [
+                        '/cabride/dashboard/vehicle-types',
+                        '/cabride/vehicle/edit',
+                    ]),
                 ],
                 'settings' => [
                     'hasChilds' => false,
@@ -142,7 +160,7 @@ class Cabride_Model_Cabride extends Core_Model_Default
      * @param array $acl
      * @return bool
      */
-    protected function _canAccessAnyOf ($acl = [])
+    protected function _canAccessAnyOf($acl = [])
     {
         return true;
     }
@@ -151,7 +169,7 @@ class Cabride_Model_Cabride extends Core_Model_Default
      * @param $acl
      * @return bool
      */
-    protected function _canAccess ($acl)
+    protected function _canAccess($acl)
     {
         return true;
     }
@@ -162,7 +180,7 @@ class Cabride_Model_Cabride extends Core_Model_Default
      * @param null $locale
      * @return array|mixed|string
      */
-    public function getUrl ($url = "", array $params = [], $locale = null)
+    public function getUrl($url = "", array $params = [], $locale = null)
     {
         return __url($url);
     }

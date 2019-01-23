@@ -1,7 +1,7 @@
 {
-    "apiUrl": "https:\/\/anders.slic.it",
-    "wssHost": "wss:\/\/anders.slic.it",
+    "apiUrl": "https:\/\/anders.xtraball.com",
+    "wssHost": "wss:\/\/anders.xtraball.com",
     "port": 37000,
     "username": "cabride",
-    "password": "Y3I1YzFjYjIxOGQ2NTdlYXBp"
+    "password": "Y3I1YzQ1ZjViYmMxMWIxYXBp"
 }

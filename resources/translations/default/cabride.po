@@ -100,11 +100,11 @@ msgid "Your position doesn't resolve to a valid address."
 msgstr "Your position doesn't resolve to a valid address."
 
 msgctxt "cabride"
-msgid "cr0024_set_pickup_location"
+msgid "Set Pick-Up Location"
 msgstr "Set Pick-Up Location"
 
 msgctxt "cabride"
-msgid "cr0025_set_dropoff_location"
+msgid "Set Drop-Off Location"
 msgstr "Set Drop-Off Location"
 
 msgctxt "cabride"
@@ -186,3 +186,7 @@ msgstr "Distance fare (each km/mi)"
 msgctxt "cabride"
 msgid "Time fare (every minute)"
 msgstr "Time fare (every minute)"
+
+msgctxt "cabride"
+msgid "Pricing mode"
+msgstr "Pricing mode"

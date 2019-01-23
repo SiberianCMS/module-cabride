@@ -16,6 +16,12 @@ if ($settings->getId()) {
 $formStripe = new Cabride_Form_Gateway_Stripe();
 $formStripe->setValueId($valueId);
 
+$formTwocheckout = new Cabride_Form_Gateway_Twocheckout();
+$formTwocheckout->setValueId($valueId);
+
+$formBraintree = new Cabride_Form_Gateway_Braintree();
+$formBraintree->setValueId($valueId);
+
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -41,15 +47,34 @@ $formStripe->setValueId($valueId);
                 </h3>
                 <div class="subcontent content-color">
                     <div class="col-md-12">
-                        <?php echo $formStripe ?>
+                        <h4 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__("cabride", "Stripe") ?>
+                        </h4>
+                        <div class="container-fluid content-feature">
+                            <br />
+                            <?php echo $formStripe ?>
+                        </div>
 
+                        <br />
 
-                        <h1>APIs de paiements 2 day</h1>
-                        <ul>
-                            <li><strike>Stripe</strike></li>
-                            <li>2Checkout</li>
-                            <li>Paypal?</li>
-                        </ul>
+                        <h4 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__("cabride", "2Checkout") ?>
+                        </h4>
+                        <div class="container-fluid content-feature">
+                            <br />
+                            <?php echo $formTwocheckout ?>
+                        </div>
+
+                        <br />
+
+                        <h4 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__("cabride", "BrainTree") ?>
+                        </h4>
+                        <div class="container-fluid content-feature">
+                            <br />
+                            <?php echo $formBraintree ?>
+                        </div>
+
                     </div>
                 </div>
 

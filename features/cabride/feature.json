@@ -67,6 +67,8 @@
     ],
     "files": [
         "js/services/cabride-socket.js",
+        "js/services/cabride-payment.js",
+        "js/factory/cabride-utils.js",
         "js/factory/cabride.js",
         "js/controllers/cabride.js",
         "scss/cabride.scss"
