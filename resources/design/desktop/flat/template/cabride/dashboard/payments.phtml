@@ -5,55 +5,87 @@ $request = $this->getRequest();
 <div class="row">
     <div class="col-md-12">
         <div class="page-content-wrapper">
-            <div id="apis_content"
+            <div id="cash_requests"
                  class="content solo-page sb-tour">
                 <h3 class="title-editor border-blue text-center">
-                    <?php echo __("CabRide Payments"); ?>
+                    <?php echo p__("cabride", "Cash return requests"); ?>
                 </h3>
                 <div class="subcontent content-color">
                     <div class="col-md-12">
-                        <?php
 
-                        ?>
-                        <h1>// 1. Payments</h1>
+                        <h4 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__("cabride", "Cash return requests") ?>
+                        </h4>
+                        <div class="container-fluid content-feature">
+                            <br />
+                            <ul>
+                                <li>Nom du Driver</li>
+                                <li>Email</li>
+                                <li>Montant du cash récolté sur la période</li>
+                                <li>CTA "Request Cash return"</li>
+                                <li>- Archivage</li>
+                                <li>- Envoi e-mail / ou export CSV</li>
+                            </ul>
+                        </div>
 
+                        <br />
 
-                        <h2>Cash return Requests</h2>
-                        <ul>
-                            <li>Nom du Driver</li>
-                            <li>Email</li>
-                            <li>Montant du cash récolté sur la période</li>
-                            <li>CTA "Request Cash return"</li>
-                            <li>- Archivage</li>
-                            <li>- Envoi e-mail / ou export CSV</li>
-                        </ul>
+                        <h4 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__("cabride", "Archived requests") ?>
+                        </h4>
+                        <div class="container-fluid content-feature">
+                            <br />
+                            <ul>
+                                <li>ID</li>
+                                <li>Période</li>
+                                <li>Nom du Driver</li>
+                                <li>Email</li>
+                                <li>Montant du cash récolté sur la période</li>
+                                <li>Status: Pending/Returned</li>
+                                <li>CTA: "Mark as returned"</li>
+                            </ul>
+                        </div>
 
-                        <h3>Archived Requests</h3>
-                        <ul>
-                            <li>ID</li>
-                            <li>Période</li>
-                            <li>Nom du Driver</li>
-                            <li>Email</li>
-                            <li>Montant du cash récolté sur la période</li>
-                            <li>Status: Pending/Returned</li>
-                            <li>CTA: "Mark as returned"</li>
-                        </ul>
+                    </div>
+                </div>
+            </div>
 
-                        <h2>Commissions pay-out</h2>
-                        <ul>
-                            <li>ID ride</li>
-                            <li>Date</li>
-                            <li>Driver Name/Email + link</li>
-                            <li>Montant de la course</li>
-                            <li>Montant de la commission</li>
-                            <li>Status: Paid/To pay</li>
-                            <li>CTA: create mass payment file</li>
-                        </ul>
+            <div id="commission_payout"
+                 class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo p__("cabride", "Commission pay-out"); ?>
+                </h3>
+                <div class="subcontent content-color">
+                    <div class="col-md-12">
 
-                        <h3>Archived pay-outs</h3>
-                        <ul>
-                            <li>Liste de tout les pay-outs</li>
-                        </ul>
+                        <h4 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__("cabride", "Commissions pay-out") ?>
+                        </h4>
+                        <div class="container-fluid content-feature">
+                            <br />
+                            <ul>
+                                <li>ID ride</li>
+                                <li>Date</li>
+                                <li>Driver Name/Email + link</li>
+                                <li>Montant de la course</li>
+                                <li>Montant de la commission</li>
+                                <li>Status: Paid/To pay</li>
+                                <li>CTA: create mass payment file</li>
+                            </ul>
+                        </div>
+
+                        <br />
+
+                        <h4 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__("cabride", "Archived pay-out") ?>
+                        </h4>
+                        <div class="container-fluid content-feature">
+                            <br />
+                            <ul>
+                                <li>Liste de tout les pay-outs</li>
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
             </div>

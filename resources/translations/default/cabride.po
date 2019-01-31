@@ -1,9 +1,15 @@
 msgid ""
 msgstr ""
-"Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2019-01-30T16:35:26+01:00\n"
+"PO-Revision-Date: 2019-01-30T16:35:26+01:00\n"
+"Language: en\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 3.3\n"
 
@@ -190,3 +196,223 @@ msgstr "Time fare (every minute)"
 msgctxt "cabride"
 msgid "Pricing mode"
 msgstr "Pricing mode"
+
+msgctxt "cabride"
+msgid "Cab-Ride"
+msgstr "Cab-Ride"
+
+msgctxt "cabride"
+msgid "Distance unit"
+msgstr "Distance unit"
+
+msgctxt "cabride"
+msgid "Search timeout (seconds)"
+msgstr "Search timeout (seconds)"
+
+msgctxt "cabride"
+msgid "Search radius (km/mi)"
+msgstr "Search radius (km/mi)"
+
+msgctxt "cabride"
+msgid "Accepted payments"
+msgstr "Accepted payments"
+
+msgctxt "cabride"
+msgid "Credit card"
+msgstr "Credit card"
+
+msgctxt "cabride"
+msgid "Cash"
+msgstr "Cash"
+
+msgctxt "cabride"
+msgid "Credit card & Cash"
+msgstr "Credit card & Cash"
+
+msgctxt "cabride"
+msgid "Commission type"
+msgstr "Commission type"
+
+msgctxt "cabride"
+msgid "Disabled"
+msgstr "Disabled"
+
+msgctxt "cabride"
+msgid "Fixed amount"
+msgstr "Fixed amount"
+
+msgctxt "cabride"
+msgid "Percentage"
+msgstr "Percentage"
+
+msgctxt "cabride"
+msgid "Commission"
+msgstr "Commission"
+
+msgctxt "cabride"
+msgid "Course mode"
+msgstr "Course mode"
+
+msgctxt "cabride"
+msgid "Immediate"
+msgstr "Immediate"
+
+msgctxt "cabride"
+msgid "Immediate & Scheduled"
+msgstr "Immediate & Scheduled"
+
+msgctxt "cabride"
+msgid "Fixed by vehicle type (Admin)"
+msgstr "Fixed by vehicle type (Admin)"
+
+msgctxt "cabride"
+msgid "Fixed by the drivers"
+msgstr "Fixed by the drivers"
+
+msgctxt "cabride"
+msgid "Driver can register"
+msgstr "Driver can register"
+
+msgctxt "cabride"
+msgid "Public key"
+msgstr "Public key"
+
+msgctxt "cabride"
+msgid "Secret key"
+msgstr "Secret key"
+
+msgctxt "cabride"
+msgid "Sandbox mode"
+msgstr "Sandbox mode"
+
+msgctxt "cabride"
+msgid "Merchant ID"
+msgstr "Merchant ID"
+
+msgctxt "cabride"
+msgid "Private key"
+msgstr "Private key"
+
+msgctxt "cabride"
+msgid "CabRide settings"
+msgstr "CabRide settings"
+
+msgctxt "cabride"
+msgid "Payment API credentials"
+msgstr "Payment API credentials"
+
+msgctxt "cabride"
+msgid "Stripe"
+msgstr "Stripe"
+
+msgctxt "cabride"
+msgid "2Checkout"
+msgstr "2Checkout"
+
+msgctxt "cabride"
+msgid "BrainTree"
+msgstr "BrainTree"
+
+msgctxt "cabride"
+msgid "CabRide vehicle types"
+msgstr "CabRide vehicle types"
+
+msgctxt "cabride"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "cabride"
+msgid "Vehicle type"
+msgstr "Vehicle type"
+
+msgctxt "cabride"
+msgid "Is visible?"
+msgstr "Is visible?"
+
+msgctxt "cabride"
+msgid "EDIT"
+msgstr "EDIT"
+
+msgctxt "cabride"
+msgid "DELETE"
+msgstr "DELETE"
+
+msgctxt "cabride"
+msgid "No results for your search."
+msgstr "No results for your search."
+
+msgctxt "cabride"
+msgid "Cash return requests"
+msgstr "Cash return requests"
+
+msgctxt "cabride"
+msgid "Archived requests"
+msgstr "Archived requests"
+
+msgctxt "cabride"
+msgid "Commission pay-out"
+msgstr "Commission pay-out"
+
+msgctxt "cabride"
+msgid "Commissions pay-out"
+msgstr "Commissions pay-out"
+
+msgctxt "cabride"
+msgid "Archived pay-out"
+msgstr "Archived pay-out"
+
+msgctxt "cabride"
+msgid "Create vehicle type"
+msgstr "Create vehicle type"
+
+msgctxt "cabride"
+msgid "Go back"
+msgstr "Go back"
+
+msgctxt "cabride"
+msgid "Customer ID"
+msgstr "Customer ID"
+
+msgctxt "cabride"
+msgid "Vehicle ID"
+msgstr "Vehicle ID"
+
+msgctxt "cabride"
+msgid "Vehicle model"
+msgstr "Vehicle model"
+
+msgctxt "cabride"
+msgid "License plate"
+msgstr "License plate"
+
+msgctxt "cabride"
+msgid "Driving license"
+msgstr "Driving license"
+
+msgctxt "cabride"
+msgid "Photo"
+msgstr "Photo"
+
+msgctxt "cabride"
+msgid "Pickup radius"
+msgstr "Pickup radius"
+
+msgctxt "cabride"
+msgid "Search ..."
+msgstr "Search ..."
+
+msgctxt "cabride"
+msgid "Delete driver"
+msgstr "Delete driver"
+
+msgctxt "cabride"
+msgid "Are you sure?"
+msgstr "Are you sure?"
+
+msgctxt "cabride"
+msgid "Yes, Delete"
+msgstr "Yes, Delete"
+
+msgctxt "cabride"
+msgid "No, go back!"
+msgstr "No, go back!"
