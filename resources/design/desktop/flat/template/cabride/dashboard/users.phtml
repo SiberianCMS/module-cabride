@@ -1,21 +1,64 @@
 <?php
 $application = $this->getApplication();
 $request = $this->getRequest();
+$valueId = Cabride_Model_Cabride::getCurrentValueId();
+
+$passengers = (new Cabride_Model_Client())
+    ->findAll(["value_id" => $valueId]);
+
 ?>
 <div class="row">
     <div class="col-md-12">
         <div class="page-content-wrapper">
-            <div id="apis_content"
+            <div id="passenger_content"
                  class="content solo-page sb-tour">
                 <h3 class="title-editor border-blue text-center">
-                    <?php echo __("CabRide Users"); ?>
+                    <?php echo p__("cabride", "Passengers"); ?>
                 </h3>
                 <div class="subcontent content-color">
                     <div class="col-md-12">
-                        <?php
-
-                        ?>
-                        <h1>// 1. List & Manage users 2 days</h1>
+                        <table class="table content-white-bkg sb-pager margin-top">
+                            <thead>
+                            <tr class="border-grey">
+                                <th class="sortable"><?php echo p__("cabride", "ID"); ?></th>
+                                <th class="sortable"><?php echo p__("cabride", "Customer ID"); ?></th>
+                                <th class="sortable"><?php echo p__("cabride", "Firstname"); ?></th>
+                                <th class="sortable"><?php echo p__("cabride", "Lastname"); ?></th>
+                                <th class="sortable"><?php echo p__("cabride", "Email"); ?></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($passengers as $passenger): ?>
+                                <tr class="sb-pager">
+                                    <td><?php echo $passenger->getId(); ?></td>
+                                    <td><?php echo $passenger->getCustomerId(); ?></td>
+                                    <td><?php echo $passenger->getFirstName(); ?></td>
+                                    <td><?php echo $passenger->getLastName(); ?></td>
+                                    <td><?php echo $passenger->getEmail(); ?></td>
+                                    <td class="text-right">
+                                        <a class="btn btn-xs btn-info"
+                                           href="<?php echo __path("/cabride/passenger/edit", [
+                                               "passenger_id" => $passenger->getId()
+                                           ]); ?>">
+                                            <?php echo p__("cabride", "EDIT") ?>
+                                        </a>
+                                        <a class="btn btn-xs btn-danger delete-passenger"
+                                           data-id="<?php echo $passenger->getId(); ?>">
+                                            <?php echo p__("cabride", "DELETE") ?>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <?php echo p__("cabride", "No results for your search.") ?>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -23,5 +66,55 @@ $request = $this->getRequest();
     </div>
 </div>
 <script type="text/javascript">
+    var search_placeholder = '<?php echo p__js("cabride","Search ...", "'") ?>';
+    $(document).ready(function () {
+        bindForms("#passenger_content");
 
+        $("table.sb-pager").sbpager({
+            with_search: true,
+            search_placeholder: search_placeholder
+        });
+
+        let deletePassenger = $(".delete-passenger");
+
+        deletePassenger.off("click");
+        deletePassenger.on("click", function () {
+            let button = $(this);
+            let passengerId = button.attr("data-id");
+            swal({
+                html: true,
+                title: '<?php echo p__js("cabride", "Delete passenger", "'") ?>',
+                text: '<?php echo p__js("cabride","Are you sure?", "'") ?>',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                closeOnCancel: true,
+                confirmButtonColor: '#ff3a2e',
+                confirmButtonText: '<?php echo p__js("cabride","Yes, Delete", "'") ?>',
+                cancelButtonText: '<?php echo p__js("cabride","No, go back!", "'") ?>',
+            }, function (value) {
+                if (value === false) {
+                    return;
+                }
+
+                formget(
+                    "/cabride/passenger/deletepost",
+                    {
+                        'passenger_id': passengerId
+                    },
+                    function (data) {
+                        // Success!
+                        feature_form_success(data.message);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 3000);
+                    },
+                    function (data) {
+                        feature_form_error(data.message);
+                    });
+
+                swal.close();
+                return true;
+            });
+        });
+    });
 </script>

@@ -416,3 +416,23 @@ msgstr "Yes, Delete"
 msgctxt "cabride"
 msgid "No, go back!"
 msgstr "No, go back!"
+
+msgctxt "cabride"
+msgid "Passengers"
+msgstr "Passengers"
+
+msgctxt "cabride"
+msgid "Firstname"
+msgstr "Firstname"
+
+msgctxt "cabride"
+msgid "Lastname"
+msgstr "Lastname"
+
+msgctxt "cabride"
+msgid "Email"
+msgstr "Email"
+
+msgctxt "cabride"
+msgid "Delete passenger"
+msgstr "Delete passenger"

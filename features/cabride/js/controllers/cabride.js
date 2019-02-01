@@ -9,6 +9,7 @@ angular.module('starter')
         valueId: Cabride.getValueId(),
         isAlive: Cabride.isAlive,
         isLoggedIn: Customer.isLoggedIn(),
+        customer: null,
         crMap: null,
         crMapPin: null,
         driverMarkers: [],
@@ -80,26 +81,24 @@ angular.module('starter')
             Customer.loginModal($scope,
                 /** Login */
                 function () {
-                    Cabride.setIsPassenger();
-                    $scope.isPassenger = true;
-                    $scope.isDriver = false;
-                    $scope.rebuild();
+                    $scope.setIsPassenger(true);
                 },
                 /** Logout */
                 function () {},
                 /** Register */
                 function () {
-                    Cabride.setIsPassenger();
-                    $scope.isPassenger = true;
-                    $scope.isDriver = false;
-                    $scope.rebuild();
+                    $scope.setIsPassenger(true);
                 });
         } else {
-            Cabride.setIsPassenger();
-            $scope.isPassenger = true;
-            $scope.isDriver = false;
-            $scope.rebuild();
+            $scope.setIsPassenger(true);
         }
+    };
+
+    $scope.setIsPassenger = function (update) {
+        Cabride.setIsPassenger(update);
+        $scope.isPassenger = true;
+        $scope.isDriver = false;
+        $scope.rebuild();
     };
 
     $scope.selectDriver = function () {
@@ -109,26 +108,24 @@ angular.module('starter')
             Customer.loginModal($scope,
                 /** Login */
                 function () {
-                    Cabride.setIsDriver();
-                    $scope.isPassenger = false;
-                    $scope.isDriver = true;
-                    $scope.rebuild();
+                    $scope.setIsDriver(true);
                 },
                 /** Logout */
                 function () {},
                 /** Register */
                 function () {
-                    Cabride.setIsDriver();
-                    $scope.isPassenger = false;
-                    $scope.isDriver = true;
-                    $scope.rebuild();
+                    $scope.setIsDriver(true);
                 });
         } else {
-            Cabride.setIsDriver();
-            $scope.isPassenger = false;
-            $scope.isDriver = true;
-            $scope.rebuild();
+            $scope.setIsDriver(true);
         }
+    };
+
+    $scope.setIsDriver = function (update) {
+        Cabride.setIsDriver(update);
+        $scope.isPassenger = false;
+        $scope.isDriver = true;
+        $scope.rebuild();
     };
 
     $scope.initMap = function () {
@@ -168,14 +165,14 @@ angular.module('starter')
 
     $scope.drawDrivers = function (drivers) {
         // Clear markers!
-        for(var index in $scope.driverMarkers) {
-            let driverMarker = $scope.driverMarkers[index];
-            driverMarker.setMap(null);  
+        for (var indexMarker in $scope.driverMarkers) {
+            var driverMarker = $scope.driverMarkers[indexMarker];
+            driverMarker.setMap(null);
         }
         $scope.driverMarkers = [];
 
-        for(var index in drivers) {
-            var driver = drivers[index];
+        for (var indexDriver in drivers) {
+            var driver = drivers[indexDriver];
             var myLatlng = new google.maps.LatLng(driver.position.latitude, driver.position.longitude);
 
             GoogleMaps
@@ -186,11 +183,11 @@ angular.module('starter')
 
                     var a = {
                         lat: function () {
-                            return driver.position.latitude
+                            return driver.position.latitude;
                         },
                         lng: function () {
-                            return driver.position.longitude
-                        },
+                            return driver.position.longitude;
+                        }
                     };
                     var b = nearest.geometry.location;
                     var heading = google.maps.geometry.spherical.computeHeading(a, b);
@@ -460,6 +457,33 @@ angular.module('starter')
         .ready
         .then(function () {
             $scope.rebuild();
+        });
+
+    // On load!
+    Customer
+        .find()
+        .then(function (customer) {
+            $scope.customer = customer;
+            $scope.customer.metadatas = _.isObject($scope.customer.metadatas)
+                ? $scope.customer.metadatas
+                : {};
+            $scope.avatarUrl = Customer.getAvatarUrl($scope.customer.id);
+
+            Cabride
+                .fetchUser()
+                .then(function (payload) {
+                    if (!payload.user) {
+                        return;
+                    }
+                    switch (payload.user.type) {
+                        case 'driver':
+                            $scope.setIsDriver(false);
+                            break;
+                        case 'passenger':
+                            $scope.setIsPassenger(false);
+                            break;
+                    }
+                });
         });
 
     $scope.buildContextualMenu();

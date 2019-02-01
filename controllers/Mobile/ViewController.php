@@ -8,7 +8,7 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
     /**
      *
      */
-    public function fetchsettingsAction()
+    public function fetchSettingsAction()
     {
         try {
             // Fetch installation config file!
@@ -46,6 +46,53 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             $payload = [
                 "error" => true,
                 "message" => __("An unknown error occurred, please try again later.")
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function fetchUserAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $valueId = $this->getCurrentOptionValue()->getId();
+            $customerId = $this->getSession()->getCustomerId();
+
+            // First search in drivers!
+            $driver = (new Cabride_Model_Driver())
+                ->find([
+                    "customer_id" => $customerId,
+                    "value_id" => $valueId,
+                ]);
+
+            $user = null;
+            if ($driver->getId()) {
+                $user = [
+                    "type" => "driver",
+                ];
+            } else {
+                $passenger = (new Cabride_Model_Client())
+                    ->find([
+                        "customer_id" => $customerId,
+                        "value_id" => $valueId,
+                    ]);
+
+                if ($passenger->getId()) {
+                    $user = [
+                        "type" => "passenger",
+                    ];
+                }
+            }
+
+            $payload = [
+                "success" => true,
+                "user" => $user,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
             ];
         }
 

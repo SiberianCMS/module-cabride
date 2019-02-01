@@ -212,10 +212,54 @@ angular.module('starter')
         /**
          * Set user as Passenger
          */
-        factory.setIsPassenger = function () {
+        factory.setIsPassenger = function (update) {
             $rootScope.$broadcast('cabride.isPassenger');
             factory.isPassenger = true;
             factory.isDriver = false;
+
+            // Update in DB!
+            if (update === true) {
+                factory.updateUser("passenger");
+            }
+        };
+
+        /**
+         * Set user as Passenger
+         */
+        factory.setIsDriver = function (update) {
+            $rootScope.$broadcast('cabride.isDriver');
+            factory.isPassenger = false;
+            factory.isDriver = true;
+
+            // Update in DB!
+            if (update === true) {
+                factory.updateUser("driver");
+            }
+        };
+
+        /**
+         * Fetch user
+         */
+        factory.fetchUser = function () {
+            return $pwaRequest.post('/cabride/mobile_view/fetch-user', {
+                urlParams: {
+                    value_id: this.value_id
+                },
+                cache: false
+            });
+        };
+
+        /**
+         * Update user
+         */
+        factory.updateUser = function (userType) {
+            return $pwaRequest.post('/cabride/mobile_view/update-user', {
+                urlParams: {
+                    value_id: this.value_id,
+                    userType: userType
+                },
+                cache: false
+            });
         };
 
         /**
@@ -224,15 +268,6 @@ angular.module('starter')
          */
         factory.setIsTaxiLayout = function (isTaxiLayout) {
             factory.isTaxiLayout = isTaxiLayout;
-        };
-
-        /**
-         * Set user as Passenger
-         */
-        factory.setIsDriver = function () {
-            $rootScope.$broadcast('cabride.isDriver');
-            factory.isPassenger = false;
-            factory.isDriver = true;
         };
 
         /**
@@ -273,7 +308,7 @@ angular.module('starter')
          * Fetch wss & feature settings
          */
         factory.fetchSettings = function () {
-            return $pwaRequest.post('/cabride/mobile_view/fetchsettings', {
+            return $pwaRequest.post('/cabride/mobile_view/fetch-settings', {
                 urlParams: {
                     value_id: this.value_id
                 },
