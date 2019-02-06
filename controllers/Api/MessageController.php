@@ -3,7 +3,7 @@
 /**
  * Class Cabride_Api_MessageController
  */
-class Cabride_Api_MessageController extends Cabride_Controller_Default  {
+class Cabride_Api_MessageController extends Cabride_Controller_Default {
 
     /**
      * @var array

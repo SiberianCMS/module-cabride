@@ -21,11 +21,13 @@ class Cabride_Form_Gateway_Braintree extends Siberian_Form_Abstract
 
         // Builds the default form from schema!
         $this->addSimpleHidden("value_id");
+        $gateway = $this->addSimpleHidden("gateway");
+        $gateway->setValue("braintree");
 
-        $publicKey = $this->addSimpleText("merchant_id", p__("cabride", "Merchant ID"));
-        $publicKey = $this->addSimpleText("public_key", p__("cabride", "Public key"));
-        $secretKey = $this->addSimpleText("private_key", p__("cabride", "Private key"));
-        $isSandbox = $this->addSimpleCheckbox("is_sandbox", p__("cabride", "Sandbox mode"));
+        $publicKey = $this->addSimpleText("braintree_merchant_id", p__("cabride", "Merchant ID"));
+        $publicKey = $this->addSimpleText("braintree_public_key", p__("cabride", "Public key"));
+        $secretKey = $this->addSimpleText("braintree_private_key", p__("cabride", "Private key"));
+        $isSandbox = $this->addSimpleCheckbox("braintree_is_sandbox", p__("cabride", "Sandbox mode"));
 
         $publicKey->setRequired(true);
         $secretKey->setRequired(true);

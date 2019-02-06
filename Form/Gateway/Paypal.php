@@ -21,6 +21,8 @@ class Cabride_Form_Gateway_Paypal extends Siberian_Form_Abstract
 
         // Builds the default form from schema!
         $this->addSimpleHidden("value_id");
+        $gateway = $this->addSimpleHidden("gateway");
+        $gateway->setValue("paypal");
 
         $publicKey = $this->addSimpleText("public_key", p__("cabride", "Public key"));
         $secretKey = $this->addSimpleText("secret_key", p__("cabride", "Secret key"));

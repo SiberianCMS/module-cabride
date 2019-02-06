@@ -436,3 +436,11 @@ msgstr "Email"
 msgctxt "cabride"
 msgid "Delete passenger"
 msgstr "Delete passenger"
+
+msgctxt "cabride"
+msgid "Username"
+msgstr "Username"
+
+msgctxt "cabride"
+msgid "Password"
+msgstr "Password"

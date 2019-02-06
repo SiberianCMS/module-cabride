@@ -65,8 +65,72 @@ $schemas['cabride'] = [
     ],
     'driver_can_register' => [
         'type' => 'tinyint(1)',
+    ],
+    'stripe_public_key' => [
+        'type' => 'varchar(256)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'stripe_secret_key' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'stripe_is_sandbox' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'checkout_sid' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'checkout_secret' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'checkout_username' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'checkout_password' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'checkout_is_sandbox' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'braintree_merchant_id' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'braintree_public_key' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'braintree_private_key' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'braintree_is_sandbox' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
     ],
     'created_at' => [
         'type' => 'datetime',

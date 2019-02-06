@@ -16,6 +16,7 @@ angular.module('starter')
             waitPong: false,
             helloPromise: $q.defer(),
             lobbyPromise: null,
+            joinedLobby: false,
             awaitPromises: [],
             rooms: [],
             publicRooms: [],
@@ -108,6 +109,7 @@ angular.module('starter')
                     if (factory.lobbyPromise !== null) {
                         factory.lobbyPromise.resolve();
                     }
+                    factory.joinedLobby = true;
                     break;
                 // Generally this case won't happen so much, but if it does, we can cleanly closes the connection
                 case 'closing-websocket':
@@ -133,6 +135,9 @@ angular.module('starter')
          * Short aliases
          */
         factory.updatePosition = function () {
+            if (factory.joinedLobby === false) {
+                return;
+            }
             Location
             .getLocation()
             .then(function (position) {

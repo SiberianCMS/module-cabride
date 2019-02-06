@@ -3,7 +3,7 @@
  */
 angular.module('starter')
 .controller('CabrideHome', function ($window, $scope, $rootScope, $timeout, $translate, $ionicSideMenuDelegate,
-                                     Cabride, CabrideUtils, Customer, ContextualMenu, GoogleMaps, Dialog, Location) {
+                                     Cabride, CabrideUtils, Customer, ContextualMenu, GoogleMaps, Dialog, Location, SB) {
     angular.extend($scope, {
         pageTitle: $translate.instant("CabRide"),
         valueId: Cabride.getValueId(),
@@ -455,46 +455,79 @@ angular.module('starter')
         });
 
     // On load!
-    Cabride
-    .init()
-    .then(function () {
-        Customer
-        .find()
-        .then(function (customer) {
-            $scope.customer = customer;
-            $scope.customer.metadatas = _.isObject($scope.customer.metadatas)
-                ? $scope.customer.metadatas
-                : {};
-            $scope.avatarUrl = Customer.getAvatarUrl($scope.customer.id);
+    $scope.init = function () {
+        Cabride
+        .init()
+        .then(function () {
+            Customer
+            .find()
+            .then(function (customer) {
+                if (!customer.is_logged_in) {
+                    Customer.loginModal($scope,
+                        /** Login */
+                        $scope.init,
+                        /** Logout */
+                        function () {},
+                        /** Register */
+                        $scope.init);
 
-            Cabride
-            .fetchUser()
-            .then(function (payload) {
-                if (!payload.user) {
-                    if (!Cabride.settings.driverCanRegister) {
-                        $scope.selectPassenger();
-                        $scope.isLoading = false;
-                    }
+                    $scope.isLoading = false;
                     return;
                 }
-                switch (payload.user.type) {
-                    case 'driver':
-                        $scope.setIsDriver(false);
-                        break;
-                    case 'passenger':
-                        $scope.setIsPassenger(false);
-                        break;
-                }
 
-                $scope.isLoading = false;
+                $scope.customer = customer;
+                $scope.customer.metadatas = _.isObject($scope.customer.metadatas)
+                    ? $scope.customer.metadatas
+                    : {};
+                $scope.avatarUrl = Customer.getAvatarUrl($scope.customer.id);
+
+                Cabride
+                .fetchUser()
+                .then(function (payload) {
+                    if (!payload.user) {
+                        if (!Cabride.settings.driverCanRegister) {
+                            $scope.selectPassenger();
+                            $scope.isLoading = false;
+                        }
+                        return;
+                    }
+                    switch (payload.user.type) {
+                        case 'driver':
+                            $scope.setIsDriver(false);
+                            break;
+                        case 'passenger':
+                            $scope.setIsPassenger(false);
+                            break;
+                    }
+
+                    $scope.isLoading = false;
+                });
             });
         });
-    });
+    };
+
+    $scope.init();
 
     $scope.buildContextualMenu();
 
     // Asking for the current layout!
     $rootScope.$broadcast("cabride.isTaxiLayoutActive");
+
+    $rootScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
+        $scope.init();
+    });
+
+    $rootScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
+        $scope.init();
+    });
+
+    $rootScope.$on(SB.EVENTS.AUTH.registerSuccess, function () {
+        $scope.init();
+    });
+
+    $rootScope.$on(SB.EVENTS.AUTH.editSuccess, function () {
+        $scope.init();
+    });
 
     $window.cabride = {
         setIsLoading: function (isLoading) {
@@ -623,7 +656,9 @@ angular.module('starter')
     };
 
     $scope.customerName = function () {
-        if ($scope.customer) {
+        if ($scope.customer &&
+            $scope.customer.firstname &&
+            $scope.customer.lastname) {
             var fname = $scope.customer.firstname.toLowerCase();
             fname = fname.charAt(0).toUpperCase() + fname.slice(1);
             var lname = $scope.customer.lastname.toUpperCase();

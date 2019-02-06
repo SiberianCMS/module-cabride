@@ -9,10 +9,6 @@ $formSettings->setValueId($valueId);
 $settings = (new Cabride_Model_Cabride())
     ->find($valueId, "value_id");
 
-if ($settings->getId()) {
-    $formSettings->populate($settings->getData());
-}
-
 $formStripe = new Cabride_Form_Gateway_Stripe();
 $formStripe->setValueId($valueId);
 
@@ -21,6 +17,15 @@ $formTwocheckout->setValueId($valueId);
 
 $formBraintree = new Cabride_Form_Gateway_Braintree();
 $formBraintree->setValueId($valueId);
+
+if ($settings->getId()) {
+    $settingsData = $settings->getData();
+
+    $formSettings->populate($settingsData);
+    $formStripe->populate($settingsData);
+    $formTwocheckout->populate($settingsData);
+    $formBraintree->populate($settingsData);
+}
 
 ?>
 <div class="row">
