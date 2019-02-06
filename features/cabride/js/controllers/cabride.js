@@ -2,13 +2,14 @@
  * Cabride version 2 controllers
  */
 angular.module('starter')
-.controller('CabrideHome', function ($scope, $rootScope, $timeout, $translate, $ionicSideMenuDelegate,
+.controller('CabrideHome', function ($window, $scope, $rootScope, $timeout, $translate, $ionicSideMenuDelegate,
                                      Cabride, CabrideUtils, Customer, ContextualMenu, GoogleMaps, Dialog, Location) {
     angular.extend($scope, {
         pageTitle: $translate.instant("CabRide"),
         valueId: Cabride.getValueId(),
         isAlive: Cabride.isAlive,
         isLoggedIn: Customer.isLoggedIn(),
+        isLoading: true,
         customer: null,
         crMap: null,
         crMapPin: null,
@@ -240,6 +241,10 @@ angular.module('starter')
             ($scope.ride.dropoffAddress !== "");
     };
 
+    $scope.driverCanRegister = function () {
+        return Cabride.settings.driverCanRegister;
+    };
+
     // Pristine ride values!
     $scope.clearSearch = function () {
         $scope.ride = {
@@ -312,8 +317,6 @@ angular.module('starter')
                 });
                 break;
             case "dropoff":
-                console.log(center.lat(), center.lng());
-
                 GoogleMaps
                 .reverseGeocode({latitude: center.lat(), longitude: center.lng()})
                 .then(function (results) {
@@ -348,18 +351,10 @@ angular.module('starter')
     };
 
     $scope.setPickupAddress = function () {
-        console.log("setPickupAddress",
-            $scope.ride.pickupAddress,
-            $scope.ride.pickupPlace);
-
         $scope.checkRoute();
     };
 
     $scope.setDropoffAddress = function () {
-        console.log("setDropoffAddress",
-            $scope.ride.dropoffAddress,
-            $scope.ride.dropoffPlace);
-
         $scope.checkRoute();
     };
 
@@ -460,7 +455,10 @@ angular.module('starter')
         });
 
     // On load!
-    Customer
+    Cabride
+    .init()
+    .then(function () {
+        Customer
         .find()
         .then(function (customer) {
             $scope.customer = customer;
@@ -470,26 +468,48 @@ angular.module('starter')
             $scope.avatarUrl = Customer.getAvatarUrl($scope.customer.id);
 
             Cabride
-                .fetchUser()
-                .then(function (payload) {
-                    if (!payload.user) {
-                        return;
+            .fetchUser()
+            .then(function (payload) {
+                if (!payload.user) {
+                    if (!Cabride.settings.driverCanRegister) {
+                        $scope.selectPassenger();
+                        $scope.isLoading = false;
                     }
-                    switch (payload.user.type) {
-                        case 'driver':
-                            $scope.setIsDriver(false);
-                            break;
-                        case 'passenger':
-                            $scope.setIsPassenger(false);
-                            break;
-                    }
-                });
+                    return;
+                }
+                switch (payload.user.type) {
+                    case 'driver':
+                        $scope.setIsDriver(false);
+                        break;
+                    case 'passenger':
+                        $scope.setIsPassenger(false);
+                        break;
+                }
+
+                $scope.isLoading = false;
+            });
         });
+    });
 
     $scope.buildContextualMenu();
 
     // Asking for the current layout!
     $rootScope.$broadcast("cabride.isTaxiLayoutActive");
+
+    $window.cabride = {
+        setIsLoading: function (isLoading) {
+            $scope.isLoading = isLoading;
+        },
+        setIsDriver: function (save) {
+            $scope.setIsDriver(save);
+        },
+        setIsPassenger: function (save) {
+            $scope.setIsPassenger(save);
+        },
+        rebuild: function () {
+            $scope.rebuild();
+        }
+    };
 });
 
 angular.module('starter')

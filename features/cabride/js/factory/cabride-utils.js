@@ -82,10 +82,11 @@ angular.module('starter')
             factory.directionsRenderer.setDirections(route);
 
             // Then fit the map
-            if (route.length > 0) {
-                map.fitBounds(route[0].bounds);
+            if (route.routes.length > 0) {
+                console.log("boundaries", route.routes[0].bounds);
+                map.fitBounds(route.routes[0].bounds);
             } else {
-                console.log("if (route.length > 0) {", route);
+                console.log("KO if (route.routes.length > 0) {", route);
             }
         };
 

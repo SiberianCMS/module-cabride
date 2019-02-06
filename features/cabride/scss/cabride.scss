@@ -5,6 +5,21 @@
     margin: 15px 0;
   }
 
+  .cr-home {
+    .cr-home-loader-spinner {
+      width: 50vw;
+      height: 50vw;
+      transform: translate(50vw, 50vh);
+      margin-left: -25vw;
+      margin-top: -25vh;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
   .cr-user-choice {
     text-align: center;
     display: flex;
@@ -229,6 +244,16 @@
   }
 
   @media (orientation: landscape) {
+    .cr-home {
+      .cr-home-loader-spinner {
+        width: 50vh;
+        height: 50vh;
+        transform: translate(50vw, 50vh);
+        margin-left: -25vw;
+        margin-top: -25vh;
+      }
+    }
+
     .cr-user-choice {
       flex-direction: row !important;
       .cr-passenger,

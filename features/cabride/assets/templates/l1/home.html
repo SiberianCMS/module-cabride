@@ -17,7 +17,16 @@
     </ion-nav-buttons>
 
     <ion-content scroll="false">
-        <div ng-if="!isDriver && !isPassenger">
+        <div class="cr-home"
+             ng-if="isLoading">
+            <div class="cr-home-loader-spinner text-center">
+                <img src="./features/cabride/assets/templates/images/007-loader.svg" />
+                <br />
+                {{ "Loading ..." | translate }}
+            </div>
+        </div>
+
+        <div ng-if="!isDriver && !isPassenger && !isLoading">
             <h3 class="cr-home-title">{{ "Who are you?" | translate }}</h3>
 
             <div class="cr-user-choice">
@@ -28,6 +37,7 @@
                     {{ "Passenger" | translate }}
                 </div>
                 <div class="cr-driver"
+                     ng-show="driverCanRegister()"
                      ng-click="selectDriver();">
                     <img src="./features/cabride/assets/templates/images/002-driver.svg" />
                     <br />
@@ -36,7 +46,7 @@
             </div>
         </div>
 
-        <div ng-show="isPassenger || isDriver">
+        <div ng-show="(isPassenger || isDriver) && !isLoading">
             <div class="cr-passenger-home">
                 <!-- The so-said google-map -->
                 <div id="crMap"></div>
