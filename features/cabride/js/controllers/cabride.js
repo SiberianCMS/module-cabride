@@ -46,10 +46,10 @@ angular.module('starter')
         $scope.drawDrivers(payload.drivers);
     });
 
-    $scope.$on('$ionicView.enter', function(){
+    $scope.$on('$ionicView.enter', function() {
         $ionicSideMenuDelegate.canDragContent(false);
     });
-    $scope.$on('$ionicView.leave', function(){
+    $scope.$on('$ionicView.leave', function() {
         $ionicSideMenuDelegate.canDragContent(true);
     });
 
@@ -487,13 +487,14 @@ angular.module('starter')
                     if (!payload.user) {
                         if (!Cabride.settings.driverCanRegister) {
                             $scope.selectPassenger();
-                            $scope.isLoading = false;
                         }
+                        $scope.isLoading = false;
                         return;
                     }
                     switch (payload.user.type) {
                         case 'driver':
                             $scope.setIsDriver(false);
+                            $rootScope.$broadcast("cabride.setIsOnline", payload.user.isOnline);
                             break;
                         case 'passenger':
                             $scope.setIsPassenger(false);
@@ -606,7 +607,8 @@ angular.module('starter')
         isOnline: false,
         customer: null,
         isLoggedIn: Customer.isLoggedIn(),
-        isDriver: true,
+        isPassenger: false,
+        isDriver: false,
     });
 
     /**
@@ -718,12 +720,18 @@ angular.module('starter')
         $scope.rebuildMenu();
     });
 
+    $rootScope.$on("cabride.setIsOnline", function (event, isOnline) {
+        $scope.isOnline = isOnline;
+    });
+
     $rootScope.$on("cabride.isPassenger", function () {
+        $scope.isPassenger = true;
         $scope.isDriver = false;
         $scope.rebuildMenu();
     });
 
     $rootScope.$on("cabride.isDriver", function () {
+        $scope.isPassenger = false;
         $scope.isDriver = true;
         $scope.rebuildMenu();
     });

@@ -70,6 +70,7 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             if ($driver->getId()) {
                 $user = [
                     "type" => "driver",
+                    "isOnline" => (boolean) $driver->getIsOnline(),
                 ];
             } else {
                 $passenger = (new Cabride_Model_Client())
@@ -152,6 +153,46 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             ];
         }
         
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function toggleOnlineAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $valueId = $this->getCurrentOptionValue()->getId();
+            $customerId = $this->getSession()->getCustomerId();
+            $isOnline = filter_var($request->getParam("isOnline", null), FILTER_VALIDATE_BOOLEAN);
+
+            $driver = (new Cabride_Model_Driver())
+                ->find([
+                    "customer_id" => $customerId,
+                    "value_id" => $valueId,
+                ]);
+
+            if (!$driver->getId()) {
+                throw new \Siberian\Exception(p__("cabride", "You are not registered as a driver! Please contact the App owner."));
+
+            }
+
+            $driver
+                ->setIsOnline($isOnline)
+                ->save();
+
+            $payload = [
+                "success" => true,
+                "message" => __("Success"),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
         $this->_sendJson($payload);
     }
 }

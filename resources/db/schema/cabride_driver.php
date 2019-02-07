@@ -47,13 +47,6 @@ $schemas['cabride_driver'] = [
     ],
     'vehicle_id' => [
         'type' => 'int(11) unsigned',
-        'foreign_key' => [
-            'table' => 'cabride_vehicle',
-            'column' => 'vehicle_id',
-            'name' => 'FK_CABRIDE_VID_VEHICLE_VID',
-            'on_update' => 'CASCADE',
-            'on_delete' => 'CASCADE',
-        ],
         'index' => [
             'key_name' => 'vehicle_id',
             'index_type' => 'BTREE',
@@ -79,6 +72,10 @@ $schemas['cabride_driver'] = [
     'pickup_radius' => [
         'type' => 'int(11)',
         'default' => '10',
+    ],
+    'is_online' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
     ],
     'status' => [
         'type' => 'varchar(64)',

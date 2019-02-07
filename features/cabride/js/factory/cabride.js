@@ -14,6 +14,7 @@ angular.module('starter')
             socket: null,
             uuid: null,
             waitPong: false,
+            initPromise: false,
             helloPromise: $q.defer(),
             lobbyPromise: null,
             joinedLobby: false,
@@ -268,6 +269,19 @@ angular.module('starter')
         };
 
         /**
+         * Update user
+         */
+        factory.toggleOnlineStatus = function (isOnline) {
+            return $pwaRequest.post('/cabride/mobile_view/toggle-online', {
+                urlParams: {
+                    value_id: this.value_id,
+                    isOnline: isOnline
+                },
+                cache: false
+            });
+        };
+
+        /**
          *
          * @param isTaxiLayout
          */
@@ -338,11 +352,19 @@ angular.module('starter')
          * @return Promise
          */
         factory.init = function () {
+            // Customer must be logged in for Taxi socket to connect!
+            if (!Customer.isLoggedIn()) {
+                return $q.reject();
+            }
             if (factory.isAlive) {
                 return $q.resolve();
             }
 
-            var deferred = $q.defer();
+            if (factory.initPromise === false) {
+                factory.initPromise = $q.defer();
+            } else {
+                return factory.initPromise.promise;
+            }
 
             CabridePayment.init();
 
@@ -368,27 +390,27 @@ angular.module('starter')
                             factory.setIsAlive();
                             factory.joinLobby($session.getId(), APP_KEY)
                             .then(function () {
-                                deferred.resolve();
+                                factory.initPromise.resolve();
 
                                 // Send position updates to the server!
                                 factory.startUpdatePosition();
                             }).catch(function (error) {
-                                deferred.reject(error);
+                                factory.initPromise.reject(error);
                             }).finally(function () {
                                 $log.info('cabride joinLobby finally');
                             });
                         }).catch(function (error) {
                             $log.info('cabride helloPromise error', error);
-                            deferred.reject(error);
+                            factory.initPromise.reject(error);
                         }).finally(function () {
                             $log.info('cabride helloPromise finally');
                         });
                     };
                 }).catch(function (error) {
-                    deferred.reject(error);
+                    factory.initPromise.reject(error);
                 });
 
-            return deferred.promise;
+            return factory.initPromise.promise;
         };
 
         $ionicPlatform.on('resume', function () {
@@ -405,6 +427,11 @@ angular.module('starter')
 
         $rootScope.$on("cabride.isTaxiLayout", function () {
             factory.setIsTaxiLayout(true);
+        });
+
+        $rootScope.$on("cabride.isOnline", function (event, isOnline) {
+            // Refresh driver markers
+            factory.toggleOnlineStatus(isOnline);
         });
 
         return factory;
