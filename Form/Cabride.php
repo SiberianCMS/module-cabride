@@ -59,6 +59,15 @@ class Cabride_Form_Cabride extends Siberian_Form_Abstract
                 "all" => p__("cabride", "Credit card & Cash"),
             ]);
 
+        $paymentProvider = $this->addSimpleSelect(
+            "payment_provider",
+            p__("cabride", "Payment provider"),
+            [
+                "stripe" => p__("cabride", "Stripe (Credit card)"),
+                "twocheckout" => p__("cabride", "2 Checkout (Credit card)"),
+                "braintree" => p__("cabride", "BrainTree (Credit card & PayPal)"),
+            ]);
+
         $commissionType = $this->addSimpleSelect(
             "commission_type",
             p__("cabride", "Commission type"),

@@ -83,6 +83,10 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $user = [
                         "type" => "passenger",
                     ];
+                } else {
+                    $user = [
+                        "type" => "new",
+                    ];
                 }
             }
 

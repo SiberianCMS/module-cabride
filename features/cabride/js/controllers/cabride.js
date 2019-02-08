@@ -22,7 +22,7 @@ angular.module('starter')
             dropoffPlace: null,
             dropoffAddress: "",
             distance: null,
-            duration: null,
+            duration: null
         },
         isPassenger: false,
         isDriver: false,
@@ -434,7 +434,7 @@ angular.module('starter')
                     "Position",
                     "Your position doesn't resolve to a valid address.",
                     "OK");
-            })
+            });
         }, function () { // Error!
             Dialog.alert(
                 "Location",
@@ -484,14 +484,12 @@ angular.module('starter')
                 Cabride
                 .fetchUser()
                 .then(function (payload) {
-                    if (!payload.user) {
-                        if (!Cabride.settings.driverCanRegister) {
-                            $scope.selectPassenger();
-                        }
-                        $scope.isLoading = false;
-                        return;
-                    }
                     switch (payload.user.type) {
+                        case 'new':
+                            if (!Cabride.settings.driverCanRegister) {
+                                $scope.selectPassenger();
+                            }
+                            break;
                         case 'driver':
                             $scope.setIsDriver(false);
                             $rootScope.$broadcast("cabride.setIsOnline", payload.user.isOnline);
@@ -516,6 +514,9 @@ angular.module('starter')
 
     $rootScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
         $scope.init();
+        $scope.isDriver = false;
+        $scope.isPassenger = false;
+        $scope.isLoggedIn = false;
     });
 
     $rootScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
@@ -706,6 +707,8 @@ angular.module('starter')
 
     $rootScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
         $scope.rebuildMenu();
+        $scope.isDriver = false;
+        $scope.isPassenger = false;
     });
 
     $rootScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {

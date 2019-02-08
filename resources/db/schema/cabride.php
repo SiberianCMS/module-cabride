@@ -48,6 +48,11 @@ $schemas['cabride'] = [
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'payment_provider' => [ // CB, Cash, All
+        'type' => 'varchar(64)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'commission' => [
         'type' => 'varchar(256)',
         'charset' => 'utf-8',
@@ -65,6 +70,7 @@ $schemas['cabride'] = [
     ],
     'driver_can_register' => [
         'type' => 'tinyint(1)',
+        'default' => '1',
     ],
     'stripe_public_key' => [
         'type' => 'varchar(256)',

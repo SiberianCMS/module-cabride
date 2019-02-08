@@ -5,7 +5,7 @@ angular.module('starter')
     .factory('Cabride', function (CabrideSocket, CabridePayment, Customer, Application, Pages, Location, SB,
                                   $q, $session, $rootScope, $interval, $timeout, $log, $ionicPlatform,
                                   $pwaRequest) {
-        let factory = {
+        var factory = {
             value_id: null,
             settings: {
                 avatarProvider: 'identicon'
@@ -423,6 +423,10 @@ angular.module('starter')
             if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
                 factory.stopUpdatePosition();
             }
+        });
+
+        $rootScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
+            factory.stopUpdatePosition();
         });
 
         $rootScope.$on("cabride.isTaxiLayout", function () {

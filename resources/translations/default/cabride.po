@@ -444,3 +444,27 @@ msgstr "Username"
 msgctxt "cabride"
 msgid "Password"
 msgstr "Password"
+
+msgctxt "cabride"
+msgid "MORE INFO"
+msgstr "MORE INFO"
+
+msgctxt "cabride"
+msgid "SET AS DRIVER"
+msgstr "SET AS DRIVER"
+
+msgctxt "cabride"
+msgid "Payment provider"
+msgstr "Payment provider"
+
+msgctxt "cabride"
+msgid "Stripe (Credit card)"
+msgstr "Stripe (Credit card)"
+
+msgctxt "cabride"
+msgid "2 Checkout (Credit card)"
+msgstr "2 Checkout (Credit card)"
+
+msgctxt "cabride"
+msgid "BrainTree (Credit card & PayPal)"
+msgstr "BrainTree (Credit card & PayPal)"

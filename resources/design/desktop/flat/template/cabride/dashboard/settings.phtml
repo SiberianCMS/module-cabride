@@ -52,32 +52,41 @@ if ($settings->getId()) {
                 </h3>
                 <div class="subcontent content-color">
                     <div class="col-md-12">
-                        <h4 class="title-editor no-border-radius title-feature-indent">
-                            <?php echo p__("cabride", "Stripe") ?>
-                        </h4>
-                        <div class="container-fluid content-feature">
+                        <div class="form-payment"
+                             rel="stripe">
+                            <h4 class="title-editor no-border-radius title-feature-indent">
+                                <?php echo p__("cabride", "Stripe") ?>
+                            </h4>
+                            <div class="container-fluid content-feature">
+                                <br />
+                                <?php echo $formStripe ?>
+                            </div>
+
                             <br />
-                            <?php echo $formStripe ?>
                         </div>
 
-                        <br />
+                        <div class="form-payment"
+                             rel="twocheckout">
+                            <h4 class="title-editor no-border-radius title-feature-indent">
+                                <?php echo p__("cabride", "2Checkout") ?>
+                            </h4>
+                            <div class="container-fluid content-feature">
+                                <br />
+                                <?php echo $formTwocheckout ?>
+                            </div>
 
-                        <h4 class="title-editor no-border-radius title-feature-indent">
-                            <?php echo p__("cabride", "2Checkout") ?>
-                        </h4>
-                        <div class="container-fluid content-feature">
                             <br />
-                            <?php echo $formTwocheckout ?>
                         </div>
 
-                        <br />
-
-                        <h4 class="title-editor no-border-radius title-feature-indent">
-                            <?php echo p__("cabride", "BrainTree") ?>
-                        </h4>
-                        <div class="container-fluid content-feature">
-                            <br />
-                            <?php echo $formBraintree ?>
+                        <div class="form-payment"
+                             rel="braintree">
+                            <h4 class="title-editor no-border-radius title-feature-indent">
+                                <?php echo p__("cabride", "BrainTree") ?>
+                            </h4>
+                            <div class="container-fluid content-feature">
+                                <br />
+                                <?php echo $formBraintree ?>
+                            </div>
                         </div>
 
                     </div>
@@ -110,5 +119,20 @@ $(document).ready(function () {
     };
 
     updateCommission();
+
+    let paymentProvider = $("#payment_provider");
+
+    paymentProvider.off("change");
+    paymentProvider.on("change", function () {
+        updatePaymentProvider();
+    });
+
+    let updatePaymentProvider = function () {
+        $(".form-payment").hide();
+        let value = paymentProvider.val();
+        $(".form-payment[rel='" + value + "']").show();
+    };
+
+    updatePaymentProvider();
 });
 </script>

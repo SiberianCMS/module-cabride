@@ -37,6 +37,12 @@ $passengers = (new Cabride_Model_Client())
                                     <td><?php echo $passenger->getLastName(); ?></td>
                                     <td><?php echo $passenger->getEmail(); ?></td>
                                     <td class="text-right">
+                                        <a class="btn btn-xs btn-warning"
+                                           href="<?php echo __path("/cabride/passenger/set-as-driver", [
+                                               "passenger_id" => $passenger->getId()
+                                           ]); ?>">
+                                            <?php echo p__("cabride", "SET AS DRIVER") ?>
+                                        </a>
                                         <a class="btn btn-xs btn-info"
                                            href="<?php echo __path("/cabride/passenger/edit", [
                                                "passenger_id" => $passenger->getId()
