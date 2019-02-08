@@ -4,7 +4,7 @@ $request = $this->getRequest();
 $valueId = Cabride_Model_Cabride::getCurrentValueId();
 
 $passengers = (new Cabride_Model_Client())
-    ->findAll(["value_id" => $valueId]);
+    ->fetchForValueId($valueId);
 
 ?>
 <div class="row">
@@ -33,19 +33,17 @@ $passengers = (new Cabride_Model_Client())
                                 <tr class="sb-pager">
                                     <td><?php echo $passenger->getId(); ?></td>
                                     <td><?php echo $passenger->getCustomerId(); ?></td>
-                                    <td><?php echo $passenger->getFirstName(); ?></td>
-                                    <td><?php echo $passenger->getLastName(); ?></td>
+                                    <td><?php echo $passenger->getFirstname(); ?></td>
+                                    <td><?php echo $passenger->getLastname(); ?></td>
                                     <td><?php echo $passenger->getEmail(); ?></td>
                                     <td class="text-right">
-                                        <a class="btn btn-xs btn-warning"
-                                           href="<?php echo __path("/cabride/passenger/set-as-driver", [
-                                               "passenger_id" => $passenger->getId()
-                                           ]); ?>">
+                                        <a class="btn btn-xs btn-warning set-as-driver"
+                                           data-id="<?php echo $passenger->getId(); ?>">
                                             <?php echo p__("cabride", "SET AS DRIVER") ?>
                                         </a>
                                         <a class="btn btn-xs btn-info"
-                                           href="<?php echo __path("/cabride/passenger/edit", [
-                                               "passenger_id" => $passenger->getId()
+                                           href="<?php echo __path("/cabride/client/edit", [
+                                               "clientId" => $passenger->getId()
                                            ]); ?>">
                                             <?php echo p__("cabride", "EDIT") ?>
                                         </a>
@@ -103,15 +101,57 @@ $passengers = (new Cabride_Model_Client())
                 }
 
                 formget(
-                    "/cabride/passenger/deletepost",
+                    "/cabride/client/deletepost",
                     {
-                        'passenger_id': passengerId
+                        'client_id': passengerId
                     },
                     function (data) {
                         // Success!
                         feature_form_success(data.message);
                         setTimeout(function () {
                             location.reload();
+                        }, 3000);
+                    },
+                    function (data) {
+                        feature_form_error(data.message);
+                    });
+
+                swal.close();
+                return true;
+            });
+        });
+
+        let setAsDriver = $(".set-as-driver");
+
+        setAsDriver.off("click");
+        setAsDriver.on("click", function () {
+            let button = $(this);
+            let passengerId = button.attr("data-id");
+            swal({
+                html: true,
+                title: '<?php echo p__js("cabride", "This user will be granted as a driver.", "'") ?>',
+                text: '<?php echo p__js("cabride","Are you sure?", "'") ?>',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                closeOnCancel: true,
+                confirmButtonColor: '#ff3a2e',
+                confirmButtonText: '<?php echo p__js("cabride","Yes, Set as driver", "'") ?>',
+                cancelButtonText: '<?php echo p__js("cabride","No, go back!", "'") ?>',
+            }, function (value) {
+                if (value === false) {
+                    return;
+                }
+
+                formget(
+                    "/cabride/client/set-as-driver",
+                    {
+                        'clientId': passengerId
+                    },
+                    function (data) {
+                        // Success!
+                        feature_form_success(data.message);
+                        setTimeout(function () {
+                            location.pathname = "/cabride/dashboard/drivers";
                         }, 3000);
                     },
                     function (data) {

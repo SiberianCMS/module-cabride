@@ -73,30 +73,66 @@ class Cabride_ClientController extends Application_Controller_Default
     }
 
     /**
-     * Delete Client
+     * @throws Zend_Form_Exception
      */
     public function deletepostAction()
     {
         $values = $this->getRequest()->getPost();
 
         $form = new Cabride_Form_Client_Delete();
+
         if ($form->isValid($values)) {
-            $Client = new Cabride_Model_Client();
-            $Client->find($values["client_id"]);
-            $Client->delete();
+            $client = new Cabride_Model_Client();
+            $client->find($values["client_id"]);
+            $client->delete();
 
             $payload = [
-                'success' => true,
-                'success_message' => __('Client successfully deleted.'),
-                'message_loader' => 0,
-                'message_button' => 0,
-                'message_timeout' => 2
+                "success" => true,
+                "message" => p__("cabride", "Passenger deleted with success"),
             ];
         } else {
             $payload = [
-                'error' => 1,
-                'message' => $form->getTextErrors(),
-                'errors' => $form->getTextErrors(true),
+                "error" => true,
+                "message" => $form->getTextErrors(),
+                "errors" => $form->getTextErrors(true),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function setAsDriverAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $clientId = $request->getParam("clientId", null);
+
+            $client = (new Cabride_Model_Client())
+                ->find([
+                    "client_id" => $clientId
+                ]);
+
+            if (!$client->getId()) {
+                throw new \Siberian\Exception(p__("cabride", "This passenger doesn't exists."));
+
+            }
+
+            $driver = new Cabride_Model_Driver();
+            $driver
+                ->setCustomerId($client->getCustomerId())
+                ->setValueId($client->getValueId())
+                ->save();
+
+            $client->delete();
+
+            $payload = [
+                "success" => true,
+                "message" => p__("cabride", "This user is now registered as a Driver."),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
             ];
         }
 

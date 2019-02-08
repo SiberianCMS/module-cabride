@@ -468,3 +468,15 @@ msgstr "2 Checkout (Credit card)"
 msgctxt "cabride"
 msgid "BrainTree (Credit card & PayPal)"
 msgstr "BrainTree (Credit card & PayPal)"
+
+msgctxt "cabride"
+msgid "This user is now registered as a Driver."
+msgstr "This user is now registered as a Driver."
+
+msgctxt "cabride"
+msgid "This user will be granted as a driver."
+msgstr "This user will be granted as a driver."
+
+msgctxt "cabride"
+msgid "Yes, Set as driver"
+msgstr "Yes, Set as driver"
