@@ -510,6 +510,8 @@ let init = function (httpsOptions) {
     } catch (e) {
         if (e.message.indexOf('EADDRINUSE') !== -1) {
             console.log('Server already running on port: ', config.port);
+        } else {
+            console.log('Error: ', e.message);
         }
         process.exit(0);
     }
@@ -587,6 +589,8 @@ axios.get(defaultUrl.replace('#APP_KEY#/', '') + '/settings', {
         if (e.message.indexOf('EADDRINUSE') !== -1) {
             console.log('Server already running on port: ', config.port);
             process.exit(0);
+        } else {
+            console.log(e, e.message);
         }
     }
 }).catch(function (error) {

@@ -12,7 +12,8 @@ $schemas['cabride_vehicle'] = [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ],'value_id' => [
+    ],
+    'value_id' => [
         'type' => 'int(11) unsigned',
         'foreign_key' => [
             'table' => 'application_option_value',
@@ -39,9 +40,6 @@ $schemas['cabride_vehicle'] = [
     ],
     'time_fare' => [
         'type' => 'float',
-    ],
-    'base_address' => [
-        'type' => 'text',
     ],
     'is_visible' => [
         'type' => 'tinyint(1)',

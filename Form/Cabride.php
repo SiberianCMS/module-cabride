@@ -85,7 +85,7 @@ class Cabride_Form_Cabride extends Siberian_Form_Abstract
             p__("cabride", "Course mode"),
             [
                 "immediate" => p__("cabride", "Immediate"),
-                "all" => p__("cabride", "Immediate & Scheduled"),
+                //"all" => p__("cabride", "Immediate & Scheduled"),
             ]);
 
         $pricing_mode = $this->addSimpleSelect(

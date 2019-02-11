@@ -480,3 +480,31 @@ msgstr "This user will be granted as a driver."
 msgctxt "cabride"
 msgid "Yes, Set as driver"
 msgstr "Yes, Set as driver"
+
+msgctxt "cabride"
+msgid "Edit vehicle type"
+msgstr "Edit vehicle type"
+
+msgctxt "cabride"
+msgid "The pricing is set by the driver, you can't edit the values."
+msgstr "The pricing is set by the driver, you can't edit the values."
+
+msgctxt "cabride"
+msgid "Edit driver"
+msgstr "Edit driver"
+
+msgctxt "cabride"
+msgid "Vehicle license plate"
+msgstr "Vehicle license plate"
+
+msgctxt "cabride"
+msgid "Driver license"
+msgstr "Driver license"
+
+msgctxt "cabride"
+msgid "Driver photo"
+msgstr "Driver photo"
+
+msgctxt "cabride"
+msgid "Status"
+msgstr "Status"

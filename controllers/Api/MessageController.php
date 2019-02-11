@@ -44,7 +44,7 @@ class Cabride_Api_MessageController extends Cabride_Controller_Default {
             ];
         }
 
-        $this->_sendJson($payload);
+        $this->_sendJson($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_LINE_TERMINATORS);
     }
 
     /**

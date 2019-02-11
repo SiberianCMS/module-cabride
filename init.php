@@ -73,24 +73,24 @@ function dashboardNav ($payload) {
 $init = function($bootstrap) use ($initializeApiUser) {
 
     // Register API!
-    \Siberian_Api::register('cabride', __('CabRide'), [
-        'settings' => __('Settings'),
-        'join-lobby' => __('Join lobby'),
-        'send-request' => __('Send request'),
+    \Siberian\Api::register("cabride", __("CabRide"), [
+        "settings" => __("Settings"),
+        "join-lobby" => __("Join lobby"),
+        "send-request" => __("Send request"),
     ]);
 
     // Registering realtimechat service
-    \Siberian_Service::registerService('CabRide uWS', [
-        'command' => 'Cabride_Model_Service::serviceStatus',
-        'text' => 'Running',
+    \Siberian\Service::registerService("CabRide WebSocket", [
+        "command" => "Cabride_Model_Service::serviceStatus",
+        "text" => "Running",
     ]);
 
     // Cab-Ride
-    \Siberian_Assets::registerScss([
+    \Siberian\Assets::registerScss([
         "/app/local/modules/Cabride/features/cabride/scss/cabride.scss"
     ]);
 
-    \Siberian\Hook::listen('editor.left.menu.ready', "cabride_nav", "dashboardNav");
+    \Siberian\Hook::listen("editor.left.menu.ready", "cabride_nav", "dashboardNav");
 
     $initializeApiUser();
 };

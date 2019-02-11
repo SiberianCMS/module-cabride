@@ -3,7 +3,7 @@
 /**
  * Class Cabride_DriverController
  */
-class Cabride_DriverController extends Application_Controller_Default
+class Cabride_DriverController extends Cabride_Controller_Dashboard
 {
 
     /**
@@ -40,6 +40,28 @@ class Cabride_DriverController extends Application_Controller_Default
         $this->_sendJson($payload);
     }
 
+    public function editAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $this->view->edit = false;
+            $driverId = $request->getParam("driver_id", null);
+            if ($driverId) {
+                $driver = (new Cabride_Model_Driver())
+                    ->find($driverId);
+
+                if ($driver->getId()) {
+                    $this->view->driver = $driver;
+                    $this->view->edit = true;
+                }
+            }
+        } catch (\Exception $e) {
+            // Create
+        }
+
+        parent::editAction();
+    }
+
     /**
      * Create/Edit Driver
      *
@@ -50,11 +72,12 @@ class Cabride_DriverController extends Application_Controller_Default
         $values = $this->getRequest()->getPost();
 
         $form = new Cabride_Form_Driver();
+        $form->loadVehicles($values["value_id"]);
         if ($form->isValid($values)) {
             /** Do whatever you need when form is valid */
-            $Driver = new Cabride_Model_Driver();
-            $Driver->addData($values);
-            $Driver->save();
+            $driver = new Cabride_Model_Driver();
+            $driver->addData($values);
+            $driver->save();
 
             $payload = [
                 'success' => true,

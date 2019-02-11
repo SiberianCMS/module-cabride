@@ -58,15 +58,17 @@ $schemas['cabride'] = [
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
-    'course_mode' => [ // Immediate, Booked
+    'course_mode' => [ // immediate, all
         'type' => 'varchar(256)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
+        'default' => 'immediate',
     ],
-    'pricing_mode' => [ // Admin, Driver
+    'pricing_mode' => [ // fixed (by admin), driver
         'type' => 'varchar(256)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
+        'default' => 'fixed',
     ],
     'driver_can_register' => [
         'type' => 'tinyint(1)',

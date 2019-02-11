@@ -21,10 +21,6 @@
             <customization_sidebar_left class="admin_view_default"
                                         template="application/customization/index/sidebar_left.phtml" />
         </views>
-        <!--actions>
-            <customization_sidebar_left name="setCurrentLink"><code>settings_domain</code></customization_sidebar_left>
-            <header_menu name="setCurrentLink"><code>edit</code></header_menu>
-        </actions-->
     </cabride_dashboard_index>
 
     <cabride_dashboard_users>
@@ -54,6 +50,20 @@
                                         template="application/customization/index/sidebar_left.phtml" />
         </views>
     </cabride_dashboard_drivers>
+
+    <cabride_driver_edit>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Driver</title>
+        </base>
+        <views>
+            <content class="admin_view_default"
+                     template="cabride/driver/edit.phtml" />
+            <customization_sidebar_left class="admin_view_default"
+                                        template="application/customization/index/sidebar_left.phtml" />
+        </views>
+    </cabride_driver_edit>
 
     <cabride_dashboard_rides>
         <addLayout name="admin_menu" />

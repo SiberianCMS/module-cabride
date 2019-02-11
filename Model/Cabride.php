@@ -88,7 +88,7 @@ class Cabride_Model_Cabride extends Core_Model_Default
             'label' => p__("cabride", 'Cab-Ride'),
             'id' => 'sidebar-left-group-cabride',
             'is_current' => false,
-            'url' => self::getUrl('/'),
+            'url' => self::_getUrl('/'),
             'icon' => 'fa fa-taxi',
             'childs' => [
                 'dashboard' => [
@@ -96,7 +96,7 @@ class Cabride_Model_Cabride extends Core_Model_Default
                     'isVisible' => self::_canAccess("cabride_dashboard"),
                     'label' => p__("cabride", "Dashboard"),
                     'icon' => 'fa fa-home',
-                    'url' => self::getUrl('cabride/dashboard/index'),
+                    'url' => self::_getUrl('cabride/dashboard/index'),
                     'is_current' => ('/cabride/dashboard' === $currentUrl),
                 ],
                 'rides' => [
@@ -104,7 +104,7 @@ class Cabride_Model_Cabride extends Core_Model_Default
                     'isVisible' => self::_canAccess("cabride_rides"),
                     'label' => p__("cabride", 'Rides'),
                     'icon' => 'icon ion-cab-car',
-                    'url' => self::getUrl('cabride/dashboard/rides'),
+                    'url' => self::_getUrl('cabride/dashboard/rides'),
                     'is_current' => ('/cabride/dashboard/rides' === $currentUrl),
                 ],
                 'payments' => [
@@ -112,7 +112,7 @@ class Cabride_Model_Cabride extends Core_Model_Default
                     'isVisible' => self::_canAccess("cabride_payments"),
                     'label' => p__("cabride", 'Payments'),
                     'icon' => 'fa fa-credit-card',
-                    'url' => self::getUrl('cabride/dashboard/payments'),
+                    'url' => self::_getUrl('cabride/dashboard/payments'),
                     'is_current' => ('/cabride/dashboard/payments' === $currentUrl),
                 ],
                 'users' => [
@@ -120,7 +120,7 @@ class Cabride_Model_Cabride extends Core_Model_Default
                     'isVisible' => self::_canAccess("cabride_users"),
                     'label' => p__("cabride", 'Users'),
                     'icon' => 'fa fa-users',
-                    'url' => self::getUrl('cabride/dashboard/users'),
+                    'url' => self::_getUrl('cabride/dashboard/users'),
                     'is_current' => ('/cabride/dashboard/users' === $currentUrl),
                 ],
                 'drivers' => [
@@ -128,15 +128,18 @@ class Cabride_Model_Cabride extends Core_Model_Default
                     'isVisible' => self::_canAccess("cabride_drivers"),
                     'label' => p__("cabride", 'Drivers'),
                     'icon' => 'icon ion-cab-wheel',
-                    'url' => self::getUrl('cabride/dashboard/drivers'),
-                    'is_current' => ('/cabride/dashboard/drivers' === $currentUrl),
+                    'url' => self::_getUrl('cabride/dashboard/drivers'),
+                    'is_current' => self::startsWith($currentUrl, [
+                        '/cabride/dashboard/drivers',
+                        '/cabride/driver/edit',
+                    ]),
                 ],
                 'vehicle_types' => [
                     'hasChilds' => false,
                     'isVisible' => self::_canAccess("cabride_vehicle_types"),
                     'label' => p__("cabride", 'Vehicle types'),
                     'icon' => 'fa fa-car',
-                    'url' => self::getUrl('cabride/dashboard/vehicle-types'),
+                    'url' => self::_getUrl('cabride/dashboard/vehicle-types'),
                     'is_current' => self::startsWith($currentUrl, [
                         '/cabride/dashboard/vehicle-types',
                         '/cabride/vehicle/edit',
@@ -147,7 +150,7 @@ class Cabride_Model_Cabride extends Core_Model_Default
                     'isVisible' => self::_canAccess("cabride_settings"),
                     'label' => p__("cabride", 'Settings'),
                     'icon' => 'fa fa-sliders',
-                    'url' => self::getUrl('cabride/dashboard/settings'),
+                    'url' => self::_getUrl('cabride/dashboard/settings'),
                     'is_current' => ('/cabride/dashboard/settings' === $currentUrl),
                 ],
             ],
@@ -160,7 +163,7 @@ class Cabride_Model_Cabride extends Core_Model_Default
      * @param array $acl
      * @return bool
      */
-    protected function _canAccessAnyOf($acl = [])
+    protected static function _canAccessAnyOf($acl = [])
     {
         return true;
     }
@@ -169,7 +172,7 @@ class Cabride_Model_Cabride extends Core_Model_Default
      * @param $acl
      * @return bool
      */
-    protected function _canAccess($acl)
+    protected static function _canAccess($acl)
     {
         return true;
     }
@@ -180,7 +183,7 @@ class Cabride_Model_Cabride extends Core_Model_Default
      * @param null $locale
      * @return array|mixed|string
      */
-    public function getUrl($url = "", array $params = [], $locale = null)
+    public static function _getUrl($url = "", array $params = [], $locale = null)
     {
         return __url($url);
     }

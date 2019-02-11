@@ -7,47 +7,42 @@ $isEdit = $this->getEdit();
 $settings = (new Cabride_Model_Cabride())
     ->find($valueId, "value_id");
 
-$formVehicleType = new Cabride_Form_Vehicle();
-$formVehicleType->setValueId($valueId);
+$formDriver = new Cabride_Form_Driver();
+$formDriver->setValueId($valueId);
+$formDriver->loadVehicles($valueId);
 
 if ($isEdit) {
-    $formVehicleType->populate($this->getVehicle()->getData());
-}
-
-if ($settings->getPricingMode() === "driver") {
-    $formVehicleType->disablePricing();
-} else {
-    $formVehicleType->removePricingHtml();
+    $formDriver->populate($this->getDriver()->getData());
 }
 
 ?>
 <div class="row">
     <div class="col-md-12">
         <div class="page-content-wrapper">
-            <div id="vehicle_type"
+            <div id="driver_form"
                  class="content solo-page sb-tour">
                 <h3 class="title-editor border-blue text-center">
                     <?php
                         if ($isEdit) {
-                            echo p__("cabride", "Edit vehicle type");
+                            echo p__("cabride", "Edit driver");
                         } else {
-                            echo p__("cabride", "Create vehicle type");
+                            echo p__("cabride", "Create driver");
                         }
                     ?>
                 </h3>
                 <div class="subcontent content-color">
-                    <div id="form-vehicle-type"
+                    <div id="form-driver"
                          class="col-md-12">
 
                         <div>
-                            <a href="<?php echo __path("/cabride/dashboard/vehicle-types"); ?>"
+                            <a href="<?php echo __path("/cabride/dashboard/drivers"); ?>"
                                class="toggle-form btn color-blue pull-right">
                                 <?php echo p__("cabride", "Go back"); ?>
                             </a>
                         </div>
 
                         <div>
-                            <?php echo $formVehicleType ?>
+                            <?php echo $formDriver ?>
                         </div>
                     </div>
                 </div>
@@ -57,6 +52,6 @@ if ($settings->getPricingMode() === "driver") {
 </div>
 <script type="text/javascript">
 $(document).ready(function () {
-    bindForms("#vehicle_type");
+    bindForms("#driver_form");
 });
 </script>

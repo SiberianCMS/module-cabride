@@ -456,25 +456,26 @@ angular.module('starter')
 
     // On load!
     $scope.init = function () {
+        // Must log-in first.
+        if (!Customer.isLoggedIn()) {
+            Customer.loginModal($scope,
+                /** Login */
+                $scope.init,
+                /** Logout */
+                function () {},
+                /** Register */
+                $scope.init);
+
+            $scope.isLoading = false;
+            return;
+        }
+
         Cabride
         .init()
         .then(function () {
             Customer
             .find()
             .then(function (customer) {
-                if (!customer.is_logged_in) {
-                    Customer.loginModal($scope,
-                        /** Login */
-                        $scope.init,
-                        /** Logout */
-                        function () {},
-                        /** Register */
-                        $scope.init);
-
-                    $scope.isLoading = false;
-                    return;
-                }
-
                 $scope.customer = customer;
                 $scope.customer.metadatas = _.isObject($scope.customer.metadatas)
                     ? $scope.customer.metadatas
