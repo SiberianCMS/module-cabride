@@ -1,28 +1,32 @@
 <?php
 
+use Cabride\Model\Request as Request;
+use Cabride\Form\Request as FormRequest;
+use Cabride\Form\Request\Delete as RequestDelete;
+
 /**
  * Class Cabride_RequestController
  */
 class Cabride_RequestController extends Application_Controller_Default
 {
-
     /**
-     * Load form edit
+     * @throws Zend_Exception
+     * @throws Zend_Form_Exception
      */
     public function loadformAction()
     {
         $request_id = $this->getRequest()->getParam("request_id");
 
-        $Request = new Cabride_Model_Request();
-        $Request->find($request_id);
-        if ($Request->getId()) {
-            $form = new Cabride_Form_Request();
+        $request = new Request();
+        $request->find($request_id);
+        if ($request->getId()) {
+            $form = new FormRequest();
 
-            $form->populate($Request->getData());
+            $form->populate($request->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
             $form->removeNav("nav-cabride-request");
             $form->addNav("edit-nav-cabride-request", "Save", false);
-            $form->setRequestId($Request->getId());
+            $form->setRequestId($request->getId());
 
             $payload = [
                 'success' => true,
@@ -41,18 +45,17 @@ class Cabride_RequestController extends Application_Controller_Default
     }
 
     /**
-     * Create/Edit Request
-     *
-     * @throws exception
+     * @throws \Zend_Exception
+     * @throws \Zend_Form_Exception
      */
     public function editpostAction()
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Request();
+        $form = new FormRequest();
         if ($form->isValid($values)) {
             /** Do whatever you need when form is valid */
-            $Request = new Cabride_Model_Request();
+            $Request = new Request();
             $Request->addData($values);
             $Request->save();
 
@@ -73,15 +76,16 @@ class Cabride_RequestController extends Application_Controller_Default
     }
 
     /**
-     * Delete Request
+     * @throws \Zend_Exception
+     * @throws \Zend_Form_Exception
      */
     public function deletepostAction()
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Request_Delete();
+        $form = new RequestDelete();
         if ($form->isValid($values)) {
-            $Request = new Cabride_Model_Request();
+            $Request = new Request();
             $Request->find($values["request_id"]);
             $Request->delete();
 

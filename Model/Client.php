@@ -1,21 +1,25 @@
 <?php
 
+namespace Cabride\Model;
+
+use Core\Model\Base;
+
 /**
- * Class Cabride_Model_Client
+ * Class Client
+ * @package Cabride\Model
  *
- * @method Cabride_Model_Db_Table_Client getTable()
+ * @method Db\Table\Client getTable()
  */
-class Cabride_Model_Client extends Core_Model_Default
+class Client extends Base
 {
     /**
-     * Cabride_Model_Client constructor.
+     * Client constructor.
      * @param array $params
-     * @throws Zend_Exception
      */
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride_Model_Db_Table_Client';
+        $this->_db_table = 'Cabride\Model\Db\Table\Client';
         return $this;
     }
 

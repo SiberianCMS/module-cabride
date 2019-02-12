@@ -1,12 +1,17 @@
 <?php
 
+namespace Cabride\Form\Gateway;
+
+use Siberian_Form_Abstract;
+
 /**
- * Class Cabride_Form_Gateway_Paypal
+ * Class Paypal
+ * @package Cabride\Form\Gateway
  */
-class Cabride_Form_Gateway_Paypal extends Siberian_Form_Abstract
+class Paypal extends Siberian_Form_Abstract
 {
     /**
-     * @throws Zend_Form_Exception
+     * @throws \Zend_Form_Exception
      */
     public function init()
     {

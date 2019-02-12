@@ -1,9 +1,14 @@
 <?php
 
+namespace Cabride\Model\Db\Table;
+
+use Core_Model_Db_Table;
+
 /**
- * Class Cabride_Model_Db_Table_Request
+ * Class Request
+ * @package Cabride\Model\Db\Table
  */
-class Cabride_Model_Db_Table_Request extends Core_Model_Db_Table
+class Request extends Core_Model_Db_Table
 {
     /**
      * @var string

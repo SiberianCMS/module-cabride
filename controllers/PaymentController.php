@@ -1,22 +1,26 @@
 <?php
 
+use Cabride\Model\Payment;
+use Cabride\Form\Payment as FormPayment;
+use Cabride\Form\Payment\Delete as PaymentDelete;
+
 /**
  * Class Cabride_PaymentController
  */
 class Cabride_PaymentController extends Application_Controller_Default
 {
-
     /**
-     * Load form edit
+     * @throws Zend_Exception
+     * @throws Zend_Form_Exception
      */
     public function loadformAction()
     {
         $payment_id = $this->getRequest()->getParam("payment_id");
 
-        $Payment = new Cabride_Model_Payment();
+        $Payment = new Payment();
         $Payment->find($payment_id);
         if ($Payment->getId()) {
-            $form = new Cabride_Form_Payment();
+            $form = new FormPayment();
 
             $form->populate($Payment->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
@@ -41,18 +45,17 @@ class Cabride_PaymentController extends Application_Controller_Default
     }
 
     /**
-     * Create/Edit Payment
-     *
-     * @throws exception
+     * @throws Zend_Exception
+     * @throws Zend_Form_Exception
      */
     public function editpostAction()
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Payment();
+        $form = new FormPayment();
         if ($form->isValid($values)) {
             /** Do whatever you need when form is valid */
-            $Payment = new Cabride_Model_Payment();
+            $Payment = new Payment();
             $Payment->addData($values);
             $Payment->save();
 
@@ -73,15 +76,16 @@ class Cabride_PaymentController extends Application_Controller_Default
     }
 
     /**
-     * Delete Payment
+     * @throws Zend_Exception
+     * @throws Zend_Form_Exception
      */
     public function deletepostAction()
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Payment_Delete();
+        $form = new PaymentDelete();
         if ($form->isValid($values)) {
-            $Payment = new Cabride_Model_Payment();
+            $Payment = new Payment();
             $Payment->find($values["payment_id"]);
             $Payment->delete();
 

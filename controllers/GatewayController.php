@@ -1,5 +1,11 @@
 <?php
 
+use Cabride\Form\Gateway\Stripe;
+use Cabride\Form\Gateway\Twocheckout;
+use Cabride\Form\Gateway\Braintree;
+use Cabride\Model\Cabride;
+use Siberian\Exception;
+
 /**
  * Class Cabride_ApplicationController
  */
@@ -19,28 +25,28 @@ class Cabride_GatewayController extends Application_Controller_Default
             switch ($values["gateway"]) {
                 case "stripe":
                     self::testStripe($values);
-                    $form = new Cabride_Form_Gateway_Stripe();
+                    $form = new Stripe();
                     break;
                 case "2checkout":
                     self::testTwocheckout($values);
-                    $form = new Cabride_Form_Gateway_Twocheckout();
+                    $form = new Twocheckout();
                     break;
                 case "braintree":
                     self::testBraintree($values);
-                    $form = new Cabride_Form_Gateway_Braintree();
+                    $form = new Braintree();
                     break;
             }
 
             if ($form === false) {
-                throw new \Siberian\Exception(__("Invalid gateway"));
+                throw new Exception(__("Invalid gateway"));
             }
 
             if (!$form->isValid($values)) {
-                throw new \Siberian\Exception(__("Invalid form"));
+                throw new Exception(__("Invalid form"));
             }
 
             /** Do whatever you need when form is valid */
-            $cabride = (new Cabride_Model_Cabride())
+            $cabride = (new Cabride())
                 ->find($values["value_id"], "value_id");
 
             unset($values["value_id"]);
@@ -81,7 +87,7 @@ class Cabride_GatewayController extends Application_Controller_Default
             \Stripe\Stripe::setApiKey($values["stripe_secret_key"]);
             \Stripe\Customer::all();
         } catch (\Exception $e) {
-            throw new \Siberian\Exception(__("Stripe API Error: %s", $e->getMessage()));
+            throw new Exception(__("Stripe API Error: %s", $e->getMessage()));
         }
     }
 
@@ -104,9 +110,9 @@ class Cabride_GatewayController extends Application_Controller_Default
             $clientToken = $gateway->clientToken()->generate();
         } catch (\Braintree\Exception $e) {
             // rethrow auth exception
-            throw new \Siberian\Exception(__("BrainTree API Error: Invalid credentials"));
+            throw new Exception(__("BrainTree API Error: Invalid credentials"));
         } catch (\Exception $e) {
-            throw new \Siberian\Exception(__("BrainTree API Error: Invalid credentials, %s", get_class($e)));
+            throw new Exception(__("BrainTree API Error: Invalid credentials, %s", get_class($e)));
         }
     }
 
@@ -121,7 +127,7 @@ class Cabride_GatewayController extends Application_Controller_Default
         \Twocheckout::sandbox($values["checkout_is_sandbox"] ? true : false);
 
         try {
-            Twocheckout_Charge::auth([
+            \Twocheckout_Charge::auth([
                 "sellerId" => $values["checkout_sid"],
                 "merchantOrderId" => "123",
                 "token" => "MjFiYzIzYjAtYjE4YS00ZmI0LTg4YzYtNDIzMTBlMjc0MDlk",
@@ -149,7 +155,7 @@ class Cabride_GatewayController extends Application_Controller_Default
                 ]
             ]);
         } catch (\Twocheckout_Error $e) {
-            throw new \Siberian\Exception(__("2Checkout API Error: %s", $e->getMessage()));
+            throw new Exception(__("2Checkout API Error: %s", $e->getMessage()));
         }
     }
 

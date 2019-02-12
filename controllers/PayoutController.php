@@ -1,22 +1,26 @@
 <?php
 
+use Cabride\Model\Payout;
+use Cabride\Form\Payout as FormPayout;
+use Cabride\Form\Payout\Delete as PayoutDelete;
+
 /**
  * Class Cabride_PayoutController
  */
 class Cabride_PayoutController extends Application_Controller_Default
 {
-
     /**
-     * Load form edit
+     * @throws Zend_Exception
+     * @throws Zend_Form_Exception
      */
     public function loadformAction()
     {
         $payout_id = $this->getRequest()->getParam("payout_id");
 
-        $Payout = new Cabride_Model_Payout();
+        $Payout = new Payout();
         $Payout->find($payout_id);
         if ($Payout->getId()) {
-            $form = new Cabride_Form_Payout();
+            $form = new FormPayout();
 
             $form->populate($Payout->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
@@ -49,10 +53,10 @@ class Cabride_PayoutController extends Application_Controller_Default
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Payout();
+        $form = new FormPayout();
         if ($form->isValid($values)) {
             /** Do whatever you need when form is valid */
-            $Payout = new Cabride_Model_Payout();
+            $Payout = new Payout();
             $Payout->addData($values);
             $Payout->save();
 
@@ -73,15 +77,16 @@ class Cabride_PayoutController extends Application_Controller_Default
     }
 
     /**
-     * Delete Payout
+     * @throws Zend_Exception
+     * @throws Zend_Form_Exception
      */
     public function deletepostAction()
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Payout_Delete();
+        $form = new PayoutDelete();
         if ($form->isValid($values)) {
-            $Payout = new Cabride_Model_Payout();
+            $Payout = new Payout();
             $Payout->find($values["payout_id"]);
             $Payout->delete();
 

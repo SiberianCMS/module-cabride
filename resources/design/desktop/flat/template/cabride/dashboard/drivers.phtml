@@ -1,9 +1,13 @@
 <?php
+
+use Cabride\Model\Cabride;
+use Cabride\Model\Driver;
+
 $application = $this->getApplication();
 $request = $this->getRequest();
-$valueId = Cabride_Model_Cabride::getCurrentValueId();
+$valueId = Cabride::getCurrentValueId();
 
-$drivers = (new Cabride_Model_Driver())
+$drivers = (new Driver())
     ->findAll(["value_id" => $valueId]);
 
 ?>

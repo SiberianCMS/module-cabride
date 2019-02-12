@@ -1,19 +1,24 @@
 <?php
 
+namespace Cabride\Model;
+
+use Core\Model\Base;
+
 /**
- * Class Cabride_Model_Payout
+ * Class Payout
+ * @package Cabride\Model
  */
-class Cabride_Model_Payout extends Core_Model_Default
+class Payout extends Base
 {
     /**
-     * Cabride_Model_Payout constructor.
+     * Payout constructor.
      * @param array $params
-     * @throws Zend_Exception
+     * @throws \Zend_Exception
      */
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride_Model_Db_Table_Payout';
+        $this->_db_table = 'Cabride\Model\Db\Table\Payout';
         return $this;
     }
 }

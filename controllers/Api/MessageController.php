@@ -1,9 +1,12 @@
 <?php
 
+use Cabride\Controller\Base;
+use Siberian\Exception;
+
 /**
  * Class Cabride_Api_MessageController
  */
-class Cabride_Api_MessageController extends Cabride_Controller_Default {
+class Cabride_Api_MessageController extends Base {
 
     /**
      * @var array
@@ -27,7 +30,7 @@ class Cabride_Api_MessageController extends Cabride_Controller_Default {
                     'hostname' => $this->getRequest()->getHttpHost()
                 ]);
             if (!$sslCertificate->getId()) {
-                throw new \Siberian\Exception(__('Unable to find a corresponding SSL Certificate!'));
+                throw new Exception(__('Unable to find a corresponding SSL Certificate!'));
             }
 
             $payload = [

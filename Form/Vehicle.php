@@ -1,12 +1,17 @@
 <?php
 
+namespace Cabride\Form;
+
+use Siberian_Form_Abstract;
+
 /**
- * Class Cabride_Form_Vehicle
+ * Class Vehicle
+ * @package Cabride\Form
  */
-class Cabride_Form_Vehicle extends Siberian_Form_Abstract
+class Vehicle extends Siberian_Form_Abstract
 {
     /**
-     * @throws Zend_Form_Exception
+     * @throws \Zend_Form_Exception
      */
     public function init()
     {
@@ -72,7 +77,8 @@ HTML;
     }
 
     /**
-     * @throws Zend_Form_Exception
+     * @return $this
+     * @throws \Zend_Form_Exception
      */
     public function disablePricing()
     {
@@ -91,7 +97,7 @@ HTML;
     }
 
     /**
-     *
+     * @return $this
      */
     public function removePricingHtml()
     {

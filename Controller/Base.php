@@ -1,9 +1,17 @@
 <?php
 
+namespace Cabride\Controller;
+
+use Api_Controller_Default;
+use Application_Model_Option_Value;
+use Siberian\Json;
+use Siberian\Exception;
+
 /**
- * Class Cabride_Controller_Default
+ * Class Base
+ * @package Cabride\Controller
  */
-class Cabride_Controller_Default extends Api_Controller_Default
+class Base extends Api_Controller_Default
 {
 
     /**
@@ -38,7 +46,7 @@ class Cabride_Controller_Default extends Api_Controller_Default
 
     /**
      * @return $this
-     * @throws Zend_Session_Exception
+     * @throws \Zend_Session_Exception
      */
     public function init()
     {
@@ -49,7 +57,7 @@ class Cabride_Controller_Default extends Api_Controller_Default
         $this->user = $this->typeUser($session->getCustomer()->getData());
         $this->userId = (integer)$session->getCustomerId();
         $this->localRequest = $this->getRequest();
-        $this->params = Siberian_Json::decode($this->localRequest->getRawBody());
+        $this->params = Json::decode($this->localRequest->getRawBody());
 
         return $this;
     }
@@ -92,23 +100,21 @@ class Cabride_Controller_Default extends Api_Controller_Default
     }
 
     /**
-     * Verification steps before all ongoing request
-     *
-     * @throws \Siberian\Exception
+     * @throws Exception
      */
     protected function belongsToApp()
     {
         $app = $this->getApplication();
         if ((integer)$app->getId() !== $this->user["app_id"]) {
             if (empty($this->user["customer_id"])) {
-                throw new \Siberian\Exception(__("User not logged in"));
+                throw new Exception(__("User not logged in"));
             }
-            throw new \Siberian\Exception(__("User doesn't belong to App"));
+            throw new Exception(__("User doesn't belong to App"));
         }
 
         $this->option = $app->getOption('cabride');
         if (!$this->option->getId()) {
-            throw new \Siberian\Exception(__("Unable to find cabride feature."));
+            throw new Exception(__("Unable to find cabride feature."));
         }
     }
 }

@@ -1,5 +1,11 @@
 <?php
 
+use Cabride\Model\Client as Client;
+use Cabride\Model\Driver as Driver;
+use Cabride\Form\Client as FormClient;
+use Cabride\Form\Client\Delete as ClientDelete;
+use Siberian\Exception;
+
 /**
  * Class Cabride_ClientController
  */
@@ -13,10 +19,10 @@ class Cabride_ClientController extends Application_Controller_Default
     {
         $client_id = $this->getRequest()->getParam("client_id");
 
-        $Client = new Cabride_Model_Client();
+        $Client = new Client();
         $Client->find($client_id);
         if ($Client->getId()) {
-            $form = new Cabride_Form_Client();
+            $form = new FormClient();
 
             $form->populate($Client->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
@@ -41,18 +47,16 @@ class Cabride_ClientController extends Application_Controller_Default
     }
 
     /**
-     * Create/Edit Client
-     *
-     * @throws exception
+     * @throws Zend_Form_Exception
      */
     public function editpostAction()
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Client();
+        $form = new FormClient();
         if ($form->isValid($values)) {
             /** Do whatever you need when form is valid */
-            $Client = new Cabride_Model_Client();
+            $Client = new Client();
             $Client->addData($values);
             $Client->save();
 
@@ -79,10 +83,10 @@ class Cabride_ClientController extends Application_Controller_Default
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Client_Delete();
+        $form = new ClientDelete();
 
         if ($form->isValid($values)) {
-            $client = new Cabride_Model_Client();
+            $client = new Client();
             $client->find($values["client_id"]);
             $client->delete();
 
@@ -107,17 +111,17 @@ class Cabride_ClientController extends Application_Controller_Default
             $request = $this->getRequest();
             $clientId = $request->getParam("clientId", null);
 
-            $client = (new Cabride_Model_Client())
+            $client = (new Client())
                 ->find([
                     "client_id" => $clientId
                 ]);
 
             if (!$client->getId()) {
-                throw new \Siberian\Exception(p__("cabride", "This passenger doesn't exists."));
+                throw new Exception(p__("cabride", "This passenger doesn't exists."));
 
             }
 
-            $driver = new Cabride_Model_Driver();
+            $driver = new Driver();
             $driver
                 ->setCustomerId($client->getCustomerId())
                 ->setValueId($client->getValueId())

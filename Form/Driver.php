@@ -1,12 +1,18 @@
 <?php
 
+namespace Cabride\Form;
+
+use Siberian_Form_Abstract;
+use Cabride\Model\Vehicle;
+
 /**
- * Class Cabride_Form_Driver
+ * Class Driver
+ * @package Cabride\Form
  */
-class Cabride_Form_Driver extends Siberian_Form_Abstract
+class Driver extends Siberian_Form_Abstract
 {
     /**
-     * @throws Zend_Form_Exception
+     * @throws \Zend_Form_Exception
      */
     public function init()
     {
@@ -66,11 +72,11 @@ class Cabride_Form_Driver extends Siberian_Form_Abstract
     /**
      * @param $valueId
      * @return $this
-     * @throws Zend_Exception
+     * @throws \Zend_Exception
      */
     public function loadVehicles($valueId)
     {
-        $vehicleTypes = (new Cabride_Model_Vehicle())
+        $vehicleTypes = (new Vehicle())
             ->findAll(["value_id = ?" => $valueId]);
 
         $vehicles = [];

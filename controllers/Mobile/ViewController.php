@@ -1,5 +1,11 @@
 <?php
 
+use Cabride\Model\Cabride;
+use Cabride\Model\Driver;
+use Cabride\Model\Client;
+use Siberian\Json;
+use Siberian\Exception;
+
 /**
  * Class Cabride_Mobile_ViewController
  */
@@ -12,20 +18,18 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
     {
         try {
             // Fetch installation config file!
-            $configFile = Core_Model_Directory::getBasePathTo(
-                "/app/local/modules/Cabride/resources/server/config.json"
-            );
+            $configFile = path("/app/local/modules/Cabride/resources/server/config.json");
 
             if (!file_exists($configFile)) {
-                throw new \Siberian\Exception(__("The configuration files is missing!"));
+                throw new Exception(__("The configuration files is missing!"));
             }
 
-            $config = \Siberian_Json::decode(file_get_contents($configFile));
+            $config = Json::decode(file_get_contents($configFile));
             $wssUrl = $config["wssHost"] . ":" . $config["port"] . "/cabride";
 
             // DB Config!
             $valueId = $this->getCurrentOptionValue()->getId();
-            $dbConfig = (new Cabride_Model_Cabride())
+            $dbConfig = (new Cabride())
                 ->find($valueId, "value_id");
 
             $payload = [
@@ -60,7 +64,7 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             $customerId = $this->getSession()->getCustomerId();
 
             // First search in drivers!
-            $driver = (new Cabride_Model_Driver())
+            $driver = (new Driver())
                 ->find([
                     "customer_id" => $customerId,
                     "value_id" => $valueId,
@@ -73,7 +77,7 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     "isOnline" => (boolean) $driver->getIsOnline(),
                 ];
             } else {
-                $passenger = (new Cabride_Model_Client())
+                $passenger = (new Client())
                     ->find([
                         "customer_id" => $customerId,
                         "value_id" => $valueId,
@@ -117,7 +121,7 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
             switch ($userType) {
                 case "passenger":
-                    $passenger = (new Cabride_Model_Client())
+                    $passenger = (new Client())
                         ->find([
                             "customer_id" => $customerId,
                             "value_id" => $valueId,
@@ -131,7 +135,7 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     }
                     break;
                 case "driver":
-                    $driver = (new Cabride_Model_Driver())
+                    $driver = (new Driver())
                         ->find([
                             "customer_id" => $customerId,
                             "value_id" => $valueId,
@@ -156,7 +160,7 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 "message" => $e->getMessage(),
             ];
         }
-        
+
         $this->_sendJson($payload);
     }
 
@@ -171,14 +175,14 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             $customerId = $this->getSession()->getCustomerId();
             $isOnline = filter_var($request->getParam("isOnline", null), FILTER_VALIDATE_BOOLEAN);
 
-            $driver = (new Cabride_Model_Driver())
+            $driver = (new Driver())
                 ->find([
                     "customer_id" => $customerId,
                     "value_id" => $valueId,
                 ]);
 
             if (!$driver->getId()) {
-                throw new \Siberian\Exception(p__("cabride", "You are not registered as a driver! Please contact the App owner."));
+                throw new Exception(p__("cabride", "You are not registered as a driver! Please contact the App owner."));
 
             }
 

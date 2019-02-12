@@ -1,9 +1,14 @@
 <?php
 
+namespace Cabride\Controller;
+
+use Application_Controller_Default;
+
 /**
- * Class Cabride_Controller_Dashboard
+ * Class Dashboard
+ * @package Cabride\Controller
  */
-class Cabride_Controller_Dashboard extends Application_Controller_Default
+class Dashboard extends Application_Controller_Default
 {
     /**
      *

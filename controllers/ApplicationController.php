@@ -1,22 +1,26 @@
 <?php
 
+use Cabride\Model\Cabride as Cabride;
+use Cabride\Form\Cabride as FormCabride;
+use Cabride\Form\Cabride\Delete as CabrideDelete;
+
 /**
  * Class Cabride_ApplicationController
  */
 class Cabride_ApplicationController extends Application_Controller_Default
 {
-
     /**
-     * Load form edit
+     * @throws Zend_Exception
+     * @throws Zend_Form_Exception
      */
     public function loadformAction()
     {
         $cabride_id = $this->getRequest()->getParam("cabride_id");
 
-        $Cabride = new Cabride_Model_Cabride();
+        $Cabride = new Cabride();
         $Cabride->find($cabride_id);
         if ($Cabride->getId()) {
-            $form = new Cabride_Form_Cabride();
+            $form = new FormCabride();
 
             $form->populate($Cabride->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
@@ -49,7 +53,7 @@ class Cabride_ApplicationController extends Application_Controller_Default
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Cabride();
+        $form = new FormCabride();
 
         // Removes the require on commission if disabled!
         if ($values["commission_type"] === "disabled") {
@@ -57,7 +61,7 @@ class Cabride_ApplicationController extends Application_Controller_Default
         }
 
         if ($form->isValid($values)) {
-            $cabride = new Cabride_Model_Cabride();
+            $cabride = new Cabride();
             $cabride->addData($values);
             $cabride->save();
 
@@ -78,15 +82,16 @@ class Cabride_ApplicationController extends Application_Controller_Default
     }
 
     /**
-     * Delete Cabride
+     * @throws Zend_Exception
+     * @throws Zend_Form_Exception
      */
     public function deletepostAction()
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Cabride_Delete();
+        $form = new CabrideDelete();
         if ($form->isValid($values)) {
-            $Cabride = new Cabride_Model_Cabride();
+            $Cabride = new Cabride();
             $Cabride->find($values["cabride_id"]);
             $Cabride->delete();
 

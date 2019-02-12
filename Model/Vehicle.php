@@ -1,19 +1,24 @@
 <?php
 
+namespace Cabride\Model;
+
+use Core\Model\Base;
+
 /**
- * Class Cabride_Model_Vehicle
+ * Class Vehicle
+ * @package Cabride\Model
  */
-class Cabride_Model_Vehicle extends Core_Model_Default
+class Vehicle extends Base
 {
     /**
-     * Cabride_Model_Vehicle constructor.
+     * Vehicle constructor.
      * @param array $params
-     * @throws Zend_Exception
+     * @throws \Zend_Exception
      */
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride_Model_Db_Table_Vehicle';
+        $this->_db_table = 'Cabride\Model\Db\Table\Vehicle';
         return $this;
     }
 }

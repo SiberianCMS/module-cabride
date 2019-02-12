@@ -1,28 +1,33 @@
 <?php
 
+use Cabride\Controller\Dashboard;
+use Cabride\Model\Vehicle as Vehicle;
+use Cabride\Form\Vehicle as FormVehicle;
+use Cabride\Form\Vehicle\Delete as VehicleDelete;
+
 /**
  * Class Cabride_VehicleController
  */
-class Cabride_VehicleController extends Cabride_Controller_Dashboard
+class Cabride_VehicleController extends Dashboard
 {
-
     /**
-     * Load form edit
+     * @throws \Zend_Exception
+     * @throws \Zend_Form_Exception
      */
     public function loadformAction()
     {
         $vehicle_id = $this->getRequest()->getParam("vehicle_id");
 
-        $Vehicle = new Cabride_Model_Vehicle();
-        $Vehicle->find($vehicle_id);
-        if ($Vehicle->getId()) {
-            $form = new Cabride_Form_Vehicle();
+        $vehicle = new Vehicle();
+        $vehicle->find($vehicle_id);
+        if ($vehicle->getId()) {
+            $form = new FormVehicle();
 
-            $form->populate($Vehicle->getData());
+            $form->populate($vehicle->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
             $form->removeNav("nav-cabride-vehicle");
             $form->addNav("edit-nav-cabride-vehicle", "Save", false);
-            $form->setVehicleId($Vehicle->getId());
+            $form->setVehicleId($vehicle->getId());
 
             $payload = [
                 'success' => true,
@@ -40,6 +45,9 @@ class Cabride_VehicleController extends Cabride_Controller_Dashboard
         $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
     public function editAction ()
     {
         try {
@@ -47,7 +55,7 @@ class Cabride_VehicleController extends Cabride_Controller_Dashboard
             $this->view->edit = false;
             $vehicleId = $request->getParam("vehicle_id", null);
             if ($vehicleId) {
-                $vehicle = (new Cabride_Model_Vehicle())
+                $vehicle = (new Vehicle())
                     ->find($vehicleId);
 
                 if ($vehicle->getId()) {
@@ -63,18 +71,17 @@ class Cabride_VehicleController extends Cabride_Controller_Dashboard
     }
 
     /**
-     * Create/Edit Vehicle
-     *
-     * @throws exception
+     * @throws \Zend_Exception
+     * @throws \Zend_Form_Exception
      */
     public function editpostAction()
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Vehicle();
+        $form = new FormVehicle();
         if ($form->isValid($values)) {
             /** Do whatever you need when form is valid */
-            $vehicle = new Cabride_Model_Vehicle();
+            $vehicle = new Vehicle();
             $vehicle->addData($values);
             $vehicle->save();
 
@@ -95,15 +102,16 @@ class Cabride_VehicleController extends Cabride_Controller_Dashboard
     }
 
     /**
-     * Delete Vehicle
+     * @throws \Zend_Exception
+     * @throws \Zend_Form_Exception
      */
     public function deletepostAction()
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Vehicle_Delete();
+        $form = new VehicleDelete();
         if ($form->isValid($values)) {
-            $vehicle = new Cabride_Model_Vehicle();
+            $vehicle = new Vehicle();
             $vehicle->find($values["vehicle_id"]);
             $vehicle->delete();
 

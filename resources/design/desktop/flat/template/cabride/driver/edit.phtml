@@ -1,13 +1,17 @@
 <?php
+
+use Cabride\Model\Cabride;
+use Cabride\Form\Driver as FormDriver;
+
 $application = $this->getApplication();
 $request = $this->getRequest();
-$valueId = Cabride_Model_Cabride::getCurrentValueId();
+$valueId = Cabride::getCurrentValueId();
 $isEdit = $this->getEdit();
 
-$settings = (new Cabride_Model_Cabride())
+$settings = (new Cabride())
     ->find($valueId, "value_id");
 
-$formDriver = new Cabride_Form_Driver();
+$formDriver = new FormDriver();
 $formDriver->setValueId($valueId);
 $formDriver->loadVehicles($valueId);
 

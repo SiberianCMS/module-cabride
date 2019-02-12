@@ -1,10 +1,18 @@
 <?php
+
+use Siberian\Json;
+use Siberian\Api;
+use Siberian\Service;
+use Siberian\Assets;
+use Siberian\Hook;
+use Cabride\Model\Cabride;
+
 $initializeApiUser = function () {
     $cabrideUser = (new Api_Model_User())
         ->find('cabride', 'username');
 
     $acl = [];
-    foreach (\Siberian_Api::$acl_keys as $key => $subkeys) {
+    foreach (Api::$acl_keys as $key => $subkeys) {
         // Filter only cabride API endpoints
         if ($key === 'cabride') {
             if (!isset($acl[$key])) {
@@ -28,7 +36,7 @@ $initializeApiUser = function () {
             ->setUsername('cabride')
             ->setPassword($password)
             ->setIsVisible(0)
-            ->setAcl(\Siberian_Json::encode($acl))
+            ->setAcl(Json::encode($acl))
             ->save();
 
         // Save Credentials for chatrooms server
@@ -43,7 +51,7 @@ $initializeApiUser = function () {
             explode(':', $_SERVER['HTTP_HOST'])[0]
         );
 
-        $configFile = \Core_Model_Directory::getBasePathTo('/app/local/modules/Cabride/resources/server/config.json');
+        $configFile = path('/app/local/modules/Cabride/resources/server/config.json');
         $config = [
             'apiUrl' => $serverHost,
             'wssHost' => $wssHost,
@@ -51,13 +59,13 @@ $initializeApiUser = function () {
             'username' => 'cabride',
             'password' => base64_encode($password)
         ];
-        file_put_contents($configFile, \Siberian_Json::encode($config));
+        file_put_contents($configFile, Json::encode($config));
 
     } else {
         // Update ACL to full access after any updates, in case there is new API Endpoints
         $cabrideUser
             ->setIsVisible(0)
-            ->setAcl(\Siberian_Json::encode($acl))
+            ->setAcl(Json::encode($acl))
             ->save();
     }
 };
@@ -65,32 +73,33 @@ $initializeApiUser = function () {
 /**
  * @param $payload
  * @return mixed
+ * @throws \Siberian\Exception
  */
 function dashboardNav ($payload) {
-    return Cabride_Model_Cabride::dashboardNav($payload);
+    return Cabride::dashboardNav($payload);
 }
 
 $init = function($bootstrap) use ($initializeApiUser) {
 
     // Register API!
-    \Siberian\Api::register("cabride", __("CabRide"), [
+    Api::register("cabride", __("CabRide"), [
         "settings" => __("Settings"),
         "join-lobby" => __("Join lobby"),
         "send-request" => __("Send request"),
     ]);
 
     // Registering realtimechat service
-    \Siberian\Service::registerService("CabRide WebSocket", [
+    Service::registerService("CabRide WebSocket", [
         "command" => "Cabride_Model_Service::serviceStatus",
         "text" => "Running",
     ]);
 
     // Cab-Ride
-    \Siberian\Assets::registerScss([
+    Assets::registerScss([
         "/app/local/modules/Cabride/features/cabride/scss/cabride.scss"
     ]);
 
-    \Siberian\Hook::listen("editor.left.menu.ready", "cabride_nav", "dashboardNav");
+    Hook::listen("editor.left.menu.ready", "cabride_nav", "dashboardNav");
 
     $initializeApiUser();
 };

@@ -1,9 +1,13 @@
 <?php
+
+use Cabride\Model\Cabride;
+use Cabride\Model\Client;
+
 $application = $this->getApplication();
 $request = $this->getRequest();
-$valueId = Cabride_Model_Cabride::getCurrentValueId();
+$valueId = Cabride::getCurrentValueId();
 
-$passengers = (new Cabride_Model_Client())
+$passengers = (new Client())
     ->fetchForValueId($valueId);
 
 ?>
@@ -42,25 +46,21 @@ $passengers = (new Cabride_Model_Client())
                                             <?php echo p__("cabride", "SET AS DRIVER") ?>
                                         </a>
                                         <a class="btn btn-xs btn-info"
-                                           href="<?php echo __path("/cabride/client/edit", [
-                                               "clientId" => $passenger->getId()
+                                           href="<?php echo __path("/customer/application/edit", [
+                                               "customer_id" => $passenger->getCustomerId()
                                            ]); ?>">
                                             <?php echo p__("cabride", "EDIT") ?>
-                                        </a>
-                                        <a class="btn btn-xs btn-danger delete-passenger"
-                                           data-id="<?php echo $passenger->getId(); ?>">
-                                            <?php echo p__("cabride", "DELETE") ?>
                                         </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
                             <tfoot>
-                            <tr>
-                                <td colspan="6">
-                                    <?php echo p__("cabride", "No results for your search.") ?>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td colspan="6">
+                                        <?php echo p__("cabride", "No results for your search.") ?>
+                                    </td>
+                                </tr>
                             </tfoot>
                         </table>
                     </div>

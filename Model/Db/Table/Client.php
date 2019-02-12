@@ -1,9 +1,14 @@
 <?php
 
+namespace Cabride\Model\Db\Table;
+
+use Core_Model_Db_Table;
+
 /**
- * Class Cabride_Model_Db_Table_Client
+ * Class Client
+ * @package Cabride\Model\Db\Table
  */
-class Cabride_Model_Db_Table_Client extends Core_Model_Db_Table
+class Client extends Core_Model_Db_Table
 {
     /**
      * @var string
@@ -17,7 +22,7 @@ class Cabride_Model_Db_Table_Client extends Core_Model_Db_Table
 
     /**
      * @param $valueId
-     * @return Zend_Db_Table_Rowset_Abstract
+     * @return mixed
      */
     public function fetchForValueId($valueId)
     {

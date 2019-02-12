@@ -1,12 +1,13 @@
 <?php
+
+use Cabride\Model\Cabride;
+use Cabride\Model\Vehicle;
+
 $application = $this->getApplication();
 $request = $this->getRequest();
-$valueId = Cabride_Model_Cabride::getCurrentValueId();
+$valueId = Cabride::getCurrentValueId();
 
-$formVehicleType = new Cabride_Form_Vehicle();
-$formVehicleType->setValueId($valueId);
-
-$vehicles = (new Cabride_Model_Vehicle())
+$vehicles = (new Vehicle())
     ->findAll(["value_id" => $valueId]);
 
 ?>

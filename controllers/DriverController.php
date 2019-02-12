@@ -1,22 +1,28 @@
 <?php
 
+use Cabride\Controller\Dashboard as Dashboard;
+use Cabride\Model\Driver as Driver;
+use Cabride\Form\Driver as FormDriver;
+use Cabride\Form\Driver\Delete as DriverDelete;
+
 /**
  * Class Cabride_DriverController
  */
-class Cabride_DriverController extends Cabride_Controller_Dashboard
+class Cabride_DriverController extends Dashboard
 {
 
     /**
-     * Load form edit
+     * @throws Zend_Exception
+     * @throws Zend_Form_Exception
      */
     public function loadformAction()
     {
         $driver_id = $this->getRequest()->getParam("driver_id");
 
-        $Driver = new Cabride_Model_Driver();
+        $Driver = new Driver();
         $Driver->find($driver_id);
         if ($Driver->getId()) {
-            $form = new Cabride_Form_Driver();
+            $form = new FormDriver();
 
             $form->populate($Driver->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
@@ -47,7 +53,7 @@ class Cabride_DriverController extends Cabride_Controller_Dashboard
             $this->view->edit = false;
             $driverId = $request->getParam("driver_id", null);
             if ($driverId) {
-                $driver = (new Cabride_Model_Driver())
+                $driver = (new Driver())
                     ->find($driverId);
 
                 if ($driver->getId()) {
@@ -63,19 +69,18 @@ class Cabride_DriverController extends Cabride_Controller_Dashboard
     }
 
     /**
-     * Create/Edit Driver
-     *
-     * @throws exception
+     * @throws Zend_Exception
+     * @throws Zend_Form_Exception
      */
     public function editpostAction()
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Driver();
+        $form = new FormDriver();
         $form->loadVehicles($values["value_id"]);
         if ($form->isValid($values)) {
             /** Do whatever you need when form is valid */
-            $driver = new Cabride_Model_Driver();
+            $driver = new Driver();
             $driver->addData($values);
             $driver->save();
 
@@ -96,30 +101,28 @@ class Cabride_DriverController extends Cabride_Controller_Dashboard
     }
 
     /**
-     * Delete Driver
+     * @throws Zend_Exception
+     * @throws Zend_Form_Exception
      */
     public function deletepostAction()
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new Cabride_Form_Driver_Delete();
+        $form = new DriverDelete();
         if ($form->isValid($values)) {
-            $Driver = new Cabride_Model_Driver();
+            $Driver = new Driver();
             $Driver->find($values["driver_id"]);
             $Driver->delete();
 
             $payload = [
-                'success' => true,
-                'success_message' => __('Driver successfully deleted.'),
-                'message_loader' => 0,
-                'message_button' => 0,
-                'message_timeout' => 2
+                "success" => true,
+                "message" => __("Driver successfully deleted."),
             ];
         } else {
             $payload = [
-                'error' => 1,
-                'message' => $form->getTextErrors(),
-                'errors' => $form->getTextErrors(true),
+                "error" => 1,
+                "message" => $form->getTextErrors(),
+                "errors" => $form->getTextErrors(true),
             ];
         }
 

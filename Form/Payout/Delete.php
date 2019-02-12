@@ -1,12 +1,18 @@
 <?php
 
+namespace Cabride\Form\Payout;
+
+use Siberian_Form_Abstract;
+use Zend_Db_Table;
+
 /**
- * Class Cabride_Form_Payout_Delete
+ * Class Delete
+ * @package Cabride\Form\Payout
  */
-class Cabride_Form_Payout_Delete extends Siberian_Form_Abstract
+class Delete extends Siberian_Form_Abstract
 {
     /**
-     * init wrapper
+     * @throws \Zend_Form_Exception
      */
     public function init()
     {

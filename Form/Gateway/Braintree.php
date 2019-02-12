@@ -1,12 +1,17 @@
 <?php
 
+namespace Cabride\Form\Gateway;
+
+use Siberian_Form_Abstract;
+
 /**
- * Class Cabride_Form_Gateway_Braintree
+ * Class Braintree
+ * @package Cabride\Form\Gateway
  */
-class Cabride_Form_Gateway_Braintree extends Siberian_Form_Abstract
+class Braintree extends Siberian_Form_Abstract
 {
     /**
-     * @throws Zend_Form_Exception
+     * @throws \Zend_Form_Exception
      */
     public function init()
     {

@@ -1,21 +1,28 @@
 <?php
+
+use Cabride\Model\Cabride;
+use Cabride\Form\Cabride as FormCabride;
+use Cabride\Form\Gateway\Stripe as FormStripe;
+use Cabride\Form\Gateway\Twocheckout as FormTwocheckout;
+use Cabride\Form\Gateway\Braintree as FormBraintree;
+
 $application = $this->getApplication();
 $request = $this->getRequest();
-$valueId = Cabride_Model_Cabride::getCurrentValueId();
+$valueId = Cabride::getCurrentValueId();
 
-$formSettings = new Cabride_Form_Cabride();
+$formSettings = new FormCabride();
 $formSettings->setValueId($valueId);
 
-$settings = (new Cabride_Model_Cabride())
+$settings = (new Cabride())
     ->find($valueId, "value_id");
 
-$formStripe = new Cabride_Form_Gateway_Stripe();
+$formStripe = new FormStripe();
 $formStripe->setValueId($valueId);
 
-$formTwocheckout = new Cabride_Form_Gateway_Twocheckout();
+$formTwocheckout = new FormTwocheckout();
 $formTwocheckout->setValueId($valueId);
 
-$formBraintree = new Cabride_Form_Gateway_Braintree();
+$formBraintree = new FormBraintree();
 $formBraintree->setValueId($valueId);
 
 if ($settings->getId()) {

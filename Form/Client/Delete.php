@@ -1,12 +1,18 @@
 <?php
 
+namespace Cabride\Form\Client;
+
+use Siberian_Form_Abstract;
+use Zend_Db_Table;
+
 /**
- * Class Cabride_Form_Client_Delete
+ * Class Delete
+ * @package Cabride\Form\Client
  */
-class Cabride_Form_Client_Delete extends Siberian_Form_Abstract
+class Delete extends Siberian_Form_Abstract
 {
     /**
-     * init wrapper
+     * @throws \Zend_Form_Exception
      */
     public function init()
     {

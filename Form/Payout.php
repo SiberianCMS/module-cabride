@@ -1,12 +1,17 @@
 <?php
 
+namespace Cabride\Form;
+
+use Siberian_Form_Abstract;
+
 /**
- * Class Cabride_Form_Payout
+ * Class Payout
+ * @package Cabride\Form
  */
-class Cabride_Form_Payout extends Siberian_Form_Abstract
+class Payout extends Siberian_Form_Abstract
 {
     /**
-     * init wrapper
+     * @throws \Zend_Form_Exception
      */
     public function init()
     {

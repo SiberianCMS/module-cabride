@@ -1,19 +1,24 @@
 <?php
 
+namespace Cabride\Model;
+
+use Core\Model\Base;
+
 /**
- * Class Cabride_Model_Request
+ * Class Request
+ * @package Cabride\Model
  */
-class Cabride_Model_Request extends Core_Model_Default
+class Request extends Base
 {
     /**
-     * Cabride_Model_Request constructor.
+     * Request constructor.
      * @param array $params
-     * @throws Zend_Exception
+     * @throws \Zend_Exception
      */
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride_Model_Db_Table_Request';
+        $this->_db_table = 'Cabride\Model\Db\Table\Request';
         return $this;
     }
 }
