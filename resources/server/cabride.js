@@ -263,6 +263,12 @@ const functions = {
                         };
                     }
 
+                    let driver = globals.drivers[localConnection.uuid];
+                    functions.requestApi(localConnection, '/update-position', {
+                        'position': driver.position,
+                        'previous': driver.previous,
+                    });
+
                     break;
                 case "passenger":
                     localConnection.user.id = params.userId;

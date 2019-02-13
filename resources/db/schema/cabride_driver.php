@@ -69,9 +69,25 @@ $schemas['cabride_driver'] = [
     'base_address' => [
         'type' => 'text',
     ],
+    'base_latitude' => [
+        'type' => 'float',
+        'null' => true,
+    ],
+    'base_longitude' => [
+        'type' => 'float',
+        'null' => true,
+    ],
     'pickup_radius' => [
         'type' => 'int(11)',
         'default' => '10',
+    ],
+    'latitude' => [
+        'type' => 'float',
+        'null' => true,
+    ],
+    'longitude' => [
+        'type' => 'float',
+        'null' => true,
     ],
     'is_online' => [
         'type' => 'tinyint(1)',

@@ -24,6 +24,7 @@ angular.module('starter')
             distance: null,
             duration: null
         },
+        currentRoute: null,
         isPassenger: false,
         isDriver: false,
         removeSideMenu: null
@@ -176,40 +177,39 @@ angular.module('starter')
             var driver = drivers[indexDriver];
             var myLatlng = new google.maps.LatLng(driver.position.latitude, driver.position.longitude);
 
-            GoogleMaps
-            .reverseGeocode({latitude: driver.position.latitude, longitude: driver.position.longitude})
-            .then(function (results) {
-                if (results.length > 0) {
-                    var nearest = results[0];
-
-                    var a = {
-                        lat: function () {
-                            return driver.position.latitude;
-                        },
-                        lng: function () {
-                            return driver.position.longitude;
-                        }
-                    };
-                    var b = nearest.geometry.location;
-                    var heading = google.maps.geometry.spherical.computeHeading(a, b);
-                    console.log("heading", heading);
-
-                    var icon = {
-                        url: CabrideUtils.taxiIcon(heading),
-                        size: new google.maps.Size(120, 120),
-                        scaledSize: new google.maps.Size(36, 36),
-                        origin: new google.maps.Point(0, 0),
-                        anchor: new google.maps.Point(18, 18)
-                    };
-
-                    var tmpMarker = new google.maps.Marker({
-                        position: myLatlng,
-                        map: $scope.crMap,
-                        icon: icon,
-                    });
-                    $scope.driverMarkers.push(tmpMarker);
+            var a = {
+                lat: function () {
+                    return driver.position.latitude;
+                },
+                lng: function () {
+                    return driver.position.longitude;
                 }
+            };
+            var b = {
+                lat: function () {
+                    return driver.previous.latitude;
+                },
+                lng: function () {
+                    return driver.previous.longitude;
+                }
+            };
+            var heading = google.maps.geometry.spherical.computeHeading(a, b);
+            console.log("heading", heading);
+
+            var icon = {
+                url: CabrideUtils.taxiIcon(heading),
+                size: new google.maps.Size(120, 120),
+                scaledSize: new google.maps.Size(36, 36),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(18, 18)
+            };
+
+            var tmpMarker = new google.maps.Marker({
+                position: myLatlng,
+                map: $scope.crMap,
+                icon: icon,
             });
+            $scope.driverMarkers.push(tmpMarker);
         }
     };
 
@@ -339,15 +339,26 @@ angular.module('starter')
                 });
                 break;
             case "search":
-                    $scope.ride.isSearching = true;
-                    $timeout(function () {
-                        $scope.ride.isSearching = false;
-                    }, 10000);
+                $scope.requestRide();
+
                 break;
             case "none": default:
                 console.log("setPinLocation(none)");
                 break;
         }
+    };
+
+    $scope.requestRide = function () {
+        $scope.ride.isSearching = true;
+        Cabride
+        .requestRide($scope.currentRoute)
+        .then(function (response) {
+            console.log("OK", response);
+        }, function (error) {
+            console.error("KO", error);
+        }).then(function () {
+            $scope.ride.isSearching = false;
+        });
     };
 
     $scope.setPickupAddress = function () {
@@ -375,6 +386,7 @@ angular.module('starter')
                 dropoff,
                 {}
             ).then(function (route) {
+                $scope.currentRoute = route;
                 CabrideUtils.displayRoute($scope.crMap, route);
                 var leg = _.get(route, "routes[0].legs[0]", false);
                 if (leg) {

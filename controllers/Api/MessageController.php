@@ -2,11 +2,14 @@
 
 use Cabride\Controller\Base;
 use Siberian\Exception;
+use Siberian\Json;
+use Cabride\Model\Driver;
 
 /**
  * Class Cabride_Api_MessageController
  */
-class Cabride_Api_MessageController extends Base {
+class Cabride_Api_MessageController extends Base
+{
 
     /**
      * @var array
@@ -20,7 +23,8 @@ class Cabride_Api_MessageController extends Base {
     /**
      * Fetch settings & ssl certificates to run wss://
      */
-    public function settingsAction() {
+    public function settingsAction()
+    {
         try {
             /**
              * @var $sslCertificate System_Model_SslCertificates
@@ -53,11 +57,12 @@ class Cabride_Api_MessageController extends Base {
     /**
      * User must join the lobby before any action!
      */
-    public function joinLobbyAction() {
+    public function joinLobbyAction()
+    {
         try {
             $this->belongsToApp();
 
-            $payload =[
+            $payload = [
                 'success' => true,
                 'user' => $this->user,
                 'userId' => $this->userId,
@@ -75,11 +80,44 @@ class Cabride_Api_MessageController extends Base {
     /**
      *
      */
-    public function sendRequestAction() {
+    public function updatePositionAction()
+    {
         try {
             $this->belongsToApp();
 
-            $params = $this->params;
+            $request = $this->getRequest();
+            $data = $request->getBodyParams();
+
+            $driver = (new Driver)->find($this->userId, "customer_id");
+            if ($driver->getId()) {
+                $driver
+                    ->setLatitude($data["position"]["latitude"])
+                    ->setLongitude($data["position"]["longitude"])
+                    ->save();
+            }
+
+            $payload = [
+                'success' => true,
+                'user' => $this->user,
+                'userId' => $this->userId,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function sendRequestAction()
+    {
+        try {
+            $this->belongsToApp();
 
             $payload = [
                 'success' => true,

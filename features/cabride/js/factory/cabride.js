@@ -132,6 +132,18 @@ angular.module('starter')
             CabrideSocket.sendMsg(localPayload);
         };
 
+        factory.requestRide = function (route) {
+            return $pwaRequest.post('/cabride/mobile_request/ride', {
+                urlParams: {
+                    value_id: this.value_id
+                },
+                data: {
+                    route: route
+                },
+                cache: false
+            });
+        };
+
         /**
          * Short aliases
          */

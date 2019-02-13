@@ -88,9 +88,9 @@ $init = function($bootstrap) use ($initializeApiUser) {
         "send-request" => __("Send request"),
     ]);
 
-    // Registering realtimechat service
+    // Registering cabride service
     Service::registerService("CabRide WebSocket", [
-        "command" => "Cabride_Model_Service::serviceStatus",
+        "command" => "Cabride\\Model\\Service::serviceStatus",
         "text" => "Running",
     ]);
 
