@@ -2,10 +2,18 @@
 
 use Cabride\Model\Cabride;
 use Cabride\Model\Vehicle;
+use Core\Model\Base;
 
+/**
+ * @var $application Application_Model_Application
+ */
 $application = $this->getApplication();
 $request = $this->getRequest();
 $valueId = Cabride::getCurrentValueId();
+
+$price = function ($_price) {
+    return Base::_formatPrice($_price);
+};
 
 $vehicles = (new Vehicle())
     ->findAll(["value_id" => $valueId]);
@@ -32,12 +40,13 @@ $vehicles = (new Vehicle())
                             <thead>
                                 <tr class="border-grey">
                                     <th class="sortable"><?php echo p__("cabride", "ID"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Icon"); ?></th>
                                     <th class="sortable"><?php echo p__("cabride", "Vehicle type"); ?></th>
-                                    <th class="sortable"><?php echo p__("cabride", "Is visible?"); ?></th>
-                                    <th class="sortable"><?php echo p__("cabride", "Base fare"); ?></th>
-                                    <th class="sortable"><?php echo p__("cabride", "Distance fare"); ?></th>
-                                    <th class="sortable"><?php echo p__("cabride", "Time fare"); ?></th>
+                                    <th class="sortable text-right"><?php echo p__("cabride", "Base fare"); ?></th>
+                                    <th class="sortable text-right"><?php echo p__("cabride", "Distance fare"); ?></th>
+                                    <th class="sortable text-right"><?php echo p__("cabride", "Time fare"); ?></th>
                                     <th class="sortable"><?php echo p__("cabride", "Base address"); ?></th>
+                                    <th class="sortable text-right"><?php echo p__("cabride", "Is visible?"); ?></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -45,12 +54,26 @@ $vehicles = (new Vehicle())
                                 <?php foreach ($vehicles as $vehicle): ?>
                                     <tr class="sb-pager">
                                         <td><?php echo $vehicle->getId(); ?></td>
+                                        <td>
+                                            <img class="vehicle-type-icon"
+                                                 src="<?php echo $vehicle->getIconUri(); ?>" />
+                                        </td>
                                         <td><?php echo $vehicle->getType(); ?></td>
-                                        <td><?php echo $vehicle->getIsVisible(); ?></td>
-                                        <td><?php echo $vehicle->getBaseFare(); ?></td>
-                                        <td><?php echo $vehicle->getDistanceFare(); ?></td>
-                                        <td><?php echo $vehicle->getTimeFare(); ?></td>
+                                        <td class="text-right"><?php echo $price($vehicle->getBaseFare()); ?></td>
+                                        <td class="text-right"><?php echo $price($vehicle->getDistanceFare()); ?></td>
+                                        <td class="text-right"><?php echo $price($vehicle->getTimeFare()); ?></td>
                                         <td><?php echo $vehicle->getBaseAddress(); ?></td>
+                                        <td class="text-right">
+                                            <?php if ($vehicle->getIsVisible()): ?>
+                                            <span class="label label-success">
+                                                <?php echo p__("cabride", "YES"); ?>
+                                            </span>
+                                            <?php else: ?>
+                                            <span class="label label-danger">
+                                                <?php echo p__("cabride", "NO"); ?>
+                                            </span>
+                                            <?php endif; ?>
+                                        </td>
                                         <td class="text-right">
                                             <a class="btn btn-xs btn-info"
                                                href="<?php echo __path("/cabride/vehicle/edit", [
@@ -133,3 +156,10 @@ $(document).ready(function () {
     });
 });
 </script>
+<style type="text/css">
+    .vehicle-type-icon {
+        height: 60px;
+        border: 1px solid #a0a0a0;
+        border-radius: 2px;
+    }
+</style>

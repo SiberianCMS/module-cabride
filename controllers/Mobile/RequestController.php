@@ -22,6 +22,9 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
             $lat = $origin["lat"];
             $lng = $origin["lng"];
 
+            $distanceKm = ceil($route["routes"][0]["legs"][0]["distance"]["value"] / 1000);
+            $durationMinute = ceil($route["routes"][0]["legs"][0]["duration"]["value"] / 60);
+
             // Searching for closest drivers!
             // Attention, distance is computed by the fly!
             $formula = Siberian_Google_Geocoding::getDistanceFormula($lat, $lng, "cabride_driver", "latitude", "longitude");
@@ -30,7 +33,11 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
 
             $collection = [];
             foreach ($drivers as $driver) {
-                $collection[] = $driver->getData();
+                $data = $driver->getData();
+                $pricing = $driver->estimatePricing($distanceKm, $durationMinute);
+                //$data[""]
+
+                //$collection[] = ;
             }
 
             $payload = [

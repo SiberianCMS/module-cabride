@@ -71,18 +71,29 @@ class Cabride_VehicleController extends Dashboard
     }
 
     /**
-     * @throws \Zend_Exception
-     * @throws \Zend_Form_Exception
+     * @throws Zend_Exception
+     * @throws Zend_Form_Exception
+     * @throws \Siberian\exception
      */
     public function editpostAction()
     {
         $values = $this->getRequest()->getPost();
+        $optionValue = $this->getCurrentOptionValue();
 
         $form = new FormVehicle();
         if ($form->isValid($values)) {
             /** Do whatever you need when form is valid */
             $vehicle = new Vehicle();
             $vehicle->addData($values);
+
+            Siberian\Feature::formImageForOption(
+                $optionValue,
+                $vehicle,
+                $values,
+                'icon',
+                false
+            );
+
             $vehicle->save();
 
             $payload = [

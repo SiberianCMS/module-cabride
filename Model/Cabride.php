@@ -23,8 +23,7 @@ class Cabride extends Base
     }
 
     /**
-     * @return int|null
-     * @throws \Siberian\Exception
+     * @return null
      */
     public static function getCurrentValueId()
     {
@@ -34,6 +33,23 @@ class Cabride extends Base
             foreach ($options as $option) {
                 if ($option->getCode() === "cabride") {
                     return $option->getId();
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return null
+     */
+    public static function getCurrent()
+    {
+        $app = self::getApplication();
+        if ($app) {
+            $options = $app->getOptions();
+            foreach ($options as $option) {
+                if ($option->getCode() === "cabride") {
+                    return $option;
                 }
             }
         }

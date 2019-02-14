@@ -40,5 +40,27 @@ class Driver extends Core_Model_Db_Table
         return $this->toModelClass($this->_db->fetchAll($select));
     }
 
+    /**
+     * @param $valueId
+     * @return mixed
+     */
+    public function fetchForValueId($valueId)
+    {
+        $select = $this->_db->select()
+            ->from(["driver" => $this->_name])
+            ->joinInner(
+                "customer",
+                "driver.customer_id = customer.customer_id",
+                ["firstname", "lastname", "nickname", "email", "image"]
+            )
+            ->joinLeft(
+                "cabride_vehicle",
+                "driver.vehicle_id = cabride_vehicle.vehicle_id",
+                ["type", "icon", "base_fare", "distance_fare", "time_fare", "base_address"]
+            )
+            ->where("driver.value_id = ?", $valueId);
+
+        return $this->toModelClass($this->_db->fetchAll($select));
+    }
 
 }

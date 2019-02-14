@@ -24,8 +24,8 @@ $passengers = (new Client())
                         <table class="table content-white-bkg sb-pager margin-top">
                             <thead>
                             <tr class="border-grey">
-                                <th class="sortable"><?php echo p__("cabride", "ID"); ?></th>
-                                <th class="sortable"><?php echo p__("cabride", "Customer ID"); ?></th>
+                                <th class="sortable numeric"><?php echo p__("cabride", "ID"); ?></th>
+                                <th class="sortable numeric"><?php echo p__("cabride", "Customer ID"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Firstname"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Lastname"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Email"); ?></th>
@@ -35,8 +35,17 @@ $passengers = (new Client())
                             <tbody>
                             <?php foreach ($passengers as $passenger): ?>
                                 <tr class="sb-pager">
-                                    <td><?php echo $passenger->getId(); ?></td>
-                                    <td><?php echo $passenger->getCustomerId(); ?></td>
+                                    <td>
+                                        <b>#<?php echo $passenger->getId(); ?></b>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-xs btn-info"
+                                           href="<?php echo __path("/customer/application/edit/", [
+                                               "customer_id" => $passenger->getCustomerId()
+                                           ]); ?>">
+                                            #<?php echo $passenger->getCustomerId(); ?>
+                                        </a>
+                                    </td>
                                     <td><?php echo $passenger->getFirstname(); ?></td>
                                     <td><?php echo $passenger->getLastname(); ?></td>
                                     <td><?php echo $passenger->getEmail(); ?></td>

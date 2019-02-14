@@ -9,6 +9,9 @@ use Core\Model\Base;
  * @package Cabride\Model
  *
  * @method Db\Table\Driver getTable();
+ * @method float getBaseFare()
+ * @method float getDistanceFare()
+ * @method float getTimeFare()
  */
 class Driver extends Base
 {
@@ -25,9 +28,34 @@ class Driver extends Base
     }
 
     /**
+     * @param $km
+     * @param $minute
+     * @return float
+     */
+    public function estimatePricing($km, $minute)
+    {
+        $base = $this->getBaseFare();
+        $distance = $this->getDistanceFare();
+        $time = $this->getTimeFare();
+
+        $rawPrice = $base + ($distance * $km) + ($time * $minute);
+
+        return round($rawPrice, 2, PHP_ROUND_HALF_UP);
+    }
+
+    /**
+     * @param $valueId
+     * @return mixed
+     */
+    public function fetchForValueId($valueId)
+    {
+        return $this->getTable()->fetchForValueId($valueId);
+    }
+
+    /**
      * @param $valueId
      * @param $formula
-     * @return mixed
+     * @return Driver[]
      */
     public function findNearestOnline($valueId, $formula)
     {

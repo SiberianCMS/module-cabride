@@ -29,8 +29,20 @@ $schemas['cabride_vehicle'] = [
             'is_unique' => false,
         ],
     ],
+    'parent_vehicle_id' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
+    'driver_id' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
     'type' => [
         'type' => 'varchar(128)',
+    ],
+    'icon' => [
+        'type' => 'varchar(255)',
+        'null' => true,
     ],
     'base_fare' => [
         'type' => 'float',

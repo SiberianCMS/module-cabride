@@ -7,6 +7,8 @@ use Core\Model\Base;
 /**
  * Class Vehicle
  * @package Cabride\Model
+ *
+ * @method string getIcon()
  */
 class Vehicle extends Base
 {
@@ -18,7 +20,20 @@ class Vehicle extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride\Model\Db\Table\Vehicle';
+        $this->_db_table = "Cabride\Model\Db\Table\Vehicle";
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIconUri()
+    {
+        $icon = trim($this->getIcon());
+        $iconPath = !empty($icon) ?
+            "/images/application/" . $this->getIcon() :
+            "/app/local/modules/Cabride/resources/design/desktop/flat/images/car-icon.png";
+
+        return $iconPath;
     }
 }

@@ -7,8 +7,13 @@ $application = $this->getApplication();
 $request = $this->getRequest();
 $valueId = Cabride::getCurrentValueId();
 
+$settings = (new Cabride())
+    ->find($valueId, "value_id");
+
+$distanceUnit = $settings->getDistanceUnit();
+
 $drivers = (new Driver())
-    ->findAll(["value_id" => $valueId]);
+    ->fetchForValueId($valueId);
 
 ?>
 <div class="row">
@@ -24,30 +29,54 @@ $drivers = (new Driver())
                         <table class="table content-white-bkg sb-pager margin-top">
                             <thead>
                             <tr class="border-grey">
-                                <th class="sortable"><?php echo p__("cabride", "ID"); ?></th>
-                                <th class="sortable"><?php echo p__("cabride", "Customer ID"); ?></th>
-                                <th class="sortable"><?php echo p__("cabride", "Vehicle ID"); ?></th>
+                                <th class="sortable numeric"><?php echo p__("cabride", "ID"); ?></th>
+                                <th class="sortable numeric"><?php echo p__("cabride", "Customer ID"); ?></th>
+                                <th class="sortable"><?php echo p__("cabride", "Vehicle type"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Vehicle model"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "License plate"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Driving license"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Photo"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Base address"); ?></th>
-                                <th class="sortable"><?php echo p__("cabride", "Pickup radius"); ?></th>
+                                <th class="sortable numeric text-right"><?php echo p__("cabride", "Pickup radius"); ?></th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php foreach ($drivers as $driver): ?>
                                 <tr class="sb-pager">
-                                    <td><?php echo $driver->getId(); ?></td>
-                                    <td><?php echo $driver->getCustomerId(); ?></td>
-                                    <td><?php echo $driver->getVehicleId(); ?></td>
+                                    <td>
+                                        <b>#<?php echo $driver->getId(); ?></b>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-xs btn-info"
+                                           href="<?php echo __path("/customer/application/edit/", [
+                                               "customer_id" => $driver->getCustomerId()
+                                           ]); ?>">
+                                            #<?php echo $driver->getCustomerId(); ?>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <?php if (!empty($driver->getVehicleId())): ?>
+                                        <a class="btn btn-xs btn-info"
+                                           href="<?php echo __path("/cabride/vehicle/edit/", [
+                                               "vehicle_id" => $driver->getVehicleId()
+                                           ]); ?>">
+                                            #<?php echo $driver->getVehicleId() ?> - <?php echo $driver->getType(); ?>
+                                        </a>
+                                        <?php else: ?>
+                                        <span class="btn btn-xs btn-warning">
+                                            <?php echo p__("cabride", "no vehicle type"); ?>
+                                        </span>
+                                        <?php endif; ?>
+                                    </td>
                                     <td><?php echo $driver->getVehicleModel(); ?></td>
                                     <td><?php echo $driver->getVehicleLicensePlate(); ?></td>
                                     <td><?php echo $driver->getDriverLicense(); ?></td>
                                     <td><?php echo $driver->getDriverPhoto(); ?></td>
                                     <td><?php echo $driver->getBaseAddress(); ?></td>
-                                    <td><?php echo $driver->getPickupRadius(); ?></td>
+                                    <td class="text-right">
+                                        <?php echo $driver->getPickupRadius(); ?> <?php echo $distanceUnit ?>
+                                    </td>
                                     <td class="text-right">
                                         <a class="btn btn-xs btn-info"
                                            href="<?php echo __path("/cabride/driver/edit", [

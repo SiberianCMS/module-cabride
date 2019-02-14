@@ -508,3 +508,15 @@ msgstr "Driver photo"
 msgctxt "cabride"
 msgid "Status"
 msgstr "Status"
+
+msgctxt "cabride"
+msgid "no vehicle type"
+msgstr "no vehicle type"
+
+msgctxt "cabride"
+msgid "YES"
+msgstr "YES"
+
+msgctxt "cabride"
+msgid "NO"
+msgstr "NO"

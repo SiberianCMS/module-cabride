@@ -15,6 +15,7 @@ class Client extends Base
     /**
      * Client constructor.
      * @param array $params
+     * @throws \Zend_Exception
      */
     public function __construct($params = [])
     {
