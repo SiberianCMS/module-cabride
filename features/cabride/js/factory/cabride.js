@@ -4,7 +4,7 @@
 angular.module('starter')
     .factory('Cabride', function (CabrideSocket, CabridePayment, Customer, Application, Pages, Location, SB,
                                   $q, $session, $rootScope, $interval, $timeout, $log, $ionicPlatform,
-                                  $pwaRequest) {
+                                  $pwaRequest, PushService, Push) {
         var factory = {
             value_id: null,
             settings: {
@@ -259,12 +259,33 @@ angular.module('starter')
          * Fetch user
          */
         factory.fetchUser = function () {
+            factory.updateUserPush();
             return $pwaRequest.post('/cabride/mobile_view/fetch-user', {
                 urlParams: {
                     value_id: this.value_id
                 },
                 cache: false
             });
+        };
+
+        /**
+         * Ensure user is registered for pushes!
+         */
+        factory.updateUserPush = function () {
+            PushService
+                .isReadyPromise
+                .then(function () {
+                    $pwaRequest.post('/cabride/mobile_view/update-user-push', {
+                        urlParams: {
+                            value_id: this.value_id,
+                            device: Push.device_type,
+                            token: Push.device_token
+                        },
+                        cache: false
+                    });
+                }, function () {
+                    $log.info("[Ride] not registering user device for push.");
+                });
         };
 
         /**

@@ -26,8 +26,8 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
             $durationMinute = ceil($route["routes"][0]["legs"][0]["duration"]["value"] / 60);
 
             // Searching for closest drivers!
-            // Attention, distance is computed by the fly!
-            $formula = Siberian_Google_Geocoding::getDistanceFormula($lat, $lng, "cabride_driver", "latitude", "longitude");
+            //            // Attention, distance is computed by the fly!
+            $formula = Siberian_Google_Geocoding::getDistanceFormula($lat, $lng, "d", "latitude", "longitude");
 
             $drivers = (new Cabride\Model\Driver())->findNearestOnline($valueId, $formula);
 
@@ -37,7 +37,9 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
                 $pricing = $driver->estimatePricing($distanceKm, $durationMinute);
                 //$data[""]
 
-                //$collection[] = ;
+                $data["pricing"] = $pricing;
+
+                $collection[] = $data;
             }
 
             $payload = [
@@ -51,7 +53,8 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
         } catch (\Exception $e) {
             $payload = [
                 "error" => true,
-                "message" => __("An unknown error occurred, please try again later.")
+                "message" => __("An unknown error occurred, please try again later."),
+                "except" => $e->getMessage()
             ];
         }
 

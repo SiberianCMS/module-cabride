@@ -1,10 +1,9 @@
 <?php
 
+use Cabride\Model\PushDevice;
 use Cabride\Model\Cabride;
-use Cabride\Model\Driver;
 use Cabride\Model\Client;
-use Siberian\Json;
-use Siberian\Exception;
+use Cabride\Model\Driver;
 
 /**
  * Class Cabride_Mobile_ViewController
@@ -18,13 +17,15 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
     {
         try {
             // Fetch installation config file!
-            $configFile = path("/app/local/modules/Cabride/resources/server/config.json");
+            $configFile = Core_Model_Directory::getBasePathTo(
+                "/app/local/modules/Cabride/resources/server/config.json"
+            );
 
             if (!file_exists($configFile)) {
-                throw new Exception(__("The configuration files is missing!"));
+                throw new \Siberian\Exception(__("The configuration files is missing!"));
             }
 
-            $config = Json::decode(file_get_contents($configFile));
+            $config = \Siberian_Json::decode(file_get_contents($configFile));
             $wssUrl = $config["wssHost"] . ":" . $config["port"] . "/cabride";
 
             // DB Config!
@@ -167,6 +168,46 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
     /**
      *
      */
+    public function updateUserPushAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $valueId = $this->getCurrentOptionValue()->getId();
+            $customerId = $this->getSession()->getCustomerId();
+            $device = $request->getParam("device", null);
+            $token = $request->getParam("token", null);
+
+            if (empty($customerId) || empty($device) || empty($token)) {
+                throw new Siberian\Exception(__("A value is missing."));
+            }
+
+            $pushDevice = (new PushDevice())
+                ->find($customerId, "customer_id");
+
+            $pushDevice
+                ->setCustomerId($customerId)
+                ->setValueId($valueId)
+                ->setDevice($device)
+                ->setToken($token)
+                ->save();
+
+            $payload = [
+                "success" => true,
+                "message" => __("Success"),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
     public function toggleOnlineAction ()
     {
         try {
@@ -182,7 +223,7 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 ]);
 
             if (!$driver->getId()) {
-                throw new Exception(p__("cabride", "You are not registered as a driver! Please contact the App owner."));
+                throw new \Siberian\Exception(p__("cabride", "You are not registered as a driver! Please contact the App owner."));
 
             }
 

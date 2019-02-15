@@ -2,7 +2,7 @@
  * Cabride version 2 controllers
  */
 angular.module('starter')
-.controller('CabrideHome', function ($window, $scope, $rootScope, $timeout, $translate, $ionicSideMenuDelegate,
+.controller('CabrideHome', function ($window, $scope, $rootScope, $timeout, $translate, $ionicSideMenuDelegate, Modal,
                                      Cabride, CabrideUtils, Customer, ContextualMenu, GoogleMaps, Dialog, Location, SB) {
     angular.extend($scope, {
         pageTitle: $translate.instant("CabRide"),
@@ -353,12 +353,41 @@ angular.module('starter')
         Cabride
         .requestRide($scope.currentRoute)
         .then(function (response) {
-            console.log("OK", response);
+            if (response.collection && response.collection.length > 0) {
+                $scope.showModal(response.collection);
+            } else {
+                Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK");
+            }
         }, function (error) {
-            console.error("KO", error);
+            Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK");
         }).then(function () {
             $scope.ride.isSearching = false;
         });
+    };
+
+    $scope.showModal = function (vehicles) {
+        Modal
+        .fromTemplateUrl("features/cabride/assets/templates/l1/modal/vehicle-type.html", {
+            scope: angular.extend($scope.$new(true), {
+                close: function () {
+                    $scope.vtModal.hide();
+                },
+                select: function (vehicle) {
+                    $scope.selectVehicle(vehicle);
+                },
+                vehicles: vehicles
+            }),
+            animation: 'slide-in-up'
+        }).then(function (modal) {
+            $scope.vtModal = modal;
+            $scope.vtModal.show();
+
+            return modal;
+        });
+    };
+
+    $scope.selectVehicle = function (vehicle) {
+        console.log("Selected vehicle", vehicle);
     };
 
     $scope.setPickupAddress = function () {

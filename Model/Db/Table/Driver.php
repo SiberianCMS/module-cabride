@@ -28,13 +28,27 @@ class Driver extends Core_Model_Db_Table
     public function findNearestOnline($valueId, $formula)
     {
         $select = $this->_db->select()
-            ->from($this->_name, [
-                "*",
-                "distance" => $formula
-            ])
-            ->where("value_id = ?", $valueId)
-            ->where("(latitude != 0 AND longitude != 0)")
-            //->having("distance < 10000")
+            ->from(
+                ["d" => $this->_name],
+                [
+                    "*",
+                    "distance" => $formula
+                ]
+            )
+            ->joinInner(
+                ["v" => "cabride_vehicle"],
+                "v.vehicle_id = d.vehicle_id",
+                [
+                    "type",
+                    "icon",
+                    "base_fare",
+                    "distance_fare",
+                    "time_fare",
+                ]
+            )
+            ->where("d.value_id = ?", $valueId)
+            ->where("(d.latitude != 0 AND d.longitude != 0)")
+            //->having("d.distance < 10000")
         ;
 
         return $this->toModelClass($this->_db->fetchAll($select));
