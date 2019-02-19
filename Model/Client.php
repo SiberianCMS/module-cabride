@@ -32,4 +32,17 @@ class Client extends Base
     {
         return $this->getTable()->fetchForValueId($valueId);
     }
+
+    /**
+     * @return bool
+     */
+    public function hasInProgressRequest()
+    {
+        $result = $this->getTable()->hasInProgressRequest($this->getClientId());
+
+        if (array_key_exists("total", $result) && $result["total"] > 0) {
+            return true;
+        }
+        return false;
+    }
 }

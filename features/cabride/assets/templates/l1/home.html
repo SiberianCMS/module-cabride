@@ -55,7 +55,8 @@
                 <div id="cr-map-overlay">
 
                     <!-- Pick-up & Drop-off -->
-                    <div class="cr-map-location">
+                    <div ng-show="isPassenger"
+                         class="cr-map-location">
                         <div class="cr-map-pickup">
                             <label class="cr-pickup-text">
                                 <input type="text"
@@ -107,7 +108,7 @@
                     </div>
 
                     <!-- Direction information & request -->
-                    <div ng-if="pinText().action === 'search'"
+                    <div ng-if="isPassenger && pinText().action === 'search'"
                          class="cr-map-request">
                         <div class="cr-map-distance">
                             <span class="cr-request-label">{{ "Distance" | translate }}</span>
@@ -122,7 +123,7 @@
                     <!-- Centered static map pinPoint -->
                     <div class="cr-map-pin">
                         <div class="cr-pin-text"
-                             ng-if="pinText().action !== 'none'"
+                             ng-if="isPassenger && pinText().action !== 'none'"
                              ng-click="setPinLocation(pinText().action)"
                              ng-bind-html="pinText().text"></div>
                         <div class="cr-pin-icon">
@@ -131,7 +132,7 @@
                     </div>
 
                     <!-- Loading overlay! -->
-                    <div ng-if="pinText().action === 'loading'"
+                    <div ng-if="isPassenger && pinText().action === 'loading'"
                          class="cr-map-loading">
                         <div class="cr-map-loader">
                             <div class="cr-loader-spinner">

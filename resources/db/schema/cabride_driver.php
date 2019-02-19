@@ -56,15 +56,23 @@ $schemas['cabride_driver'] = [
     ],
     'vehicle_model' => [
         'type' => 'varchar(128)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
     ],
     'vehicle_license_plate' => [
         'type' => 'varchar(128)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
     ],
     'driver_license' => [
         'type' => 'varchar(128)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
     ],
     'driver_photo' => [
         'type' => 'varchar(128)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
     ],
     'base_address' => [
         'type' => 'text',

@@ -39,9 +39,13 @@ $schemas['cabride_vehicle'] = [
     ],
     'type' => [
         'type' => 'varchar(128)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
     ],
     'icon' => [
         'type' => 'varchar(255)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
         'null' => true,
     ],
     'base_fare' => [

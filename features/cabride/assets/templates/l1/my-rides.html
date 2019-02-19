@@ -1,0 +1,58 @@
+<ion-view sb-page-background
+          class="cabride cabride-view cabride-my-rides">
+    <ion-nav-title>{{ pageTitle }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="refresh()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <div ng-if="isLoading"
+             class="loader">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div ng-if="!isLoading">
+            <div ng-if="collection.length == 0 || filtered.length == 0"
+                 class="list">
+                <div class="item item-custom">{{ "You have no rides" | translate }}</div>
+            </div>
+
+            <div ng-if="collection.length > 0"
+                 class="list">
+                <div ng-repeat="request in collection | cabrideStatusFilter:statuses as filtered"
+                     class="item item-custom">
+                    <div class="cabride-course">
+                        <div class="course-image">
+                            <img ng-src="{{ imagePath(request.static_image) }}" />
+                        </div>
+                        <div>
+                            <div class="driver-photo">
+                                <img src="" />
+                            </div>
+                            <span class="course-status {{ request.status }}">{{ request.status | translate }}</span>
+                            <span class="vehicle-type">{{ request.type }}</span>
+                            <span class="course-cost">{{ request.estimated_cost }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+    <div class="tabs tabs-icon-top">
+        <a ng-click="statusFilter('inprogress')"
+           class="tab-item">
+            <i class="icon ion-clock"></i>
+            {{ "In progress" | translate }}
+        </a>
+        <a ng-click="statusFilter('archives')"
+           class="tab-item">
+            <i class="icon ion-archive"></i>
+            {{ "Archives" | translate }}
+        </a>
+    </div>
+</ion-view>

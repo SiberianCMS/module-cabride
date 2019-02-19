@@ -1,6 +1,37 @@
 <?php
+
+use Cabride\Model\Cabride;
+use Cabride\Model\Request;
+
 $application = $this->getApplication();
 $request = $this->getRequest();
+$valueId = Cabride::getCurrentValueId();
+
+
+$rides = (new Request())->findAll([
+    "value_id = ?" => $valueId,
+], [
+    "created_at DESC"
+], [
+    "limit" => 1000 // Only 1000 last ride requests for now.
+]);
+
+function colorForStatus ($status) {
+    switch ($status) {
+        case "pending":
+            return "label-info";
+        case "accepted":
+            return "label-info";
+        case "done":
+            return "label-success";
+        case "declined":
+            case "aborted":
+            return "label-danger";
+        case "expired":
+            return "label-warning";
+    }
+}
+
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -8,33 +39,52 @@ $request = $this->getRequest();
             <div id="apis_content"
                  class="content solo-page sb-tour">
                 <h3 class="title-editor border-blue text-center">
-                    <?php echo __("CabRide Rides"); ?>
+                    <?php echo p__("cabride", "Ride requests"); ?>
                 </h3>
                 <div class="subcontent content-color">
                     <div class="col-md-12">
-                        <?php
-
-
-
-                        ?>
-                        <h1>// 1. List & Manage requests 2 days</h1>
-                        <h1>// 2. Request details 1 day</h1>
-                        <table class="table">
+                        <table class="table content-white-bkg sb-pager margin-top">
                             <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Passager + Link</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Cout total</th>
-                                    <th>Status paiement</th>
-                                    <!--
-                                        + Mode de paiement
-                                        + Addresse de départ/destination
-                                        + Nom du conducteur + Link
-                                    -->
-                                </tr>
+                            <tr class="border-grey">
+                                <th class="sortable numeric"><?php echo p__("cabride", "ID"); ?></th>
+                                <th class="sortable"><?php echo p__("cabride", "Client"); ?></th>
+                                <th class="sortable"><?php echo p__("cabride", "Driver"); ?></th>
+                                <th class="sortable numeric text-right"><?php echo p__("cabride", "Distance"); ?></th>
+                                <th class="sortable numeric text-right"><?php echo p__("cabride", "Duration"); ?></th>
+                                <th class="sortable numeric text-right"><?php echo p__("cabride", "Est. cost"); ?></th>
+                                <th class="sortable"><?php echo p__("cabride", "Ride"); ?></th>
+                                <th class="sortable"><?php echo p__("cabride", "Status"); ?></th>
+                                <th></th>
+                            </tr>
                             </thead>
+                            <tbody>
+                            <?php foreach ($rides as $ride): ?>
+                                <tr class="sb-pager">
+                                    <td><?php echo $ride->getId(); ?></td>
+                                    <td><?php echo $ride->getClientId(); ?></td>
+                                    <td><?php echo $ride->getDriverId(); ?></td>
+                                    <td class="text-right"><?php echo $ride->getDistance(); ?>m</td>
+                                    <td class="text-right"><?php echo $ride->getDuration(); ?></td>
+                                    <td class="text-right"><?php echo $ride->getEstimatedCost(); ?>€</td>
+                                    <td>
+                                        <?php echo $ride->getFromAddress(); ?><br />
+                                        <?php echo $ride->getToAddress(); ?>
+                                    </td>
+                                    <td>
+                                        <span class="label <?php echo colorForStatus($ride->getStatus()) ?>">
+                                                <?php echo p__("cabride", $ride->getStatus()); ?>
+                                        </span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9">
+                                        <?php echo p__("cabride", "No results for your search.") ?>
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -43,5 +93,13 @@ $request = $this->getRequest();
     </div>
 </div>
 <script type="text/javascript">
+    var searchPlaceholder = '<?php echo __js("Search ...", "'") ?>';
+    $(document).ready(function () {
+        bindForms("#vehicle_content");
 
+        $("table.sb-pager").sbpager({
+            with_search: true,
+            search_placeholder: searchPlaceholder
+        });
+    });
 </script>

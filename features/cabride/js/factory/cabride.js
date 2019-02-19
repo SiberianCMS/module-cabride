@@ -119,6 +119,15 @@ angular.module('starter')
             }
         };
 
+        factory.getMyRides = function () {
+            return $pwaRequest.post('/cabride/mobile_ride/me', {
+                urlParams: {
+                    value_id: this.value_id
+                },
+                cache: false
+            });
+        };
+
         factory.onError = function (message) {
             $log.error('cabride socket onerror', message);
         };
@@ -138,6 +147,19 @@ angular.module('starter')
                     value_id: this.value_id
                 },
                 data: {
+                    route: route
+                },
+                cache: false
+            });
+        };
+
+        factory.validateRequest = function (vehicleType, route) {
+            return $pwaRequest.post('/cabride/mobile_request/validate', {
+                urlParams: {
+                    value_id: this.value_id
+                },
+                data: {
+                    vehicleType: vehicleType,
                     route: route
                 },
                 cache: false

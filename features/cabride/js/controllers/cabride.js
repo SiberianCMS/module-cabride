@@ -2,8 +2,8 @@
  * Cabride version 2 controllers
  */
 angular.module('starter')
-.controller('CabrideHome', function ($window, $scope, $rootScope, $timeout, $translate, $ionicSideMenuDelegate, Modal,
-                                     Cabride, CabrideUtils, Customer, ContextualMenu, GoogleMaps, Dialog, Location, SB) {
+.controller('CabrideHome', function ($window, $state, $scope, $rootScope, $timeout, $translate, $ionicSideMenuDelegate, Modal,
+                                     Cabride, CabrideUtils, Customer, Loader, ContextualMenu, GoogleMaps, Dialog, Location, SB) {
     angular.extend($scope, {
         pageTitle: $translate.instant("CabRide"),
         valueId: Cabride.getValueId(),
@@ -47,10 +47,10 @@ angular.module('starter')
         $scope.drawDrivers(payload.drivers);
     });
 
-    $scope.$on('$ionicView.enter', function() {
+    $scope.$on('$ionicView.enter', function () {
         $ionicSideMenuDelegate.canDragContent(false);
     });
-    $scope.$on('$ionicView.leave', function() {
+    $scope.$on('$ionicView.leave', function () {
         $ionicSideMenuDelegate.canDragContent(true);
     });
 
@@ -86,7 +86,8 @@ angular.module('starter')
                     $scope.setIsPassenger(true);
                 },
                 /** Logout */
-                function () {},
+                function () {
+                },
                 /** Register */
                 function () {
                     $scope.setIsPassenger(true);
@@ -113,7 +114,8 @@ angular.module('starter')
                     $scope.setIsDriver(true);
                 },
                 /** Logout */
-                function () {},
+                function () {
+                },
                 /** Register */
                 function () {
                     $scope.setIsDriver(true);
@@ -155,10 +157,10 @@ angular.module('starter')
             icon: icon
         });
 
-        google.maps.event.addListener($scope.crMap, 'center_changed', function() {
+        google.maps.event.addListener($scope.crMap, 'center_changed', function () {
             // 0.5 seconds after the center of the map has changed,
             // set back the marker position.
-            $timeout(function() {
+            $timeout(function () {
                 var center = $scope.crMap.getCenter();
                 $scope.crMapPin.setPosition(center);
             }, 500);
@@ -260,7 +262,7 @@ angular.module('starter')
         CabrideUtils.clearRoute();
     };
 
-    $scope.pinText = function() {
+    $scope.pinText = function () {
         if ($scope.ride.pickupAddress === "") {
             return {
                 action: "pickup",
@@ -342,7 +344,8 @@ angular.module('starter')
                 $scope.requestRide();
 
                 break;
-            case "none": default:
+            case "none":
+            default:
                 console.log("setPinLocation(none)");
                 break;
         }
@@ -353,7 +356,7 @@ angular.module('starter')
         Cabride
         .requestRide($scope.currentRoute)
         .then(function (response) {
-            if (response.collection && response.collection.length > 0) {
+            if (response.collection && Object.keys(response.collection).length > 0) {
                 $scope.showModal(response.collection);
             } else {
                 Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK");
@@ -372,8 +375,8 @@ angular.module('starter')
                 close: function () {
                     $scope.vtModal.hide();
                 },
-                select: function (vehicle) {
-                    $scope.selectVehicle(vehicle);
+                select: function (vehicleType) {
+                    $scope.selectVehicle(vehicleType);
                 },
                 vehicles: vehicles
             }),
@@ -386,8 +389,29 @@ angular.module('starter')
         });
     };
 
-    $scope.selectVehicle = function (vehicle) {
-        console.log("Selected vehicle", vehicle);
+    $scope.selectVehicle = function (vehicleType) {
+        Loader.show("Sending request ...");
+        Cabride
+        .validateRequest(vehicleType, $scope.currentRoute)
+        .then(function (response) {
+            Loader.hide();
+            Dialog
+            .alert("", "Request sent! Please wait for a driver!", "OK")
+            .then(function () {
+                $scope.vtModal.hide();
+                $state.go("cabride-my-rides");
+            });
+            // Clear ride
+            $scope.clearSearch();
+        }, function (error) {
+            Loader.hide();
+            Dialog
+            .alert("", error.message, "OK")
+            .then(function () {
+                $scope.vtModal.hide();
+                $state.go("cabride-my-rides");
+            });
+        });
     };
 
     $scope.setPickupAddress = function () {
@@ -490,10 +514,10 @@ angular.module('starter')
 
     // Init build!
     GoogleMaps
-        .ready
-        .then(function () {
-            $scope.rebuild();
-        });
+    .ready
+    .then(function () {
+        $scope.rebuild();
+    });
 
     // On load!
     $scope.init = function () {
@@ -503,7 +527,8 @@ angular.module('starter')
                 /** Login */
                 $scope.init,
                 /** Logout */
-                function () {},
+                function () {
+                },
                 /** Register */
                 $scope.init);
 
@@ -590,6 +615,89 @@ angular.module('starter')
 });
 
 angular.module('starter')
+.controller('CabrideMyRides', function ($scope, $translate, Cabride, Dialog) {
+    angular.extend($scope, {
+        isLoading: false,
+        pageTitle: $translate.instant("My rides"),
+        valueId: Cabride.getValueId(),
+        collection: [],
+        statuses: [
+            "pending",
+            "accepted"
+        ]
+    });
+
+    $scope.loadPage = function () {
+        $scope.isLoading = true;
+        Cabride
+        .getMyRides()
+        .then(function (payload) {
+            $scope.collection = payload.collection;
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            $scope.isLoading = false;
+        });
+    };
+
+    $scope.distance = function (request) {
+        return Math.ceil(request.distance / 1000) + "Km";
+    };
+
+    $scope.duration = function (request) {
+        return $scope.toHHMM(request.duration);
+    };
+
+    $scope.refresh = function () {
+        $scope.loadPage();
+    };
+
+    $scope.imagePath = function (image) {
+        if (image === "") {
+            return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg";
+        }
+        return IMAGE_URL + "images/application" + image;
+    };
+
+    $scope.statusFilter = function (filter) {
+        // "pending", "accepted", "declined", "done", "aborted", "expired"
+        switch (filter) {
+            case "inprogress":
+                $scope.statuses = ["pending", "accepted"];
+                break;
+            case "archives":
+                $scope.statuses = ["declined", "done", "aborted", "expired"];
+                break;
+        }
+    };
+
+    $scope.toHHMM = function (seconds) {
+        var sec_num = parseInt(seconds, 10); // don't forget the second param
+        var hours = Math.floor(sec_num / 3600);
+        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+
+        var text = "";
+        if (minutes !== "00") {
+            text = text + minutes;
+        }
+        if (hours !== "00") {
+            text = hours + ":" + text;
+        }
+
+        return text;
+    };
+
+    $scope.loadPage();
+});
+
+angular.module('starter')
 .controller('CabridePendingRequests', function ($scope, $translate, Cabride) {
     angular.extend($scope, {
         pageTitle: $translate.instant("Pending requests"),
@@ -665,6 +773,9 @@ angular.module('starter')
             $ionicSideMenuDelegate.toggleRight();
         }
         switch (identifier) {
+            case "my-rides":
+                $state.go("cabride-my-rides");
+                break;
             case "cabride-home":
                 $state.go("cabride-home");
                 break;
@@ -715,7 +826,7 @@ angular.module('starter')
 
     // On load!
     Customer.find()
-    .then(function(customer) {
+    .then(function (customer) {
         $scope.customer = customer;
         $scope.customer.metadatas = _.isObject($scope.customer.metadatas)
             ? $scope.customer.metadatas
@@ -733,7 +844,7 @@ angular.module('starter')
         if ($scope.isLoggedIn) {
             Customer
             .find()
-            .then(function(customer) {
+            .then(function (customer) {
                 $scope.customer = customer;
                 $scope.customer.metadatas = _.isObject($scope.customer.metadatas)
                     ? $scope.customer.metadatas

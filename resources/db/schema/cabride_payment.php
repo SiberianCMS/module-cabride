@@ -37,6 +37,8 @@ $schemas['cabride_payment'] = [
     ],
     'status' => [
         'type' => 'varchar(128)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
     ],
     'created_at' => [
         'type' => 'datetime',

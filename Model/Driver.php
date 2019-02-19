@@ -3,15 +3,18 @@
 namespace Cabride\Model;
 
 use Core\Model\Base;
+use Siberian\Json;
 
 /**
  * Class Driver
  * @package Cabride\Model
  *
- * @method Db\Table\Driver getTable();
+ * @method Db\Table\Driver getTable()
+ * @method integer getDriverId()
  * @method float getBaseFare()
  * @method float getDistanceFare()
  * @method float getTimeFare()
+ * @method integer getVehicleId()
  */
 class Driver extends Base
 {
@@ -28,24 +31,42 @@ class Driver extends Base
     }
 
     /**
-     * @param $km
-     * @param $minute
-     * @return float
+     * @param $id
+     * @param null $field
+     * @return Driver
+     * @throws \Zend_Exception
      */
-    public function estimatePricing($km, $minute)
+    public function findExtended($id, $field = null)
     {
-        $base = $this->getBaseFare();
-        $distance = $this->getDistanceFare();
-        $time = $this->getTimeFare();
+        return $this->getTable()->findExtended($id, $field);
+    }
 
-        $rawPrice = $base + ($distance * $km) + ($time * $minute);
+    /**
+     * @param $requestId
+     */
+    public function notifyNewrequest ($requestId)
+    {
+        // @todo notify driver!
+    }
 
-        return round($rawPrice, 2, PHP_ROUND_HALF_UP);
+    /**
+     * @return array
+     */
+    public function getFilteredData()
+    {
+        $filter = [
+            "driver_id",
+            "type",
+            "icon",
+            "vehicle_model",
+        ];
+
+        return array_intersect_key($this->getData(), array_flip($filter));
     }
 
     /**
      * @param $valueId
-     * @return mixed
+     * @return Driver[]
      */
     public function fetchForValueId($valueId)
     {
@@ -56,6 +77,7 @@ class Driver extends Base
      * @param $valueId
      * @param $formula
      * @return Driver[]
+     * @throws \Zend_Exception
      */
     public function findNearestOnline($valueId, $formula)
     {

@@ -47,6 +47,7 @@ class Cabride_ClientController extends Application_Controller_Default
     }
 
     /**
+     * @throws Zend_Exception
      * @throws Zend_Form_Exception
      */
     public function editpostAction()
@@ -77,6 +78,7 @@ class Cabride_ClientController extends Application_Controller_Default
     }
 
     /**
+     * @throws Zend_Exception
      * @throws Zend_Form_Exception
      */
     public function deletepostAction()

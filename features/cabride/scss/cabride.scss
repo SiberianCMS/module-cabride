@@ -272,6 +272,60 @@
       }
     }
   }
+
+  /** My rides */
+  .cabride-course {
+    .course-image {
+      margin: -16px -16px 0 -16px;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .course-status {
+      position: absolute;
+      top: 1em;
+      left: 0;
+      padding: .25em .5em;
+      text-transform: uppercase;
+
+      &.pending {
+        color: $button-custom-text;
+        background-color: $button-custom-bg;
+      }
+      &.accepted {
+        color: $button-positive-custom-text;
+        background-color: $button-positive-custom-bg;
+      }
+      &.declined {
+        color: $button-assertive-custom-text;
+        background-color: $button-assertive-custom-bg;
+      }
+      &.done {
+        color: $button-balanced-custom-text;
+        background-color: $button-balanced-custom-bg;
+      }
+      &.aborted {
+        color: $button-light-custom-text;
+        background-color: $button-light-custom-bg;
+      }
+      &.expired {
+        color: $button-light-custom-text;
+        background-color: $button-light-custom-bg;
+      }
+    }
+
+    .vehicle-type {
+
+    }
+
+    .course-cost {
+      float: right;
+    }
+  }
+
+
 }
 
 /** Contextual menu (=layout_taxi) */

@@ -14,11 +14,11 @@
     <ion-content>
         <div class="list list-item">
             <div class="item item-custom"
-                 ng-click="select(vehicle)"
-                 ng-repeat="vehicle in vehicles">
+                 ng-click="select(vehicleType)"
+                 ng-repeat="(vehicleId, vehicleType) in vehicles">
                 <div class="row">
-                    <div class="col-75"><b>{{ vehicle.type }}</b></div>
-                    <div class="col-25 right"><b>{{ vehicle.pricing }} {{ vehicle.currency }}</b></div>
+                    <div class="col-75"><b>{{ vehicleType.type }}</b></div>
+                    <div class="col-25 text-right"><b>{{ vehicleType.pricing }}</b></div>
                 </div>
             </div>
         </div>

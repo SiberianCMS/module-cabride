@@ -15,44 +15,42 @@ $schemas['cabride_request'] = [
     ],
     'client_id' => [
         'type' => 'int(11) unsigned',
-        'foreign_key' => [
-            'table' => 'cabride_client',
-            'column' => 'client_id',
-            'name' => 'FK_CABRIDE_CID_CLIENT_CID',
-            'on_update' => 'CASCADE',
-            'on_delete' => 'CASCADE',
-        ],
-        'index' => [
-            'key_name' => 'client_id',
-            'index_type' => 'BTREE',
-            'is_null' => false,
-            'is_unique' => false,
-        ],
+    ],
+    'driver_id' => [
+        'type' => 'int(11) unsigned',
+    ],
+    'vehicle_id' => [
+        'type' => 'int(11) unsigned',
     ],
     'value_id' => [
         'type' => 'int(11) unsigned',
-        'foreign_key' => [
-            'table' => 'application_option_value',
-            'column' => 'value_id',
-            'name' => 'FK_CABRIDE_REQUEST_VID_AOV_VID',
-            'on_update' => 'CASCADE',
-            'on_delete' => 'CASCADE',
-        ],
-        'index' => [
-            'key_name' => 'value_id',
-            'index_type' => 'BTREE',
-            'is_null' => false,
-            'is_unique' => false,
-        ],
     ],
-    'status' => [
+    'status' => [ // "pending", "accepted", "declined", "done", "aborted", "expired"
         'type' => 'varchar(128)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'static_image' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'estimated_cost' => [
+        'type' => 'float',
     ],
     'cost' => [
         'type' => 'float',
     ],
+    'distance' => [
+        'type' => 'float',
+    ],
+    'duration' => [
+        'type' => 'float',
+    ],
     'from_address' => [
         'type' => 'text',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
     ],
     'from_lat' => [
         'type' => 'float',
@@ -71,6 +69,13 @@ $schemas['cabride_request'] = [
     ],
     'request_mode' => [ // Immediate, Booked
         'type' => 'varchar(128)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'raw_route' => [
+        'type' => 'longtext',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
     ],
     'created_at' => [
         'type' => 'datetime',

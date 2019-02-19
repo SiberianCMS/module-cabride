@@ -12,9 +12,7 @@ use Siberian\Exception;
 class Cabride_GatewayController extends Application_Controller_Default
 {
     /**
-     * Create/Edit Payment
      *
-     * @throws exception
      */
     public function editpostAction()
     {

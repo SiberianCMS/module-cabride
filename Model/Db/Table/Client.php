@@ -33,4 +33,19 @@ class Client extends Core_Model_Db_Table
 
         return $this->toModelClass($this->_db->fetchAll($select));
     }
+
+    /**
+     * @param $clientId
+     * @return mixed
+     */
+    public function hasInProgressRequest($clientId)
+    {
+        $select = $this->_db
+            ->select()
+            ->from("cabride_request", ["COUNT(*) AS total"])
+            ->where("client_id = ?", $clientId)
+            ->where("status IN (?)", ["pending", "accepted"]);
+
+        return $this->_db->fetchRow($select);
+    }
 }

@@ -7,6 +7,10 @@ use Core\Model\Base;
 /**
  * Class Cabride
  * @package Cabride\Model
+ *
+ * @method $this find($id, $field = null)
+ * @method string getDistanceUnit()
+ * @method integer getSearchRadius()
  */
 class Cabride extends Base
 {

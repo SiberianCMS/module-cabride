@@ -40,14 +40,14 @@ $acls = [
 ];
 
 // Find feature_cabride
-$cabride = (new Acl_Model_Resource())->find("feature_cabride", "code");
+$cabride = (new Acl_Model_Resource())->find("cabride_manager", "code");
 if (!$cabride->getId()) {
     $cabride
         ->setData(
             [
-                "code" => "feature_cabride",
-                "label" => "Cabride",
-                "url" => "cabride/application/*",
+                "code" => "cabride_manager",
+                "label" => "Cabride manager",
+                "url" => "cabride/*",
             ]
         )->save();
 }
