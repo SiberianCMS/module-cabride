@@ -32,6 +32,11 @@ use Siberian\Json;
  */
 class Request extends Base
 {
+    const SOURCE_CLIENT = "client";
+    const SOURCE_DRIVER = "driver";
+    const SOURCE_CRON = "cron";
+    const SOURCE_ADMIN = "admin";
+
     /**
      * Request constructor.
      * @param array $params
@@ -45,16 +50,44 @@ class Request extends Base
     }
 
     /**
-     * Sends a push notification to the driver!
+     * Notify the driver!
      */
     public function notifyDriver()
     {
-
+        switch ($this->getStatus()) {
+            // Notify depends on the current status!
+        }
     }
 
+    /**
+     * Notify the client!
+     */
+    public function notifyClient()
+    {
+        switch ($this->getStatus()) {
+            // Notify depends on the current status!
+        }
+    }
+
+    /**
+     * @param $valueId
+     * @param $clientId
+     * @return mixed
+     */
     public function findExtended($valueId, $clientId)
     {
         return $this->getTable()->findExtended($valueId, $clientId) ;
+    }
+
+    /**
+     * @param $valueId
+     * @param $clientId
+     * @param $status
+     * @return mixed
+     */
+    public function findForDriver($valueId, $clientId, $status)
+    {
+        return $this->getTable()->findForDriver($valueId, $clientId, $status);
     }
 
     /**
@@ -81,6 +114,8 @@ class Request extends Base
                 "color:green|size:mid|{$destLat},{$destLng}",
             ],
             "path" => "enc:{$points}",
+            "size" => "600x220",
+            "scale" => "2"
         ];
 
         $mapStaticUri = Geocoding::mapStatic($gmapsKey, $options);
@@ -136,6 +171,31 @@ class Request extends Base
     }
 
     /**
+     * @return Request[]
+     */
+    public function fetchPending()
+    {
+        return $this->getTable()->fetchPending();
+    }
+
+    /**
+     * @param $status
+     * @param $source
+     * @throws \Zend_Exception
+     */
+    public function changeStatus($status, $source)
+    {
+        $statusFrom = $this->getStatus();
+        $statusTo = $status;
+
+        $this
+            ->setStatus($status)
+            ->save();
+
+        self::log($this, $statusFrom, $statusTo, $source);
+    }
+
+    /**
      * @param $request
      * @param $statusFrom
      * @param $statusTo
@@ -152,5 +212,28 @@ class Request extends Base
             ->setStatusTo($statusTo)
             ->setSource($source)
             ->save();
+    }
+
+    /**
+     * @param \Cron_Model_Cron $cron
+     * @throws \Zend_Exception
+     */
+    public static function toExpire($cron)
+    {
+        $now = time();
+        // Fetch all pending requests
+        $pendingRequests = (new self())->fetchPending();
+        foreach ($pendingRequests as $pendingRequest) {
+            $data = $pendingRequest->getData();
+            $expireAt = $data["timestamp"] + $data["search_timeout"];
+            $id  = $data["request_id"];
+
+            if ($now > $expireAt) {
+                $cron->log("[Cabride] now {$now} / {$expireAt}.");
+                $cron->log("[Cabride] marking request_id {$id} as expired.");
+
+                $pendingRequest->changeStatus("expired", self::SOURCE_CRON);
+            }
+        }
     }
 }

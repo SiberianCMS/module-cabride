@@ -1,10 +1,59 @@
 <ion-view sb-page-background
-          class="cabride cabride-view cabride-cancelled">
+          class="cabride cabride-view cabride-pending">
     <ion-nav-title>{{ pageTitle }}</ion-nav-title>
 
+    <ion-nav-buttons side="secondary">
+        <button ng-click="refresh()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+    </ion-nav-buttons>
+
     <ion-content>
-        <div class="list">
-            <div class="item item-custom">{{ "You have no cancelled rides" | translate }}</div>
+        <div ng-if="isLoading"
+             class="loader">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div ng-if="!isLoading">
+            <div ng-show="collection.length == 0"
+                 class="list">
+                <div class="item item-custom text-center">{{ "You have no cancelled requests" | translate }}</div>
+            </div>
+
+            <div ng-if="collection.length > 0"
+                 class="list">
+                <div ng-repeat="request in collection"
+                     class="item item-custom item-course">
+                    <div class="cabride-course">
+                        <div class="course-image">
+                            <img ng-src="{{ imagePath(request.static_image) }}" />
+                        </div>
+                        <div>
+                            <span class="course-status {{ request.driver_status }}">{{ request.driver_status | translate }}</span>
+                            <span class="course-expiration {{ request.driver_status }}">{{ "Expires" }} {{ expiration(request) }}</span>
+                            <div class="row course-details">
+                                <div class="col-75">
+                                    <span class="vehicle-type">{{ request.from_address }}</span>
+                                    <br />
+                                    <span class="course-date">{{ request.to_address }}</span>
+                                </div>
+                                <div class="col-25 text-right">
+                                    <span class="vehicle-type">{{ request.formatted_price }}</span>
+                                    <br />
+                                    <span class="course-date">{{ distance(request) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <div class="action-accept">
+                                <button ng-click="accept(request.request_id)"
+                                        class="button button-full button-positive button-positive-custom">{{ "ACCEPT" | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </ion-content>
 </ion-view>

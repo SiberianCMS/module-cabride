@@ -62,6 +62,21 @@ class Service extends Base
     }
 
     /**
+     * @param \Cron_Model_Cron $cron
+     * @throws \Zend_Exception
+     */
+    public static function watch ($cron)
+    {
+        $cron->log("[Cabride] watcher start");
+
+        // Expire requests
+        Request::toExpire($cron);
+
+
+        $cron->log("[Cabride] watcher done");
+    }
+
+    /**
      * @return bool
      */
     public static function serviceStatus()

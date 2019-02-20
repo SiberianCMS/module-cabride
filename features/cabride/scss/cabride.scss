@@ -274,13 +274,45 @@
   }
 
   /** My rides */
-  .cabride-course {
+  .item-course {
+    padding: 0;
+
     .course-image {
-      margin: -16px -16px 0 -16px;
+      margin: 0;
+      border-bottom: 1px solid #e0e0e0;
 
       img {
+        display: block;
         width: 100%;
       }
+    }
+
+    .course-details {
+      padding: .4em .5em;
+      color: $list-item-custom-text;
+      background-color: $list-item-custom-bg;
+    }
+
+    .course-price {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      font-size: 1.2em;
+    }
+
+    span.vehicle-type {
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+
+    span.course-date {
+      font-size: .75em;
+      opacity: 0.7;
+    }
+
+    .driver-photo {
+      position: absolute;
     }
 
     .course-status {
@@ -289,30 +321,77 @@
       left: 0;
       padding: .25em .5em;
       text-transform: uppercase;
+      font-size: 0.8em;
+      letter-spacing: 1px;
 
       &.pending {
         color: $button-custom-text;
         background-color: $button-custom-bg;
+        border-bottom: 2px solid $button-custom-text;
       }
       &.accepted {
         color: $button-positive-custom-text;
         background-color: $button-positive-custom-bg;
+        border-bottom: 2px solid $button-positive-custom-text;
       }
       &.declined {
         color: $button-assertive-custom-text;
         background-color: $button-assertive-custom-bg;
+        border-bottom: 2px solid $button-assertive-custom-text;
       }
       &.done {
         color: $button-balanced-custom-text;
         background-color: $button-balanced-custom-bg;
+        border-bottom: 2px solid $button-balanced-custom-text;
       }
       &.aborted {
         color: $button-light-custom-text;
         background-color: $button-light-custom-bg;
+        border-bottom: 2px solid $button-light-custom-text;
       }
       &.expired {
         color: $button-light-custom-text;
         background-color: $button-light-custom-bg;
+        border-bottom: 2px solid $button-light-custom-text;
+      }
+    }
+
+    .course-expiration {
+      position: absolute;
+      top: 3.2em;
+      left: 0;
+      padding: 0em 0.5em .1em;
+      font-size: 0.7em;
+
+      &.pending {
+        color: lighten($button-custom-text, 10%);
+        background-color: lighten($button-custom-bg, 10%);
+        border-bottom: 2px solid lighten($button-custom-text, 10%);
+      }
+      &.accepted {
+        color: lighten($button-positive-custom-text, 10%);
+        background-color: lighten($button-positive-custom-bg, 10%);
+        border-bottom: 2px solid lighten($button-positive-custom-text, 10%);
+      }
+      &.declined {
+        color: lighten($button-assertive-custom-text, 10%);
+        background-color: lighten($button-assertive-custom-bg, 10%);
+        border-bottom: 2px solid lighten($button-assertive-custom-text, 10%);
+      }
+      &.done {
+        color: lighten($button-balanced-custom-text, 10%);
+        background-color: lighten($button-balanced-custom-bg, 10%);
+        border-bottom: 2px solid lighten($button-balanced-custom-text, 10%);
+      }
+      &.aborted {
+        color: lighten($button-light-custom-text, 10%);
+        background-color: lighten($button-light-custom-bg, 10%);
+        border-bottom: 2px solid lighten($button-light-custom-text, 10%);
+      }
+      &.expired {
+        color: lighten($button-light-custom-text, 10%);
+        background-color: lighten($button-light-custom-bg, 10%);
+        border-bottom: 2px solid lighten($button-light-custom-text, 10%);
       }
     }
 
@@ -322,6 +401,17 @@
 
     .course-cost {
       float: right;
+    }
+
+    /** Driver part */
+    .course-actions {
+      margin: -10px 0px;
+      padding: 0;
+
+      button {
+        /** Yeah for no border at all! */
+        border: 0 !important;
+      }
     }
   }
 

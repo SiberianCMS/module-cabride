@@ -27,7 +27,8 @@ class Cabride extends Base
     }
 
     /**
-     * @return null
+     * @return int|null
+     * @throws \Siberian\Exception
      */
     public static function getCurrentValueId()
     {
@@ -44,7 +45,8 @@ class Cabride extends Base
     }
 
     /**
-     * @return null
+     * @return \Application_Model_Option_Value|null
+     * @throws \Siberian\Exception
      */
     public static function getCurrent()
     {

@@ -45,7 +45,7 @@
         {
             "state": "cabride-cancelled",
             "controller": "CabrideCancelled",
-            "url": "cabride/mobile_pending_requests/index",
+            "url": "cabride/mobile_cancelled_requests/index",
             "template": "l1/cancelled.html",
             "cache": false
         },

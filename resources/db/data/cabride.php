@@ -1,27 +1,40 @@
 <?php
-$module = (new Installer_Model_Installer_Module())
-    ->prepare('Cabride');
 
-// Install the cron job
-\Siberian_Feature::installCronjob(
-    __('Cabride, uws Server.'),
-    'Cabride_Model_Service::serve',
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    true,
-    100,
-    true,
-    $module->getId()
-);
-
-# Detect node
 try {
+    $module = (new Installer_Model_Installer_Module())
+        ->prepare('Cabride');
+
+    Siberian\Feature::installCronjob(
+        __('Cabride, uws Server.'),
+        'Cabride\\\\Model\\\\Service::serve',
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        true,
+        100,
+        true,
+        $module->getId()
+    );
+
+    Siberian\Feature::installCronjob(
+        __('Cabride, watcher.'),
+        'Cabride\\\\Model\\\\Service::watch',
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        true,
+        100,
+        false,
+        $module->getId()
+    );
+
     # Chmod +x allow for execution
     exec('chmod +x ' .
-        Core_Model_Directory::getBasePathTo('/app/local/modules/Cabride/resources/server/bin/') .
+        path('/app/local/modules/Cabride/resources/server/bin/') .
         '*');
 
     $binPath = false;
@@ -51,17 +64,17 @@ try {
         # MacOSX
         $isDarwin = exec('uname');
         if (strpos($isDarwin, 'arwin') !== false) {
-            $binPath = Core_Model_Directory::getBasePathTo('/app/local/modules/Cabride/resources/server/bin/node_64.osx');
+            $binPath = path('/app/local/modules/Cabride/resources/server/bin/node_64.osx');
             # Windows
         } else {
-            $bin_32 = Core_Model_Directory::getBasePathTo('/app/local/modules/Cabride/resources/server/bin/node_32');
+            $bin_32 = path('/app/local/modules/Cabride/resources/server/bin/node_32');
             exec($bin_32 . ' --version 2>&1', $output, $returnVal);
 
             if ($returnVal === 0) {
                 $binPath = $bin_32;
             } else {
 
-                $bin64 = Core_Model_Directory::getBasePathTo('/app/local/modules/Cabride/resources/server/bin/node_64');
+                $bin64 = path('/app/local/modules/Cabride/resources/server/bin/node_64');
                 exec($bin64 . ' --version 2>&1', $output, $returnVal);
 
                 if ($returnVal === 0) {

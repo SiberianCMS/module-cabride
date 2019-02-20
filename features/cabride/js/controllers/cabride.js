@@ -615,11 +615,14 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabrideMyRides', function ($scope, $translate, Cabride, Dialog) {
+.controller('CabrideMyRides', function ($scope, $filter, $translate, $ionicScrollDelegate,
+                                        Cabride, CabrideUtils, Dialog) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("My rides"),
         valueId: Cabride.getValueId(),
+        filtered: null,
+        filterName: "in progress",
         collection: [],
         statuses: [
             "pending",
@@ -633,6 +636,7 @@ angular.module('starter')
         .getMyRides()
         .then(function (payload) {
             $scope.collection = payload.collection;
+            $scope.filtered = $filter("cabrideStatusFilter")($scope.collection, $scope.statuses);
         }, function (error) {
             Dialog.alert("Error", error.message, "OK");
         }).then(function () {
@@ -645,7 +649,17 @@ angular.module('starter')
     };
 
     $scope.duration = function (request) {
-        return $scope.toHHMM(request.duration);
+        return CabrideUtils.toHHMM(request.duration);
+    };
+
+    $scope.calendar = function (timestampSeconds) {
+        return moment(timestampSeconds * 1000).calendar();
+    };
+
+    $scope.expiration = function (request) {
+        // Ensure values are integers
+        var duration = (parseInt(request.timestamp, 10) + parseInt(request.search_timeout, 10)) * 1000;
+        return moment(duration).fromNow();
     };
 
     $scope.refresh = function () {
@@ -663,70 +677,301 @@ angular.module('starter')
         // "pending", "accepted", "declined", "done", "aborted", "expired"
         switch (filter) {
             case "inprogress":
+                $scope.filterName = "in progress";
                 $scope.statuses = ["pending", "accepted"];
                 break;
             case "archives":
+                $scope.filterName = "archived";
                 $scope.statuses = ["declined", "done", "aborted", "expired"];
+                break;
+        }
+        $ionicScrollDelegate.scrollTop();
+    };
+
+    $scope.$watch("filterName", function () {
+        $scope.filtered = $filter("cabrideStatusFilter")($scope.collection, $scope.statuses)
+    });
+
+    $scope.loadPage();
+});
+
+angular.module('starter')
+.controller('CabridePendingRequests', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader) {
+    angular.extend($scope, {
+        isLoading: false,
+        pageTitle: $translate.instant("Pending requests"),
+        valueId: Cabride.getValueId(),
+        collection: []
+    });
+
+    $scope.loadPage = function () {
+        $scope.isLoading = true;
+        Cabride
+        .getPendingRides()
+        .then(function (payload) {
+            $scope.collection = payload.collection;
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            $scope.isLoading = false;
+        });
+    };
+
+    $scope.distance = function (request) {
+        var unit = Cabride.settings.distance_unit;
+        var distance = request.distance / 1000;
+        switch (unit) {
+            case "mi":
+                return Math.ceil(distance) + " mi";
+                break;
+            case "km": default:
+                return Math.ceil(distance) + " Km";
                 break;
         }
     };
 
-    $scope.toHHMM = function (seconds) {
-        var sec_num = parseInt(seconds, 10); // don't forget the second param
-        var hours = Math.floor(sec_num / 3600);
-        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    $scope.duration = function (request) {
+        return CabrideUtils.toHHMM(request.duration);
+    };
 
-        if (hours < 10) {
-            hours = "0" + hours;
-        }
-        if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
+    $scope.calendar = function (timestampSeconds) {
+        return moment(timestampSeconds * 1000).calendar();
+    };
 
-        var text = "";
-        if (minutes !== "00") {
-            text = text + minutes;
-        }
-        if (hours !== "00") {
-            text = hours + ":" + text;
-        }
+    $scope.expiration = function (request) {
+        // Ensure values are integers
+        var duration = (parseInt(request.timestamp, 10) + parseInt(request.search_timeout, 10)) * 1000;
+        return moment(duration).fromNow();
+    };
 
-        return text;
+    $scope.refresh = function () {
+        $scope.loadPage();
+    };
+
+    $scope.decline = function (requestId) {
+        Loader.show();
+        Cabride
+        .declineRide(requestId)
+        .then(function (payload) {
+            Dialog
+            .alert("", payload.message, "OK", 2350)
+            .then(function () {
+                Loader.hide();
+                $state.go("cabride-cancelled");
+            });
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            Loader.hide();
+            $scope.refresh();
+        });
+    };
+
+    $scope.accept = function (requestId) {
+        Loader.show();
+        Cabride
+        .acceptRide(requestId)
+        .then(function (payload) {
+            Dialog
+            .alert("", payload.message, "OK", 2350)
+            .then(function () {
+                Loader.hide();
+                $state.go("cabride-accepted-requests");
+            });
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            Loader.hide();
+            $scope.refresh();
+        });
+    };
+
+    $scope.imagePath = function (image) {
+        if (image === "") {
+            return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg";
+        }
+        return IMAGE_URL + "images/application" + image;
     };
 
     $scope.loadPage();
 });
 
 angular.module('starter')
-.controller('CabridePendingRequests', function ($scope, $translate, Cabride) {
+.controller('CabrideAcceptedRequests', function ($scope, $translate, Cabride, Dialog) {
     angular.extend($scope, {
-        pageTitle: $translate.instant("Pending requests"),
-        valueId: Cabride.getValueId()
-    });
-});
-
-angular.module('starter')
-.controller('CabrideAcceptedRequests', function ($scope, $translate, Cabride) {
-    angular.extend($scope, {
+        isLoading: false,
         pageTitle: $translate.instant("Accepted requests"),
-        valueId: Cabride.getValueId()
+        valueId: Cabride.getValueId(),
+        collection: []
     });
+
+    $scope.loadPage = function () {
+        $scope.isLoading = true;
+        Cabride
+        .getAcceptedRides()
+        .then(function (payload) {
+            $scope.collection = payload.collection;
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            $scope.isLoading = false;
+        });
+    };
+
+    $scope.distance = function (request) {
+        var unit = Cabride.settings.distance_unit;
+        var distance = request.distance / 1000;
+        switch (unit) {
+            case "mi":
+                return Math.ceil(distance) + " mi";
+                break;
+            case "km": default:
+            return Math.ceil(distance) + " Km";
+            break;
+        }
+    };
+
+    $scope.duration = function (request) {
+        return $scope.toHHMM(request.duration);
+    };
+
+    $scope.calendar = function (timestampSeconds) {
+        return moment(timestampSeconds * 1000).calendar();
+    };
+
+    $scope.refresh = function () {
+        $scope.loadPage();
+    };
+
+    $scope.imagePath = function (image) {
+        if (image === "") {
+            return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg";
+        }
+        return IMAGE_URL + "images/application" + image;
+    };
+
+    $scope.loadPage();
 });
 
 angular.module('starter')
-.controller('CabrideCompletedRides', function ($scope, $translate, Cabride) {
+.controller('CabrideCompletedRides', function ($scope, $translate, Cabride, Dialog) {
     angular.extend($scope, {
-        pageTitle: $translate.instant("Completed rides"),
-        valueId: Cabride.getValueId()
+        isLoading: false,
+        pageTitle: $translate.instant("Completed requests"),
+        valueId: Cabride.getValueId(),
+        collection: []
     });
+
+    $scope.loadPage = function () {
+        $scope.isLoading = true;
+        Cabride
+        .getCompletedRides()
+        .then(function (payload) {
+            $scope.collection = payload.collection;
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            $scope.isLoading = false;
+        });
+    };
+
+    $scope.distance = function (request) {
+        return Math.ceil(request.distance / 1000) + "Km";
+    };
+
+    $scope.duration = function (request) {
+        return $scope.toHHMM(request.duration);
+    };
+
+    $scope.calendar = function (timestampSeconds) {
+        return moment(timestampSeconds * 1000).calendar();
+    };
+
+    $scope.refresh = function () {
+        $scope.loadPage();
+    };
+
+    $scope.imagePath = function (image) {
+        if (image === "") {
+            return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg";
+        }
+        return IMAGE_URL + "images/application" + image;
+    };
+
+    $scope.loadPage();
 });
 
 angular.module('starter')
-.controller('CabrideCancelled', function ($scope, $translate, Cabride) {
+.controller('CabrideCancelled', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader) {
     angular.extend($scope, {
-        pageTitle: $translate.instant("Cancelled"),
-        valueId: Cabride.getValueId()
+        isLoading: false,
+        pageTitle: $translate.instant("Declined requests"),
+        valueId: Cabride.getValueId(),
+        collection: []
     });
+
+    $scope.loadPage = function () {
+        $scope.isLoading = true;
+        Cabride
+        .getCancelledRides()
+        .then(function (payload) {
+            $scope.collection = payload.collection;
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            $scope.isLoading = false;
+        });
+    };
+
+    $scope.distance = function (request) {
+        return Math.ceil(request.distance / 1000) + "Km";
+    };
+
+    $scope.duration = function (request) {
+        return CabrideUtils.toHHMM(request.duration);
+    };
+
+    $scope.calendar = function (timestampSeconds) {
+        return moment(timestampSeconds * 1000).calendar();
+    };
+
+    $scope.expiration = function (request) {
+        // Ensure values are integers
+        var duration = (parseInt(request.timestamp, 10) + parseInt(request.search_timeout, 10)) * 1000;
+        return moment(duration).fromNow();
+    };
+
+    $scope.accept = function (requestId) {
+        Loader.show();
+        Cabride
+        .acceptRide(requestId)
+        .then(function (payload) {
+            Dialog
+            .alert("", payload.message, "OK", 2350)
+            .then(function () {
+                Loader.hide();
+                $state.go("cabride-accepted-requests");
+            });
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            Loader.hide();
+            $scope.refresh();
+        });
+    };
+
+    $scope.refresh = function () {
+        $scope.loadPage();
+    };
+
+    $scope.imagePath = function (image) {
+        if (image === "") {
+            return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg";
+        }
+        return IMAGE_URL + "images/application" + image;
+    };
+
+    $scope.loadPage();
 });
 
 angular.module('starter')

@@ -49,6 +49,7 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
                     $pricing = $vehicle->estimatePricing($distanceKm, $durationMinute);
                     $collection[$vehicleId] = [
                         "drivers" => [],
+                        "id" => $vehicle->getId(),
                         "type" => $vehicle->getType(),
                         "pricing" => $pricing,
                     ];
@@ -104,14 +105,15 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
                     "You already have a pending and/or a ride in progress, please wait before requesting another one!"));
             }
 
-            $vehicleType = (new Vehicle())->find($vehicleType["vehicle_id"]);
+            $vehicle = (new Vehicle())->find($vehicleType["id"]);
             $request = (new Request())->createRideRequest(
-                $client->getId(), $vehicleType, $valueId, $route, $staticMap, "client");
+                $client->getId(), $vehicle, $valueId, $route, $staticMap, "client");
 
+            $sentToDrivers = false;
             foreach ($vehicleType["drivers"] as $index => $driver) {
                 $driverId = $driver["driver_id"];
-                $_tmpDriver = (new Driver())->findExtended($driverId);
-                if ($_tmpDriver->getDriverId()) {
+                $_tmpDriver = (new Driver())->find($driverId);
+                if ($_tmpDriver->getId()) {
                     // Link & notify drivers
                     $requestDriver = new RequestDriver();
                     $requestDriver
@@ -120,7 +122,13 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
                         ->save();
 
                     $_tmpDriver->notifyNewrequest($request->getId());
+                    $sentToDrivers = true;
                 }
+            }
+
+            if (!$sentToDrivers) {
+                throw new Exception(p__("cabride",
+                    "We are sorry, but an error occurred while sending your request to the available drivers!"));
             }
             
             $payload = [

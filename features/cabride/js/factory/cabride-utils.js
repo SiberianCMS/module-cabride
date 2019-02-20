@@ -30,6 +30,29 @@ angular.module('starter')
             return GoogleMaps.calculateRoute(pickup, dropoff, params, true);
         };*/
 
+        factory.toHHMM = function (seconds) {
+            var sec_num = parseInt(seconds, 10); // don't forget the second param
+            var hours = Math.floor(sec_num / 3600);
+            var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+
+            if (hours < 10) {
+                hours = "0" + hours;
+            }
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+
+            var text = "";
+            if (minutes !== "00") {
+                text = text + minutes;
+            }
+            if (hours !== "00") {
+                text = hours + ":" + text;
+            }
+
+            return text;
+        };
+
         factory.getSimpleDirection = function (pickup, dropoff, rejectWithResponseAndStatus) {
             var deferred = $q.defer();
 

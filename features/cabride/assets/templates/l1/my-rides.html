@@ -9,22 +9,22 @@
         </button>
     </ion-nav-buttons>
 
-    <ion-content>
+    <ion-content class="has-footer">
         <div ng-if="isLoading"
              class="loader">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
         <div ng-if="!isLoading">
-            <div ng-if="collection.length == 0 || filtered.length == 0"
+            <div ng-show="filtered.length == 0"
                  class="list">
-                <div class="item item-custom">{{ "You have no rides" | translate }}</div>
+                <div class="item item-custom text-center">{{ "You have no " + filterName + " rides" | translate }}</div>
             </div>
 
-            <div ng-if="collection.length > 0"
+            <div ng-if="filtered.length > 0"
                  class="list">
-                <div ng-repeat="request in collection | cabrideStatusFilter:statuses as filtered"
-                     class="item item-custom">
+                <div ng-repeat="request in filtered"
+                     class="item item-custom item-course">
                     <div class="cabride-course">
                         <div class="course-image">
                             <img ng-src="{{ imagePath(request.static_image) }}" />
@@ -34,8 +34,21 @@
                                 <img src="" />
                             </div>
                             <span class="course-status {{ request.status }}">{{ request.status | translate }}</span>
-                            <span class="vehicle-type">{{ request.type }}</span>
-                            <span class="course-cost">{{ request.estimated_cost }}</span>
+                            <span ng-show="filterName != 'archived' && request.status == 'pending'"
+                                  class="course-expiration {{ request.status }}">{{ "Expires" }} {{ expiration(request) }}</span>
+                            <div class="row course-details">
+                                <div class="col-75">
+                                    <span class="vehicle-type">{{ request.type }}</span>
+                                    <br />
+                                    <span class="course-date">{{ calendar(request.timestamp) }}</span>
+                                </div>
+                                <div class="col-25 course-price">
+                                    <span class="course-cost">{{ request.formatted_price }}</span>
+                                </div>
+                            </div>
+
+
+
                         </div>
                     </div>
                 </div>

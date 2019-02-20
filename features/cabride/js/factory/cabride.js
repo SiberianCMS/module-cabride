@@ -128,6 +128,62 @@ angular.module('starter')
             });
         };
 
+        factory.getPendingRides = function () {
+            return $pwaRequest.post('/cabride/mobile_ride/pending', {
+                urlParams: {
+                    value_id: this.value_id
+                },
+                cache: false
+            });
+        };
+
+        factory.getAcceptedRides = function () {
+            return $pwaRequest.post('/cabride/mobile_ride/accepted', {
+                urlParams: {
+                    value_id: this.value_id
+                },
+                cache: false
+            });
+        };
+
+        factory.getCompletedRides = function () {
+            return $pwaRequest.post('/cabride/mobile_ride/completed', {
+                urlParams: {
+                    value_id: this.value_id
+                },
+                cache: false
+            });
+        };
+
+        factory.getCancelledRides = function () {
+            return $pwaRequest.post('/cabride/mobile_ride/cancelled', {
+                urlParams: {
+                    value_id: this.value_id
+                },
+                cache: false
+            });
+        };
+
+        factory.declineRide = function (requestId) {
+            return $pwaRequest.post('/cabride/mobile_ride/decline', {
+                urlParams: {
+                    value_id: this.value_id,
+                    requestId: requestId
+                },
+                cache: false
+            });
+        };
+
+        factory.acceptRide = function (requestId) {
+            return $pwaRequest.post('/cabride/mobile_ride/accept', {
+                urlParams: {
+                    value_id: this.value_id,
+                    requestId: requestId
+                },
+                cache: false
+            });
+        };
+
         factory.onError = function (message) {
             $log.error('cabride socket onerror', message);
         };
