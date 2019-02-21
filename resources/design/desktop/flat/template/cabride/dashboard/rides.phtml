@@ -60,9 +60,23 @@ function colorForStatus ($status) {
                             <tbody>
                             <?php foreach ($rides as $ride): ?>
                                 <tr class="sb-pager">
-                                    <td><?php echo $ride->getId(); ?></td>
-                                    <td><?php echo $ride->getClientId(); ?></td>
-                                    <td><?php echo $ride->getDriverId(); ?></td>
+                                    <td>
+                                        <b>#<?php echo $ride->getId(); ?></b>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-xs btn-info"
+                                           href="<?php echo __path("/cabride/dashboard/users?q={$ride->getClientId()}"); ?>">
+                                            #<?php echo $ride->getClientId(); ?>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-xs btn-info"
+                                           href="<?php echo __path("/cabride/driver/edit", [
+                                               "driver_id" => $ride->getDriverId()
+                                           ]); ?>">
+                                            #<?php echo $ride->getDriverId(); ?>
+                                        </a>
+                                    </td>
                                     <td class="text-right"><?php echo $ride->getDistance(); ?>m</td>
                                     <td class="text-right"><?php echo $ride->getDuration(); ?></td>
                                     <td class="text-right"><?php echo $ride->getEstimatedCost(); ?>€</td>

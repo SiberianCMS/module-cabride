@@ -3,6 +3,7 @@
 namespace Cabride\Model;
 
 use Core\Model\Base;
+use Siberian\Account;
 
 /**
  * Class Cabride
@@ -27,8 +28,7 @@ class Cabride extends Base
     }
 
     /**
-     * @return int|null
-     * @throws \Siberian\Exception
+     * @return null
      */
     public static function getCurrentValueId()
     {
@@ -186,6 +186,93 @@ class Cabride extends Base
         ];
 
         return $editorTree;
+    }
+
+    /**
+     * @param $payload
+     * @return mixed
+     * @throws \Siberian\Exception
+     * @throws \Zend_Exception
+     */
+    public static function extendedFields ($payload)
+    {
+        $application = $payload["application"];
+        $request = $payload["request"];
+        $session = $payload["session"];
+
+        // Check if Cabride feature exists!
+        $valueId = Cabride::getCurrentValueId();
+        if ($valueId === null) {
+            // Stops here!
+            return $payload;
+        }
+
+        // Check if the user is a driver
+        $customerId = $session->getCustomerId();
+        $driver = (new Driver())->find($customerId, "customer_id");
+        if (!$driver->getId()) {
+            // Stops here!
+            return $payload;
+        }
+
+        // Add custom fields to my account!
+        Account::addFields(
+            "Cabride",
+            [
+                [
+                    "type" => "spacer",
+                    "key" => "cabride_spacer",
+                ],
+                [
+                    "type" => "divider",
+                    "key" => "cabride_divider",
+                    "label" => p__("cabride", "Cabride informations"),
+                ],
+                [
+                    "type" => "text",
+                    "key" => "vehicle_model",
+                    "label" => p__("cabride", "Vehicle model"),
+                ],
+                [
+                    "type" => "text",
+                    "key" => "vehicle_license_plate",
+                    "label" => p__("cabride", "License plate"),
+                ],
+                [
+                    "type" => "text",
+                    "key" => "driver_license",
+                    "label" => p__("cabride", "Driver license"),
+                ],
+                [
+                    "type" => "textarea",
+                    "key" => "base_address",
+                    "label" => p__("cabride", "Base address"),
+                ],
+                [
+                    "type" => "text",
+                    "key" => "pickup_radius",
+                    "label" => p__("cabride", "Pickup radius"),
+                ],
+                [
+                    "type" => "select",
+                    "key" => "driver_photo",
+                    "options" => [
+                        [
+                            "value" => "1",
+                            "label" => "One",
+                        ],
+                        [
+                            "value" => "1",
+                            "label" => "One",
+                        ],
+                    ],
+                    "label" => p__("cabride", "Pickup radius"),
+                ]
+            ],
+            "cabridePopulateExtended",
+            "cabrideSaveExtended");
+
+        return $payload;
     }
 
     /**

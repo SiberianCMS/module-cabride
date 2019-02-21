@@ -797,7 +797,7 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabrideAcceptedRequests', function ($scope, $translate, Cabride, Dialog) {
+.controller('CabrideAcceptedRequests', function ($scope, $translate, Cabride, Dialog, Loader) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Accepted requests"),
@@ -841,6 +841,25 @@ angular.module('starter')
 
     $scope.refresh = function () {
         $scope.loadPage();
+    };
+
+    $scope.start = function (requestId) {
+        Loader.show();
+        Cabride
+        .startRide(requestId)
+        .then(function (payload) {
+            Dialog
+            .alert("", payload.message, "OK", 2350)
+            .then(function () {
+                Loader.hide();
+                $state.go("cabride-accepted-requests");
+            });
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            Loader.hide();
+            $scope.refresh();
+        });
     };
 
     $scope.imagePath = function (image) {

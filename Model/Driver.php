@@ -50,6 +50,83 @@ class Driver extends Base
     }
 
     /**
+     * @param $context
+     * @param $fields
+     * @return mixed
+     * @throws \Zend_Exception
+     */
+    public static function populateExtended ($context, $fields)
+    {
+        $session = $context["session"];
+        $driver = (new Driver())->find($session->getCustomerId(), "customer_id");
+        if ($driver->getId()) {
+            foreach ($fields as &$field) {
+                switch ($field["key"]) {
+                    case "vehicle_model":
+                        $field["value"] = $driver->getVehicleModel();
+                        break;
+                    case "vehicle_license_plate":
+                        $field["value"] = $driver->getVehicleLicensePlate();
+                        break;
+                    case "driver_license":
+                        $field["value"] = $driver->getDriverLicense();
+                        break;
+                    case "base_address":
+                        $field["value"] = $driver->getBaseAddress();
+                        break;
+                    case "pickup_radius":
+                        $field["value"] = $driver->getPickupRadius();
+                        break;
+                    case "driver_photo":
+                        $field["value"] = $driver->getDriverPhoto();
+                        break;
+                }
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
+     * @param $context
+     * @param $fields
+     * @return mixed
+     * @throws \Zend_Exception
+     */
+    public static function saveExtended ($context, $fields)
+    {
+        $session = $context["session"];
+        $driver = (new Driver())->find($session->getCustomerId(), "customer_id");
+        if ($driver->getId()) {
+            foreach ($fields as &$field) {
+                switch ($field["key"]) {
+                    case "vehicle_model":
+                        $driver->setVehicleModel($field["value"]);
+                        break;
+                    case "vehicle_license_plate":
+                        $driver->setVehicleLicensePlate($field["value"]);
+                        break;
+                    case "driver_license":
+                        $driver->setDriverLicense($field["value"]);
+                        break;
+                    case "base_address":
+                        $driver->setBaseAddress($field["value"]);
+                        break;
+                    case "pickup_radius":
+                        $driver->setPickupRadius($field["value"]);
+                        break;
+                    case "driver_photo":
+                        $driver->setDriverPhoto($field["value"]);
+                        break;
+                }
+            }
+            $driver->save();
+        }
+
+        return $fields;
+    }
+
+    /**
      * @return array
      */
     public function getFilteredData()

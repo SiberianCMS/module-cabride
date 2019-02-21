@@ -171,5 +171,13 @@ $passengers = (new Client())
                 return true;
             });
         });
+
+        <?php if ($_GET["q"] && !empty($_GET["q"])): ?>
+        setTimeout(function () {
+            $(".sb-search-content input[type='text']")
+                .val("<?php echo __js($_GET["q"]) ?>")
+                .trigger("keyup");
+        }, 500);
+        <?php endif; ?>
     });
 </script>

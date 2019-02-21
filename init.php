@@ -6,6 +6,7 @@ use Siberian\Service;
 use Siberian\Assets;
 use Siberian\Hook;
 use Cabride\Model\Cabride;
+use Cabride\Model\Driver;
 
 $initializeApiUser = function () {
     $cabrideUser = (new Api_Model_User())
@@ -79,6 +80,36 @@ function dashboardNav ($payload) {
     return Cabride::dashboardNav($payload);
 }
 
+/**
+ * @param $payload
+ * @return mixed
+ * @throws Zend_Exception
+ * @throws \Siberian\Exception
+ */
+function extendedFields ($payload) {
+    return Cabride::extendedFields($payload);
+};
+
+/**
+ * @param $context
+ * @param $fields
+ * @return mixed
+ * @throws Zend_Exception
+ */
+function cabridePopulateExtended ($context, $fields) {
+    return Driver::populateExtended($context, $fields);
+}
+
+/**
+ * @param $context
+ * @param $fields
+ * @return mixed
+ * @throws Zend_Exception
+ */
+function cabrideSaveExtended ($context, $fields) {
+    return Driver::saveExtended($context, $fields);
+}
+
 $init = function($bootstrap) use ($initializeApiUser) {
 
     // Register API!
@@ -99,6 +130,8 @@ $init = function($bootstrap) use ($initializeApiUser) {
         "/app/local/modules/Cabride/features/cabride/scss/cabride.scss"
     ]);
 
+    Hook::listen("app.init", "cabride_extendedfields", "extendedFields");
+    Hook::listen("mobile.controller.init", "cabride_extendedfields", "extendedFields");
     Hook::listen("editor.left.menu.ready", "cabride_nav", "dashboardNav");
 
     $initializeApiUser();
