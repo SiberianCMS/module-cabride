@@ -110,6 +110,9 @@ function cabrideSaveExtended ($context, $fields) {
     return Driver::saveExtended($context, $fields);
 }
 
+/** Alias for non-confusing escape */
+class_alias("Cabride\Model\Service", "CabrideService");
+
 $init = function($bootstrap) use ($initializeApiUser) {
 
     // Register API!
@@ -121,7 +124,7 @@ $init = function($bootstrap) use ($initializeApiUser) {
 
     // Registering cabride service
     Service::registerService("CabRide WebSocket", [
-        "command" => "Cabride\\Model\\Service::serviceStatus",
+        "command" => "CabrideService::serviceStatus",
         "text" => "Running",
     ]);
 
@@ -130,7 +133,6 @@ $init = function($bootstrap) use ($initializeApiUser) {
         "/app/local/modules/Cabride/features/cabride/scss/cabride.scss"
     ]);
 
-    Hook::listen("app.init", "cabride_extendedfields", "extendedFields");
     Hook::listen("mobile.controller.init", "cabride_extendedfields", "extendedFields");
     Hook::listen("editor.left.menu.ready", "cabride_nav", "dashboardNav");
 

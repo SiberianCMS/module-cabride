@@ -994,11 +994,42 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabrideVehicleInformation', function ($scope, $translate, Cabride) {
+.controller('CabrideVehicleInformation', function ($scope, $translate, Cabride, Dialog) {
     angular.extend($scope, {
+        isLoading: false,
         pageTitle: $translate.instant("Vehicle information"),
-        valueId: Cabride.getValueId()
+        valueId: Cabride.getValueId(),
+        pricingMode: Cabride.settings.pricingMode,
+        collection: []
     });
+
+    $scope.loadPage = function () {
+        $scope.isLoading = true;
+        Cabride
+        .getVehicleInformation()
+        .then(function (payload) {
+            $scope.vehicleTypes = payload.vehicleTypes;
+            $scope.driver = payload.driver;
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+        $scope.isLoading = false;
+        });
+    };
+
+    $scope.selectType = function (typeId) {
+        //
+    };
+
+    $scope.showFixedPricing = function () {
+        return $scope.pricingMode === "fixed";
+    };
+
+    $scope.refresh = function () {
+        $scope.loadPage();
+    };
+
+    $scope.loadPage();
 });
 
 angular.module('starter')

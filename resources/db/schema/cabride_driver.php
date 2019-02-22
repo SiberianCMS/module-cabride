@@ -89,6 +89,17 @@ $schemas['cabride_driver'] = [
         'type' => 'int(11)',
         'default' => '10',
     ],
+    /** Temporary fields */
+    'base_fare' => [
+        'type' => 'float',
+    ],
+    'distance_fare' => [
+        'type' => 'float',
+    ],
+    'time_fare' => [
+        'type' => 'float',
+    ],
+    /** Temporary fields */
     'latitude' => [
         'type' => 'float',
         'null' => true,

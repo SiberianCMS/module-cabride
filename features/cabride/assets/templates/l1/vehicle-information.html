@@ -2,9 +2,55 @@
           class="cabride cabride-view cabride-vehicle-information">
     <ion-nav-title>{{ pageTitle }}</ion-nav-title>
 
+    <ion-nav-buttons side="secondary">
+        <button ng-click="refresh()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+    </ion-nav-buttons>
+
     <ion-content>
-        <div class="list">
-            <div class="item item-custom">{{ "You have no vehicle" | translate }}</div>
+        <div ng-if="isLoading"
+             class="loader">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div ng-if="!isLoading && !driver.vehicle_id"
+             class="list">
+            <div class="item item-divider item-divider-custom">
+                {{ "Please select a vehicle type" | translate }}
+            </div>
+            <div ng-repeat="type in vehicleTypes"
+                 ng-click="selectType(type.id)"
+                 class="item item-custom">
+                <p>{{ type.label }}</p>
+                <div ng-if="showFixedPricing()">
+                    <span>{{ "Fares" | translate }}</span>
+                    <span>{{ "base" | translate }} {{ type.baseFare }}</span>
+                    <span ng-if="type.distance_fare > 0">{{ "distance" | translate }} {{ type.distanceFare }}</span>
+                    <span ng-if="type.time_fare > 0">{{ "time" | translate }} {{ type.timeFare }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="!isLoading && driver.vehicle_id"
+             class="list">
+            <label class="item item-input item-custom item-stacked-label">
+                <select ng-model="field.value">
+                    <option ng-repeat="option in field.options"
+                            value="{{ option.value }}">{{ option.label }}</option>
+                </select>
+            </label>
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ "Model" | translate }}</span>
+                <input type="text"
+                       placeholder="Model">
+            </label>
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ "License plate" | translate }}</span>
+                <input type="text"
+                       placeholder="License plate">
+            </label>
         </div>
     </ion-content>
 </ion-view>

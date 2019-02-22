@@ -184,6 +184,15 @@ angular.module('starter')
             });
         };
 
+        factory.getVehicleInformation = function () {
+            return $pwaRequest.post('/cabride/mobile_ride/vehicle-information', {
+                urlParams: {
+                    value_id: this.value_id,
+                },
+                cache: false
+            });
+        };
+
         factory.onError = function (message) {
             $log.error('cabride socket onerror', message);
         };

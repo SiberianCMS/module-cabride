@@ -6,7 +6,7 @@ try {
 
     Siberian\Feature::installCronjob(
         __('Cabride, uws Server.'),
-        'Cabride\\\\Model\\\\Service::serve',
+        'CabrideService::serve',
         -1,
         -1,
         -1,
@@ -20,7 +20,7 @@ try {
 
     Siberian\Feature::installCronjob(
         __('Cabride, watcher.'),
-        'Cabride\\\\Model\\\\Service::watch',
+        'CabrideService::watch',
         -1,
         -1,
         -1,

@@ -226,46 +226,30 @@ class Cabride extends Base
                 [
                     "type" => "divider",
                     "key" => "cabride_divider",
-                    "label" => p__("cabride", "Cabride informations"),
-                ],
-                [
-                    "type" => "text",
-                    "key" => "vehicle_model",
-                    "label" => p__("cabride", "Vehicle model"),
-                ],
-                [
-                    "type" => "text",
-                    "key" => "vehicle_license_plate",
-                    "label" => p__("cabride", "License plate"),
+                    "label" => p__("cabride", "Driver informations"),
                 ],
                 [
                     "type" => "text",
                     "key" => "driver_license",
-                    "label" => p__("cabride", "Driver license"),
+                    "label" => p__("cabride", "Driving license"),
+                ],
+                [
+                    "type" => "text",
+                    "key" => "driver_phone",
+                    "label" => p__("cabride", "Mobile number"),
                 ],
                 [
                     "type" => "textarea",
                     "key" => "base_address",
+                    "rows" => "3",
                     "label" => p__("cabride", "Base address"),
                 ],
                 [
-                    "type" => "text",
+                    "type" => "number",
                     "key" => "pickup_radius",
-                    "label" => p__("cabride", "Pickup radius"),
-                ],
-                [
-                    "type" => "select",
-                    "key" => "driver_photo",
-                    "options" => [
-                        [
-                            "value" => "1",
-                            "label" => "One",
-                        ],
-                        [
-                            "value" => "1",
-                            "label" => "One",
-                        ],
-                    ],
+                    "min" => "1",
+                    "max" => "100",
+                    "step" => "1",
                     "label" => p__("cabride", "Pickup radius"),
                 ]
             ],

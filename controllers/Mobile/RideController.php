@@ -3,6 +3,7 @@
 use Cabride\Model\Client;
 use Cabride\Model\Driver;
 use Cabride\Model\Request;
+use Cabride\Model\Vehicle;
 use Cabride\Model\RequestDriver;
 use Core\Model\Base;
 
@@ -341,6 +342,67 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
 
             $payload = [
                 "success" => true,
+                "message" => p__("cabride", "You finally accepted the request!"),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Driver route
+     */
+    public function vehicleInformationAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
+            $requestId = $request->getParam("requestId", false);
+
+            $driver = (new Driver())->find($customerId, "customer_id");
+
+            if (!$driver->getId()) {
+                throw new Exception(p__("cabride",
+                    "Sorry, we are unable to find your driver profile!"));
+            }
+
+            // So also expires all other drivers!
+            $vehicleTypes = (new Vehicle())
+                ->findAll([
+                    "value_id = ?" => $valueId,
+                    "is_visible = ?" => 1
+                ]);
+
+            $driverData = $driver->getData();
+            $driverData["vehicle_id"] = (boolean) $driverData["vehicle_id"];
+
+            $types = [];
+            foreach ($vehicleTypes as $vehicleType) {
+                $data = $vehicleType->getData();
+
+                $data["id"] = $data["vehicle_id"];
+                $data["label"] = $data["type"];
+                $data["baseFare"] = Base::_formatPrice($data["base_fare"]);
+                $data["distanceFare"] = ($data["distance_fare"] > 0) ?
+                    Base::_formatPrice($data["distance_fare"]) : 0;
+                $data["timeFare"] = ($data["time_fare"] > 0) ?
+                    Base::_formatPrice($data["time_fare"]) : 0;
+
+                $types[] = $data;
+            }
+
+            $payload = [
+                "success" => true,
+                "driver" => $driverData,
+                "vehicleTypes" => $types,
                 "message" => p__("cabride", "You finally accepted the request!"),
             ];
         } catch (\Exception $e) {
