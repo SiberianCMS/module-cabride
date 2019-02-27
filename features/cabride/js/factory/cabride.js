@@ -4,7 +4,7 @@
 angular.module('starter')
     .factory('Cabride', function (CabrideSocket, CabridePayment, Customer, Application, Pages, Location, SB,
                                   $q, $session, $rootScope, $interval, $timeout, $log, $ionicPlatform,
-                                  $pwaRequest, PushService, Push) {
+                                  $pwaRequest, PushService, Push, Dialog, $state, $ionicSideMenuDelegate) {
         var factory = {
             value_id: null,
             settings: {
@@ -73,7 +73,6 @@ angular.module('starter')
 
         // Handle the known protocols
         factory.onMessage = function (message) {
-            $log.info('cabride socket onmessage', message);
             switch (message.event) {
                 case 'hello':
                     if (message.uuid !== '') {
@@ -86,19 +85,16 @@ angular.module('starter')
                     }
                     break;
                 case 'ack': // Acknowledgments
-                    $log.info('CabRide ACK: ', message.message);
                     break;
                 case 'request-ok': // Acknowledgments
-                    $log.info('CabRide request OK');
                     break;
                 case 'request-ko': // Acknowledgments
-                    $log.info('CabRide request KO');
                     break;
                 case 'advert-drivers':
-                    $log.info('CabRide advert-drivers', message.drivers);
-
-                    // Broadcast to map Controller for instant refresh!
                     $rootScope.$broadcast('cabride.advertDrivers', {drivers: message.drivers});
+                    break;
+                case 'aggregate-information':
+                    $rootScope.$broadcast('cabride.aggregateInformation', {information: message.information});
                     break;
                 case 'ping': // Ping!
                     factory.sendEvent('pong');
@@ -174,8 +170,29 @@ angular.module('starter')
             });
         };
 
-        factory.acceptRide = function (requestId) {
+        factory.acceptRide = function (requestId, route) {
             return $pwaRequest.post('/cabride/mobile_ride/accept', {
+                urlParams: {
+                    value_id: this.value_id,
+                    requestId: requestId,
+                    route: route
+                },
+                cache: false
+            });
+        };
+
+        factory.driveToPassenger = function (requestId) {
+            return $pwaRequest.post('/cabride/mobile_ride/drive-to-passenger', {
+                urlParams: {
+                    value_id: this.value_id,
+                    requestId: requestId
+                },
+                cache: false
+            });
+        };
+
+        factory.driveToDirection = function (requestId) {
+            return $pwaRequest.post('/cabride/mobile_ride/drive-to-direction', {
                 urlParams: {
                     value_id: this.value_id,
                     requestId: requestId
@@ -188,6 +205,28 @@ angular.module('starter')
             return $pwaRequest.post('/cabride/mobile_ride/vehicle-information', {
                 urlParams: {
                     value_id: this.value_id,
+                },
+                cache: false
+            });
+        };
+
+        factory.selectVehicleType = function (typeId) {
+            return $pwaRequest.post('/cabride/mobile_ride/select-vehicle-type', {
+                urlParams: {
+                    value_id: this.value_id,
+                    typeId: typeId
+                },
+                cache: false
+            });
+        };
+
+        factory.saveDriver = function (driver) {
+            return $pwaRequest.post('/cabride/mobile_ride/save-driver', {
+                urlParams: {
+                    value_id: this.value_id,
+                },
+                data: {
+                    driver: driver,
                 },
                 cache: false
             });
@@ -241,7 +280,7 @@ angular.module('starter')
             Location
             .getLocation()
             .then(function (position) {
-                console.log('position', position);
+                factory.lastPosition = position.coords;
                 factory.sendEvent('update-position', {
                     userId: Customer.customer.id,
                     userType: factory.isDriver ? 'driver' : 'passenger',
@@ -555,7 +594,24 @@ angular.module('starter')
 
         $rootScope.$on("cabride.isOnline", function (event, isOnline) {
             // Refresh driver markers
-            factory.toggleOnlineStatus(isOnline);
+            factory
+            .toggleOnlineStatus(isOnline)
+            .then(function (payload) {
+                $rootScope.$broadcast("cabride.setIsOnline", payload.isOnline);
+            }, function (error) {
+                $rootScope.$broadcast("cabride.setIsOnline", false);
+                Dialog
+                .alert("Incomplete profile!", error.message, "OK", 5000)
+                .then(function () {
+                    if ($ionicSideMenuDelegate.isOpenLeft()) {
+                        $ionicSideMenuDelegate.toggleLeft();
+                    }
+                    if ($ionicSideMenuDelegate.isOpenRight()) {
+                        $ionicSideMenuDelegate.toggleRight();
+                    }
+                    $state.go("cabride-vehicle-information");
+                });
+            });
         });
 
         return factory;

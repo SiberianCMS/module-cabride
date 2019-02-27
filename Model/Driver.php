@@ -127,6 +127,60 @@ class Driver extends Base
     }
 
     /**
+     * @return bool
+     * @throws \Siberian\Exception
+     */
+    public function getMustFillVehicle()
+    {
+        if (empty($this->getVehicleLicensePlate())) {
+            return true;
+        }
+
+        if (empty($this->getDriverLicense())) {
+            return true;
+        }
+
+        $cabride = Cabride::getCurrent();
+        if ($cabride->getPricingMode() === "driver") {
+            if (empty($this->getBaseFare())) {
+                return true;
+            }
+
+            if (empty($this->getDistanceFare()) && empty($this->getTimeFare())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Generic method to export consistently to JSON
+     *
+     * @return array|mixed|null|string
+     */
+    public function toJson()
+    {
+        $data = $this->getData();
+        $data["hasVehicle"] = (boolean) $data["vehicle_id"];
+        $data["vehicle_id"] = (boolean) $data["vehicle_id"];
+        $data["base_fare"] = (float) $data["base_fare"];
+        $data["distance_fare"] = (float) $data["distance_fare"];
+        $data["time_fare"] = (float) $data["time_fare"];
+        $data["base_latitude"] = (float) $data["base_latitude"];
+        $data["base_longitude"] = (float) $data["base_longitude"];
+        $data["pickup_radius"] = (integer) $data["pickup_radius"];
+        $data["value_id"] = (integer) $data["value_id"];
+        $data["driver_id"] = (integer) $data["driver_id"];
+        $data["customer_id"] = (integer) $data["customer_id"];
+        $data["latitude"] = (integer) $data["latitude"];
+        $data["longitude"] = (integer) $data["longitude"];
+        $data["id"] = (integer) $data["id"];
+
+        return $data;
+    }
+
+    /**
      * @return array
      */
     public function getFilteredData()

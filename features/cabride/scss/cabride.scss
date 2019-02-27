@@ -329,7 +329,9 @@
         background-color: $button-custom-bg;
         border-bottom: 2px solid $button-custom-text;
       }
-      &.accepted {
+      &.accepted,
+      &.onway,
+      &.inprogress {
         color: $button-positive-custom-text;
         background-color: $button-positive-custom-bg;
         border-bottom: 2px solid $button-positive-custom-text;
@@ -368,7 +370,9 @@
         background-color: lighten($button-custom-bg, 10%);
         border-bottom: 2px solid lighten($button-custom-text, 10%);
       }
-      &.accepted {
+      &.accepted,
+      &.onway,
+      &.inprogress {
         color: lighten($button-positive-custom-text, 10%);
         background-color: lighten($button-positive-custom-bg, 10%);
         border-bottom: 2px solid lighten($button-positive-custom-text, 10%);
@@ -412,10 +416,40 @@
         /** Yeah for no border at all! */
         border: 0 !important;
       }
+
+      p.cabride-drive-to {
+        margin: 0;
+        padding: 0;
+        font-size: .7em;
+        line-height: 1em;
+        letter-spacing: 2px;
+      }
+
+      p.cabride-target {
+        margin: 0;
+        padding: 0;
+        line-height: 1em;
+        font-size: 1em;
+      }
     }
+
   }
 
+  .vehicle-type.item.item-custom {
+    .vehicle-type-title {
+      font-weight: bold;
+    }
 
+    .default-fares {
+      span span {
+        min-width: 15vw;
+        display: inline-block;
+        margin-right: 5vw;
+      }
+      font-size: .8em;
+      color: lighten($list-item-custom-text, 20%);
+    }
+  }
 }
 
 /** Contextual menu (=layout_taxi) */

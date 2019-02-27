@@ -7,8 +7,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-02-22T16:04:36+00:00\n"
-"PO-Revision-Date: 2019-02-22T16:04:36+00:00\n"
+"POT-Creation-Date: 2019-02-26T13:25:50+00:00\n"
+"PO-Revision-Date: 2019-02-26T13:25:50+00:00\n"
 "Language: \n"
 
 msgid "All data"
@@ -23,6 +23,9 @@ msgstr "Fanwall"
 msgid "M-Commerce"
 msgstr "M-Commerce"
 
+msgid "Appointment Activation Key"
+msgstr "Appointment Activation Key"
+
 msgid "CabRide"
 msgstr "CabRide"
 
@@ -35,23 +38,62 @@ msgstr "Join lobby"
 msgid "Send request"
 msgstr "Send request"
 
-msgid "404, page not found"
-msgstr "404, page not found"
+msgid "Chatrooms"
+msgstr "Chatrooms"
 
-msgid "Ouch, this page doesn't exist"
-msgstr "Ouch, this page doesn't exist"
+msgid "Get user"
+msgstr "Get user"
 
-msgid "Do you want to return to the homepage?"
-msgstr "Do you want to return to the homepage?"
+msgid "Realtime Chat"
+msgstr "Realtime Chat"
 
-msgid "Dashboard"
-msgstr "Dashboard"
+msgid "Device preview"
+msgstr "Device preview"
 
-msgid "Or do you want to return to editor?"
-msgstr "Or do you want to return to editor?"
+msgid "Satispay"
+msgstr "Satispay"
 
-msgid "Editor"
-msgstr "Editor"
+msgid "User Styler"
+msgstr "User Styler"
+
+msgid "Contact e-mail"
+msgstr "Contact e-mail"
+
+msgid "Log in"
+msgstr "Log in"
+
+msgid "Sign up"
+msgstr "Sign up"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Forgot your password ?"
+msgstr "Forgot your password ?"
+
+msgid "Confirm your password"
+msgstr "Confirm your password"
+
+msgid "I agree to receive information & commercial offers about the WhiteLabel program."
+msgstr "I agree to receive information & commercial offers about the WhiteLabel program."
+
+msgid "I have read & agree the Terms of Service"
+msgstr "I have read & agree the Terms of Service"
+
+msgid "You must agree our Terms of Service"
+msgstr "You must agree our Terms of Service"
+
+msgid "Forgot your password? Don't worry! Simply enter your email address and we'll send you a new one right now."
+msgstr "Forgot your password? Don't worry! Simply enter your email address and we'll send you a new one right now."
+
+msgid "Back"
+msgstr "Back"
+
+msgid "Send"
+msgstr "Send"
 
 msgid "Close"
 msgstr "Close"
@@ -104,17 +146,14 @@ msgstr "A step requires at least a title and a text."
 msgid "An error occurred while saving. Please try again later."
 msgstr "An error occurred while saving. Please try again later."
 
-msgid "404, Page not found"
-msgstr "404, Page not found"
+msgid "Login to your admin interface"
+msgstr "Login to your admin interface"
 
 msgid "text/html; charset=utf-8"
 msgstr "text/html; charset=utf-8"
 
 msgid "width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"
 msgstr "width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"
-
-msgid "Back"
-msgstr "Back"
 
 msgid "Next"
 msgstr "Next"
@@ -124,6 +163,336 @@ msgstr "End tour"
 
 msgid "Please create the API keys to enable this feature."
 msgstr "Please create the API keys to enable this feature."
+
+msgid "(DEMO)"
+msgstr "(DEMO)"
+
+msgid "My Applications"
+msgstr "My Applications"
+
+msgid "Create a new application"
+msgstr "Create a new application"
+
+msgid "Application Name"
+msgstr "Application Name"
+
+msgid "Create"
+msgstr "Create"
+
+msgid "Filter your apps..."
+msgstr "Filter your apps..."
+
+msgid "Created at %s"
+msgstr "Created at %s"
+
+msgid "Free until %s"
+msgstr "Free until %s"
+
+msgid "[Siberian_Media] optimizing media %s"
+msgstr "[Siberian_Media] optimizing media %s"
+
+msgid "From"
+msgstr "From"
+
+msgid "to"
+msgstr "to"
+
+msgid "Filter metrics"
+msgstr "Filter metrics"
+
+msgid "Total visits"
+msgstr "Total visits"
+
+msgid "Total installs"
+msgstr "Total installs"
+
+msgid "Loading..."
+msgstr "Loading..."
+
+msgid "Top installs"
+msgstr "Top installs"
+
+msgid "Top visits"
+msgstr "Top visits"
+
+msgid "No data for this metrics for now."
+msgstr "No data for this metrics for now."
+
+msgid "Are you sure you want to delete this application?"
+msgstr "Are you sure you want to delete this application?"
+
+msgid "Are you sure you want to duplicate this application?"
+msgstr "Are you sure you want to duplicate this application?"
+
+msgid "Visits"
+msgstr "Visits"
+
+msgid "Installs"
+msgstr "Installs"
+
+msgid "Start date must be lower than end date."
+msgstr "Start date must be lower than end date."
+
+msgid "You have to chose a start and an end date."
+msgstr "You have to chose a start and an end date."
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Push notifications"
+msgstr "Push notifications"
+
+msgid "White Label"
+msgstr "White Label"
+
+msgid "Activity"
+msgstr "Activity"
+
+msgid "My account"
+msgstr "My account"
+
+msgid "Users"
+msgstr "Users"
+
+msgid "Subscriptions"
+msgstr "Subscriptions"
+
+msgid "Invoices"
+msgstr "Invoices"
+
+msgid "Manage tour"
+msgstr "Manage tour"
+
+msgid "Profile"
+msgstr "Profile"
+
+msgid "Log-out"
+msgstr "Log-out"
+
+msgid "Support"
+msgstr "Support"
+
+msgid "Customization mode activated"
+msgstr "Customization mode activated"
+
+msgid "Customize My Editor"
+msgstr "Customize My Editor"
+
+msgid "You current working environment is"
+msgstr "You current working environment is"
+
+msgid "Development"
+msgstr "Development"
+
+msgid "be careful or set it back to"
+msgstr "be careful or set it back to"
+
+msgid "Production"
+msgstr "Production"
+
+msgid "REDUCE"
+msgstr "REDUCE"
+
+msgid "Environment is"
+msgstr "Environment is"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Send your logo"
+msgstr "Send your logo"
+
+msgid "Favicon"
+msgstr "Favicon"
+
+msgid "Send your favicon"
+msgstr "Send your favicon"
+
+msgid "General"
+msgstr "General"
+
+msgid "Background Color"
+msgstr "Background Color"
+
+msgid "Text Color"
+msgstr "Text Color"
+
+msgid "Color blue"
+msgstr "Color blue"
+
+msgid "Color red"
+msgstr "Color red"
+
+msgid "Color yellow"
+msgstr "Color yellow"
+
+msgid "Color green"
+msgstr "Color green"
+
+msgid "Titles"
+msgstr "Titles"
+
+msgid "Border Red"
+msgstr "Border Red"
+
+msgid "Border Color"
+msgstr "Border Color"
+
+msgid "Border Blue"
+msgstr "Border Blue"
+
+msgid "Border Yellow"
+msgstr "Border Yellow"
+
+msgid "Border Purple"
+msgstr "Border Purple"
+
+msgid "Border Green"
+msgstr "Border Green"
+
+msgid "Border Grey"
+msgstr "Border Grey"
+
+msgid "Content background"
+msgstr "Content background"
+
+msgid "Grey buttons"
+msgstr "Grey buttons"
+
+msgid "Background Color - Hover"
+msgstr "Background Color - Hover"
+
+msgid "Text Color - Hover"
+msgstr "Text Color - Hover"
+
+msgid "Font Color blue"
+msgstr "Font Color blue"
+
+msgid "Content color"
+msgstr "Content color"
+
+msgid "Input flat"
+msgstr "Input flat"
+
+msgid "Color purple"
+msgstr "Color purple"
+
+msgid "Step menu background"
+msgstr "Step menu background"
+
+msgid "Sidebar background"
+msgstr "Sidebar background"
+
+msgid "Background Color - Active"
+msgstr "Background Color - Active"
+
+msgid "Text Color - Active"
+msgstr "Text Color - Active"
+
+msgid "Loading your white label editor."
+msgstr "Loading your white label editor."
+
+msgid "Your customization has been applied to your white label panel."
+msgstr "Your customization has been applied to your white label panel."
+
+msgid "Success"
+msgstr "Success"
+
+msgid "Messages"
+msgstr "Messages"
+
+msgid "Manage"
+msgstr "Manage"
+
+msgid "Editor access"
+msgstr "Editor access"
+
+msgid "Roles"
+msgstr "Roles"
+
+msgid "Backoffice access"
+msgstr "Backoffice access"
+
+msgid "Accounts"
+msgstr "Accounts"
+
+msgid "API"
+msgstr "API"
+
+msgid "Previewer"
+msgstr "Previewer"
+
+msgid "Modal"
+msgstr "Modal"
+
+msgid "Applications"
+msgstr "Applications"
+
+msgid "Templates"
+msgstr "Templates"
+
+msgid "Sales"
+msgstr "Sales"
+
+msgid "Appearance"
+msgstr "Appearance"
+
+msgid "Previews"
+msgstr "Previews"
+
+msgid "Tour"
+msgstr "Tour"
+
+msgid "Modules"
+msgstr "Modules"
+
+msgid "Cabride"
+msgstr "Cabride"
+
+msgid "My Account"
+msgstr "My Account"
+
+msgid "Привет"
+msgstr "Привет"
+
+msgid "About us"
+msgstr "About us"
+
+msgid "Links"
+msgstr "Links"
+
+msgid "Job"
+msgstr "Job"
+
+msgid "Custom Page"
+msgstr "Custom Page"
+
+msgid "Classifieds"
+msgstr "Classifieds"
+
+msgid "More"
+msgstr "More"
+
+msgid "Plus d'infos"
+msgstr "Plus d'infos"
+
+msgid "Mon compte"
+msgstr "Mon compte"
+
+msgid "Folders (v2)"
+msgstr "Folders (v2)"
+
+msgid "Places"
+msgstr "Places"
+
+msgid "WordPress (v2)"
+msgstr "WordPress (v2)"
+
+msgid "Quiz"
+msgstr "Quiz"
+
+msgid "Inbox"
+msgstr "Inbox"
 
 msgctxt "cabride"
 msgid "Driver informations"
@@ -148,41 +517,249 @@ msgstr "Pickup radius"
 msgid "Privacy policy"
 msgstr "Privacy policy"
 
-msgid "Contact e-mail"
-msgstr "Contact e-mail"
+msgid "404, page not found"
+msgstr "404, page not found"
 
+msgid "Ouch, this page doesn't exist"
+msgstr "Ouch, this page doesn't exist"
+
+msgid "Do you want to return to the homepage?"
+msgstr "Do you want to return to the homepage?"
+
+msgid "Or do you want to return to editor?"
+msgstr "Or do you want to return to editor?"
+
+msgid "Editor"
+msgstr "Editor"
+
+msgid "404, Page not found"
+msgstr "404, Page not found"
+
+msgctxt "cabride"
+msgid "Distance unit"
+msgstr "Distance unit"
+
+msgid "Km"
+msgstr "Km"
+
+msgid "Miles"
+msgstr "Miles"
+
+msgctxt "cabride"
+msgid "Search timeout (seconds)"
+msgstr "Search timeout (seconds)"
+
+msgctxt "cabride"
+msgid "Search radius (km/mi)"
+msgstr "Search radius (km/mi)"
+
+msgctxt "cabride"
+msgid "Accepted payments"
+msgstr "Accepted payments"
+
+msgctxt "cabride"
+msgid "Credit card"
+msgstr "Credit card"
+
+msgctxt "cabride"
+msgid "Cash"
+msgstr "Cash"
+
+msgctxt "cabride"
+msgid "Credit card & Cash"
+msgstr "Credit card & Cash"
+
+msgctxt "cabride"
+msgid "Payment provider"
+msgstr "Payment provider"
+
+msgctxt "cabride"
+msgid "Stripe (Credit card)"
+msgstr "Stripe (Credit card)"
+
+msgctxt "cabride"
+msgid "2 Checkout (Credit card)"
+msgstr "2 Checkout (Credit card)"
+
+msgctxt "cabride"
+msgid "BrainTree (Credit card & PayPal)"
+msgstr "BrainTree (Credit card & PayPal)"
+
+msgctxt "cabride"
+msgid "Commission type"
+msgstr "Commission type"
+
+msgctxt "cabride"
+msgid "Disabled"
+msgstr "Disabled"
+
+msgctxt "cabride"
+msgid "Fixed amount"
+msgstr "Fixed amount"
+
+msgctxt "cabride"
+msgid "Percentage"
+msgstr "Percentage"
+
+msgctxt "cabride"
+msgid "Commission"
+msgstr "Commission"
+
+msgctxt "cabride"
+msgid "Course mode"
+msgstr "Course mode"
+
+msgctxt "cabride"
+msgid "Immediate"
+msgstr "Immediate"
+
+msgctxt "cabride"
+msgid "Pricing mode"
+msgstr "Pricing mode"
+
+msgctxt "cabride"
+msgid "Fixed by vehicle type (Admin)"
+msgstr "Fixed by vehicle type (Admin)"
+
+msgctxt "cabride"
+msgid "Fixed by the drivers"
+msgstr "Fixed by the drivers"
+
+msgctxt "cabride"
+msgid "Driver can register"
+msgstr "Driver can register"
+
+msgctxt "cabride"
+msgid "Save"
+msgstr "Save"
+
+msgid "Patientez ..."
+msgstr "Patientez ..."
+
+msgctxt "cabride"
+msgid "Public key"
+msgstr "Public key"
+
+msgctxt "cabride"
+msgid "Secret key"
+msgstr "Secret key"
+
+msgctxt "cabride"
+msgid "Sandbox mode"
+msgstr "Sandbox mode"
+
+msgctxt "cabride"
+msgid "Username"
+msgstr "Username"
+
+msgctxt "cabride"
+msgid "Password"
+msgstr "Password"
+
+msgctxt "cabride"
+msgid "Merchant ID"
+msgstr "Merchant ID"
+
+msgctxt "cabride"
+msgid "Private key"
+msgstr "Private key"
+
+msgctxt "cabride"
+msgid "CabRide settings"
+msgstr "CabRide settings"
+
+msgctxt "cabride"
+msgid "Payment API credentials"
+msgstr "Payment API credentials"
+
+msgctxt "cabride"
+msgid "Stripe"
+msgstr "Stripe"
+
+msgctxt "cabride"
+msgid "2Checkout"
+msgstr "2Checkout"
+
+msgctxt "cabride"
+msgid "BrainTree"
+msgstr "BrainTree"
+
+msgid "Design"
+msgstr "Design"
+
+msgid "Colors"
+msgstr "Colors"
+
+msgid "Features"
+msgstr "Features"
+
+msgid "Application"
+msgstr "Application"
+
+msgid "Publication"
+msgstr "Publication"
+
+msgid "Promote"
+msgstr "Promote"
+
+msgid "Analytics"
+msgstr "Analytics"
+
+msgid "App analytics"
+msgstr "App analytics"
+
+msgid "Feature Analytics"
+msgstr "Feature Analytics"
+
+msgid "Terms & Conditions"
+msgstr "Terms & Conditions"
+
+msgid "APIs"
+msgstr "APIs"
+
+msgid "Domain"
+msgstr "Domain"
+
+msgid "Advanced"
+msgstr "Advanced"
+
+msgctxt "cabride"
 msgid "Cab-Ride"
 msgstr "Cab-Ride"
 
-msgid "Notifications"
-msgstr "Notifications"
+msgctxt "cabride"
+msgid "Dashboard"
+msgstr "Dashboard"
 
-msgid "About us"
-msgstr "About us"
+msgctxt "cabride"
+msgid "Rides"
+msgstr "Rides"
 
-msgid "Weather"
-msgstr "Weather"
+msgctxt "cabride"
+msgid "Payments"
+msgstr "Payments"
 
-msgid "My Account"
-msgstr "My Account"
+msgctxt "cabride"
+msgid "Users"
+msgstr "Users"
 
-msgid "More"
-msgstr "More"
+msgctxt "cabride"
+msgid "Drivers"
+msgstr "Drivers"
 
-msgid "My account"
-msgstr "My account"
+msgctxt "cabride"
+msgid "Vehicle types"
+msgstr "Vehicle types"
 
-msgid "Places"
-msgstr "Places"
+msgctxt "cabride"
+msgid "Settings"
+msgstr "Settings"
 
-msgid "Folders (v2)"
-msgstr "Folders (v2)"
+msgid "CabRide Settings"
+msgstr "CabRide Settings"
 
-msgid "WordPress (v2)"
-msgstr "WordPress (v2)"
-
-msgid "Cabride"
-msgstr "Cabride"
+msgid "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
+msgstr "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
 
 msgid "This field is required."
 msgstr "This field is required."
@@ -232,191 +809,149 @@ msgstr "Please enter a value less than or equal to {0}."
 msgid "Please enter a value greater than or equal to {0}."
 msgstr "Please enter a value greater than or equal to {0}."
 
-msgid "Messages"
-msgstr "Messages"
+msgid "Your design"
+msgstr "Your design"
 
-msgid "Manage"
-msgstr "Manage"
+msgid "Change your template"
+msgstr "Change your template"
 
-msgid "Editor access"
-msgstr "Editor access"
+msgid "Change your layout"
+msgstr "Change your layout"
 
-msgid "Users"
-msgstr "Users"
+msgid "Layout options"
+msgstr "Layout options"
 
-msgid "Roles"
-msgstr "Roles"
+msgid "This layout has no option."
+msgstr "This layout has no option."
 
-msgid "Backoffice access"
-msgstr "Backoffice access"
+msgid "Unified homepage"
+msgstr "Unified homepage"
 
-msgid "Accounts"
-msgstr "Accounts"
+msgid "The overlay helps you check if important content and/or text on your homepage image is inside the safe boundaries."
+msgstr "The overlay helps you check if important content and/or text on your homepage image is inside the safe boundaries."
 
-msgid "API"
-msgstr "API"
+msgid "dismiss"
+msgstr "dismiss"
 
-msgid "Previewer"
-msgstr "Previewer"
+msgid "Safe zone overlay"
+msgstr "Safe zone overlay"
 
-msgid "Modal"
-msgstr "Modal"
+msgid "Overlay color"
+msgstr "Overlay color"
 
-msgid "Applications"
-msgstr "Applications"
+msgid "Black"
+msgstr "Black"
 
-msgid "Templates"
-msgstr "Templates"
+msgid "White"
+msgstr "White"
 
-msgid "Sales"
-msgstr "Sales"
+msgid "Zone overlay"
+msgstr "Zone overlay"
 
-msgid "Invoices"
-msgstr "Invoices"
+msgid "Hide overlay"
+msgstr "Hide overlay"
 
-msgid "Subscriptions"
-msgstr "Subscriptions"
+msgid "Safe in portrait"
+msgstr "Safe in portrait"
 
-msgid "Appearance"
-msgstr "Appearance"
+msgid "Safe in portrait (locked)"
+msgstr "Safe in portrait (locked)"
 
-msgid "General"
-msgstr "General"
+msgid "Safe in landscape"
+msgstr "Safe in landscape"
 
-msgid "Previews"
-msgstr "Previews"
+msgid "Safe in portrait & landscape"
+msgstr "Safe in portrait & landscape"
 
-msgid "Tour"
-msgstr "Tour"
+msgid "Recommended size:"
+msgstr "Recommended size:"
 
-msgid "Modules"
-msgstr "Modules"
+msgid "Change your homepage"
+msgstr "Change your homepage"
 
-msgid "APIs"
-msgstr "APIs"
+msgid "Download template as"
+msgstr "Download template as"
 
-msgid "Push"
-msgstr "Push"
+msgid "or"
+msgstr "or"
 
-msgid "Configuration"
-msgstr "Configuration"
+msgid "Use the homepage image as background in all features"
+msgstr "Use the homepage image as background in all features"
 
-msgid "Global push"
-msgstr "Global push"
+msgid "Hide iOS status bar"
+msgstr "Hide iOS status bar"
 
-msgid "Taxes"
-msgstr "Taxes"
+msgid "Changing this option requires you to republish your iOS application."
+msgstr "Changing this option requires you to republish your iOS application."
 
-msgid "Plans"
-msgstr "Plans"
+msgid "Hide Android status bar"
+msgstr "Hide Android status bar"
 
-msgid "Discounts"
-msgstr "Discounts"
+msgid "This option is not compatible with applications using Forms and/or features with Keyboard."
+msgstr "This option is not compatible with applications using Forms and/or features with Keyboard."
 
-msgid "T&C's"
-msgstr "T&C's"
+msgid "Choose your country"
+msgstr "Choose your country"
 
-msgid "Advanced"
-msgstr "Advanced"
+msgid "This option enables you to set the currency used in your app"
+msgstr "This option enables you to set the currency used in your app"
 
-msgid "Tools"
-msgstr "Tools"
+msgid "Choose a country"
+msgstr "Choose a country"
 
-msgid "Cron"
-msgstr "Cron"
+msgid "Choose your font family"
+msgstr "Choose your font family"
 
-msgid "Firewall"
-msgstr "Firewall"
+msgid "Serif"
+msgstr "Serif"
 
-msgid "Mail logs"
-msgstr "Mail logs"
+msgid "CYRILLIC"
+msgstr "CYRILLIC"
 
-msgid "Whitelabels"
-msgstr "Whitelabels"
+msgid "Sans Serif"
+msgstr "Sans Serif"
 
-msgid "Communication"
-msgstr "Communication"
+msgid "Display"
+msgstr "Display"
 
-msgid "Translations"
-msgstr "Translations"
+msgid "Handwriting"
+msgstr "Handwriting"
 
-msgid "Log-out"
-msgstr "Log-out"
+msgid "Monospace"
+msgstr "Monospace"
 
-msgid "Log-in"
-msgstr "Log-in"
+msgid "You can also use another Google Font not listed up there"
+msgstr "You can also use another Google Font not listed up there"
 
-msgid "Email"
-msgstr "Email"
+msgid "please respect the font name case!"
+msgstr "please respect the font name case!"
 
-msgid "Password"
-msgstr "Password"
+msgid "Custom font"
+msgstr "Custom font"
 
-msgid "Forgot your password?"
-msgstr "Forgot your password?"
+msgid "If you decide to change the slider size, all images will be dropped. Are you sure ?"
+msgstr "If you decide to change the slider size, all images will be dropped. Are you sure ?"
 
-msgid "Log in"
-msgstr "Log in"
+msgid "Customize your app's style"
+msgstr "Customize your app's style"
 
-msgid "Forgot your password? Don't worry! Simply enter your email address and we'll send you a new one right now."
-msgstr "Forgot your password? Don't worry! Simply enter your email address and we'll send you a new one right now."
+msgid "Choose your layout"
+msgstr "Choose your layout"
 
-msgid "Send"
-msgstr "Send"
+msgid "All"
+msgstr "All"
 
-msgid "%s - v%s"
-msgstr "%s - v%s"
+msgid "Default"
+msgstr "Default"
 
-msgid "development"
-msgstr "development"
+msgid "Custom"
+msgstr "Custom"
 
-msgid "Siberian - Backoffice"
-msgstr "Siberian - Backoffice"
+msgid "With options"
+msgstr "With options"
 
-msgid "You current working environment is"
-msgstr "You current working environment is"
-
-msgid "Development"
-msgstr "Development"
-
-msgid "be careful or set it back to"
-msgstr "be careful or set it back to"
-
-msgid "Production"
-msgstr "Production"
-
-msgid "An error occurred while loading. Please, try again later."
-msgstr "An error occurred while loading. Please, try again later."
-
-msgid "Info successfully saved"
-msgstr "Info successfully saved"
-
-msgid "You can upload a zip archive only."
-msgstr "You can upload a zip archive only."
-
-msgid "You can upload a pem certificate only."
-msgstr "You can upload a pem certificate only."
-
-msgid "You can upload an image only (.jpg, .jpeg, .gif and .png)."
-msgstr "You can upload an image only (.jpg, .jpeg, .gif and .png)."
-
-msgid "You can upload an icon only (.ico and .png)."
-msgstr "You can upload an icon only (.ico and .png)."
-
-msgid "You can upload a png only (.png)."
-msgstr "You can upload a png only (.png)."
-
-msgid "You can't upload more than one file at a time."
-msgstr "You can't upload more than one file at a time."
-
-msgid "An error occurred while uploading your file. Please, try again later."
-msgstr "An error occurred while uploading your file. Please, try again later."
-
-msgid "Your APK is being generated. Please come back in a few minutes."
-msgstr "Your APK is being generated. Please come back in a few minutes."
-
-msgid "Are you sure you want to delete this admin?"
-msgstr "Are you sure you want to delete this admin?"
+msgid "Aggregate information"
+msgstr "Aggregate information"
 
 msgid "HTTPS is not available on your server."
 msgstr "HTTPS is not available on your server."
@@ -441,9 +976,6 @@ msgstr "Push messages:"
 
 msgid "Queued"
 msgstr "Queued"
-
-msgid "Success"
-msgstr "Success"
 
 msgid "Failed"
 msgstr "Failed"
@@ -610,8 +1142,8 @@ msgstr "Running"
 msgid "HTTP Basic Auth (API)"
 msgstr "HTTP Basic Auth (API)"
 
-msgid "System was unable to validate any HTTP Basic Auth call."
-msgstr "System was unable to validate any HTTP Basic Auth call."
+msgid "HTTP Basic Auth is valid."
+msgstr "HTTP Basic Auth is valid."
 
 msgid "Bearer Token Auth (API)"
 msgstr "Bearer Token Auth (API)"
@@ -619,1873 +1151,389 @@ msgstr "Bearer Token Auth (API)"
 msgid "Bearer Token Auth is valid."
 msgstr "Bearer Token Auth is valid."
 
-msgid "General Information"
-msgstr "General Information"
+msgid "Push"
+msgstr "Push"
 
-msgid "Name"
-msgstr "Name"
+msgid "Configuration"
+msgstr "Configuration"
 
-msgid "Bundle Id"
-msgstr "Bundle Id"
+msgid "Global push"
+msgstr "Global push"
 
-msgid "Package Name"
-msgstr "Package Name"
+msgid "Taxes"
+msgstr "Taxes"
 
-msgid "Domain"
-msgstr "Domain"
+msgid "Plans"
+msgstr "Plans"
 
-msgid "URL Key"
-msgstr "URL Key"
+msgid "Discounts"
+msgstr "Discounts"
 
-msgid "URL"
-msgstr "URL"
+msgid "T&C's"
+msgstr "T&C's"
 
-msgid "Privacy policy URL"
-msgstr "Privacy policy URL"
+msgid "Tools"
+msgstr "Tools"
 
-msgid "Free until"
-msgstr "Free until"
+msgid "Cron"
+msgstr "Cron"
 
-msgid "MM/dd/yyyy"
-msgstr "MM/dd/yyyy"
+msgid "Firewall"
+msgstr "Firewall"
 
-msgid "This application is visible on the front"
-msgstr "This application is visible on the front"
+msgid "Mail logs"
+msgstr "Mail logs"
 
-msgid "Lock the entire application"
-msgstr "Lock the entire application"
+msgid "Whitelabels"
+msgstr "Whitelabels"
 
-msgid "Allow user to request app publication"
-msgstr "Allow user to request app publication"
+msgid "Communication"
+msgstr "Communication"
 
-msgid "Device Information"
-msgstr "Device Information"
+msgid "Translations"
+msgstr "Translations"
 
-msgid "Status"
-msgstr "Status"
+msgid "Log-in"
+msgstr "Log-in"
 
-msgid "Version"
-msgstr "Version"
+msgid "Forgot your password?"
+msgstr "Forgot your password?"
 
-msgid "Store URL"
-msgstr "Store URL"
+msgid "%s - v%s"
+msgstr "%s - v%s"
 
-msgid "Store Password"
-msgstr "Store Password"
+msgid "development"
+msgstr "development"
 
-msgid "Key Password"
-msgstr "Key Password"
+msgid "Siberian - Backoffice"
+msgstr "Siberian - Backoffice"
 
-msgid "Store App ID"
-msgstr "Store App ID"
+msgid "An error occurred while loading. Please, try again later."
+msgstr "An error occurred while loading. Please, try again later."
 
-msgid "Stores Info"
-msgstr "Stores Info"
+msgid "Info successfully saved"
+msgstr "Info successfully saved"
 
-msgid "Application Name"
-msgstr "Application Name"
+msgid "You can upload a zip archive only."
+msgstr "You can upload a zip archive only."
 
-msgid "Description"
-msgstr "Description"
+msgid "You can upload a pem certificate only."
+msgstr "You can upload a pem certificate only."
 
-msgid "Keywords"
-msgstr "Keywords"
+msgid "You can upload an image only (.jpg, .jpeg, .gif and .png)."
+msgstr "You can upload an image only (.jpg, .jpeg, .gif and .png)."
 
-msgid "Main category"
-msgstr "Main category"
+msgid "You can upload an icon only (.ico and .png)."
+msgstr "You can upload an icon only (.ico and .png)."
 
-msgid "Secondary category"
-msgstr "Secondary category"
+msgid "You can upload a png only (.png)."
+msgstr "You can upload a png only (.png)."
 
-msgid "Advertising"
-msgstr "Advertising"
+msgid "You can't upload more than one file at a time."
+msgstr "You can't upload more than one file at a time."
 
-msgid "Use Owner AdMob"
-msgstr "Use Owner AdMob"
+msgid "An error occurred while uploading your file. Please, try again later."
+msgstr "An error occurred while uploading your file. Please, try again later."
 
-msgid "If user doesn't use AdMob, split revenue will default to 100."
-msgstr "If user doesn't use AdMob, split revenue will default to 100."
+msgid "Your APK is being generated. Please come back in a few minutes."
+msgstr "Your APK is being generated. Please come back in a few minutes."
 
-msgid "Split Ad revenue (percent for you)"
-msgstr "Split Ad revenue (percent for you)"
-
-msgid "AdMob Banner ID"
-msgstr "AdMob Banner ID"
-
-msgid "AdMob Interstitial ID"
-msgstr "AdMob Interstitial ID"
-
-msgid "AdMob Type"
-msgstr "AdMob Type"
-
-msgid "Banner"
-msgstr "Banner"
-
-msgid "Interstitial"
-msgstr "Interstitial"
-
-msgid "Banner & Interstitial"
-msgstr "Banner & Interstitial"
-
-msgid "Banner settings"
-msgstr "Banner settings"
-
-msgid "Banner title"
-msgstr "Banner title"
-
-msgid "Banner author"
-msgstr "Banner author"
-
-msgid "Banner button label"
-msgstr "Banner button label"
-
-msgid "Banner %s store label"
-msgstr "Banner %s store label"
-
-msgid "e.g: On %s"
-msgstr "e.g: On %s"
-
-msgid "Banner %s price"
-msgstr "Banner %s price"
-
-msgid "User Information"
-msgstr "User Information"
-
-msgid "Company"
-msgstr "Company"
-
-msgid "Phone"
-msgstr "Phone"
-
-msgid "Developer Accounts"
-msgstr "Developer Accounts"
+msgid "Are you sure you want to delete this admin?"
+msgstr "Are you sure you want to delete this admin?"
 
 msgid "Username"
 msgstr "Username"
 
-msgid "Publish under our account"
-msgstr "Publish under our account"
+msgid "Firstname"
+msgstr "Firstname"
 
-msgid "Missing Information"
-msgstr "Missing Information"
+msgid "Lastname"
+msgstr "Lastname"
 
-msgid "Media"
-msgstr "Media"
+msgid "Change password"
+msgstr "Change password"
 
-msgid "App Store Icon"
-msgstr "App Store Icon"
+msgid "Confirm Password"
+msgstr "Confirm Password"
 
-msgid "Google Play Icon"
-msgstr "Google Play Icon"
+msgid "Bearer Token"
+msgstr "Bearer Token"
 
-msgid "Mobile Source Codes"
-msgstr "Mobile Source Codes"
+msgid "Select API access"
+msgstr "Select API access"
 
-msgid "Source type:"
-msgstr "Source type:"
+msgid "Update"
+msgstr "Update"
 
-msgid "Sources"
-msgstr "Sources"
+msgid "Grant user"
+msgstr "Grant user"
 
-msgid "iPhone"
-msgstr "iPhone"
+msgid "Revoke user"
+msgstr "Revoke user"
 
-msgid "Xcode 9.2"
-msgstr "Xcode 9.2"
+msgid "Exists"
+msgstr "Exists"
 
-msgid "iOS 9+"
-msgstr "iOS 9+"
+msgid "Authenticate"
+msgstr "Authenticate"
 
-msgid "Download latest sources"
-msgstr "Download latest sources"
+msgid "Forgot password"
+msgstr "Forgot password"
 
-msgid "Not yet generated."
-msgstr "Not yet generated."
+msgid "Backoffice options"
+msgstr "Backoffice options"
 
-msgid "Generate sources"
-msgstr "Generate sources"
+msgid "Rebuild manifest"
+msgstr "Rebuild manifest"
 
-msgid "Generating"
-msgstr "Generating"
+msgid "Clear temp"
+msgstr "Clear temp"
 
-msgid "Cancel"
-msgstr "Cancel"
+msgid "Clear cache"
+msgstr "Clear cache"
 
-msgid "iPhone (No Ads)"
-msgstr "iPhone (No Ads)"
+msgid "Clear logs"
+msgstr "Clear logs"
 
-msgid "Apple rejects apps that includes Ad Support but doesn't use it.<br />Generate your iOS app out of this source code if you don't include Ads."
-msgstr "Apple rejects apps that includes Ad Support but doesn't use it.<br />Generate your iOS app out of this source code if you don't include Ads."
+msgid "List available applications"
+msgstr "List available applications"
 
-msgid "Note that if you want to add ads later, you will have to publish the app again."
-msgstr "Note that if you want to add ads later, you will have to publish the app again."
+msgid "Send global push notifications"
+msgstr "Send global push notifications"
 
-msgid "Android"
-msgstr "Android"
+msgid "Extended whitelabel"
+msgstr "Extended whitelabel"
 
-msgid "Android Studio 3+"
-msgstr "Android Studio 3+"
+msgid "Install module"
+msgstr "Install module"
 
-msgid "Android 4.4+"
-msgstr "Android 4.4+"
+msgid "Fetch whitelabel domains"
+msgstr "Fetch whitelabel domains"
 
-msgid "Local APK build"
-msgstr "Local APK build"
+msgid "Edit the user %s"
+msgstr "Edit the user %s"
 
-msgid "We were unable to determine your %s version."
-msgstr "We were unable to determine your %s version."
+msgid "Api User"
+msgstr "Api User"
 
-msgid "The local APK generator requires %s, you can check the version via SSH with the following command %s."
-msgstr "The local APK generator requires %s, you can check the version via SSH with the following command %s."
+msgid "User successfully saved"
+msgstr "User successfully saved"
 
-msgid "Service APK generator"
-msgstr "Service APK generator"
+msgid "List of your users"
+msgstr "List of your users"
 
-msgid "Build information"
-msgstr "Build information"
-
-msgid "Message"
-msgstr "Message"
-
-msgid "Download APK"
-msgstr "Download APK"
-
-msgid "Request APK generation"
-msgstr "Request APK generation"
-
-msgid "Service notes"
-msgstr "Service notes"
-
-msgid "Generate and publish iOS Application"
-msgstr "Generate and publish iOS Application"
-
-msgctxt "backoffice_application"
-msgid "Licensing"
-msgstr "Licensing"
-
-msgctxt "backoffice_application"
-msgid "Remaining builds"
-msgstr "Remaining builds"
-
-msgctxt "backoffice_application"
-msgid "You can change your license in <b>%s > %s</b>"
-msgstr "You can change your license in <b>%s > %s</b>"
-
-msgctxt "backoffice_application"
-msgid "Publication settings"
-msgstr "Publication settings"
-
-msgctxt "backoffice_application"
-msgid "I am publishing for/with ..."
-msgstr "I am publishing for/with ..."
-
-msgctxt "backoffice_application"
-msgid "an account without 2FA/2SV"
-msgstr "an account without 2FA/2SV"
-
-msgctxt "backoffice_application"
-msgid "a 2FA/2SV protected account, I will enter the granted account below"
-msgstr "a 2FA/2SV protected account, I will enter the granted account below"
-
-msgctxt "backoffice_application"
-msgid "a 2FA/2SV protected account, which is granted to %s"
-msgstr "a 2FA/2SV protected account, which is granted to %s"
-
-msgctxt "backoffice_application"
-msgid "App Store Connect login"
-msgstr "App Store Connect login"
-
-msgctxt "backoffice_application"
-msgid "Password"
-msgstr "Password"
-
-msgctxt "backoffice_application"
-msgid "App store connect e-mail"
-msgstr "App store connect e-mail"
-
-msgctxt "backoffice_application"
-msgid "Protected App store connect e-mail"
-msgstr "Protected App store connect e-mail"
-
-msgctxt "backoffice_application"
-msgid "Apple Development team id"
-msgstr "Apple Development team id"
-
-msgctxt "backoffice_application"
-msgid "Team name"
-msgstr "Team name"
-
-msgctxt "backoffice_application"
-msgid "App Store Connect provider"
-msgstr "App Store Connect provider"
-
-msgctxt "backoffice_application"
-msgid "How to find Team ID, Team name & Provider? Follow this <a href=\"%s\" target=\"blank\">documentation</a>"
-msgstr "How to find Team ID, Team name & Provider? Follow this <a href=\"%s\" target=\"blank\">documentation</a>"
-
-msgctxt "backoffice_application"
-msgid "Language"
-msgstr "Language"
-
-msgid "Brazilian Portuguese"
-msgstr "Brazilian Portuguese"
-
-msgid "Danish"
-msgstr "Danish"
-
-msgid "Dutch"
-msgstr "Dutch"
-
-msgid "English"
-msgstr "English"
-
-msgid "English_Australian"
-msgstr "English_Australian"
-
-msgid "English_CA"
-msgstr "English_CA"
-
-msgid "English_UK"
-msgstr "English_UK"
-
-msgid "German"
-msgstr "German"
-
-msgid "Greek"
-msgstr "Greek"
-
-msgid "Finnish"
-msgstr "Finnish"
-
-msgid "French"
-msgstr "French"
-
-msgid "French_CA"
-msgstr "French_CA"
-
-msgid "Indonesian"
-msgstr "Indonesian"
-
-msgid "Italian"
-msgstr "Italian"
-
-msgid "Japanese"
-msgstr "Japanese"
-
-msgid "Korean"
-msgstr "Korean"
-
-msgid "Malay"
-msgstr "Malay"
-
-msgid "Spanish"
-msgstr "Spanish"
-
-msgid "Spanish_MX"
-msgstr "Spanish_MX"
-
-msgid "Portuguese"
-msgstr "Portuguese"
-
-msgid "Russian"
-msgstr "Russian"
-
-msgid "Swedish"
-msgstr "Swedish"
-
-msgid "Norwegian"
-msgstr "Norwegian"
-
-msgid "Thai"
-msgstr "Thai"
-
-msgid "Turkish"
-msgstr "Turkish"
-
-msgid "Vietnamese"
-msgstr "Vietnamese"
-
-msgid "Simplified Chinese"
-msgstr "Simplified Chinese"
-
-msgid "Traditional Chinese"
-msgstr "Traditional Chinese"
-
-msgctxt "backoffice_application"
-msgid "Options"
-msgstr "Options"
-
-msgctxt "backoffice_application"
-msgid "With ads functionality"
-msgstr "With ads functionality"
-
-msgctxt "backoffice_application"
-msgid "* If Apple doesn't detect any configured ads, your application will be refused."
-msgstr "* If Apple doesn't detect any configured ads, your application will be refused."
-
-msgctxt "backoffice_application"
-msgid "With background audio playing"
-msgstr "With background audio playing"
-
-msgctxt "backoffice_application"
-msgid "* You must tell Apple why you need the background audio playing."
-msgstr "* You must tell Apple why you need the background audio playing."
-
-msgctxt "backoffice_application"
-msgid "Build information"
-msgstr "Build information"
-
-msgctxt "backoffice_application"
-msgid "idle"
-msgstr "idle"
-
-msgid "Last error"
-msgstr "Last error"
-
-msgid "Service status / load"
-msgstr "Service status / load"
-
-msgid "Current load is"
-msgstr "Current load is"
-
-msgid "Your build should be ready"
-msgstr "Your build should be ready"
-
-msgid "Current status is"
-msgstr "Current status is"
-
-msgid "Save credentials & settings"
-msgstr "Save credentials & settings"
-
-msgid "Request a publication"
-msgstr "Request a publication"
-
-msgctxt "backoffice_application"
-msgid "Service notes"
-msgstr "Service notes"
-
-msgid "Upgrade required for Sources APK / IPA"
-msgstr "Upgrade required for Sources APK / IPA"
-
-msgid "This application was not upgraded to the unified splashscreens & can't be published right now."
-msgstr "This application was not upgraded to the unified splashscreens & can't be published right now."
-
-msgid "Certificate"
-msgstr "Certificate"
-
-msgid "Send here your iOS certificate to enable the push notifications for this application."
-msgstr "Send here your iOS certificate to enable the push notifications for this application."
-
-msgid "<b>File type:</b> %s"
-msgstr "<b>File type:</b> %s"
-
-msgid "APNS Port 2195 is:"
-msgstr "APNS Port 2195 is:"
-
-msgid "Open"
-msgstr "Open"
-
-msgid "Closed"
-msgstr "Closed"
-
-msgid "APNS Feedback port 2196 is:"
-msgstr "APNS Feedback port 2196 is:"
-
-msgid "PEM test:"
-msgstr "PEM test:"
-
-msgid "Error"
-msgstr "Error"
-
-msgid "Your certificate is valid until:"
-msgstr "Your certificate is valid until:"
-
-msgid "for the bundle id:"
-msgstr "for the bundle id:"
-
-msgid "Your certificate is invalid"
-msgstr "Your certificate is invalid"
-
-msgid "Click here to send your certificate"
-msgstr "Click here to send your certificate"
-
-msgid "OR"
-msgstr "OR"
-
-msgid "Drop your certificate here"
-msgstr "Drop your certificate here"
-
-msgid "You already have sent a certificate."
-msgstr "You already have sent a certificate."
-
-msgid "You have sent a certificate."
-msgstr "You have sent a certificate."
-
-msgid "Manage Access"
-msgstr "Manage Access"
-
-msgid "Manage Admins access feature by feature."
-msgstr "Manage Admins access feature by feature."
+msgid "Search"
+msgstr "Search"
 
 msgid "Id"
 msgstr "Id"
 
+msgid "User name"
+msgstr "User name"
+
+msgid "Created At"
+msgstr "Created At"
+
 msgid "Actions"
 msgstr "Actions"
 
-msgid "IMPERSONATE"
-msgstr "IMPERSONATE"
+msgid "You don't have any users yet"
+msgstr "You don't have any users yet"
 
-msgid "EDIT"
-msgstr "EDIT"
+msgid "Api Users"
+msgstr "Api Users"
 
-msgid "Business"
-msgstr "Business"
+msgid "Authentication failed. Please, check the username and/or the password"
+msgstr "Authentication failed. Please, check the username and/or the password"
 
-msgid "Catalogs"
-msgstr "Catalogs"
+msgid "Background"
+msgstr "Background"
 
-msgid "Education"
-msgstr "Education"
+msgid "Header"
+msgstr "Header"
 
-msgid "Entertainment"
-msgstr "Entertainment"
+msgid "Text"
+msgstr "Text"
 
-msgid "Finance"
-msgstr "Finance"
+msgid "Border"
+msgstr "Border"
 
-msgid "Food & Drink"
-msgstr "Food & Drink"
+msgid "Homepage"
+msgstr "Homepage"
 
-msgid "Games"
-msgstr "Games"
+msgid "Image"
+msgstr "Image"
 
-msgid "Health & Fitness"
-msgstr "Health & Fitness"
+msgid "List"
+msgstr "List"
 
-msgid "Lifestyle"
-msgstr "Lifestyle"
+msgid "Title's List"
+msgstr "Title's List"
 
-msgid "Medical"
-msgstr "Medical"
+msgid "List Item"
+msgstr "List Item"
 
-msgid "Audio"
-msgstr "Audio"
+msgid "Card"
+msgstr "Card"
 
-msgid "Navigation"
-msgstr "Navigation"
+msgid "Title's Card"
+msgstr "Title's Card"
 
-msgid "News"
-msgstr "News"
+msgid "Card Item"
+msgstr "Card Item"
 
-msgid "Photo & Video"
-msgstr "Photo & Video"
+msgid "Buttons"
+msgstr "Buttons"
 
-msgid "Productivity"
-msgstr "Productivity"
+msgid "Button"
+msgstr "Button"
 
-msgid "Reference"
-msgstr "Reference"
+msgid "phone, locate, facebook, email, etc.."
+msgstr "phone, locate, facebook, email, etc.."
 
-msgid "Social Networking"
-msgstr "Social Networking"
+msgid "Tip: %s"
+msgstr "Tip: %s"
 
-msgid "Sports"
-msgstr "Sports"
+msgid "Button light"
+msgstr "Button light"
 
-msgid "Travel"
-msgstr "Travel"
+msgid "Button positive"
+msgstr "Button positive"
 
-msgid "Utilities"
-msgstr "Utilities"
+msgid "form submit, search, validation, confirmation"
+msgstr "form submit, search, validation, confirmation"
 
-msgid "Book"
-msgstr "Book"
+msgid "Button calm"
+msgstr "Button calm"
 
-msgid "If your app is already published, changing the URL key or domain will break it. You will have to republish it. Change it anyway?"
-msgstr "If your app is already published, changing the URL key or domain will break it. You will have to republish it. Change it anyway?"
+msgid "informative, modal"
+msgstr "informative, modal"
 
-msgid "low"
-msgstr "low"
+msgid "Button balanced"
+msgstr "Button balanced"
 
-msgid "online"
-msgstr "online"
+msgid "contextual, depends on module/layout"
+msgstr "contextual, depends on module/layout"
 
-msgid "(DEMO)"
-msgstr "(DEMO)"
+msgid "Button energized"
+msgstr "Button energized"
 
-msgid "My Applications"
-msgstr "My Applications"
+msgid "Button assertive"
+msgstr "Button assertive"
 
-msgid "Create a new application"
-msgstr "Create a new application"
+msgid "confirm action, deletion, etc ..."
+msgstr "confirm action, deletion, etc ..."
 
-msgid "Create"
-msgstr "Create"
+msgid "Button royal"
+msgstr "Button royal"
 
-msgid "Filter your apps..."
-msgstr "Filter your apps..."
+msgid "Button dark"
+msgstr "Button dark"
 
-msgid "Created at %s"
-msgstr "Created at %s"
+msgid "Badges"
+msgstr "Badges"
 
-msgid "Please note that this page is currently displaying DEMO data. Real data will be displayed when the %s applications limit is reached."
-msgstr "Please note that this page is currently displaying DEMO data. Real data will be displayed when the %s applications limit is reached."
+msgid "badge light"
+msgstr "badge light"
 
-msgid "Total visits"
-msgstr "Total visits"
+msgid "badge positive"
+msgstr "badge positive"
 
-msgid "Total installs"
-msgstr "Total installs"
+msgid "badge calm"
+msgstr "badge calm"
 
-msgid "Loading..."
-msgstr "Loading..."
+msgid "badge balanced"
+msgstr "badge balanced"
 
-msgid "Top installs"
-msgstr "Top installs"
+msgid "badge energized"
+msgstr "badge energized"
 
-msgid "Top visits"
-msgstr "Top visits"
+msgid "badge assertive"
+msgstr "badge assertive"
 
-msgid "No data for this metrics for now."
-msgstr "No data for this metrics for now."
+msgid "badge royal"
+msgstr "badge royal"
 
-msgid "Are you sure you want to delete this application?"
-msgstr "Are you sure you want to delete this application?"
+msgid "badge dark"
+msgstr "badge dark"
 
-msgid "Are you sure you want to duplicate this application?"
-msgstr "Are you sure you want to duplicate this application?"
+msgid "Checkbox"
+msgstr "Checkbox"
 
-msgid "Visits"
-msgstr "Visits"
+msgid "Checkbox on"
+msgstr "Checkbox on"
 
-msgid "Installs"
-msgstr "Installs"
-
-msgid "Start date must be lower than end date."
-msgstr "Start date must be lower than end date."
-
-msgid "You have to chose a start and an end date."
-msgstr "You have to chose a start and an end date."
-
-msgid "Push notifications"
-msgstr "Push notifications"
-
-msgid "White Label"
-msgstr "White Label"
-
-msgid "Activity"
-msgstr "Activity"
-
-msgid "Manage tour"
-msgstr "Manage tour"
-
-msgid "Profile"
-msgstr "Profile"
-
-msgid "Support"
-msgstr "Support"
-
-msgid "Customization mode activated"
-msgstr "Customization mode activated"
-
-msgid "Customize My Editor"
-msgstr "Customize My Editor"
-
-msgid "REDUCE"
-msgstr "REDUCE"
-
-msgid "Environment is"
-msgstr "Environment is"
-
-msgid "Logo"
-msgstr "Logo"
-
-msgid "Send your logo"
-msgstr "Send your logo"
-
-msgid "Favicon"
-msgstr "Favicon"
-
-msgid "Send your favicon"
-msgstr "Send your favicon"
-
-msgid "Général"
-msgstr "Général"
-
-msgid "Background Color"
-msgstr "Background Color"
-
-msgid "Text Color"
-msgstr "Text Color"
-
-msgid "Color blue"
-msgstr "Color blue"
-
-msgid "Color red"
-msgstr "Color red"
-
-msgid "Color yellow"
-msgstr "Color yellow"
-
-msgid "Color green"
-msgstr "Color green"
-
-msgid "Titles"
-msgstr "Titles"
-
-msgid "Border Red"
-msgstr "Border Red"
-
-msgid "Border Color"
-msgstr "Border Color"
-
-msgid "Border Blue"
-msgstr "Border Blue"
-
-msgid "Border Yellow"
-msgstr "Border Yellow"
-
-msgid "Border Purple"
-msgstr "Border Purple"
-
-msgid "Border Green"
-msgstr "Border Green"
-
-msgid "Border Grey"
-msgstr "Border Grey"
-
-msgid "Content background"
-msgstr "Content background"
-
-msgid "Grey buttons"
-msgstr "Grey buttons"
-
-msgid "Background Color - Hover"
-msgstr "Background Color - Hover"
-
-msgid "Text Color - Hover"
-msgstr "Text Color - Hover"
-
-msgid "Font Color blue"
-msgstr "Font Color blue"
-
-msgid "Content color"
-msgstr "Content color"
-
-msgid "Input flat"
-msgstr "Input flat"
-
-msgid "Color purple"
-msgstr "Color purple"
-
-msgid "Step menu background"
-msgstr "Step menu background"
-
-msgid "Sidebar background"
-msgstr "Sidebar background"
-
-msgid "Background Color - Active"
-msgstr "Background Color - Active"
-
-msgid "Text Color - Active"
-msgstr "Text Color - Active"
-
-msgid "Loading your white label editor."
-msgstr "Loading your white label editor."
-
-msgid "Your customization has been applied to your white label panel."
-msgstr "Your customization has been applied to your white label panel."
-
-msgid "Images"
-msgstr "Images"
+msgid "Checkbox off"
+msgstr "Checkbox off"
 
 msgid "Radio"
 msgstr "Radio"
 
-msgid "Videos"
-msgstr "Videos"
+msgid "Toggle"
+msgstr "Toggle"
 
-msgid "Booking"
-msgstr "Booking"
+msgid "Toggle on"
+msgstr "Toggle on"
 
-msgid "Catalog"
-msgstr "Catalog"
+msgid "Toggle off"
+msgstr "Toggle off"
 
-msgid "Set Meal"
-msgstr "Set Meal"
+msgid "Toggle's Handle on"
+msgstr "Toggle's Handle on"
 
-msgid "Custom Page"
-msgstr "Custom Page"
+msgid "Toggle's Handle off"
+msgstr "Toggle's Handle off"
 
-msgid "Code Scan"
-msgstr "Code Scan"
+msgid "Tooltip"
+msgstr "Tooltip"
 
-msgid "Fan Wall"
-msgstr "Fan Wall"
+msgid "Icons"
+msgstr "Icons"
 
-msgid "Newswall"
-msgstr "Newswall"
+msgid "Icon"
+msgstr "Icon"
 
-msgid "Donation"
-msgstr "Donation"
+msgid "Icon active"
+msgstr "Icon active"
 
-msgid "Contact"
-msgstr "Contact"
+msgid "Icon inactive"
+msgstr "Icon inactive"
 
-msgid "Calendar"
-msgstr "Calendar"
+msgid "Spinner"
+msgstr "Spinner"
 
-msgid "Form"
-msgstr "Form"
+msgid "iOS Spinner"
+msgstr "iOS Spinner"
 
-msgid "Job"
-msgstr "Job"
+msgid "Android Spinner"
+msgstr "Android Spinner"
 
-msgid "Loyalty Card"
-msgstr "Loyalty Card"
+msgid "Dialog"
+msgstr "Dialog"
 
-msgid "Maps"
-msgstr "Maps"
+msgid "Dialog text"
+msgstr "Dialog text"
 
-msgid "Commerce"
-msgstr "Commerce"
+msgid "Dialog background"
+msgstr "Dialog background"
 
-msgid "Padlock"
-msgstr "Padlock"
+msgid "Dialog button"
+msgstr "Dialog button"
 
-msgid "Inbox"
-msgstr "Inbox"
+msgid "Advanced Customization CSS / SCSS"
+msgstr "Advanced Customization CSS / SCSS"
 
-msgid "Discount"
-msgstr "Discount"
+msgid "Show"
+msgstr "Show"
 
-msgid "QR Coupons"
-msgstr "QR Coupons"
+msgid "Available SCSS Variables corresponding to previously set colors"
+msgstr "Available SCSS Variables corresponding to previously set colors"
 
-msgid "Appointment"
-msgstr "Appointment"
+msgid "Input your SCSS here, save to validate & preview"
+msgstr "Input your SCSS here, save to validate & preview"
 
-msgid "In-App Messages"
-msgstr "In-App Messages"
+msgid "Autocomplete & Suggestions ..."
+msgstr "Autocomplete & Suggestions ..."
 
-msgid "Push Notifications"
-msgstr "Push Notifications"
-
-msgid "Twitter"
-msgstr "Twitter"
-
-msgid "Privacy Policy"
-msgstr "Privacy Policy"
-
-msgid "WooCommerce Link"
-msgstr "WooCommerce Link"
-
-msgid "Shopify"
-msgstr "Shopify"
-
-msgid "Volusion"
-msgstr "Volusion"
-
-msgid "Prestashop"
-msgstr "Prestashop"
-
-msgid "Magento"
-msgstr "Magento"
-
-msgid "RSS Feed"
-msgstr "RSS Feed"
-
-msgid "Links"
-msgstr "Links"
-
-msgid "Facebook"
-msgstr "Facebook"
-
-msgid "Contest"
-msgstr "Contest"
-
-msgid "Source code"
-msgstr "Source code"
-
-msgid "Link"
-msgstr "Link"
-
-msgid "Tips calculator"
-msgstr "Tips calculator"
-
-msgid "Topics"
-msgstr "Topics"
-
-msgid "Go back to homepage"
-msgstr "Go back to homepage"
-
-msgid "Search ..."
-msgstr "Search ..."
-
-msgid "Your pages"
-msgstr "Your pages"
-
-msgid "cabride cab-ride cabride"
-msgstr "cabride cab-ride cabride"
-
-msgid "push notifications notifications push_notification"
-msgstr "push notifications notifications push_notification"
-
-msgid "contacter about us contact"
-msgstr "contacter about us contact"
-
-msgid "weather weather weather"
-msgstr "weather weather weather"
-
-msgid "my account my account tabbar_account"
-msgstr "my account my account tabbar_account"
-
-msgid "Add a page"
-msgstr "Add a page"
-
-msgid "Add pages"
-msgstr "Add pages"
-
-msgid "All"
-msgstr "All"
-
-msgid "Social"
-msgstr "Social"
-
-msgid "Contacter"
-msgstr "Contacter"
-
-msgid "Monetization"
-msgstr "Monetization"
-
-msgid "Customization"
-msgstr "Customization"
-
-msgid "Integration"
-msgstr "Integration"
-
-msgid "Events"
-msgstr "Events"
-
-msgid "Misc"
-msgstr "Misc"
-
-msgid "appointment appointment appointment social social"
-msgstr "appointment appointment appointment social social"
-
-msgid "audio music_gallery audio media media"
-msgstr "audio music_gallery audio media media"
-
-msgid "booking booking booking contact contacter"
-msgstr "booking booking booking contact contacter"
-
-msgid "calendar calendar calendar events events"
-msgstr "calendar calendar calendar events events"
-
-msgid "catalog catalog catalog monetization monetization"
-msgstr "catalog catalog catalog monetization monetization"
-
-msgid "code scan code_scan code scan misc misc"
-msgstr "code scan code_scan code scan misc misc"
-
-msgid "commerce m_commerce commerce monetization monetization"
-msgstr "commerce m_commerce commerce monetization monetization"
-
-msgid "contacter contact contact contact contacter"
-msgstr "contacter contact contact contact contacter"
-
-msgid "contest social_gaming contest social social"
-msgstr "contest social_gaming contest social social"
-
-msgid "custom page custom_page custom page customization customization"
-msgstr "custom page custom_page custom page customization customization"
-
-msgid "discount discount discount monetization monetization"
-msgstr "discount discount discount monetization monetization"
-
-msgid "donation donation donation monetization monetization"
-msgstr "donation donation donation monetization monetization"
-
-msgid "emploi job job social social"
-msgstr "emploi job job social social"
-
-msgid "emplois places places misc misc"
-msgstr "emplois places places misc misc"
-
-msgid "facebook facebook facebook social social"
-msgstr "facebook facebook facebook social social"
-
-msgid "fan wall fanwall fan wall social social"
-msgstr "fan wall fanwall fan wall social social"
-
-msgid "folders (v2) folder_v2 folders (v2) misc misc"
-msgstr "folders (v2) folder_v2 folders (v2) misc misc"
-
-msgid "form form form contact contacter"
-msgstr "form form form contact contacter"
-
-msgid "images image_gallery images media media"
-msgstr "images image_gallery images media media"
-
-msgid "in-app messages inapp_messages in-app messages contact contacter"
-msgstr "in-app messages inapp_messages in-app messages contact contacter"
-
-msgid "inbox inbox inbox contact contacter"
-msgstr "inbox inbox inbox contact contacter"
-
-msgid "link weblink_mono link integration integration"
-msgstr "link weblink_mono link integration integration"
-
-msgid "links weblink_multi links integration integration"
-msgstr "links weblink_multi links integration integration"
-
-msgid "loyalty card loyalty loyalty card monetization monetization"
-msgstr "loyalty card loyalty loyalty card monetization monetization"
-
-msgid "magento magento magento integration integration"
-msgstr "magento magento magento integration integration"
-
-msgid "maps maps maps misc misc"
-msgstr "maps maps maps misc misc"
-
-msgid "newswall newswall newswall social social"
-msgstr "newswall newswall newswall social social"
-
-msgid "padlock padlock padlock misc misc"
-msgstr "padlock padlock padlock misc misc"
-
-msgid "prestashop prestashop prestashop integration integration"
-msgstr "prestashop prestashop prestashop integration integration"
-
-msgid "privacy policy privacy_policy privacy policy misc misc"
-msgstr "privacy policy privacy_policy privacy policy misc misc"
-
-msgid "qr coupons qr_discount qr coupons monetization monetization"
-msgstr "qr coupons qr_discount qr coupons monetization monetization"
-
-msgid "radio radio radio media media"
-msgstr "radio radio radio media media"
-
-msgid "rss feed rss_feed rss feed media media"
-msgstr "rss feed rss_feed rss feed media media"
-
-msgid "set meal set_meal set meal monetization monetization"
-msgstr "set meal set_meal set meal monetization monetization"
-
-msgid "shopify shopify shopify integration integration"
-msgstr "shopify shopify shopify integration integration"
-
-msgid "source code source_code source code customization customization"
-msgstr "source code source_code source code customization customization"
-
-msgid "tips calculator tip tips calculator misc misc"
-msgstr "tips calculator tip tips calculator misc misc"
-
-msgid "topics topic topics contact contacter"
-msgstr "topics topic topics contact contacter"
-
-msgid "twitter twitter twitter social social"
-msgstr "twitter twitter twitter social social"
-
-msgid "videos video_gallery videos media media"
-msgstr "videos video_gallery videos media media"
-
-msgid "volusion volusion volusion integration integration"
-msgstr "volusion volusion volusion integration integration"
-
-msgid "weather weather weather misc misc"
-msgstr "weather weather weather misc misc"
-
-msgid "woocommerce link woocommerce woocommerce link integration integration"
-msgstr "woocommerce link woocommerce woocommerce link integration integration"
-
-msgid "wordpress (v2) wordpress_v2 wordpress (v2) integration integration"
-msgstr "wordpress (v2) wordpress_v2 wordpress (v2) integration integration"
-
-msgid "Delete this page?"
-msgstr "Delete this page?"
-
-msgid " \"Remove this page from this folder?\""
-msgstr " \"Remove this page from this folder?\""
-
-msgid "An error occurred while loading"
-msgstr "An error occurred while loading"
-
-msgid "You must have published your application to access this feature"
-msgstr "You must have published your application to access this feature"
-
-msgid "to add a subfolder."
-msgstr "to add a subfolder."
-
-msgid "Design"
-msgstr "Design"
-
-msgid "Colors"
-msgstr "Colors"
-
-msgid "Features"
-msgstr "Features"
-
-msgid "Application"
-msgstr "Application"
-
-msgid "Publication"
-msgstr "Publication"
-
-msgid "Promote"
-msgstr "Promote"
-
-msgid "Analytics"
-msgstr "Analytics"
-
-msgid "App analytics"
-msgstr "App analytics"
-
-msgid "Feature Analytics"
-msgstr "Feature Analytics"
-
-msgid "Terms & Conditions"
-msgstr "Terms & Conditions"
-
-msgctxt "cabride"
-msgid "Cab-Ride"
-msgstr "Cab-Ride"
-
-msgctxt "cabride"
-msgid "Dashboard"
-msgstr "Dashboard"
-
-msgctxt "cabride"
-msgid "Rides"
-msgstr "Rides"
-
-msgctxt "cabride"
-msgid "Payments"
-msgstr "Payments"
-
-msgctxt "cabride"
-msgid "Users"
-msgstr "Users"
-
-msgctxt "cabride"
-msgid "Drivers"
-msgstr "Drivers"
-
-msgctxt "cabride"
-msgid "Vehicle types"
-msgstr "Vehicle types"
-
-msgctxt "cabride"
-msgid "Settings"
-msgstr "Settings"
-
-msgid "Manage your app's features"
-msgstr "Manage your app's features"
-
-msgid "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
-msgstr "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
-
-msgid "Congratulations,"
-msgstr "Congratulations,"
-
-msgid "You have created your account. With this account, you will be able to enjoy great offers available in our application."
-msgstr "You have created your account. With this account, you will be able to enjoy great offers available in our application."
-
-msgid "Here are your credentials:"
-msgstr "Here are your credentials:"
-
-msgid "Login:"
-msgstr "Login:"
-
-msgid "Password:"
-msgstr "Password:"
-
-msgid "you know it!"
-msgstr "you know it!"
-
-msgid "If you encounter any problems, do not hesitate to contact us:"
-msgstr "If you encounter any problems, do not hesitate to contact us:"
-
-msgid "See you soon,"
-msgstr "See you soon,"
-
-msgid "%s - Account creation"
-msgstr "%s - Account creation"
-
-msgctxt "cabride"
-msgid "Distance unit"
-msgstr "Distance unit"
-
-msgid "Km"
-msgstr "Km"
-
-msgid "Miles"
-msgstr "Miles"
-
-msgctxt "cabride"
-msgid "Search timeout (seconds)"
-msgstr "Search timeout (seconds)"
-
-msgctxt "cabride"
-msgid "Search radius (km/mi)"
-msgstr "Search radius (km/mi)"
-
-msgctxt "cabride"
-msgid "Accepted payments"
-msgstr "Accepted payments"
-
-msgctxt "cabride"
-msgid "Credit card"
-msgstr "Credit card"
-
-msgctxt "cabride"
-msgid "Cash"
-msgstr "Cash"
-
-msgctxt "cabride"
-msgid "Credit card & Cash"
-msgstr "Credit card & Cash"
-
-msgctxt "cabride"
-msgid "Payment provider"
-msgstr "Payment provider"
-
-msgctxt "cabride"
-msgid "Stripe (Credit card)"
-msgstr "Stripe (Credit card)"
-
-msgctxt "cabride"
-msgid "2 Checkout (Credit card)"
-msgstr "2 Checkout (Credit card)"
-
-msgctxt "cabride"
-msgid "BrainTree (Credit card & PayPal)"
-msgstr "BrainTree (Credit card & PayPal)"
-
-msgctxt "cabride"
-msgid "Commission type"
-msgstr "Commission type"
-
-msgctxt "cabride"
-msgid "Disabled"
-msgstr "Disabled"
-
-msgctxt "cabride"
-msgid "Fixed amount"
-msgstr "Fixed amount"
-
-msgctxt "cabride"
-msgid "Percentage"
-msgstr "Percentage"
-
-msgctxt "cabride"
-msgid "Commission"
-msgstr "Commission"
-
-msgctxt "cabride"
-msgid "Course mode"
-msgstr "Course mode"
-
-msgctxt "cabride"
-msgid "Immediate"
-msgstr "Immediate"
-
-msgctxt "cabride"
-msgid "Pricing mode"
-msgstr "Pricing mode"
-
-msgctxt "cabride"
-msgid "Fixed by vehicle type (Admin)"
-msgstr "Fixed by vehicle type (Admin)"
-
-msgctxt "cabride"
-msgid "Fixed by the drivers"
-msgstr "Fixed by the drivers"
-
-msgctxt "cabride"
-msgid "Driver can register"
-msgstr "Driver can register"
-
-msgctxt "cabride"
-msgid "Save"
-msgstr "Save"
-
-msgid "Patientez ..."
-msgstr "Patientez ..."
-
-msgctxt "cabride"
-msgid "Public key"
-msgstr "Public key"
-
-msgctxt "cabride"
-msgid "Secret key"
-msgstr "Secret key"
-
-msgctxt "cabride"
-msgid "Sandbox mode"
-msgstr "Sandbox mode"
-
-msgctxt "cabride"
-msgid "Username"
-msgstr "Username"
-
-msgctxt "cabride"
-msgid "Password"
-msgstr "Password"
-
-msgctxt "cabride"
-msgid "Merchant ID"
-msgstr "Merchant ID"
-
-msgctxt "cabride"
-msgid "Private key"
-msgstr "Private key"
-
-msgctxt "cabride"
-msgid "CabRide settings"
-msgstr "CabRide settings"
-
-msgctxt "cabride"
-msgid "Payment API credentials"
-msgstr "Payment API credentials"
-
-msgctxt "cabride"
-msgid "Stripe"
-msgstr "Stripe"
-
-msgctxt "cabride"
-msgid "2Checkout"
-msgstr "2Checkout"
-
-msgctxt "cabride"
-msgid "BrainTree"
-msgstr "BrainTree"
-
-msgid "CabRide Settings"
-msgstr "CabRide Settings"
-
-msgid "Callback URIs"
-msgstr "Callback URIs"
-
-msgid "App id"
-msgstr "App id"
-
-msgid "Secret Key"
-msgstr "Secret Key"
-
-msgid "Facebook API settings"
-msgstr "Facebook API settings"
-
-msgid "Twitter consumer key"
-msgstr "Twitter consumer key"
-
-msgid "Twitter consumer secret"
-msgstr "Twitter consumer secret"
-
-msgid "Twitter API token"
-msgstr "Twitter API token"
-
-msgid "Twitter API secret"
-msgstr "Twitter API secret"
-
-msgid "Twitter API settings"
-msgstr "Twitter API settings"
-
-msgid "Client ID"
-msgstr "Client ID"
-
-msgid "Access Token"
-msgstr "Access Token"
-
-msgid "Instagram API settings"
-msgstr "Instagram API settings"
-
-msgid "Flickr API key"
-msgstr "Flickr API key"
-
-msgid "Flickr API secret"
-msgstr "Flickr API secret"
-
-msgid "Flickr API settings"
-msgstr "Flickr API settings"
-
-msgid "Google Maps JavaScript API Key"
-msgstr "Google Maps JavaScript API Key"
-
-msgid "Google Maps settings"
-msgstr "Google Maps settings"
-
-msgid "OpenWeatherMap API Key"
-msgstr "OpenWeatherMap API Key"
-
-msgid "OpenWeatherMap settings"
-msgstr "OpenWeatherMap settings"
-
-msgid "API Keys"
-msgstr "API Keys"
-
-msgid "API keys"
-msgstr "API keys"
-
-msgid "Option successfully saved"
-msgstr "Option successfully saved"
-
-msgid "General settings"
-msgstr "General settings"
-
-msgid "If you are unable to install or run the cronjob on your hosting/server you can disable it."
-msgstr "If you are unable to install or run the cronjob on your hosting/server you can disable it."
-
-msgid "<b>Note</b>: sources & push will be sent immediately after their creation, scheduled push will not work & media optimization is disabled."
-msgstr "<b>Note</b>: sources & push will be sent immediately after their creation, scheduled push will not work & media optimization is disabled."
-
-msgid "<b>Note</b>: the cron scheduler minimum interval is 10 seconds, reducing the cron interval can increase your server load, be careful."
-msgstr "<b>Note</b>: the cron scheduler minimum interval is 10 seconds, reducing the cron interval can increase your server load, be careful."
-
-msgid "Yes"
-msgstr "Yes"
-
-msgid "No"
-msgstr "No"
-
-msgid "10 seconds"
-msgstr "10 seconds"
-
-msgid "15 seconds"
-msgstr "15 seconds"
-
-msgid "20 seconds"
-msgstr "20 seconds"
-
-msgid "30 seconds"
-msgstr "30 seconds"
-
-msgid "1 minute"
-msgstr "1 minute"
-
-msgid "Statistics are used to improve the platform and help understanding usage of the apps builder."
-msgstr "Statistics are used to improve the platform and help understanding usage of the apps builder."
-
-msgid "Release"
-msgstr "Release"
-
-msgid "Debug"
-msgstr "Debug"
-
-msgid "APK Generator advanced settings"
-msgstr "APK Generator advanced settings"
-
-msgid "Do not edit the following settings if your APK Generator is working!"
-msgstr "Do not edit the following settings if your APK Generator is working!"
-
-msgid "You can extend JAVA & GRADLE options to better fit your server hardware."
-msgstr "You can extend JAVA & GRADLE options to better fit your server hardware."
-
-msgid "Bad settings can break your APK Generator, leave empty to use defaults."
-msgstr "Bad settings can break your APK Generator, leave empty to use defaults."
-
-msgid "System tasks"
-msgstr "System tasks"
-
-msgid "UID"
-msgstr "UID"
-
-msgid "Schedule"
-msgstr "Schedule"
-
-msgid "Cron expression"
-msgstr "Cron expression"
-
-msgid "Active ?"
-msgstr "Active ?"
-
-msgid "Restart"
-msgstr "Restart"
-
-msgid "Info"
-msgstr "Info"
-
-msgid "Note:"
-msgstr "Note:"
-
-msgid "Last trigger"
-msgstr "Last trigger"
-
-msgid "Last success"
-msgstr "Last success"
-
-msgid "Last failure"
-msgstr "Last failure"
-
-msgid "No system tasks"
-msgstr "No system tasks"
-
-msgid "Module/User tasks"
-msgstr "Module/User tasks"
-
-msgid "No module/user tasks"
-msgstr "No module/user tasks"
-
-msgid "APK Queue status"
-msgstr "APK Queue status"
-
-msgid "App name"
-msgstr "App name"
-
-msgid "Build status"
-msgstr "Build status"
-
-msgid "Build time (in seconds)"
-msgstr "Build time (in seconds)"
-
-msgid "Creation date"
-msgstr "Creation date"
-
-msgid "Download"
-msgstr "Download"
-
-msgid "Log"
-msgstr "Log"
-
-msgid "Complete build log"
-msgstr "Complete build log"
-
-msgid "APK Queue empty"
-msgstr "APK Queue empty"
-
-msgid "Source Queue status"
-msgstr "Source Queue status"
-
-msgid "Source Queue empty"
-msgstr "Source Queue empty"
-
-msgid "Disable cron jobs"
-msgstr "Disable cron jobs"
-
-msgid "Environment"
-msgstr "Environment"
-
-msgid "Update channel"
-msgstr "Update channel"
-
-msgid "CRON Scheduler interval"
-msgstr "CRON Scheduler interval"
-
-msgid "Use HTTPS"
-msgstr "Use HTTPS"
-
-msgid "Admin panel type"
-msgstr "Admin panel type"
-
-msgid "Let's Encrypt environment"
-msgstr "Let's Encrypt environment"
-
-msgid "Send anonymous statistics to improve the apps builder."
-msgstr "Send anonymous statistics to improve the apps builder."
-
-msgid "Session handler"
-msgstr "Session handler"
-
-msgid "Redis endpoint"
-msgstr "Redis endpoint"
-
-msgid "Redis prefix"
-msgstr "Redis prefix"
-
-msgid "Redis AUTH KEY"
-msgstr "Redis AUTH KEY"
-
-msgid "APK Build type"
-msgstr "APK Build type"
-
-msgid "JAVA_HOME path"
-msgstr "JAVA_HOME path"
-
-msgid "JAVA Extended options"
-msgstr "JAVA Extended options"
-
-msgid "GRADLE extended options"
-msgstr "GRADLE extended options"
-
-msgid "Unknown"
-msgstr "Unknown"
-
-msgid "Certificate is valid and SSL is reachable, valid until: %s.<br />Issuer: %s%s"
-msgstr "Certificate is valid and SSL is reachable, valid until: %s.<br />Issuer: %s%s"
-
-msgid "letsencrypt"
-msgstr "letsencrypt"
-
-msgid "-"
-msgstr "-"
-
-msgid "HTTP Basic Auth is valid."
-msgstr "HTTP Basic Auth is valid."
-
-msgid "Your Platform"
-msgstr "Your Platform"
-
-msgid "Main domain (without https?://) is required for services, and tools."
-msgstr "Main domain (without https?://) is required for services, and tools."
-
-msgid "Hint"
-msgstr "Hint"
-
-msgid "This is probably %s"
-msgstr "This is probably %s"
-
-msgid "Location settings"
-msgstr "Location settings"
-
-msgid "Privacy settings"
-msgstr "Privacy settings"
-
-msgid "European <b>General Data Protection Regulation (GDPR)</b>."
-msgstr "European <b>General Data Protection Regulation (GDPR)</b>."
-
-msgid "Licenses"
-msgstr "Licenses"
-
-msgid "Remaining builds"
-msgstr "Remaining builds"
-
-msgid "Your company"
-msgstr "Your company"
-
-msgid "Select a country"
-msgstr "Select a country"
-
-msgid "The european <b>General Data Protection Regulation (GDPR)</b> is applicable to your country, you must enable it in the privacy settings below."
-msgstr "The european <b>General Data Protection Regulation (GDPR)</b> is applicable to your country, you must enable it in the privacy settings below."
-
-msgid "Whitelabel Settings"
-msgstr "Whitelabel Settings"
-
-msgid "None"
-msgstr "None"
-
-msgid "Validation"
-msgstr "Validation"
-
-msgid "Full"
-msgstr "Full"
-
-msgid "Sign-up mode for your platform."
-msgstr "Sign-up mode for your platform."
-
-msgid "None = no sign-up form, validation = admin must validate created account, full = free sign-up"
-msgstr "None = no sign-up form, validation = admin must validate created account, full = free sign-up"
-
-msgid "Below are variables you can use to be replaced in the extent."
-msgstr "Below are variables you can use to be replaced in the extent."
-
-msgid "The Platform name"
-msgstr "The Platform name"
-
-msgid "Platform contact informations"
-msgstr "Platform contact informations"
-
-msgid "60000 maximum allowed."
-msgstr "60000 maximum allowed."
-
-msgid "Your Applications"
-msgstr "Your Applications"
-
-msgid "In case you have a main domain containing numbers you can change here the base for your App identifiers."
-msgstr "In case you have a main domain containing numbers you can change here the base for your App identifiers."
-
-msgid "Note"
-msgstr "Note"
-
-msgid "Export / Import of features is currently in beta and available only with some features."
-msgstr "Export / Import of features is currently in beta and available only with some features."
-
-msgid "Disabled"
-msgstr "Disabled"
-
-msgid "Enabled"
-msgstr "Enabled"
-
-msgid "Sources code"
-msgstr "Sources code"
-
-msgid "Users can download application sources code."
-msgstr "Users can download application sources code."
-
-msgid "Users give you the required information to publish applications."
-msgstr "Users give you the required information to publish applications."
-
-msgid "Duration of the free trial period of your platform (in days, 0 for no free trial)."
-msgstr "Duration of the free trial period of your platform (in days, 0 for no free trial)."
-
-msgid "Users can not generate APK."
-msgstr "Users can not generate APK."
-
-msgid "Local APK Generator"
-msgstr "Local APK Generator"
-
-msgid "Service APK Generator"
-msgstr "Service APK Generator"
-
-msgid "This privacy policy will be used for every new Application created as a template."
-msgstr "This privacy policy will be used for every new Application created as a template."
-
-msgid "You can use <b>%s</b> as a dynamic variable for your application name."
-msgstr "You can use <b>%s</b> as a dynamic variable for your application name."
-
-msgid "This section of the privacy policy is added when the GDPR settings are active."
-msgstr "This section of the privacy policy is added when the GDPR settings are active."
-
-msgid "The Application name"
-msgstr "The Application name"
-
-msgid "Platform or Whitelabel Company name"
-msgstr "Platform or Whitelabel Company name"
-
-msgid "Platform or Whitelabel name"
-msgstr "Platform or Whitelabel name"
-
-msgid "Full platform owner contact"
-msgstr "Full platform owner contact"
-
-msgid "App limit for displaying real data"
-msgstr "App limit for displaying real data"
-
-msgid "This number will be used to switch between demo mode and real time mode for your analytics on your dashboard"
-msgstr "This number will be used to switch between demo mode and real time mode for your analytics on your dashboard"
-
-msgid "Generate analytics for the current day"
-msgstr "Generate analytics for the current day"
-
-msgid "Click here to force analytics computing"
-msgstr "Click here to force analytics computing"
-
-msgid "Generate analytics for given period"
-msgstr "Generate analytics for given period"
-
-msgid "from"
-msgstr "from"
-
-msgid "to"
-msgstr "to"
-
-msgid "Force all app to use Owner AdMob"
-msgstr "Force all app to use Owner AdMob"
-
-msgid "Ios"
-msgstr "Ios"
-
-msgid "Admob Banner ID"
-msgstr "Admob Banner ID"
-
-msgid "Admob Interstitial ID"
-msgstr "Admob Interstitial ID"
-
-msgid "Admob type"
-msgstr "Admob type"
-
-msgid "Platform Name"
-msgstr "Platform Name"
-
-msgid "Address"
-msgstr "Address"
-
-msgid "Country"
-msgstr "Country"
-
-msgid "VAT Number"
-msgstr "VAT Number"
-
-msgid "Timezone"
-msgstr "Timezone"
-
-msgid "Currency"
-msgstr "Currency"
-
-msgid "Default Languages"
-msgstr "Default Languages"
-
-msgid "Publication access type"
-msgstr "Publication access type"
-
-msgid "Users can generate APK"
-msgstr "Users can generate APK"
-
-msgid "Admob ID for platform owner (Ios)"
-msgstr "Admob ID for platform owner (Ios)"
-
-msgid "Admob type for platform owner (Ios)"
-msgstr "Admob type for platform owner (Ios)"
-
-msgid "Admob ID for platform owner (Android)"
-msgstr "Admob ID for platform owner (Android)"
-
-msgid "Admob type for platform owner (Android)"
-msgstr "Admob type for platform owner (Android)"
-
-msgid "Use ads for platform owner"
-msgstr "Use ads for platform owner"
-
-msgid "Your iOS autobuild License Key"
-msgstr "Your iOS autobuild License Key"
-
-msgid "Editor's Design"
-msgstr "Editor's Design"
-
-msgid "App limit before real data mode in analytics"
-msgstr "App limit before real data mode in analytics"
-
-msgid "Free trial period"
-msgstr "Free trial period"
-
-msgid "Sign-up mode"
-msgstr "Sign-up mode"
-
-msgid "Default privacy policy"
-msgstr "Default privacy policy"
-
-msgid "Tour is active?"
-msgstr "Tour is active?"
-
-msgid "Facebook import status"
-msgstr "Facebook import status"
-
-msgid "Application base Package Name (Android)"
-msgstr "Application base Package Name (Android)"
-
-msgid "Application base Bundle ID (iOS)"
-msgstr "Application base Bundle ID (iOS)"
-
-msgid "Admob Interstitial ID for platform owner (Ios)"
-msgstr "Admob Interstitial ID for platform owner (Ios)"
-
-msgid "Admob split revenue for platform owner (Ios)"
-msgstr "Admob split revenue for platform owner (Ios)"
-
-msgid "Admob Interstitial ID for platform owner (Android)"
-msgstr "Admob Interstitial ID for platform owner (Android)"
-
-msgid "Admob split revenue for platform owner (Android)"
-msgstr "Admob split revenue for platform owner (Android)"
-
-msgid "Your CMS License Key"
-msgstr "Your CMS License Key"
-
-msgid "Enable GDPR features & rules"
-msgstr "Enable GDPR features & rules"
-
-msgid "Default privacy policy section for GDPR"
-msgstr "Default privacy policy section for GDPR"
-
-msgid "APK Generator for builds from the Editor (Local or Service)"
-msgstr "APK Generator for builds from the Editor (Local or Service)"
-
-msgid "Main siberian domain"
-msgstr "Main siberian domain"
-
-msgid "Allow users to import features"
-msgstr "Allow users to import features"
-
-msgid "Allow users to export features"
-msgstr "Allow users to export features"
+msgid "Customize your app's colors"
+msgstr "Customize your app's colors"

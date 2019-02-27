@@ -9,48 +9,202 @@
         </button>
     </ion-nav-buttons>
 
-    <ion-content>
+    <ion-content class="has-footer">
         <div ng-if="isLoading"
              class="loader">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div ng-if="!isLoading && !driver.vehicle_id"
+        <div ng-if="!isLoading && (!driver.hasVehicle || changingType)"
              class="list">
+
+            <div style="margin-bottom: 20px;"></div>
+
             <div class="item item-divider item-divider-custom">
                 {{ "Please select a vehicle type" | translate }}
             </div>
             <div ng-repeat="type in vehicleTypes"
-                 ng-click="selectType(type.id)"
-                 class="item item-custom">
-                <p>{{ type.label }}</p>
-                <div ng-if="showFixedPricing()">
-                    <span>{{ "Fares" | translate }}</span>
-                    <span>{{ "base" | translate }} {{ type.baseFare }}</span>
-                    <span ng-if="type.distance_fare > 0">{{ "distance" | translate }} {{ type.distanceFare }}</span>
-                    <span ng-if="type.time_fare > 0">{{ "time" | translate }} {{ type.timeFare }}</span>
-                </div>
+                 ng-click="selectType(type)"
+                 class="item item-custom item item-thumbnail-left vehicle-type">
+                    <img ng-src="{{ imagePath(type.icon) }}" />
+                    <h2 class="vehicle-type-title">{{ type.label }}</h2>
+                    <p ng-if="showFixedPricing()"
+                       class="default-fares">
+                        <span>
+                            <span>{{ "Base" | translate }}</span>{{ type.baseFare }}
+                        </span>
+                        <br />
+                        <span ng-if="type.distance_fare > 0">
+                            <span>{{ "Distance" | translate }}</span>{{ type.distanceFare }}
+                        </span>
+                        <br />
+                        <span ng-if="type.time_fare > 0">
+                            <span>{{ "Time" | translate }}</span>{{ type.timeFare }}
+                        </span>
+                    </p>
             </div>
+
+            <div style="margin-bottom: 20px;"></div>
         </div>
 
-        <div ng-if="!isLoading && driver.vehicle_id"
+        <div ng-if="!isLoading && (driver.hasVehicle && !changingType)"
              class="list">
-            <label class="item item-input item-custom item-stacked-label">
-                <select ng-model="field.value">
-                    <option ng-repeat="option in field.options"
-                            value="{{ option.value }}">{{ option.label }}</option>
-                </select>
+
+            <div class="item item-custom item item-thumbnail-left vehicle-type">
+                <img ng-src="{{ imagePath(currentType.icon) }}" />
+                <h2 class="vehicle-type-title">{{ currentType.label }}</h2>
+                <p ng-if="showFixedPricing()"
+                   class="default-fares">
+                    <span class="pull-left">
+                        <span>
+                                <span>{{ "Base" | translate }}</span>{{ currentType.baseFare }}
+                            </span>
+                        <br />
+                        <span ng-if="currentType.distance_fare > 0">
+                                    <span>{{ "Distance" | translate }}</span>{{ currentType.distanceFare }}
+                                </span>
+                        <br />
+                        <span ng-if="currentType.time_fare > 0">
+                                <span>{{ "Time" | translate }}</span>{{ currentType.timeFare }}
+                            </span>
+                    </span>
+                    <span class="pull-right">
+                        <button ng-click="changeType()"
+                                style="border-radius: 0 !important; text-transform: uppercase;"
+                                class="button button-small button-positive button-positive-custom">
+                            {{ "Change type" | translate }}
+                        </button>
+                    </span>
+                </p>
+                <p ng-if="!showFixedPricing()"
+                   class="default-fares">
+                    <span class="pull-right">
+                        <button ng-click="changeType()"
+                                style="border-radius: 0 !important; text-transform: uppercase;"
+                                class="button button-small button-positive button-positive-custom">
+                            {{ "Change type" | translate }}
+                        </button>
+                    </span>
+                </p>
+            </div>
+
+            <div style="margin-bottom: 20px;"></div>
+
+            <label class="item item-input item-custom">
+                <div class="input-label">
+                    {{ "Model" | translate }}
+                </div>
+                <input class="text-right"
+                       type="text"
+                       placeholder="{{ 'Model' | translate }}"
+                       ng-model="driver.vehicle_model" />
             </label>
-            <label class="item item-input item-custom item-stacked-label">
-                <span class="input-label">{{ "Model" | translate }}</span>
-                <input type="text"
-                       placeholder="Model">
+
+            <label class="item item-input item-custom">
+                <div class="input-label">
+                    {{ "License plate" | translate }} *
+                </div>
+                <input class="text-right"
+                       type="text"
+                       required="required"
+                       placeholder="{{ 'License plate' | translate }}"
+                       ng-model="driver.vehicle_license_plate" />
             </label>
-            <label class="item item-input item-custom item-stacked-label">
-                <span class="input-label">{{ "License plate" | translate }}</span>
-                <input type="text"
-                       placeholder="License plate">
+
+            <label class="item item-input item-custom">
+                <div class="input-label">
+                    {{ "Driving license" | translate }} *
+                </div>
+                <input class="text-right"
+                       type="text"
+                       required="required"
+                       placeholder="{{ 'Driving license' | translate }}"
+                       ng-model="driver.driver_license" />
             </label>
+
+            <label class="item item-input item-custom item-stacked-label">
+                <div class="input-label">
+                    {{ "Base address" | translate }}
+                </div>
+                <textarea rows="3"
+                          ng-model="driver.base_address"></textarea>
+            </label>
+
+            <label class="item item-input item-custom">
+                <div class="input-label">
+                    {{ "Pickup radius" | translate }} ({{ distanceUnit() }})
+                </div>
+                <input class="text-right"
+                       type="number"
+                       min="0"
+                       max="100"
+                       step="1"
+                       ng-model="driver.pickup_radius" />
+            </label>
+
+            <div ng-if="pricingDriver()">
+
+                <div style="margin-bottom: 20px;"></div>
+
+                <div class="item item-divider item-divider-custom">
+                    <p>{{ "Custom fares" | translate }}</p>
+                </div>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ "Base" | translate }} *
+                    </div>
+                    <input class="text-right"
+                           type="number"
+                           min="0"
+                           max="100000000"
+                           step="0.01"
+                           ng-model="driver.base_fare" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ "Distance (every km/mi)" | translate }} *
+                    </div>
+                    <input class="text-right"
+                           type="number"
+                           min="0"
+                           max="100000000"
+                           step="0.01"
+                           ng-model="driver.distance_fare" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ "Time (every minute)" | translate }} *
+                    </div>
+                    <input class="text-right"
+                           type="number"
+                           min="0"
+                           max="100000000"
+                           step="0.01"
+                           ng-model="driver.time_fare" />
+                </label>
+            </div>
+
+            <div style="margin-bottom: 20px;"></div>
+
         </div>
     </ion-content>
+
+    <div class="tabs">
+        <button ng-if="!changingType"
+                ng-click="save()"
+                style="margin: -1px; text-transform: uppercase;"
+                class="button button-full button-positive button-positive-custom">
+            {{ "Save" | translate }}
+        </button>
+
+        <button ng-if="changingType && driver.hasVehicle"
+                ng-click="cancelType()"
+                style="margin: -1px; text-transform: uppercase;"
+                class="button button-full button-assertive button-assertive-custom">
+            {{ "Cancel" | translate }}
+        </button>
+    </div>
 </ion-view>

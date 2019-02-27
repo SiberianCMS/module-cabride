@@ -31,15 +31,24 @@ $schemas['cabride_push'] = [
     ],
     'push_device_id' => [
         'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
+    'request_id' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
+    'title' => [
+        'type' => 'longtext',
     ],
     'message' => [
         'type' => 'longtext',
     ],
-    'object_type' => [
-        'type' => 'varchar(256)'
+    'action_value' => [
+        'type' => 'longtext',
+        'null' => true,
     ],
-    'object_id' => [
-        'type' => 'int(11) unsigned',
+    'target' => [
+        'type' => 'varchar(256)'
     ],
     'created_at' => [
         'type' => 'datetime',

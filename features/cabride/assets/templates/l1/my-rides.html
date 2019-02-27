@@ -18,7 +18,10 @@
         <div ng-if="!isLoading">
             <div ng-show="filtered.length == 0"
                  class="list">
-                <div class="item item-custom text-center">{{ "You have no " + filterName + " rides" | translate }}</div>
+                <div class="item item-custom text-center">
+                    <span ng-if="filterName == 'in progress'">{{ "You have no rides in progress" | translate }}</span>
+                    <span ng-if="filterName == 'archived'">{{ "You have no rides archived" | translate }}</span>
+                </div>
             </div>
 
             <div ng-if="filtered.length > 0"

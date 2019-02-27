@@ -120,6 +120,7 @@ $init = function($bootstrap) use ($initializeApiUser) {
         "settings" => __("Settings"),
         "join-lobby" => __("Join lobby"),
         "send-request" => __("Send request"),
+        "aggregate-information" => __("Aggregate information"),
     ]);
 
     // Registering cabride service

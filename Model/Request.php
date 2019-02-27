@@ -50,26 +50,6 @@ class Request extends Base
     }
 
     /**
-     * Notify the driver!
-     */
-    public function notifyDriver()
-    {
-        switch ($this->getStatus()) {
-            // Notify depends on the current status!
-        }
-    }
-
-    /**
-     * Notify the client!
-     */
-    public function notifyClient()
-    {
-        switch ($this->getStatus()) {
-            // Notify depends on the current status!
-        }
-    }
-
-    /**
      * @param $valueId
      * @param $clientId
      * @return mixed
@@ -192,7 +172,140 @@ class Request extends Base
             ->setStatus($status)
             ->save();
 
+        // Trigger notifications!
+        $this->notify();
+
         self::log($this, $statusFrom, $statusTo, $source);
+    }
+
+    /**
+     * @throws \Zend_Exception
+     */
+    public function notify ()
+    {
+        $valueId = $this->getValueId();
+        $cabride = (new \Application_Model_Option_Value())->find($valueId);
+        $application = (new \Application_Model_Application())->find($cabride->getAppId());
+        $appKey = $application->getKey();
+        $clientId = $this->getClientId();
+        $requestId = $this->getRequestId();
+
+        // If there is a driver yet ...
+        $driverId = $this->getDriverId();
+
+        $status = $this->getStatus();
+        switch ($status) {
+            case "pending";
+                // Notify all drivers found!
+                $drivers = (new RequestDriver())->findAll([
+                    "request_id" => $requestId,
+                    "status" => "pending"
+                ]);
+
+                // Send push to passenger!
+                $title = p__("cabride",
+                    "Ride request!");
+                $message = p__("cabride",
+                    "You have a new ride request!");
+                $actionUrl = "/{$appKey}/cabride/mobile_pending_requests/index";
+
+                foreach ($drivers as $driver) {
+                    $driver = (new Driver())->find($driver->getId(), "driver_id");
+                    $customerId = $driver->getCustomerId();
+                    $pushDevice = (new PushDevice())
+                        ->find($customerId, "customer_id");
+
+                    $pushDevice->sendMessage($title, $message, $requestId, "driver", $status, $actionUrl);
+                }
+
+                break;
+            case "accepted";
+                // Send push to passenger!
+                $title = p__("cabride",
+                    "Ride accepted!");
+                $message = p__("cabride",
+                    "A driver accepted your request, he will be on your way soon!");
+                $actionUrl = "/{$appKey}/cabride/mobile_my_rides/index";
+
+                $client = (new Client())->find($clientId, "client_id");
+                $customerId = $client->getCustomerId();
+                $pushDevice = (new PushDevice())
+                    ->find($customerId, "customer_id");
+
+                $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                break;
+            case "onway";
+                // Send push to passenger!
+                $title = p__("cabride",
+                    "Driver on your way!");
+                $message = p__("cabride",
+                    "You driver is on your way!");
+
+                $actionUrl = "/{$appKey}/cabride/mobile_my_rides/index";
+
+                $client = (new Client())->find($clientId, "client_id");
+                $customerId = $client->getCustomerId();
+                $pushDevice = (new PushDevice())
+                    ->find($customerId, "customer_id");
+
+                $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                break;
+            case "inprogress";
+
+                break;
+            case "declined";
+                // Inform the user it's over (Request changes to 'decline' only if all drivers declined it)
+                $title = p__("cabride",
+                    "No drivers found!");
+                $message = p__("cabride",
+                    "Sorry, there was no driver able to take your ride, please try again!");
+
+                $actionUrl = "/{$appKey}/cabride/mobile_home/index";
+
+                $client = (new Client())->find($clientId, "client_id");
+                $customerId = $client->getCustomerId();
+                $pushDevice = (new PushDevice())
+                    ->find($customerId, "customer_id");
+
+                $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+
+                break;
+            case "done";
+                // Send push to passenger!
+                $title = p__("cabride",
+                    "Your ride is done!");
+                $message = p__("cabride",
+                    "Thanks for riding with us, hope to see you again soon!");
+
+                $actionUrl = "/{$appKey}/cabride/mobile_home/index";
+
+                $client = (new Client())->find($clientId, "client_id");
+                $customerId = $client->getCustomerId();
+                $pushDevice = (new PushDevice())
+                    ->find($customerId, "customer_id");
+
+                $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                break;
+            case "aborted";
+
+                break;
+            case "expired";
+                // Send push to passenger!
+                $title = p__("cabride",
+                    "You request expired!");
+                $message = p__("cabride",
+                    "Sorry there was no driver available to drive you, please try again!");
+
+                $actionUrl = "/{$appKey}/cabride/mobile_home/index";
+
+                $client = (new Client())->find($clientId, "client_id");
+                $customerId = $client->getCustomerId();
+                $pushDevice = (new PushDevice())
+                    ->find($customerId, "customer_id");
+
+                $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                break;
+        }
     }
 
     /**

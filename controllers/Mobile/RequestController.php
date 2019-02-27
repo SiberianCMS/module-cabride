@@ -38,7 +38,7 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
             // Attention, distance is computed by the fly!
             $formula = Geocoding::getDistanceFormula($lat, $lng, "d", "latitude", "longitude");
 
-            $drivers = (new Cabride\Model\Driver())
+            $drivers = (new Driver())
                 ->findNearestOnline($valueId, $formula);
 
             $collection = [];
@@ -119,6 +119,7 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
                     $requestDriver
                         ->setRequestId($request->getId())
                         ->setDriverId($driverId)
+                        ->setStatus("pending")
                         ->save();
 
                     $_tmpDriver->notifyNewrequest($request->getId());

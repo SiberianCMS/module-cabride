@@ -236,11 +236,30 @@ const functions = {
 
             return joinLobby;
         },
+        aggregateInformation: function (localConnection, params) {
+            apiUrl = defaultUrl.replace('#APP_KEY#', localConnection.appKey);
+
+            let aggregateInformation = functions.requestApi(localConnection, '/aggregate-information', {
+                'sbToken': localConnection.sbToken
+            });
+
+            aggregateInformation.then(function (success) {
+                localConnection.websocket.send(toMsg(
+                    {
+                        event: 'aggregate-information',
+                        information: success.payload.data
+                    }
+                ));
+            }).catch(function (error) {
+                functions.log('aggregateInformation: ', error, 'error');
+            });
+
+            return aggregateInformation;
+        },
         /**snapToRoad : function (points) {
             //let url = "https://roads.googleapis.com/v1/nearestRoads?points=43.5706202574322,1.479447844645505|43.5706202564322,1.479447844655505&key=";
         },*/
         updatePosition: function (localConnection, params) {
-            console.log("updatePosition", params);
             switch (params.userType) {
                 case "driver":
                     localConnection.user.id = params.userId;
@@ -533,11 +552,8 @@ let init = function (httpsOptions) {
         }
         pingInprogress = true;
         try {
-            console.log('pingPong start');
-
             for (let uuid in globals.drivers) {
                 let localConnection = globals.allConnections[uuid];
-                console.log('pingPong', localConnection);
                 functions.pingPong(localConnection, true)
                 .then(function () {
                     // All ok
@@ -550,7 +566,8 @@ let init = function (httpsOptions) {
             }
 
             for (let uuid in globals.drivers) {
-                console.log('driver', globals.drivers[uuid]);
+                let localConnection = globals.allConnections[uuid];
+                functions.aggregateInformation(localConnection, {});
             }
 
             // Advert drivers to all passengers (for now), we will filter based on position in a future step
@@ -558,8 +575,6 @@ let init = function (httpsOptions) {
                 let localConnection = globals.allConnections[uuid];
                 functions.advertDrivers(localConnection, {});
             }
-
-            console.log('pingPong end');
         } catch (e) {
             functions.log(e, e.message);
         }

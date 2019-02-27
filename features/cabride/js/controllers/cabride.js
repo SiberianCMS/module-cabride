@@ -2,8 +2,9 @@
  * Cabride version 2 controllers
  */
 angular.module('starter')
-.controller('CabrideHome', function ($window, $state, $scope, $rootScope, $timeout, $translate, $ionicSideMenuDelegate, Modal,
-                                     Cabride, CabrideUtils, Customer, Loader, ContextualMenu, GoogleMaps, Dialog, Location, SB) {
+.controller('CabrideHome', function ($window, $state, $scope, $rootScope, $timeout, $translate,
+                                     $ionicSideMenuDelegate, Modal, Cabride, CabrideUtils, Customer,
+                                     Loader, ContextualMenu, GoogleMaps, Dialog, Location, SB, CabridePayment) {
     angular.extend($scope, {
         pageTitle: $translate.instant("CabRide"),
         valueId: Cabride.getValueId(),
@@ -368,6 +369,7 @@ angular.module('starter')
         });
     };
 
+    $scope.vtModal = null;
     $scope.showModal = function (vehicles) {
         Modal
         .fromTemplateUrl("features/cabride/assets/templates/l1/modal/vehicle-type.html", {
@@ -389,15 +391,74 @@ angular.module('starter')
         });
     };
 
+    $scope.ptModal = null;
+    $scope.paymentTypeModal = function (paymentTypes) {
+        Modal
+        .fromTemplateUrl("features/cabride/assets/templates/l1/modal/payment-type.html", {
+            scope: angular.extend($scope.$new(true), {
+                close: function () {
+                    $scope.ptModal.hide();
+                },
+                select: function (paymentType) {
+                    $scope.selectPaymentType(paymentType);
+                },
+                pay: function () {
+                    CabridePayment.pay();
+
+                    // then ....
+                    // $scope.validateRequest();
+                },
+                hasPaymentType: false,
+                settings: Cabride.settings,
+                paymentTypes: paymentTypes
+            }),
+            animation: 'slide-in-up'
+        }).then(function (modal) {
+            $scope.ptModal = modal;
+            $scope.ptModal.show();
+
+            return modal;
+        });
+    };
+
+    $scope.selectPaymentType = function (paymentType) {
+        switch (paymentType) {
+            case "credit-card":
+                // Pre-authorize payment!
+                // Validate directly!
+                Dialog
+                .alert("Thanks", "PAY NOW!", "OK", 2350)
+                .then(function () {
+                    //$scope.validateRequest();
+                });
+                break;
+            case "cash":
+                // Validate directly!
+                Dialog
+                .alert("Thanks", "You'll pay the driver directly when the course ends!", "OK", 2350)
+                .then(function () {
+                    $scope.validateRequest();
+                });
+                break;
+        }
+    };
+
     $scope.selectVehicle = function (vehicleType) {
+        // Payment modal
+        $scope.vehicleType = vehicleType;
+        $scope.paymentTypeModal();
+    };
+
+    $scope.validateRequest = function () {
         Loader.show("Sending request ...");
         Cabride
-        .validateRequest(vehicleType, $scope.currentRoute)
+        .validateRequest($scope.vehicleType, $scope.currentRoute)
         .then(function (response) {
             Loader.hide();
             Dialog
-            .alert("", "Request sent! Please wait for a driver!", "OK")
+            .alert("Request sent", "Please now wait for a driver!", "OK", 2350)
             .then(function () {
+                $scope.ptModal.hide();
                 $scope.vtModal.hide();
                 $state.go("cabride-my-rides");
             });
@@ -406,8 +467,9 @@ angular.module('starter')
         }, function (error) {
             Loader.hide();
             Dialog
-            .alert("", error.message, "OK")
+            .alert("Sorry!", error.message, "OK")
             .then(function () {
+                $scope.ptModal.hide();
                 $scope.vtModal.hide();
                 $state.go("cabride-my-rides");
             });
@@ -626,7 +688,9 @@ angular.module('starter')
         collection: [],
         statuses: [
             "pending",
-            "accepted"
+            "accepted",
+            "onway",
+            "inprogress"
         ]
     });
 
@@ -678,7 +742,7 @@ angular.module('starter')
         switch (filter) {
             case "inprogress":
                 $scope.filterName = "in progress";
-                $scope.statuses = ["pending", "accepted"];
+                $scope.statuses = ["pending", "accepted", "onway", "inprogress"];
                 break;
             case "archives":
                 $scope.filterName = "archived";
@@ -767,20 +831,38 @@ angular.module('starter')
         });
     };
 
-    $scope.accept = function (requestId) {
+    $scope.accept = function (request) {
         Loader.show();
-        Cabride
-        .acceptRide(requestId)
-        .then(function (payload) {
-            Dialog
-            .alert("", payload.message, "OK", 2350)
-            .then(function () {
+        CabrideUtils
+        .getDirectionWaypoints(
+            Cabride.lastPosition,
+            {
+                latitude: request.from_lat,
+                longitude: request.from_lng,
+            },
+            {
+                latitude: request.to_lat,
+                longitude: request.to_lng,
+            },
+            true
+        ).then(function (route) {
+            Cabride
+            .acceptRide(request.request_id, route)
+            .then(function (payload) {
+                Dialog
+                .alert("", payload.message, "OK", 2350)
+                .then(function () {
+                    Loader.hide();
+                    $state.go("cabride-accepted-requests");
+                });
+            }, function (error) {
+                Dialog.alert("Error", error.message, "OK");
+            }).then(function () {
                 Loader.hide();
-                $state.go("cabride-accepted-requests");
+                $scope.refresh();
             });
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
-        }).then(function () {
+            Dialog.alert("Error", error[1], "OK");
             Loader.hide();
             $scope.refresh();
         });
@@ -843,16 +925,16 @@ angular.module('starter')
         $scope.loadPage();
     };
 
-    $scope.start = function (requestId) {
+    $scope.driveToPassenger = function (requestId) {
         Loader.show();
         Cabride
-        .startRide(requestId)
+        .driveToPassenger(requestId)
         .then(function (payload) {
             Dialog
             .alert("", payload.message, "OK", 2350)
             .then(function () {
                 Loader.hide();
-                $state.go("cabride-accepted-requests");
+                Navigator.navigate(payload.driveTo);
             });
         }, function (error) {
             Dialog.alert("Error", error.message, "OK");
@@ -860,6 +942,29 @@ angular.module('starter')
             Loader.hide();
             $scope.refresh();
         });
+    };
+
+    $scope.driveToDestination = function (requestId) {
+        Loader.show();
+        Cabride
+        .driveToDestination(requestId)
+        .then(function (payload) {
+            Dialog
+            .alert("", payload.message, "OK", 2350)
+            .then(function () {
+                Loader.hide();
+                Navigator.navigate(payload.driveTo);
+            });
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            Loader.hide();
+            $scope.refresh();
+        });
+    };
+
+    $scope.details = function (request) {
+       alert("Yolo!");
     };
 
     $scope.imagePath = function (image) {
@@ -994,12 +1099,13 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabrideVehicleInformation', function ($scope, $translate, Cabride, Dialog) {
+.controller('CabrideVehicleInformation', function ($scope, $translate, Cabride, Dialog, Loader) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Vehicle information"),
         valueId: Cabride.getValueId(),
         pricingMode: Cabride.settings.pricingMode,
+        changingType: false,
         collection: []
     });
 
@@ -1010,15 +1116,64 @@ angular.module('starter')
         .then(function (payload) {
             $scope.vehicleTypes = payload.vehicleTypes;
             $scope.driver = payload.driver;
+            $scope.currentType = payload.currentType;
         }, function (error) {
             Dialog.alert("Error", error.message, "OK");
         }).then(function () {
-        $scope.isLoading = false;
+            $scope.isLoading = false;
         });
     };
 
-    $scope.selectType = function (typeId) {
-        //
+    $scope.selectType = function (type) {
+        Loader.show();
+        Cabride
+        .selectVehicleType(type.id)
+        .then(function (payload) {
+            $scope.driver = payload.driver;
+            $scope.currentType = payload.currentType;
+            $scope.changingType = false;
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            Loader.hide();
+        });
+    };
+
+    $scope.changeType = function () {
+        $scope.changingType = true;
+    };
+
+    $scope.cancelType = function () {
+        $scope.changingType = false;
+    };
+
+    $scope.save = function () {
+        Loader.show();
+        Cabride
+        .saveDriver($scope.driver)
+        .then(function (payload) {
+            $scope.driver = payload.driver;
+            Dialog.alert("Saved!", payload.message, "OK");
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            Loader.hide();
+        });
+    };
+
+    $scope.distanceUnit = function () {
+        return Cabride.settings.distanceUnit;
+    };
+
+    $scope.pricingDriver = function () {
+        return Cabride.settings.pricingMode === "driver";
+    };
+
+    $scope.imagePath = function (image) {
+        if (image === "") {
+            return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/car-icon.png";
+        }
+        return IMAGE_URL + "images/application" + image;
     };
 
     $scope.showFixedPricing = function () {
@@ -1048,10 +1203,11 @@ angular.module('starter')
 .controller('CabrideContextualMenuController', function ($scope, $rootScope, $state,
                                                          $ionicSideMenuDelegate,
                                                          $ionicHistory, Customer,
-                                                         SB) {
+                                                         SB, $timeout) {
     angular.extend($scope, {
         isOnline: false,
         customer: null,
+        information: null,
         isLoggedIn: Customer.isLoggedIn(),
         isPassenger: false,
         isDriver: false,
@@ -1169,6 +1325,12 @@ angular.module('starter')
 
     $rootScope.$on(SB.EVENTS.AUTH.editSuccess, function () {
         $scope.rebuildMenu();
+    });
+
+    $rootScope.$on('cabride.aggregateInformation', function (event, data) {
+        $timeout(function () {
+            $scope.information = data.information;
+        });
     });
 
     $rootScope.$on("cabride.setIsOnline", function (event, isOnline) {

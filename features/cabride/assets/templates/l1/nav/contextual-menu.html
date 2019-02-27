@@ -84,7 +84,11 @@
                 ng-click="loadPage('pending-requests')">
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-timer"></i>
-                    <span class="line-title">{{ "Pending requests" | translate }}</span>
+                    <span class="line-title">
+                        {{ "Pending requests" | translate }}
+                        <span ng-if="information && information.counters.pending > 0"
+                              class="badge badge-positive badge-positive-custom">{{ information.counters.pending }}</span>
+                    </span>
                 </div>
             </li>
 
@@ -93,7 +97,11 @@
                 ng-click="loadPage('accepted-requests')">
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-timer-full"></i>
-                    <span class="line-title">{{ "Accepted requests" | translate }}</span>
+                    <span class="line-title">
+                        {{ "Accepted requests" | translate }}
+                        <span ng-if="information && information.counters.accepted > 0"
+                              class="badge badge-positive badge-positive-custom">{{ information.counters.accepted }}</span>
+                    </span>
                 </div>
             </li>
 
@@ -102,7 +110,11 @@
                 ng-click="loadPage('completed-rides')">
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-thumb-up"></i>
-                    <span class="line-title">{{ "Completed rides" | translate }}</span>
+                    <span class="line-title">
+                        {{ "Completed rides" | translate }}
+                        <span ng-if="information && information.counters.completed > 0"
+                              class="badge badge-positive badge-positive-custom">{{ information.counters.completed }}</span>
+                    </span>
                 </div>
             </li>
 
@@ -111,7 +123,11 @@
                 ng-click="loadPage('cancelled')">
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-cancel"></i>
-                    <span class="line-title">{{ "Declined" | translate }}</span>
+                    <span class="line-title">
+                        {{ "Declined" | translate }}
+                        <span ng-if="information && information.counters.declined > 0"
+                              class="badge badge-positive badge-positive-custom">{{ information.counters.declined }}</span>
+                    </span>
                 </div>
             </li>
 
@@ -120,7 +136,11 @@
                 ng-click="loadPage('vehicle-information')">
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-car"></i>
-                    <span class="line-title">{{ "Vehicle information" | translate }}</span>
+                    <span class="line-title">
+                        {{ "Vehicle information" | translate }}
+                        <i ng-if="information && information.vehicleWarning"
+                           class="icon ion-alert-circled"></i>
+                    </span>
                 </div>
             </li>
 

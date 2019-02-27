@@ -19,7 +19,12 @@ $schemas['cabride_request_driver'] = [
     'driver_id' => [
         'type' => 'int(11) unsigned',
     ],
-    'status' => [ // "pending", "accepted", "declined", "done", "aborted", "expired"
+    'raw_route' => [
+        'type' => 'longtext',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'status' => [ // "pending", "accepted", "accepted_other", "onway", "inprogress", "declined", "done", "aborted", "expired"
         'type' => 'varchar(128)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',

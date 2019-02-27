@@ -31,7 +31,6 @@
                         </div>
                         <div>
                             <span class="course-status {{ request.driver_status }}">{{ request.driver_status | translate }}</span>
-                            <span class="course-expiration {{ request.driver_status }}">{{ "Expires" }} {{ expiration(request) }}</span>
                             <div class="row course-details">
                                 <div class="col-75">
                                     <span class="vehicle-type">{{ request.from_address }}</span>
@@ -45,10 +44,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="course-actions">
-                            <div class="action-accept">
-                                <button ng-click="start(request.request_id)"
-                                        class="button button-full button-positive button-positive-custom">{{ "START RIDE" | translate }}</button>
+                        <div class="row course-actions">
+                            <div class="col-40 action-start">
+                                <button ng-click="driveToPassenger(request.request_id)"
+                                        class="button button-full button-assertive button-assertive-custom">
+                                    <p class="cabride-drive-to">{{ "DRIVE TO" | translate }}</p>
+                                    <p class="cabride-target">{{ "PASSENGER" | translate }}</p>
+                                </button>
+                            </div>
+                            <div class="col-40 action-accept">
+                                <button ng-click="driveToDestination(request.request_id)"
+                                        class="button button-full button-positive button-positive-custom">
+                                    <p class="cabride-drive-to">{{ "DRIVE TO" | translate }}</p>
+                                    <p class="cabride-target">{{ "DESTINATION" | translate }}</p>
+                                </button>
+                            </div>
+                            <div class="col-20 action-details">
+                                <button ng-click="details(request)"
+                                        class="button button-full button-balanced button-balanced-custom">
+                                    <i class="icon ion-plus"></i>
+                                </button>
                             </div>
                         </div>
                     </div>

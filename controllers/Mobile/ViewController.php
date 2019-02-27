@@ -4,6 +4,7 @@ use Cabride\Model\PushDevice;
 use Cabride\Model\Cabride;
 use Cabride\Model\Client;
 use Cabride\Model\Driver;
+use Siberian\Exception;
 
 /**
  * Class Cabride_Mobile_ViewController
@@ -172,7 +173,7 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
     {
         try {
             $request = $this->getRequest();
-            $valueId = $this->getCurrentOptionValue()->getId();
+            $valueId = Cabride::getCurrentValueId();
             $customerId = $this->getSession()->getCustomerId();
             $device = $request->getParam("device", null);
             $token = $request->getParam("token", null);
@@ -223,8 +224,11 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 ]);
 
             if (!$driver->getId()) {
-                throw new \Siberian\Exception(p__("cabride", "You are not registered as a driver! Please contact the App owner."));
+                throw new Exception(p__("cabride", "You are not registered as a driver! Please contact the App owner."));
+            }
 
+            if ($driver->getMustFillVehicle()) {
+                throw new Exception(p__("cabride", "You must fill your vehicle information before going online!"));
             }
 
             $driver
@@ -233,6 +237,7 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
             $payload = [
                 "success" => true,
+                "isOnline" => (boolean) $isOnline,
                 "message" => __("Success"),
             ];
         } catch (\Exception $e) {

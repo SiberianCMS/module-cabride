@@ -88,7 +88,7 @@ class Request extends Core_Model_Db_Table
                 ["search_timeout"]
             )
             ->where("request.value_id = ?", $valueId)
-            ->where("request_driver.status = ?", $status)
+            ->where("request_driver.status IN (?)", $status)
             ->where("request_driver.driver_id = ?", $driverId)
             ->order("updated_at DESC");
 

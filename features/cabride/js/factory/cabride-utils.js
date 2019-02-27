@@ -91,6 +91,50 @@ angular.module('starter')
             return deferred.promise;
         };
 
+        factory.getDirectionWaypoints = function (driverPosition, pickup, dropoff, rejectWithResponseAndStatus) {
+            var deferred = $q.defer();
+
+            // Direction service if needed!
+            if (factory.directionsService === null) {
+                factory.directionsService = new google.maps.DirectionsService();
+            }
+
+            var request = {
+                origin: new google.maps.LatLng(driverPosition.latitude, driverPosition.longitude),
+                destination: new google.maps.LatLng(dropoff.latitude, dropoff.longitude),
+                waypoints: [
+                    {
+                        location: new google.maps.LatLng(pickup.latitude, pickup.longitude),
+                        stopover: true
+                    }
+                ],
+                travelMode: google.maps.DirectionsTravelMode.DRIVING,
+                unitSystem: (Cabride.settings.distanceUnit === "km") ?
+                    google.maps.UnitSystem.METRIC : google.maps.UnitSystem.IMPERIAL,
+            };
+
+            factory.directionsService.route(request, function (response, status) {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    deferred.resolve(response);
+                } else {
+                    var errorMessage = $translate.instant(
+                        status === "ZERO_RESULTS" ?
+                            "There is no route available with these informations." :
+                            "An unexpected error occurred while calculating the route."
+                    );
+                    console.error(errorMessage, status);
+                    if (rejectWithResponseAndStatus === true) {
+                        deferred.reject([response, status]);
+                    } else {
+                        deferred.reject(errorMessage);
+                    }
+                }
+
+            });
+
+            return deferred.promise;
+        };
+
         /**
          * Display a route
          */

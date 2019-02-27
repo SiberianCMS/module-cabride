@@ -4,6 +4,7 @@ use Cabride\Controller\Base;
 use Siberian\Exception;
 use Siberian\Json;
 use Cabride\Model\Driver;
+use Cabride\Model\RequestDriver;
 
 /**
  * Class Cabride_Api_MessageController
@@ -18,6 +19,7 @@ class Cabride_Api_MessageController extends Base
         'settings',
         'join-lobby',
         'send-request',
+        'aggregate-information',
     ];
 
     /**
@@ -105,6 +107,80 @@ class Cabride_Api_MessageController extends Base
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function aggregateInformationAction()
+    {
+        try {
+            $this->belongsToApp();
+
+            $isDriver = false;
+            $isPassenger = false;
+
+            $driver = (new Driver)->find($this->userId, "customer_id");
+            if ($driver->getId()) {
+                $isDriver = true;
+
+                // Find ride requests
+                $statuses = [
+                    "pending",
+                    "accepted",
+                    "onway",
+                    "inprogress",
+                    "declined",
+                    "done",
+                ];
+                $rideRequests = (new RequestDriver())
+                    ->fetchForDriver($driver->getId(), $statuses);
+
+                $data = [
+                    "counters" => [
+                        "pending" => 0,
+                        "accepted" => 0,
+                        "declined" => 0,
+                        "done" => 0,
+                    ]
+                ];
+
+                foreach ($rideRequests as $rideRequest) {
+                    $status = $rideRequest->getStatus();
+                    switch ($status) {
+                        case "pending":
+                            $data["counters"]["pending"]++;
+                            break;
+                        case "accepted":
+                        case "onway":
+                        case "inprogress":
+                            $data["counters"]["accepted"]++;
+                            break;
+                        case "declined":
+                            $data["counters"]["declined"]++;
+                            break;
+                        case "done":
+                            $data["counters"]["done"]++;
+                            break;
+                    }
+                }
+            }
+
+            $mustFillVehicle = $driver->getMustFillVehicle();
+
+            $data["vehicleWarning"] = $mustFillVehicle;
+            $data["userType"] = $isDriver ? "driver" : "passenger";
+
+            $payload = [
+                "success" => true,
+                "message" => __("Success"),
+                "data" => $data,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
             ];
         }
 
