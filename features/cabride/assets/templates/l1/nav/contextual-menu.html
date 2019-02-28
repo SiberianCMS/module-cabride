@@ -72,13 +72,6 @@
                 </div>
             </li>
 
-            <li class="lines border-custom line-divider"
-                ng-if="isLoggedIn && isDriver">
-                <div class="line-box">
-                    <span class="line-title">{{ "Rides" | translate }}</span>
-                </div>
-            </li>
-
             <li class="lines border-custom"
                 ng-if="isLoggedIn && isDriver"
                 ng-click="loadPage('pending-requests')">
@@ -86,9 +79,9 @@
                     <i class="line-icon icon ion-cab-timer"></i>
                     <span class="line-title">
                         {{ "Pending requests" | translate }}
-                        <span ng-if="information && information.counters.pending > 0"
-                              class="badge badge-positive badge-positive-custom">{{ information.counters.pending }}</span>
                     </span>
+                    <span ng-if="information && information.counters.pending > 0"
+                          class="badge badge-positive badge-positive-custom">{{ information.counters.pending }}</span>
                 </div>
             </li>
 
@@ -99,9 +92,9 @@
                     <i class="line-icon icon ion-cab-timer-full"></i>
                     <span class="line-title">
                         {{ "Accepted requests" | translate }}
-                        <span ng-if="information && information.counters.accepted > 0"
-                              class="badge badge-positive badge-positive-custom">{{ information.counters.accepted }}</span>
                     </span>
+                    <span ng-if="information && information.counters.accepted > 0"
+                          class="badge badge-positive badge-positive-custom">{{ information.counters.accepted }}</span>
                 </div>
             </li>
 
@@ -112,9 +105,9 @@
                     <i class="line-icon icon ion-cab-thumb-up"></i>
                     <span class="line-title">
                         {{ "Completed rides" | translate }}
-                        <span ng-if="information && information.counters.completed > 0"
-                              class="badge badge-positive badge-positive-custom">{{ information.counters.completed }}</span>
                     </span>
+                    <span ng-if="information && information.counters.completed > 0"
+                          class="badge badge-positive badge-positive-custom">{{ information.counters.completed }}</span>
                 </div>
             </li>
 
@@ -125,9 +118,9 @@
                     <i class="line-icon icon ion-cab-cancel"></i>
                     <span class="line-title">
                         {{ "Declined" | translate }}
-                        <span ng-if="information && information.counters.declined > 0"
-                              class="badge badge-positive badge-positive-custom">{{ information.counters.declined }}</span>
                     </span>
+                    <span ng-if="information && information.counters.declined > 0"
+                          class="badge badge-positive badge-positive-custom">{{ information.counters.declined }}</span>
                 </div>
             </li>
 
@@ -138,9 +131,9 @@
                     <i class="line-icon icon ion-cab-car"></i>
                     <span class="line-title">
                         {{ "Vehicle information" | translate }}
-                        <i ng-if="information && information.vehicleWarning"
-                           class="icon ion-alert-circled"></i>
                     </span>
+                    <i ng-if="information && information.vehicleWarning"
+                       class="icon ion-alert-circled vehicle-warning"></i>
                 </div>
             </li>
 

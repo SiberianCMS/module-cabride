@@ -678,7 +678,7 @@ angular.module('starter')
 
 angular.module('starter')
 .controller('CabrideMyRides', function ($scope, $filter, $translate, $ionicScrollDelegate,
-                                        Cabride, CabrideUtils, Dialog) {
+                                        Cabride, CabrideUtils, Dialog, ContextualMenu) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("My rides"),
@@ -706,6 +706,15 @@ angular.module('starter')
         }).then(function () {
             $scope.isLoading = false;
         });
+    };
+
+    $scope.isTaxiLayout = function () {
+        return Cabride.isTaxiLayout;
+    };
+
+    $scope.toggleRightMenu = function () {
+        // Toggling nav
+        ContextualMenu.toggle();
     };
 
     $scope.distance = function (request) {
@@ -760,7 +769,7 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabridePendingRequests', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader) {
+.controller('CabridePendingRequests', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader, ContextualMenu) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Pending requests"),
@@ -792,6 +801,15 @@ angular.module('starter')
                 return Math.ceil(distance) + " Km";
                 break;
         }
+    };
+
+    $scope.isTaxiLayout = function () {
+        return Cabride.isTaxiLayout;
+    };
+
+    $scope.toggleRightMenu = function () {
+        // Toggling nav
+        ContextualMenu.toggle();
     };
 
     $scope.duration = function (request) {
@@ -879,7 +897,7 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabrideAcceptedRequests', function ($scope, $translate, Cabride, Dialog, Loader) {
+.controller('CabrideAcceptedRequests', function ($scope, $translate, Cabride, Dialog, Loader, ContextualMenu) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Accepted requests"),
@@ -898,6 +916,15 @@ angular.module('starter')
         }).then(function () {
             $scope.isLoading = false;
         });
+    };
+
+    $scope.isTaxiLayout = function () {
+        return Cabride.isTaxiLayout;
+    };
+
+    $scope.toggleRightMenu = function () {
+        // Toggling nav
+        ContextualMenu.toggle();
     };
 
     $scope.distance = function (request) {
@@ -978,7 +1005,7 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabrideCompletedRides', function ($scope, $translate, Cabride, Dialog) {
+.controller('CabrideCompletedRides', function ($scope, $translate, Cabride, Dialog, ContextualMenu) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Completed requests"),
@@ -997,6 +1024,15 @@ angular.module('starter')
         }).then(function () {
             $scope.isLoading = false;
         });
+    };
+
+    $scope.isTaxiLayout = function () {
+        return Cabride.isTaxiLayout;
+    };
+
+    $scope.toggleRightMenu = function () {
+        // Toggling nav
+        ContextualMenu.toggle();
     };
 
     $scope.distance = function (request) {
@@ -1026,7 +1062,7 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabrideCancelled', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader) {
+.controller('CabrideCancelled', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader, ContextualMenu) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Declined requests"),
@@ -1045,6 +1081,15 @@ angular.module('starter')
         }).then(function () {
             $scope.isLoading = false;
         });
+    };
+
+    $scope.isTaxiLayout = function () {
+        return Cabride.isTaxiLayout;
+    };
+
+    $scope.toggleRightMenu = function () {
+        // Toggling nav
+        ContextualMenu.toggle();
     };
 
     $scope.distance = function (request) {
@@ -1099,7 +1144,7 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabrideVehicleInformation', function ($scope, $translate, Cabride, Dialog, Loader) {
+.controller('CabrideVehicleInformation', function ($scope, $translate, Cabride, Dialog, Loader, ContextualMenu) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Vehicle information"),
@@ -1137,6 +1182,15 @@ angular.module('starter')
         }).then(function () {
             Loader.hide();
         });
+    };
+
+    $scope.isTaxiLayout = function () {
+        return Cabride.isTaxiLayout;
+    };
+
+    $scope.toggleRightMenu = function () {
+        // Toggling nav
+        ContextualMenu.toggle();
     };
 
     $scope.changeType = function () {
@@ -1194,6 +1248,10 @@ angular.module('starter')
         valueId: Cabride.getValueId()
     });
 
+    $scope.isTaxiLayout = function () {
+        return Cabride.isTaxiLayout;
+    };
+
     $scope.payNow = function () {
         CabridePayment.pay();
     };
@@ -1203,7 +1261,7 @@ angular.module('starter')
 .controller('CabrideContextualMenuController', function ($scope, $rootScope, $state,
                                                          $ionicSideMenuDelegate,
                                                          $ionicHistory, Customer,
-                                                         SB, $timeout) {
+                                                         SB, $timeout, HomepageLayout) {
     angular.extend($scope, {
         isOnline: false,
         customer: null,
@@ -1211,6 +1269,7 @@ angular.module('starter')
         isLoggedIn: Customer.isLoggedIn(),
         isPassenger: false,
         isDriver: false,
+        cabride: null,
     });
 
     /**
@@ -1276,7 +1335,8 @@ angular.module('starter')
     };
 
     // On load!
-    Customer.find()
+    Customer
+    .find()
     .then(function (customer) {
         $scope.customer = customer;
         $scope.customer.metadatas = _.isObject($scope.customer.metadatas)
@@ -1285,6 +1345,14 @@ angular.module('starter')
         $scope.avatarUrl = Customer.getAvatarUrl($scope.customer.id);
 
         return customer;
+    });
+
+    HomepageLayout
+    .getFeatures()
+    .then(function (features) {
+        $scope.cabride = _.find(features.options, function (option) {
+            return option.code === "cabride";
+        });
     });
 
     /**

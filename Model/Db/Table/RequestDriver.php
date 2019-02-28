@@ -30,8 +30,12 @@ class RequestDriver extends Core_Model_Db_Table
         $select = $this->_db
             ->select()
             ->from($this->_name)
-            ->where("driver_id = ?", $driverId)
-            ->where("status IN (?)", $statuses);
+            ->joinInner(
+                "cabride_request",
+                "cabride_request_driver.request_id = cabride_request.request_id")
+            ->where("cabride_request_driver.driver_id = ?", $driverId)
+            ->where("cabride_request_driver.status IN (?)", $statuses)
+            ->where("cabride_request.status = cabride_request_driver.status");
 
         return $this->toModelClass($this->_db->fetchAll($select));
     }

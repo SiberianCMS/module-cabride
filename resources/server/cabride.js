@@ -23,7 +23,7 @@ let config = require('./config.json'),
     options = {
         path: '/cabride'
     },
-    debug = true,
+    debug = false,
     defaultUrl = config.apiUrl + '/#APP_KEY#/cabride/api_message',
     apiUrl = null,
     requestDefaultHeaders = {
@@ -256,9 +256,6 @@ const functions = {
 
             return aggregateInformation;
         },
-        /**snapToRoad : function (points) {
-            //let url = "https://roads.googleapis.com/v1/nearestRoads?points=43.5706202574322,1.479447844645505|43.5706202564322,1.479447844655505&key=";
-        },*/
         updatePosition: function (localConnection, params) {
             switch (params.userType) {
                 case "driver":
@@ -583,14 +580,16 @@ let init = function (httpsOptions) {
     }, 15000);
 
     // Debug connected users
-    setInterval(function () {
-        functions.log('=== allConnections ===');
-        functions.log(globals.allConnections);
-        functions.log('=== IDS ===');
-        for (let uuid in globals.allConnections) {
-            functions.log(uuid);
-        }
-    }, 10000);
+    if (debug) {
+        setInterval(function () {
+            functions.log('=== allConnections ===');
+            functions.log(globals.allConnections);
+            functions.log('=== IDS ===');
+            for (let uuid in globals.allConnections) {
+                functions.log(uuid);
+            }
+        }, 10000);
+    }
 };
 
 // Init when request is OK!

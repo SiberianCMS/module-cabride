@@ -417,7 +417,8 @@
         border: 0 !important;
       }
 
-      p.cabride-drive-to {
+      span.cabride-drive-to {
+        display: block;
         margin: 0;
         padding: 0;
         font-size: .7em;
@@ -425,7 +426,8 @@
         letter-spacing: 2px;
       }
 
-      p.cabride-target {
+      span.cabride-target {
+        display: block;
         margin: 0;
         padding: 0;
         line-height: 1em;
@@ -449,6 +451,22 @@
       font-size: .8em;
       color: lighten($list-item-custom-text, 20%);
     }
+  }
+
+  .vehicle-warning {
+    color: #f13c30;
+    font-size: 1.7em;
+  }
+
+  &.toggle-taxi-menu {
+    margin: 0 .8em;
+  }
+}
+
+/** Badges CSS */
+.line-box {
+  .badge {
+    margin-left: 1em;
   }
 }
 
