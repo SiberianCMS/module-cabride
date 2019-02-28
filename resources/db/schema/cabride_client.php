@@ -45,4 +45,12 @@ $schemas['cabride_client'] = [
             'is_unique' => false,
         ],
     ],
+    'mobile' => [
+        'type' => 'varchar(20)',
+        'null' => true,
+    ],
+    'address' => [
+        'type' => 'varchar(1024)',
+        'null' => true,
+    ],
 ];

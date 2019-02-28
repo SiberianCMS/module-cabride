@@ -63,6 +63,7 @@ class Driver extends Core_Model_Db_Table
             )
             ->where("d.value_id = ?", $valueId)
             ->where("d.is_online = ?", 1)
+            ->where("d.status = ?", "active") // Driver must be activated!
             ->where("(d.latitude != 0 AND d.longitude != 0)")
             ->having("distance < ?", $radius)
         ;

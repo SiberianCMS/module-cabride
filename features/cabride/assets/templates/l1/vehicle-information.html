@@ -24,9 +24,7 @@
         <div ng-if="!isLoading && (!driver.hasVehicle || changingType)"
              class="list">
 
-            <div style="margin-bottom: 20px;"></div>
-
-            <div class="item item-divider item-divider-custom">
+            <div class="item item-divider item-divider-custom text-center">
                 {{ "Please select a vehicle type" | translate }}
             </div>
             <div ng-repeat="type in vehicleTypes"
@@ -98,7 +96,7 @@
 
             <label class="item item-input item-custom">
                 <div class="input-label">
-                    {{ "Model" | translate }}
+                    <b>{{ "Model" | translate }}</b>
                 </div>
                 <input class="text-right"
                        type="text"
@@ -108,7 +106,7 @@
 
             <label class="item item-input item-custom">
                 <div class="input-label">
-                    {{ "License plate" | translate }} *
+                    <b>{{ "License plate" | translate }} *</b>
                 </div>
                 <input class="text-right"
                        type="text"
@@ -119,7 +117,7 @@
 
             <label class="item item-input item-custom">
                 <div class="input-label">
-                    {{ "Driving license" | translate }} *
+                    <b>{{ "Driving license" | translate }} *</b>
                 </div>
                 <input class="text-right"
                        type="text"
@@ -130,7 +128,7 @@
 
             <label class="item item-input item-custom item-stacked-label">
                 <div class="input-label">
-                    {{ "Base address" | translate }}
+                    <b>{{ "Base address" | translate }}</b>
                 </div>
                 <textarea rows="3"
                           ng-model="driver.base_address"></textarea>
@@ -138,7 +136,7 @@
 
             <label class="item item-input item-custom">
                 <div class="input-label">
-                    {{ "Pickup radius" | translate }} ({{ distanceUnit() }})
+                    <b>{{ "Pickup radius" | translate }} ({{ distanceUnit() }})</b>
                 </div>
                 <input class="text-right"
                        type="number"
@@ -152,13 +150,13 @@
 
                 <div style="margin-bottom: 20px;"></div>
 
-                <div class="item item-divider item-divider-custom">
-                    <p>{{ "Custom fares" | translate }}</p>
+                <div class="item item-divider item-divider-custom text-center">
+                    <h2>{{ "Custom fares" | translate }}</h2>
                 </div>
 
                 <label class="item item-input item-custom">
                     <div class="input-label">
-                        {{ "Base" | translate }} *
+                        <b>{{ "Base" | translate }} *</b>
                     </div>
                     <input class="text-right"
                            type="number"
@@ -170,7 +168,7 @@
 
                 <label class="item item-input item-custom">
                     <div class="input-label">
-                        {{ "Distance (every km/mi)" | translate }} *
+                        <b>{{ "Distance (every km/mi)" | translate }} *</b>
                     </div>
                     <input class="text-right"
                            type="number"
@@ -182,7 +180,7 @@
 
                 <label class="item item-input item-custom">
                     <div class="input-label">
-                        {{ "Time (every minute)" | translate }} *
+                        <b>{{ "Time (every minute)" | translate }} *</b>
                     </div>
                     <input class="text-right"
                            type="number"

@@ -39,27 +39,4 @@ class Vehicle extends Base
 
         return $iconPath;
     }
-
-    /**
-     * @param $km
-     * @param $minute
-     * @param bool $format
-     * @return float|mixed
-     * @throws \Zend_Currency_Exception
-     * @throws \Zend_Exception
-     */
-    public function estimatePricing($km, $minute, $format = true)
-    {
-        $base = $this->getBaseFare();
-        $distance = $this->getDistanceFare();
-        $time = $this->getTimeFare();
-
-        $rawPrice = $base + ($distance * $km) + ($time * $minute);
-        $price = round($rawPrice, 2, PHP_ROUND_HALF_UP);
-
-        if ($format) {
-            return self::_formatPrice($price);
-        }
-        return $price;
-    }
 }

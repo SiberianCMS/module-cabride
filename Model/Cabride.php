@@ -210,51 +210,85 @@ class Cabride extends Base
         // Check if the user is a driver
         $customerId = $session->getCustomerId();
         $driver = (new Driver())->find($customerId, "customer_id");
-        if (!$driver->getId()) {
+        if ($driver->getId()) {
             // Stops here!
+            // Add custom fields to my account!
+            Account::addFields(
+                "Cabride",
+                [
+                    [
+                        "type" => "spacer",
+                        "key" => "cabride_spacer",
+                    ],
+                    [
+                        "type" => "divider",
+                        "key" => "cabride_divider",
+                        "label" => p__("cabride", "Driver information"),
+                    ],
+                    [
+                        "type" => "text",
+                        "key" => "driver_license",
+                        "label" => p__("cabride", "Driving license"),
+                    ],
+                    [
+                        "type" => "text",
+                        "key" => "driver_phone",
+                        "label" => p__("cabride", "Mobile number"),
+                    ],
+                    [
+                        "type" => "textarea",
+                        "key" => "base_address",
+                        "rows" => "3",
+                        "label" => p__("cabride", "Base address"),
+                    ],
+                    [
+                        "type" => "number",
+                        "key" => "pickup_radius",
+                        "min" => "1",
+                        "max" => "100",
+                        "step" => "1",
+                        "label" => p__("cabride", "Pickup radius"),
+                    ]
+                ],
+                "cabridePopulateExtended",
+                "cabrideSaveExtended");
+
             return $payload;
         }
 
-        // Add custom fields to my account!
-        Account::addFields(
-            "Cabride",
-            [
+        $client = (new Client())->find($customerId, "customer_id");
+        if ($client->getId()) {
+            // Stops here!
+            // Add custom fields to my account!
+            Account::addFields(
+                "Cabride",
                 [
-                    "type" => "spacer",
-                    "key" => "cabride_spacer",
+                    [
+                        "type" => "spacer",
+                        "key" => "cabride_spacer",
+                    ],
+                    [
+                        "type" => "divider",
+                        "key" => "cabride_divider",
+                        "label" => p__("cabride", "Passenger information"),
+                    ],
+                    [
+                        "type" => "text",
+                        "key" => "mobile",
+                        "label" => p__("cabride", "Mobile"),
+                    ],
+                    [
+                        "type" => "textarea",
+                        "key" => "address",
+                        "rows" => "3",
+                        "label" => p__("cabride", "Address"),
+                    ],
                 ],
-                [
-                    "type" => "divider",
-                    "key" => "cabride_divider",
-                    "label" => p__("cabride", "Driver informations"),
-                ],
-                [
-                    "type" => "text",
-                    "key" => "driver_license",
-                    "label" => p__("cabride", "Driving license"),
-                ],
-                [
-                    "type" => "text",
-                    "key" => "driver_phone",
-                    "label" => p__("cabride", "Mobile number"),
-                ],
-                [
-                    "type" => "textarea",
-                    "key" => "base_address",
-                    "rows" => "3",
-                    "label" => p__("cabride", "Base address"),
-                ],
-                [
-                    "type" => "number",
-                    "key" => "pickup_radius",
-                    "min" => "1",
-                    "max" => "100",
-                    "step" => "1",
-                    "label" => p__("cabride", "Pickup radius"),
-                ]
-            ],
-            "cabridePopulateExtended",
-            "cabrideSaveExtended");
+                "cabridePopulateExtended",
+                "cabrideSaveExtended");
+
+            return $payload;
+        }
 
         return $payload;
     }

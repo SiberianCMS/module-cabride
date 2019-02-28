@@ -44,15 +44,26 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
             $collection = [];
             foreach ($drivers as $driver) {
                 $vehicleId = $driver->getVehicleId();
+                $pricing = $driver->estimatePricing($distanceKm, $durationMinute);
                 if (!array_key_exists($vehicleId, $collection)) {
                     $vehicle = (new Vehicle())->find($vehicleId);
-                    $pricing = $vehicle->estimatePricing($distanceKm, $durationMinute);
                     $collection[$vehicleId] = [
                         "drivers" => [],
                         "id" => $vehicle->getId(),
                         "type" => $vehicle->getType(),
                         "pricing" => $pricing,
+                        "lowPricing" => $pricing,
                     ];
+                } else {
+                    if ($collection[$vehicleId]["pricing"] < $pricing) {
+                        // Gives highest estimate to passenger!
+                        $collection[$vehicleId]["pricing"] = $pricing;
+                    }
+
+                    if ($collection[$vehicleId]["lowPricing"] > $pricing) {
+                        // Gives highest estimate to passenger!
+                        $collection[$vehicleId]["lowPricing"] = $pricing;
+                    }
                 }
 
                 $collection[$vehicleId]["drivers"][] = $driver->getFilteredData();

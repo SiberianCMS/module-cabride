@@ -84,6 +84,20 @@ class Driver extends Base
             }
         }
 
+        $client = (new Client())->find($session->getCustomerId(), "customer_id");
+        if ($client->getId()) {
+            foreach ($fields as &$field) {
+                switch ($field["key"]) {
+                    case "mobile":
+                        $field["value"] = $client->getMobile();
+                        break;
+                    case "address":
+                        $field["value"] = $client->getAddress();
+                        break;
+                }
+            }
+        }
+
         return $fields;
     }
 
@@ -121,6 +135,21 @@ class Driver extends Base
                 }
             }
             $driver->save();
+        }
+
+        $client = (new Client())->find($session->getCustomerId(), "customer_id");
+        if ($client->getId()) {
+            foreach ($fields as &$field) {
+                switch ($field["key"]) {
+                    case "mobile":
+                        $driver->setMobilel($field["value"]);
+                        break;
+                    case "address":
+                        $driver->setAddress($field["value"]);
+                        break;
+                }
+            }
+            $client->save();
         }
 
         return $fields;
@@ -178,6 +207,40 @@ class Driver extends Base
         $data["id"] = (integer) $data["id"];
 
         return $data;
+    }
+
+    /**
+     * @param $km
+     * @param $minute
+     * @param bool $format
+     * @return float|mixed
+     * @throws \Zend_Currency_Exception
+     * @throws \Zend_Exception
+     */
+    public function estimatePricing($km, $minute, $format = true)
+    {
+        $cabride = (new Cabride())->find($this->getValueId(), "value_id");
+
+        // Automatically get price depending on settings!
+        if ($cabride->getPricingMode() === "fixed") {
+            $vehicleType = (new Vehicle())->find($this->getVehicleId());
+
+            $base = $vehicleType->getBaseFare();
+            $distance = $vehicleType->getDistanceFare();
+            $time = $vehicleType->getTimeFare();
+        } else {
+            $base = $this->getBaseFare();
+            $distance = $this->getDistanceFare();
+            $time = $this->getTimeFare();
+        }
+
+        $rawPrice = $base + ($distance * $km) + ($time * $minute);
+        $price = round($rawPrice, 2, PHP_ROUND_HALF_UP);
+
+        if ($format) {
+            return self::_formatPrice($price);
+        }
+        return $price;
     }
 
     /**

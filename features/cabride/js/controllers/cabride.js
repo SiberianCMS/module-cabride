@@ -769,7 +769,7 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabridePendingRequests', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader, ContextualMenu) {
+.controller('CabridePendingRequests', function ($scope, $translate, $state, Cabride, CabrideUtils, Dialog, Loader, ContextualMenu) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Pending requests"),
@@ -1062,7 +1062,7 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabrideCancelled', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader, ContextualMenu) {
+.controller('CabrideCancelled', function ($scope, $translate, $state, Cabride, CabrideUtils, Dialog, Loader, ContextualMenu) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Declined requests"),

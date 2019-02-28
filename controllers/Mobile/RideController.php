@@ -8,6 +8,7 @@ use Cabride\Model\Cabride;
 use Cabride\Model\RequestDriver;
 use Core\Model\Base;
 use Siberian\Json;
+use Siberian_Google_Geocoding as Geocoding;
 
 /**
  * Class Cabride_Mobile_RideController
@@ -492,6 +493,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
     {
         try {
             $request = $this->getRequest();
+            $application = $this->getApplication();
             $session = $this->getSession();
             $data = $request->getBodyParams();
             $driverParams = $data["driver"];
@@ -510,11 +512,23 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                     "Both your driving license & vehicle license plate are required!"));
             }
 
+            // Geocoding base address
+            $position = Geocoding::getLatLng(
+                ["address" => $driverParams["base_address"]],
+                $application->getGooglemapsKey());
+
+            if (empty($position[0]) || empty($position[1])) {
+                throw new Exception(p__("cabride",
+                    "We were unable to validate your address, please try again!"));
+            }
+
             $driver
                 ->setVehicleModel($driverParams["vehicle_model"])
                 ->setVehicleLicensePlate($driverParams["vehicle_license_plate"])
                 ->setDriverLicense($driverParams["driver_license"])
                 ->setBaseAddress($driverParams["base_address"])
+                ->setBaseLatitude($position[0])
+                ->setBaseLongitude($position[1])
                 ->setPickupRadius($driverParams["pickup_radius"]);
 
             if ($cabride->getPricingMode() === "driver") {
