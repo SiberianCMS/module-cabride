@@ -571,6 +571,7 @@ let init = function (httpsOptions) {
             for (let uuid in globals.passengers) {
                 let localConnection = globals.allConnections[uuid];
                 functions.advertDrivers(localConnection, {});
+                functions.aggregateInformation(localConnection, {});
             }
         } catch (e) {
             functions.log(e, e.message);

@@ -130,4 +130,18 @@ class Request extends Core_Model_Db_Table
 
         return $this->toModelClass($this->_db->fetchAll($select));
     }
+
+    /**
+     * @param $clientId
+     * @return mixed
+     */
+    public function fetchPendingForClient($clientId)
+    {
+        $select = $this->_db->select()
+            ->from($this->_name)
+            ->where("status IN (?)", ["pending", "onway", "inprogress", "accepted"])
+            ->where("client_id = ?", $clientId);
+
+        return $this->toModelClass($this->_db->fetchAll($select));
+    }
 }

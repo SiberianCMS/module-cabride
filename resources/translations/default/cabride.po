@@ -7,8 +7,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-02-28T13:11:50+00:00\n"
-"PO-Revision-Date: 2019-02-28T13:11:50+00:00\n"
+"POT-Creation-Date: 2019-02-28T14:21:35+00:00\n"
+"PO-Revision-Date: 2019-02-28T14:21:35+00:00\n"
 "Language: \n"
 
 msgid "All data"
@@ -59,95 +59,8 @@ msgstr "Satispay"
 msgid "User Styler"
 msgstr "User Styler"
 
-msgid "404, page not found"
-msgstr "404, page not found"
-
-msgid "Ouch, this page doesn't exist"
-msgstr "Ouch, this page doesn't exist"
-
-msgid "Do you want to return to the homepage?"
-msgstr "Do you want to return to the homepage?"
-
-msgid "Dashboard"
-msgstr "Dashboard"
-
-msgid "Or do you want to return to editor?"
-msgstr "Or do you want to return to editor?"
-
-msgid "Editor"
-msgstr "Editor"
-
-msgid "Close"
-msgstr "Close"
-
-msgid "Edit step for this element"
-msgstr "Edit step for this element"
-
-msgid "Step title"
-msgstr "Step title"
-
-msgid "Step text"
-msgstr "Step text"
-
-msgid "Step placement (optional)"
-msgstr "Step placement (optional)"
-
-msgid "By default, popups steps try to use a smart placement. You can force this placement if needed."
-msgstr "By default, popups steps try to use a smart placement. You can force this placement if needed."
-
-msgid "Top"
-msgstr "Top"
-
-msgid "Right"
-msgstr "Right"
-
-msgid "Bottom"
-msgstr "Bottom"
-
-msgid "Left"
-msgstr "Left"
-
-msgid "Remove this step"
-msgstr "Remove this step"
-
-msgid "Save"
-msgstr "Save"
-
-msgid "Tour Edition"
-msgstr "Tour Edition"
-
-msgid "Element n°"
-msgstr "Element n°"
-
-msgid "No linkable element found on this page."
-msgstr "No linkable element found on this page."
-
-msgid "A step requires at least a title and a text."
-msgstr "A step requires at least a title and a text."
-
-msgid "An error occurred while saving. Please try again later."
-msgstr "An error occurred while saving. Please try again later."
-
-msgid "404, Page not found"
-msgstr "404, Page not found"
-
-msgid "text/html; charset=utf-8"
-msgstr "text/html; charset=utf-8"
-
-msgid "width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"
-msgstr "width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"
-
-msgid "Back"
-msgstr "Back"
-
-msgid "Next"
-msgstr "Next"
-
-msgid "End tour"
-msgstr "End tour"
-
-msgid "Please create the API keys to enable this feature."
-msgstr "Please create the API keys to enable this feature."
+msgid "Success"
+msgstr "Success"
 
 msgid "Page settings"
 msgstr "Page settings"
@@ -155,11 +68,14 @@ msgstr "Page settings"
 msgid "Page name:"
 msgstr "Page name:"
 
-msgid "My Account"
-msgstr "My Account"
+msgid "Custom Page"
+msgstr "Custom Page"
 
 msgid "Activated"
 msgstr "Activated"
+
+msgid "Social Sharing"
+msgstr "Social Sharing"
 
 msgid "Manage icons"
 msgstr "Manage icons"
@@ -179,29 +95,65 @@ msgstr "Search by keywords ..."
 msgid "Reset"
 msgstr "Reset"
 
-msgid "Enable Facebook login"
-msgstr "Enable Facebook login"
-
-msgid "Enable registration"
-msgstr "Enable registration"
+msgid "Save"
+msgstr "Save"
 
 msgid "Patientez ..."
 msgstr "Patientez ..."
 
-msgid "This feature will be displayed to mobile users to allow them to login and manage their account."
-msgstr "This feature will be displayed to mobile users to allow them to login and manage their account."
+msgid "Add sections"
+msgstr "Add sections"
 
-msgid "It get automatically added when you use features which require users to login."
-msgstr "It get automatically added when you use features which require users to login."
+msgid "Text"
+msgstr "Text"
 
-msgid "Design"
-msgstr "Design"
+msgid "Image"
+msgstr "Image"
 
-msgid "Background (portrait)"
-msgstr "Background (portrait)"
+msgid "Video"
+msgstr "Video"
+
+msgid "Address"
+msgstr "Address"
+
+msgid "Button"
+msgstr "Button"
+
+msgid "Attachment"
+msgstr "Attachment"
+
+msgid "Slider"
+msgstr "Slider"
+
+msgid "Cover"
+msgstr "Cover"
+
+msgid "Add a picture"
+msgstr "Add a picture"
 
 msgid "uploader"
 msgstr "uploader"
+
+msgid "Alignment"
+msgstr "Alignment"
+
+msgid "Size"
+msgstr "Size"
+
+msgid "Small"
+msgstr "Small"
+
+msgid "Medium"
+msgstr "Medium"
+
+msgid "Large"
+msgstr "Large"
+
+msgid "Custom page"
+msgstr "Custom page"
+
+msgid "Background (portrait)"
+msgstr "Background (portrait)"
 
 msgid "Background (landscape)"
 msgstr "Background (landscape)"
@@ -230,11 +182,8 @@ msgstr "Job"
 msgid "Links"
 msgstr "Links"
 
-msgid "Custom Page"
-msgstr "Custom Page"
-
-msgid "Success"
-msgstr "Success"
+msgid "My Account"
+msgstr "My Account"
 
 msgid "Folders (v2)"
 msgstr "Folders (v2)"
@@ -542,6 +491,469 @@ msgstr "images image_gallery images media media"
 msgid "in-app messages inapp_messages in-app messages contact contact"
 msgstr "in-app messages inapp_messages in-app messages contact contact"
 
+msgid "inbox inbox inbox contact co"
+msgstr ""
+
+msgid "404, page not found"
+msgstr "404, page not found"
+
+msgid "Ouch, this page doesn't exist"
+msgstr "Ouch, this page doesn't exist"
+
+msgid "Do you want to return to the homepage?"
+msgstr "Do you want to return to the homepage?"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Or do you want to return to editor?"
+msgstr "Or do you want to return to editor?"
+
+msgid "Editor"
+msgstr "Editor"
+
+msgid "Close"
+msgstr "Close"
+
+msgid "Edit step for this element"
+msgstr "Edit step for this element"
+
+msgid "Step title"
+msgstr "Step title"
+
+msgid "Step text"
+msgstr "Step text"
+
+msgid "Step placement (optional)"
+msgstr "Step placement (optional)"
+
+msgid "By default, popups steps try to use a smart placement. You can force this placement if needed."
+msgstr "By default, popups steps try to use a smart placement. You can force this placement if needed."
+
+msgid "Top"
+msgstr "Top"
+
+msgid "Right"
+msgstr "Right"
+
+msgid "Bottom"
+msgstr "Bottom"
+
+msgid "Left"
+msgstr "Left"
+
+msgid "Remove this step"
+msgstr "Remove this step"
+
+msgid "Tour Edition"
+msgstr "Tour Edition"
+
+msgid "Element n°"
+msgstr "Element n°"
+
+msgid "No linkable element found on this page."
+msgstr "No linkable element found on this page."
+
+msgid "A step requires at least a title and a text."
+msgstr "A step requires at least a title and a text."
+
+msgid "An error occurred while saving. Please try again later."
+msgstr "An error occurred while saving. Please try again later."
+
+msgid "404, Page not found"
+msgstr "404, Page not found"
+
+msgid "text/html; charset=utf-8"
+msgstr "text/html; charset=utf-8"
+
+msgid "width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"
+msgstr "width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"
+
+msgid "Back"
+msgstr "Back"
+
+msgid "Next"
+msgstr "Next"
+
+msgid "End tour"
+msgstr "End tour"
+
+msgid "Please create the API keys to enable this feature."
+msgstr "Please create the API keys to enable this feature."
+
+msgid "Authentication failed. Please check your email and/or your password"
+msgstr "Authentication failed. Please check your email and/or your password"
+
+msgid "Users"
+msgstr "Users"
+
+msgid "Create a new user"
+msgstr "Create a new user"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "User"
+msgstr "User"
+
+msgid "Registered"
+msgstr "Registered"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "EDIT"
+msgstr "EDIT"
+
+msgid "DELETE"
+msgstr "DELETE"
+
+msgid "Confirmation"
+msgstr "Confirmation"
+
+msgid "Are you sure you want to delete this customer?"
+msgstr "Are you sure you want to delete this customer?"
+
+msgid "Yes, delete!"
+msgstr "Yes, delete!"
+
+msgid "No, go back"
+msgstr "No, go back"
+
+msgid "Loading ..."
+msgstr "Loading ..."
+
+msgid "Search, filter ..."
+msgstr "Search, filter ..."
+
+msgid "Showing"
+msgstr "Showing"
+
+msgid "filtered from #TOTAL# total records"
+msgstr "filtered from #TOTAL# total records"
+
+msgid "record"
+msgstr "record"
+
+msgid "records"
+msgstr "records"
+
+msgid "of"
+msgstr "of"
+
+msgid "to"
+msgstr "to"
+
+msgid "Push notifications"
+msgstr "Push notifications"
+
+msgid "White Label"
+msgstr "White Label"
+
+msgid "Activity"
+msgstr "Activity"
+
+msgid "My account"
+msgstr "My account"
+
+msgid "Subscriptions"
+msgstr "Subscriptions"
+
+msgid "Invoices"
+msgstr "Invoices"
+
+msgid "Manage tour"
+msgstr "Manage tour"
+
+msgid "Log-out"
+msgstr "Log-out"
+
+msgid "Support"
+msgstr "Support"
+
+msgid "Customization mode activated"
+msgstr "Customization mode activated"
+
+msgid "Customize My Editor"
+msgstr "Customize My Editor"
+
+msgid "You current working environment is"
+msgstr "You current working environment is"
+
+msgid "Development"
+msgstr "Development"
+
+msgid "be careful or set it back to"
+msgstr "be careful or set it back to"
+
+msgid "Production"
+msgstr "Production"
+
+msgid "REDUCE"
+msgstr "REDUCE"
+
+msgid "Environment is"
+msgstr "Environment is"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Send your logo"
+msgstr "Send your logo"
+
+msgid "Favicon"
+msgstr "Favicon"
+
+msgid "Send your favicon"
+msgstr "Send your favicon"
+
+msgid "General"
+msgstr "General"
+
+msgid "Background Color"
+msgstr "Background Color"
+
+msgid "Text Color"
+msgstr "Text Color"
+
+msgid "Color blue"
+msgstr "Color blue"
+
+msgid "Color red"
+msgstr "Color red"
+
+msgid "Color yellow"
+msgstr "Color yellow"
+
+msgid "Color green"
+msgstr "Color green"
+
+msgid "Titles"
+msgstr "Titles"
+
+msgid "Border Red"
+msgstr "Border Red"
+
+msgid "Border Color"
+msgstr "Border Color"
+
+msgid "Border Blue"
+msgstr "Border Blue"
+
+msgid "Border Yellow"
+msgstr "Border Yellow"
+
+msgid "Border Purple"
+msgstr "Border Purple"
+
+msgid "Border Green"
+msgstr "Border Green"
+
+msgid "Border Grey"
+msgstr "Border Grey"
+
+msgid "Content background"
+msgstr "Content background"
+
+msgid "Grey buttons"
+msgstr "Grey buttons"
+
+msgid "Background Color - Hover"
+msgstr "Background Color - Hover"
+
+msgid "Text Color - Hover"
+msgstr "Text Color - Hover"
+
+msgid "Font Color blue"
+msgstr "Font Color blue"
+
+msgid "Content color"
+msgstr "Content color"
+
+msgid "Input flat"
+msgstr "Input flat"
+
+msgid "Color purple"
+msgstr "Color purple"
+
+msgid "Step menu background"
+msgstr "Step menu background"
+
+msgid "Sidebar background"
+msgstr "Sidebar background"
+
+msgid "Background Color - Active"
+msgstr "Background Color - Active"
+
+msgid "Text Color - Active"
+msgstr "Text Color - Active"
+
+msgid "Loading your white label editor."
+msgstr "Loading your white label editor."
+
+msgid "Your customization has been applied to your white label panel."
+msgstr "Your customization has been applied to your white label panel."
+
+msgid "Design"
+msgstr "Design"
+
+msgid "Colors"
+msgstr "Colors"
+
+msgid "Features"
+msgstr "Features"
+
+msgid "Application"
+msgstr "Application"
+
+msgid "Publication"
+msgstr "Publication"
+
+msgid "Promote"
+msgstr "Promote"
+
+msgid "Analytics"
+msgstr "Analytics"
+
+msgid "App analytics"
+msgstr "App analytics"
+
+msgid "Feature Analytics"
+msgstr "Feature Analytics"
+
+msgid "Terms & Conditions"
+msgstr "Terms & Conditions"
+
+msgid "APIs"
+msgstr "APIs"
+
+msgid "Domain"
+msgstr "Domain"
+
+msgid "Messages"
+msgstr "Messages"
+
+msgid "Advanced"
+msgstr "Advanced"
+
+msgid "Modules"
+msgstr "Modules"
+
+msgctxt "cabride"
+msgid "Cab-Ride"
+msgstr "Cab-Ride"
+
+msgctxt "cabride"
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgctxt "cabride"
+msgid "Rides"
+msgstr "Rides"
+
+msgctxt "cabride"
+msgid "Payments"
+msgstr "Payments"
+
+msgctxt "cabride"
+msgid "Users"
+msgstr "Users"
+
+msgctxt "cabride"
+msgid "Drivers"
+msgstr "Drivers"
+
+msgctxt "cabride"
+msgid "Vehicle types"
+msgstr "Vehicle types"
+
+msgctxt "cabride"
+msgid "Settings"
+msgstr "Settings"
+
+msgid "My Users List"
+msgstr "My Users List"
+
+msgid "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
+msgstr "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
+
+msgid "This field is required."
+msgstr "This field is required."
+
+msgid "Please fix this field."
+msgstr "Please fix this field."
+
+msgid "Please enter a valid email address."
+msgstr "Please enter a valid email address."
+
+msgid "Please enter a valid URL."
+msgstr "Please enter a valid URL."
+
+msgid "Please enter a valid date."
+msgstr "Please enter a valid date."
+
+msgid "Please enter a valid date (ISO)."
+msgstr "Please enter a valid date (ISO)."
+
+msgid "Please enter a valid number."
+msgstr "Please enter a valid number."
+
+msgid "Please enter only digits."
+msgstr "Please enter only digits."
+
+msgid "Please enter a valid credit card number."
+msgstr "Please enter a valid credit card number."
+
+msgid "Please enter the same value again."
+msgstr "Please enter the same value again."
+
+msgid "Please enter no more than {0} characters."
+msgstr "Please enter no more than {0} characters."
+
+msgid "Please enter at least {0} characters."
+msgstr "Please enter at least {0} characters."
+
+msgid "Please enter a value between {0} and {1} characters long."
+msgstr "Please enter a value between {0} and {1} characters long."
+
+msgid "Please enter a value between {0} and {1}."
+msgstr "Please enter a value between {0} and {1}."
+
+msgid "Please enter a value less than or equal to {0}."
+msgstr "Please enter a value less than or equal to {0}."
+
+msgid "Please enter a value greater than or equal to {0}."
+msgstr "Please enter a value greater than or equal to {0}."
+
+msgctxt "cabride"
+msgid "Driver informations"
+msgstr "Driver informations"
+
+msgctxt "cabride"
+msgid "Driving license"
+msgstr "Driving license"
+
+msgctxt "cabride"
+msgid "Mobile number"
+msgstr "Mobile number"
+
+msgctxt "cabride"
+msgid "Base address"
+msgstr "Base address"
+
+msgctxt "cabride"
+msgid "Pickup radius"
+msgstr "Pickup radius"
+
+msgid "Privacy policy"
+msgstr "Privacy policy"
+
+msgid "Contact e-mail"
+msgstr "Contact e-mail"
+
 msgid "inbox inbox inbox contact contact"
 msgstr "inbox inbox inbox contact contact"
 
@@ -689,342 +1101,11 @@ msgstr "You must have published your application to access this feature"
 msgid "to add a subfolder."
 msgstr "to add a subfolder."
 
-msgid "Push notifications"
-msgstr "Push notifications"
-
-msgid "White Label"
-msgstr "White Label"
-
-msgid "Activity"
-msgstr "Activity"
-
-msgid "My account"
-msgstr "My account"
-
-msgid "Users"
-msgstr "Users"
-
-msgid "Subscriptions"
-msgstr "Subscriptions"
-
-msgid "Invoices"
-msgstr "Invoices"
-
-msgid "Manage tour"
-msgstr "Manage tour"
-
-msgid "Log-out"
-msgstr "Log-out"
-
-msgid "Support"
-msgstr "Support"
-
-msgid "Customization mode activated"
-msgstr "Customization mode activated"
-
-msgid "Customize My Editor"
-msgstr "Customize My Editor"
-
-msgid "You current working environment is"
-msgstr "You current working environment is"
-
-msgid "Development"
-msgstr "Development"
-
-msgid "be careful or set it back to"
-msgstr "be careful or set it back to"
-
-msgid "Production"
-msgstr "Production"
-
-msgid "REDUCE"
-msgstr "REDUCE"
-
-msgid "Environment is"
-msgstr "Environment is"
-
-msgid "Logo"
-msgstr "Logo"
-
-msgid "Send your logo"
-msgstr "Send your logo"
-
-msgid "Favicon"
-msgstr "Favicon"
-
-msgid "Send your favicon"
-msgstr "Send your favicon"
-
-msgid "General"
-msgstr "General"
-
-msgid "Background Color"
-msgstr "Background Color"
-
-msgid "Text Color"
-msgstr "Text Color"
-
-msgid "Color blue"
-msgstr "Color blue"
-
-msgid "Color red"
-msgstr "Color red"
-
-msgid "Color yellow"
-msgstr "Color yellow"
-
-msgid "Color green"
-msgstr "Color green"
-
-msgid "Titles"
-msgstr "Titles"
-
-msgid "Border Red"
-msgstr "Border Red"
-
-msgid "Border Color"
-msgstr "Border Color"
-
-msgid "Border Blue"
-msgstr "Border Blue"
-
-msgid "Border Yellow"
-msgstr "Border Yellow"
-
-msgid "Border Purple"
-msgstr "Border Purple"
-
-msgid "Border Green"
-msgstr "Border Green"
-
-msgid "Border Grey"
-msgstr "Border Grey"
-
-msgid "Content background"
-msgstr "Content background"
-
-msgid "Grey buttons"
-msgstr "Grey buttons"
-
-msgid "Background Color - Hover"
-msgstr "Background Color - Hover"
-
-msgid "Text Color - Hover"
-msgstr "Text Color - Hover"
-
-msgid "Font Color blue"
-msgstr "Font Color blue"
-
-msgid "Content color"
-msgstr "Content color"
-
-msgid "Input flat"
-msgstr "Input flat"
-
-msgid "Color purple"
-msgstr "Color purple"
-
-msgid "Step menu background"
-msgstr "Step menu background"
-
-msgid "Sidebar background"
-msgstr "Sidebar background"
-
-msgid "Background Color - Active"
-msgstr "Background Color - Active"
-
-msgid "Text Color - Active"
-msgstr "Text Color - Active"
-
-msgid "Loading your white label editor."
-msgstr "Loading your white label editor."
-
-msgid "Your customization has been applied to your white label panel."
-msgstr "Your customization has been applied to your white label panel."
-
-msgid "Colors"
-msgstr "Colors"
-
-msgid "Features"
-msgstr "Features"
-
-msgid "Application"
-msgstr "Application"
-
-msgid "Publication"
-msgstr "Publication"
-
-msgid "Promote"
-msgstr "Promote"
-
-msgid "Analytics"
-msgstr "Analytics"
-
-msgid "App analytics"
-msgstr "App analytics"
-
-msgid "Feature Analytics"
-msgstr "Feature Analytics"
-
-msgid "Terms & Conditions"
-msgstr "Terms & Conditions"
-
-msgid "APIs"
-msgstr "APIs"
-
-msgid "Domain"
-msgstr "Domain"
-
-msgid "Messages"
-msgstr "Messages"
-
-msgid "Advanced"
-msgstr "Advanced"
-
-msgid "Modules"
-msgstr "Modules"
-
-msgctxt "cabride"
-msgid "Cab-Ride"
-msgstr "Cab-Ride"
-
-msgctxt "cabride"
-msgid "Dashboard"
-msgstr "Dashboard"
-
-msgctxt "cabride"
-msgid "Rides"
-msgstr "Rides"
-
-msgctxt "cabride"
-msgid "Payments"
-msgstr "Payments"
-
-msgctxt "cabride"
-msgid "Users"
-msgstr "Users"
-
-msgctxt "cabride"
-msgid "Drivers"
-msgstr "Drivers"
-
-msgctxt "cabride"
-msgid "Vehicle types"
-msgstr "Vehicle types"
-
-msgctxt "cabride"
-msgid "Settings"
-msgstr "Settings"
-
 msgid "Manage your app's features"
 msgstr "Manage your app's features"
-
-msgid "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
-msgstr "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
-
-msgid "Privacy policy"
-msgstr "Privacy policy"
-
-msgid "Contact e-mail"
-msgstr "Contact e-mail"
 
 msgid "More"
 msgstr "More"
 
-msgid "Settings saved!"
-msgstr "Settings saved!"
-
-msgid "Who is online"
-msgstr "Who is online"
-
-msgid "ID"
-msgstr "ID"
-
-msgid "Name"
-msgstr "Name"
-
-msgid "E-mail"
-msgstr "E-mail"
-
-msgid "Last login"
-msgstr "Last login"
-
-msgid "Last action"
-msgstr "Last action"
-
-msgid "Nobody is online."
-msgstr "Nobody is online."
-
-msgid "Users activity"
-msgstr "Users activity"
-
-msgid "Build a mobile app easily"
-msgstr "Build a mobile app easily"
-
-msgid "This field is required."
-msgstr "This field is required."
-
-msgid "Please fix this field."
-msgstr "Please fix this field."
-
-msgid "Please enter a valid email address."
-msgstr "Please enter a valid email address."
-
-msgid "Please enter a valid URL."
-msgstr "Please enter a valid URL."
-
-msgid "Please enter a valid date."
-msgstr "Please enter a valid date."
-
-msgid "Please enter a valid date (ISO)."
-msgstr "Please enter a valid date (ISO)."
-
-msgid "Please enter a valid number."
-msgstr "Please enter a valid number."
-
-msgid "Please enter only digits."
-msgstr "Please enter only digits."
-
-msgid "Please enter a valid credit card number."
-msgstr "Please enter a valid credit card number."
-
-msgid "Please enter the same value again."
-msgstr "Please enter the same value again."
-
-msgid "Please enter no more than {0} characters."
-msgstr "Please enter no more than {0} characters."
-
-msgid "Please enter at least {0} characters."
-msgstr "Please enter at least {0} characters."
-
-msgid "Please enter a value between {0} and {1} characters long."
-msgstr "Please enter a value between {0} and {1} characters long."
-
-msgid "Please enter a value between {0} and {1}."
-msgstr "Please enter a value between {0} and {1}."
-
-msgid "Please enter a value less than or equal to {0}."
-msgstr "Please enter a value less than or equal to {0}."
-
-msgid "Please enter a value greater than or equal to {0}."
-msgstr "Please enter a value greater than or equal to {0}."
-
-msgctxt "cabride"
-msgid "Driver informations"
-msgstr "Driver informations"
-
-msgctxt "cabride"
-msgid "Driving license"
-msgstr "Driving license"
-
-msgctxt "cabride"
-msgid "Mobile number"
-msgstr "Mobile number"
-
-msgctxt "cabride"
-msgid "Base address"
-msgstr "Base address"
-
-msgctxt "cabride"
-msgid "Pickup radius"
-msgstr "Pickup radius"
+msgid ""
+msgstr ""

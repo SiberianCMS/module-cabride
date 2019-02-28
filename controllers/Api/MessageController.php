@@ -4,6 +4,8 @@ use Cabride\Controller\Base;
 use Siberian\Exception;
 use Siberian\Json;
 use Cabride\Model\Driver;
+use Cabride\Model\Client;
+use Cabride\Model\Request;
 use Cabride\Model\RequestDriver;
 
 /**
@@ -120,6 +122,17 @@ class Cabride_Api_MessageController extends Base
 
             $isDriver = false;
             $isPassenger = false;
+            $mustFillVehicle = false;
+
+            $data = [
+                "counters" => [
+                    "pending" => 0,
+                    "accepted" => 0,
+                    "declined" => 0,
+                    "done" => 0,
+                    "rides" => 0,
+                ]
+            ];
 
             $driver = (new Driver)->find($this->userId, "customer_id");
             if ($driver->getId()) {
@@ -136,15 +149,6 @@ class Cabride_Api_MessageController extends Base
                 ];
                 $rideRequests = (new RequestDriver())
                     ->fetchForDriver($driver->getId(), $statuses);
-
-                $data = [
-                    "counters" => [
-                        "pending" => 0,
-                        "accepted" => 0,
-                        "declined" => 0,
-                        "done" => 0,
-                    ]
-                ];
 
                 foreach ($rideRequests as $rideRequest) {
                     $status = $rideRequest->getStatus();
@@ -165,9 +169,18 @@ class Cabride_Api_MessageController extends Base
                             break;
                     }
                 }
+
+                $mustFillVehicle = $driver->getMustFillVehicle();
             }
 
-            $mustFillVehicle = $driver->getMustFillVehicle();
+            $client = (new Client)->find($this->userId, "customer_id");
+            if ($client->getId()) {
+                $isPassenger = true;
+
+                $rides = (new Request())->fetchPendingForClient($client->getId());
+
+                $data["counters"]["rides"] = $rides->count();
+            }
 
             $data["vehicleWarning"] = $mustFillVehicle;
             $data["userType"] = $isDriver ? "driver" : "passenger";

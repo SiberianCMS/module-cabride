@@ -159,6 +159,14 @@ class Request extends Base
     }
 
     /**
+     * @return Request[]
+     */
+    public function fetchPendingForClient($clientId)
+    {
+        return $this->getTable()->fetchPendingForClient($clientId);
+    }
+
+    /**
      * @param $status
      * @param $source
      * @throws \Zend_Exception

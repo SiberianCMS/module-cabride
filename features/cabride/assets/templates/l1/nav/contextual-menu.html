@@ -54,8 +54,10 @@
                  class="row">
                 <div class="col-100 text-center"
                      ng-click="loginOrSignup()">
-                    <span class="pull-left taxi-signup">
-                        {{ "Signup" | translate }} {{ "or" | translate }} {{ "Login" | translate }}
+                    <span class="taxi-signup">
+                        <span class="taxi-signup-text">{{ "SIGNUP" | translate }}</span>
+                        <span class="taxi-or-text">{{ "OR" | translate }}</span>
+                        <span class="taxi-login-text">{{ "LOGIN" | translate }}</span>
                     </span>
                 </div>
             </div>
@@ -152,6 +154,8 @@
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-thumb-up"></i>
                     <span class="line-title">{{ "My rides" | translate }}</span>
+                    <span ng-if="information && information.counters.rides > 0"
+                          class="badge badge-positive badge-positive-custom">{{ information.counters.rides }}</span>
                 </div>
             </li>
 

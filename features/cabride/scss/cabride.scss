@@ -538,7 +538,23 @@
   }
 
   .taxi-signup {
+    display: block;
     margin: 20px 0;
+
+    .taxi-signup-text {
+      font-size: 1.5em;
+    }
+
+    .taxi-or-text {
+      font-size: 1em;
+      margin: 0 1em;
+      display: inline-block;
+      transform: translateY(-.25em);
+    }
+
+    .taxi-login-text {
+      font-size: 1.5em;
+    }
   }
 
   .offline-text,
