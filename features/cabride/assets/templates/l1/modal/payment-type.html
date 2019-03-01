@@ -1,4 +1,5 @@
 <ion-modal-view sb-page-background
+                ng-controller="CabridePaymentType"
                 class="cabride cabride-model-vehicle">
 
     <ion-header-bar class="bar-custom">
@@ -30,14 +31,13 @@
             </div>
         </div>
 
-        <!--div ng-if="hasPaymentType"
+        <div ng-show="addEditCard"
              class="list">
-            <div class="item item-custom">
-                <button ng-click="payNow()">
-                    {{ "Pay now!" | translate }}
-                </button>
+            <h2>{{ "Please add a credit card!" }}</h2>
+            <div id="card-element"
+                 class="item item-custom">
             </div>
-        </div-->
+        </div>
 
         <div id="dropin-container"></div>
     </ion-content>

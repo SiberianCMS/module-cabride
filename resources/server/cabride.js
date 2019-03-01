@@ -23,7 +23,7 @@ let config = require('./config.json'),
     options = {
         path: '/cabride'
     },
-    debug = false,
+    debug = true,
     defaultUrl = config.apiUrl + '/#APP_KEY#/cabride/api_message',
     apiUrl = null,
     requestDefaultHeaders = {

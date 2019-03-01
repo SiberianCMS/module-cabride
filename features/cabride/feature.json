@@ -79,6 +79,7 @@
         "js/factory/cabride-utils.js",
         "js/factory/cabride.js",
         "js/controllers/cabride.js",
+        "js/controllers/cabride-modal.js",
         "scss/cabride.scss"
     ],
     "compile": true,

@@ -392,6 +392,7 @@ angular.module('starter')
     };
 
     $scope.ptModal = null;
+    $scope.addEditCard = false;
     $scope.paymentTypeModal = function (paymentTypes) {
         Modal
         .fromTemplateUrl("features/cabride/assets/templates/l1/modal/payment-type.html", {
@@ -399,16 +400,6 @@ angular.module('starter')
                 close: function () {
                     $scope.ptModal.hide();
                 },
-                select: function (paymentType) {
-                    $scope.selectPaymentType(paymentType);
-                },
-                pay: function () {
-                    CabridePayment.pay();
-
-                    // then ....
-                    // $scope.validateRequest();
-                },
-                hasPaymentType: false,
                 settings: Cabride.settings,
                 paymentTypes: paymentTypes
             }),
@@ -419,28 +410,6 @@ angular.module('starter')
 
             return modal;
         });
-    };
-
-    $scope.selectPaymentType = function (paymentType) {
-        switch (paymentType) {
-            case "credit-card":
-                // Pre-authorize payment!
-                // Validate directly!
-                Dialog
-                .alert("Thanks", "PAY NOW!", "OK", 2350)
-                .then(function () {
-                    //$scope.validateRequest();
-                });
-                break;
-            case "cash":
-                // Validate directly!
-                Dialog
-                .alert("Thanks", "You'll pay the driver directly when the course ends!", "OK", 2350)
-                .then(function () {
-                    $scope.validateRequest();
-                });
-                break;
-        }
     };
 
     $scope.selectVehicle = function (vehicleType) {
@@ -1418,4 +1387,3 @@ angular.module('starter')
     });
 
 });
-

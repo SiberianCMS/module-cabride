@@ -44,6 +44,8 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     "acceptedPayments" => (string) $dbConfig->getAcceptedPayments(),
                     "courseMode" => (string) $dbConfig->getCourseMode(),
                     "pricingMode" => (string) $dbConfig->getPricingMode(),
+                    "paymentProvider" => (string) $dbConfig->getPaymentProvider(),
+                    "stripePublicKey" => (string) $dbConfig->getStripePublicKey(),
                     "driverCanRegister" => (boolean) $dbConfig->getDriverCanRegister(),
                 ]
             ];
@@ -86,6 +88,9 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     ]);
 
                 if ($passenger->getId()) {
+                    // fetch saved cards if applies
+
+
                     $user = [
                         "type" => "passenger",
                     ];

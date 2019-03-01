@@ -50,6 +50,11 @@ angular.module('starter')
                     code: 'cabride'
                 });
 
+                // Module is not in the App!
+                if (!cabride) {
+                    return;
+                }
+
                 factory
                     .setValueId(cabride.value_id)
                     .init()
