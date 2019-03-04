@@ -16,9 +16,9 @@ $schemas['cabride_client_vault'] = [
     'client_id' => [
         'type' => 'int(11) unsigned',
         'foreign_key' => [
-            'table' => 'client',
+            'table' => 'cabride_client',
             'column' => 'client_id',
-            'name' => 'FK_CABRIDE_CID_CLIENT_CID',
+            'name' => 'FK_CABRIDE_CVAULT_ID_CLIENT_CID',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
         ],
@@ -29,12 +29,46 @@ $schemas['cabride_client_vault'] = [
             'is_unique' => false,
         ],
     ],
-    'mobile' => [
+    'type' => [ // "credit-card"
         'type' => 'varchar(20)',
         'null' => true,
     ],
-    'address' => [
+    'payment_provider' => [ // "stripe", "twocheckout", "braintree"
+        'type' => 'varchar(20)',
+        'null' => true,
+    ],
+    'brand' => [
+        'type' => 'varchar(32)',
+        'null' => true,
+    ],
+    'exp' => [
+        'type' => 'varchar(10)',
+        'null' => true,
+    ],
+    'last' => [
+        'type' => 'varchar(4)',
+        'null' => true,
+    ],
+    'is_last_used' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'is_favorite' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'raw_payload' => [ // "stripe", "twocheckout", "braintree"
+        'type' => 'longtext',
+        'null' => true,
+    ],
+    'card_token' => [
         'type' => 'varchar(1024)',
         'null' => true,
+    ],
+    'created_at' => [
+        'type' => 'datetime',
+    ],
+    'updated_at' => [
+        'type' => 'datetime',
     ],
 ];

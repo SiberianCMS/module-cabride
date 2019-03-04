@@ -45,6 +45,18 @@ $schemas['cabride_client'] = [
             'is_unique' => false,
         ],
     ],
+    'stripe_customer_token' => [
+        'type' => 'varchar(1024)',
+        'null' => true,
+    ],
+    'braintree_customer_token' => [
+        'type' => 'varchar(1024)',
+        'null' => true,
+    ],
+    'twocheckout_customer_token' => [
+        'type' => 'varchar(1024)',
+        'null' => true,
+    ],
     'mobile' => [
         'type' => 'varchar(20)',
         'null' => true,

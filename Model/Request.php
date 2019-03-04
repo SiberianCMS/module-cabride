@@ -111,20 +111,45 @@ class Request extends Base
      * @param $clientId
      * @param Vehicle $vehicleType
      * @param $valueId
+     * @param $drivers
+     * @param $cashOrVault
      * @param $route
      * @param $staticMap
      * @param $source
      * @return $this
      * @throws \Zend_Exception
      */
-    public function createRideRequest($clientId, $vehicleType, $valueId, $route, $staticMap, $source)
+    public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $cashOrVault, $route, $staticMap, $source)
     {
         $travel = $route["request"];
         $leg = $route["routes"][0]["legs"][0];
         $distanceKm = ceil($leg["distance"]["value"] / 1000);
         $durationMinute = ceil($leg["duration"]["value"] / 60);
 
-        $estimatedCost = $vehicleType->estimatePricing($distanceKm, $durationMinute, false);
+        $lowestCost = null;
+        $highestCost = null;
+        foreach ($drivers as $driver) {
+            $driverId = $driver["driver_id"];
+            $_tmpDriver = (new Driver())->find($driverId);
+
+            $estimatedCost = $_tmpDriver->estimatePricing($distanceKm, $durationMinute, false);
+
+            if ($lowestCost === null) {
+                $lowestCost = $estimatedCost;
+            }
+
+            if ($estimatedCost < $lowestCost) {
+                $lowestCost = $estimatedCost;
+            }
+
+            if ($highestCost === null) {
+                $highestCost = $estimatedCost;
+            }
+
+            if ($estimatedCost > $highestCost) {
+                $highestCost = $estimatedCost;
+            }
+        }
 
         $this
             ->setValueId($valueId)
@@ -132,7 +157,8 @@ class Request extends Base
             ->setClientId($clientId)
             ->setVehicleId($vehicleType->getId())
             ->setStaticImage($staticMap)
-            ->setEstimatedCost($estimatedCost)
+            ->setEstimatedCost($highestCost)
+            ->setEstimatedLowestCost($lowestCost)
             ->setDistance($leg["distance"]["value"])
             ->setDuration($leg["duration"]["value"])
             ->setFromAddress($leg["start_address"])
@@ -142,8 +168,17 @@ class Request extends Base
             ->setToLat($travel["destination"]["location"]["lat"])
             ->setToLng($travel["destination"]["location"]["lng"])
             ->setRequestMode("immediate")
-            ->setRawRoute(Json::encode($route))
-            ->save();
+            ->setRawRoute(Json::encode($route));
+
+        if ($cashOrVault === "cash") {
+            $this->setPaymentType("cash");
+        } else {
+            $this
+                ->setPaymentType("credit-card")
+                ->setClientVaultId($cashOrVault["vaultId"]);
+        }
+
+        $this->save();
 
         self::log($this, "", "pending", $source);
 

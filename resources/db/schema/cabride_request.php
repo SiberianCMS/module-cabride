@@ -18,12 +18,21 @@ $schemas['cabride_request'] = [
     ],
     'driver_id' => [
         'type' => 'int(11) unsigned',
+        'null' => true,
     ],
     'vehicle_id' => [
         'type' => 'int(11) unsigned',
     ],
     'value_id' => [
         'type' => 'int(11) unsigned',
+    ],
+    'client_vault_id' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
+    'payment_type' => [ // "credit-card" (vault = client_vault_id), "cash"
+        'type' => 'varchar(64)',
+        'null' => true,
     ],
     'status' => [ // "pending", "accepted", "onway", "inprogress", "declined", "done", "aborted", "expired"
         'type' => 'varchar(128)',
@@ -36,6 +45,9 @@ $schemas['cabride_request'] = [
         'collation' => 'utf8_unicode_ci',
     ],
     'estimated_cost' => [
+        'type' => 'float',
+    ],
+    'estimated_lowest_cost' => [
         'type' => 'float',
     ],
     'cost' => [

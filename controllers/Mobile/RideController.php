@@ -38,6 +38,17 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 unset($data["raw_route"]);
 
                 $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"]);
+                $data["formatted_lowest_price"] = Base::_formatPrice($data["estimated_lowest_cost"]);
+
+                $data["formatted_driver_price"] = false;
+                if (!empty($data["driver_id"])) {
+                    $driver = (new Driver())->find($data["driver_id"]);
+                    $distanceKm = ceil($ride->getDistance() / 1000);
+                    $durationMinute = ceil($ride->getDuration() / 60);
+                    $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
+
+                    $data["formatted_driver_price"] = Base::_formatPrice($driverPrice);
+                }
 
                 // Recast values
                 $data["search_timeout"] = (integer) $data["search_timeout"];

@@ -13,13 +13,19 @@
 
     <ion-content>
         <div class="list list-item">
-            <div class="item item-custom"
+            <div ng-repeat="(vehicleId, vehicleType) in vehicles"
                  ng-click="select(vehicleType)"
-                 ng-repeat="(vehicleId, vehicleType) in vehicles">
-                <div class="row">
-                    <div class="col-75"><b>{{ vehicleType.type }}</b></div>
-                    <div class="col-25 text-right"><b>{{ vehicleType.pricing }}</b></div>
-                </div>
+                 class="item item-custom item item-thumbnail-left vehicle-type">
+                <img ng-src="{{ imagePath(vehicleType.icon) }}" />
+                <h2 class="vehicle-type-title">{{ vehicleType.type }}</h2>
+                <p class="default-fares">
+                    <span ng-if="vehicleType.lowPricing != vehicleType.pricing">
+                        {{ "Est." | translate }} {{ vehicleType.lowPricing }} - {{ vehicleType.pricing }}
+                    </span>
+                    <span ng-if="vehicleType.lowPricing == vehicleType.pricing">
+                        {{ "Est." | translate }} {{ vehicleType.pricing }}
+                    </span>
+                </p>
             </div>
         </div>
     </ion-content>

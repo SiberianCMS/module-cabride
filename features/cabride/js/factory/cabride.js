@@ -237,6 +237,19 @@ angular.module('starter')
             });
         };
 
+        factory.saveCard = function (card, type) {
+            return $pwaRequest.post('/cabride/mobile_payment/save-card', {
+                urlParams: {
+                    value_id: this.value_id,
+                },
+                data: {
+                    card: card,
+                    type: type
+                },
+                cache: false
+            });
+        };
+
         factory.onError = function (message) {
             $log.error('cabride socket onerror', message);
         };
@@ -262,13 +275,14 @@ angular.module('starter')
             });
         };
 
-        factory.validateRequest = function (vehicleType, route) {
+        factory.validateRequest = function (vehicleType, route, cashOrVault) {
             return $pwaRequest.post('/cabride/mobile_request/validate', {
                 urlParams: {
                     value_id: this.value_id
                 },
                 data: {
                     vehicleType: vehicleType,
+                    cashOrVault: cashOrVault,
                     route: route
                 },
                 cache: false

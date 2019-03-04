@@ -29,6 +29,10 @@ $schemas['cabride_payment'] = [
             'is_unique' => false,
         ],
     ],
+    'client_vault_id' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
     'amount' => [
         'type' => 'float',
     ],

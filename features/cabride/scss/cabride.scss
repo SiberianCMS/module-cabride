@@ -294,11 +294,7 @@
     }
 
     .course-price {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-
-      font-size: 1.2em;
+      text-align: right;
     }
 
     span.vehicle-type {
@@ -362,7 +358,7 @@
       position: absolute;
       top: 3.2em;
       left: 0;
-      padding: 0em 0.5em .1em;
+      padding: 0 0.5em .1em;
       font-size: 0.7em;
 
       &.pending {
@@ -405,6 +401,8 @@
 
     .course-cost {
       float: right;
+      font-size: .9em;
+      font-weight: bold;
     }
 
     /** Driver part */
@@ -460,6 +458,24 @@
 
   &.toggle-taxi-menu {
     margin: 0 .8em;
+  }
+
+  /** Payment methods */
+  .saved-card {
+    font-weight: bold;
+    letter-spacing: 0;
+
+    .last-star {
+      transform: translateY(3px);
+      display: inline-block;
+    }
+  }
+
+  .price-stroke {
+    text-decoration: line-through;
+    font-size: .75em !important;
+    font-weight: normal !important;
+    opacity: 0.7 !important;
   }
 }
 

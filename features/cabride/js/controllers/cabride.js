@@ -352,12 +352,14 @@ angular.module('starter')
         }
     };
 
+    $scope.vaults = null;
     $scope.requestRide = function () {
         $scope.ride.isSearching = true;
         Cabride
         .requestRide($scope.currentRoute)
         .then(function (response) {
             if (response.collection && Object.keys(response.collection).length > 0) {
+                $scope.vaults = response.vaults;
                 $scope.showModal(response.collection);
             } else {
                 Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK");
@@ -380,6 +382,12 @@ angular.module('starter')
                 select: function (vehicleType) {
                     $scope.selectVehicle(vehicleType);
                 },
+                imagePath: function (image) {
+                    if (image === "") {
+                        return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/car-icon.png";
+                    }
+                    return IMAGE_URL + "images/application" + image;
+                },
                 vehicles: vehicles
             }),
             animation: 'slide-in-up'
@@ -400,8 +408,12 @@ angular.module('starter')
                 close: function () {
                     $scope.ptModal.hide();
                 },
+                validateRequest: function (cashOrVault) {
+                    $scope.validateRequest(cashOrVault);
+                },
                 settings: Cabride.settings,
-                paymentTypes: paymentTypes
+                paymentTypes: paymentTypes,
+                vaults: $scope.vaults
             }),
             animation: 'slide-in-up'
         }).then(function (modal) {
@@ -418,10 +430,10 @@ angular.module('starter')
         $scope.paymentTypeModal();
     };
 
-    $scope.validateRequest = function () {
+    $scope.validateRequest = function (cashOrVault) {
         Loader.show("Sending request ...");
         Cabride
-        .validateRequest($scope.vehicleType, $scope.currentRoute)
+        .validateRequest($scope.vehicleType, $scope.currentRoute, cashOrVault)
         .then(function (response) {
             Loader.hide();
             Dialog
@@ -706,6 +718,20 @@ angular.module('starter')
 
     $scope.refresh = function () {
         $scope.loadPage();
+    };
+
+    $scope.canCancel = function (request) {
+        return ["pending", "accepted"].indexOf(request.status) != -1;
+    };
+
+    $scope.contact = function (request) {
+        console.log("Contact actions");
+    };
+
+    $scope.cancel = function (request) {
+        console.log("cancel ride");
+        // 1. Dialog with ok/no message
+        // 2. if ok > cancel + push driver!
     };
 
     $scope.imagePath = function (image) {

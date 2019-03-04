@@ -1,7 +1,9 @@
 <?php
 
+use Cabride\Model\Cabride;
 use Cabride\Model\Driver;
 use Cabride\Model\Client;
+use Cabride\Model\ClientVault;
 use Cabride\Model\Request;
 use Cabride\Model\RequestDriver;
 use Cabride\Model\Vehicle;
@@ -23,6 +25,8 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
             $request = $this->getRequest();
             $data = $request->getBodyParams();
             $optionValue = $this->getCurrentOptionValue();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
 
             $valueId = $optionValue->getId();
             $route = $data["route"];
@@ -41,37 +45,63 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
             $drivers = (new Driver())
                 ->findNearestOnline($valueId, $formula);
 
+            $client = (new Client())->find($customerId, "customer_id");
+            $cabride = (new Cabride())->find($optionValue->getId(), "value_id");
+
             $collection = [];
             foreach ($drivers as $driver) {
-                $vehicleId = $driver->getVehicleId();
-                $pricing = $driver->estimatePricing($distanceKm, $durationMinute);
+
+                $_tmpDriver = (new Driver())->find($driver->getId());
+
+                $vehicleId = $_tmpDriver->getVehicleId();
+                $pricing = $_tmpDriver->estimatePricing($distanceKm, $durationMinute);
+                $pricingValue = $_tmpDriver->estimatePricing($distanceKm, $durationMinute, false);
+
                 if (!array_key_exists($vehicleId, $collection)) {
                     $vehicle = (new Vehicle())->find($vehicleId);
                     $collection[$vehicleId] = [
                         "drivers" => [],
                         "id" => $vehicle->getId(),
                         "type" => $vehicle->getType(),
+                        "icon" => $vehicle->getIcon(),
                         "pricing" => $pricing,
+                        "pricingValue" => $pricingValue,
                         "lowPricing" => $pricing,
+                        "lowPricingValue" => $pricingValue,
+                        "prices" => [],
                     ];
                 } else {
-                    if ($collection[$vehicleId]["pricing"] < $pricing) {
+                    if ($pricingValue > $collection[$vehicleId]["pricingValue"]) {
                         // Gives highest estimate to passenger!
                         $collection[$vehicleId]["pricing"] = $pricing;
+                        $collection[$vehicleId]["pricingValue"] = $pricingValue;
                     }
 
-                    if ($collection[$vehicleId]["lowPricing"] > $pricing) {
-                        // Gives highest estimate to passenger!
+                    if ($pricingValue < $collection[$vehicleId]["lowPricingValue"]) {
+                        // Lowest estimate to passenger!
                         $collection[$vehicleId]["lowPricing"] = $pricing;
+                        $collection[$vehicleId]["lowPricingValue"] = $pricingValue;
                     }
                 }
 
-                $collection[$vehicleId]["drivers"][] = $driver->getFilteredData();
+                $collection[$vehicleId]["drivers"][] = $_tmpDriver->getFilteredData();
+            }
+
+            $type = $cabride->getPaymentProvider();
+            $clientVaults = (new ClientVault())->fetchForClientId($client->getId());
+            $vaults = [];
+            foreach ($clientVaults as $clientVault) {
+                // Filter vaults by type!
+                if ($clientVault->getPaymentProvider() === $type) {
+                    $data = $clientVault->toJson();
+                    $vaults[] = $data;
+                }
             }
 
             $payload = [
                 "success" => true,
                 "collection" => $collection,
+                "vaults" => $vaults,
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -97,6 +127,7 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
             $optionValue = $this->getCurrentOptionValue();
             $customerId = $session->getCustomerId();
             $route = $data["route"];
+            $cashOrVault = $data["cashOrVault"];
             $gmapsKey = $application->getGooglemapsKey();
 
             $staticMap = Request::staticMapFromRoute($route, $optionValue, $gmapsKey);
@@ -116,12 +147,14 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
                     "You already have a pending and/or a ride in progress, please wait before requesting another one!"));
             }
 
+            $drivers = $vehicleType["drivers"];
+
             $vehicle = (new Vehicle())->find($vehicleType["id"]);
             $request = (new Request())->createRideRequest(
-                $client->getId(), $vehicle, $valueId, $route, $staticMap, "client");
+                $client->getId(), $vehicle, $valueId, $drivers, $cashOrVault, $route, $staticMap, "client");
 
             $sentToDrivers = false;
-            foreach ($vehicleType["drivers"] as $index => $driver) {
+            foreach ($drivers as $index => $driver) {
                 $driverId = $driver["driver_id"];
                 $_tmpDriver = (new Driver())->find($driverId);
                 if ($_tmpDriver->getId()) {

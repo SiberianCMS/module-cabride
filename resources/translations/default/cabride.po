@@ -7,8 +7,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-03-01T16:20:15+00:00\n"
-"PO-Revision-Date: 2019-03-01T16:20:15+00:00\n"
+"POT-Creation-Date: 2019-03-04T17:16:15+00:00\n"
+"PO-Revision-Date: 2019-03-04T17:16:15+00:00\n"
 "Language: \n"
 
 msgid "All data"
@@ -22,6 +22,9 @@ msgstr "Fanwall"
 
 msgid "M-Commerce"
 msgstr "M-Commerce"
+
+msgid "Appointment Activation Key"
+msgstr "Appointment Activation Key"
 
 msgid "CabRide"
 msgstr "CabRide"
@@ -38,38 +41,391 @@ msgstr "Send request"
 msgid "Aggregate information"
 msgstr "Aggregate information"
 
-msgid "Places"
-msgstr "Places"
+msgid "Chatrooms"
+msgstr "Chatrooms"
 
-msgid "Folders (v2)"
-msgstr "Folders (v2)"
+msgid "Get user"
+msgstr "Get user"
 
-msgid "WordPress (v2)"
-msgstr "WordPress (v2)"
+msgid "Realtime Chat"
+msgstr "Realtime Chat"
 
-msgid "Cabride"
-msgstr "Cabride"
+msgid "Device preview"
+msgstr "Device preview"
+
+msgid "Satispay"
+msgstr "Satispay"
+
+msgid "User Styler"
+msgstr "User Styler"
 
 msgid "Success"
 msgstr "Success"
 
-msgid "404, page not found"
-msgstr "404, page not found"
+msgid "Your design"
+msgstr "Your design"
 
-msgid "Ouch, this page doesn't exist"
-msgstr "Ouch, this page doesn't exist"
+msgid "Change your template"
+msgstr "Change your template"
 
-msgid "Do you want to return to the homepage?"
-msgstr "Do you want to return to the homepage?"
+msgid "Change your layout"
+msgstr "Change your layout"
+
+msgid "Layout options"
+msgstr "Layout options"
+
+msgid "This layout has no option."
+msgstr "This layout has no option."
+
+msgid "Unified homepage"
+msgstr "Unified homepage"
+
+msgid "The overlay helps you check if important content and/or text on your homepage image is inside the safe boundaries."
+msgstr "The overlay helps you check if important content and/or text on your homepage image is inside the safe boundaries."
+
+msgid "dismiss"
+msgstr "dismiss"
+
+msgid "Safe zone overlay"
+msgstr "Safe zone overlay"
+
+msgid "Overlay color"
+msgstr "Overlay color"
+
+msgid "Black"
+msgstr "Black"
+
+msgid "White"
+msgstr "White"
+
+msgid "Zone overlay"
+msgstr "Zone overlay"
+
+msgid "Hide overlay"
+msgstr "Hide overlay"
+
+msgid "Safe in portrait"
+msgstr "Safe in portrait"
+
+msgid "Safe in portrait (locked)"
+msgstr "Safe in portrait (locked)"
+
+msgid "Safe in landscape"
+msgstr "Safe in landscape"
+
+msgid "Safe in portrait & landscape"
+msgstr "Safe in portrait & landscape"
+
+msgid "Recommended size:"
+msgstr "Recommended size:"
+
+msgid "Change your homepage"
+msgstr "Change your homepage"
+
+msgid "Download template as"
+msgstr "Download template as"
+
+msgid "or"
+msgstr "or"
+
+msgid "Use the homepage image as background in all features"
+msgstr "Use the homepage image as background in all features"
+
+msgid "Hide iOS status bar"
+msgstr "Hide iOS status bar"
+
+msgid "Changing this option requires you to republish your iOS application."
+msgstr "Changing this option requires you to republish your iOS application."
+
+msgid "Hide Android status bar"
+msgstr "Hide Android status bar"
+
+msgid "This option is not compatible with applications using Forms and/or features with Keyboard."
+msgstr "This option is not compatible with applications using Forms and/or features with Keyboard."
+
+msgid "Choose your country"
+msgstr "Choose your country"
+
+msgid "This option enables you to set the currency used in your app"
+msgstr "This option enables you to set the currency used in your app"
+
+msgid "Choose a country"
+msgstr "Choose a country"
+
+msgid "Choose your font family"
+msgstr "Choose your font family"
+
+msgid "Serif"
+msgstr "Serif"
+
+msgid "CYRILLIC"
+msgstr "CYRILLIC"
+
+msgid "Sans Serif"
+msgstr "Sans Serif"
+
+msgid "Display"
+msgstr "Display"
+
+msgid "Handwriting"
+msgstr "Handwriting"
+
+msgid "Monospace"
+msgstr "Monospace"
+
+msgid "You can also use another Google Font not listed up there"
+msgstr "You can also use another Google Font not listed up there"
+
+msgid "please respect the font name case!"
+msgstr "please respect the font name case!"
+
+msgid "Custom font"
+msgstr "Custom font"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "If you decide to change the slider size, all images will be dropped. Are you sure ?"
+msgstr "If you decide to change the slider size, all images will be dropped. Are you sure ?"
 
 msgid "Dashboard"
 msgstr "Dashboard"
 
-msgid "Or do you want to return to editor?"
-msgstr "Or do you want to return to editor?"
+msgid "Push notifications"
+msgstr "Push notifications"
+
+msgid "White Label"
+msgstr "White Label"
+
+msgid "Activity"
+msgstr "Activity"
+
+msgid "My account"
+msgstr "My account"
+
+msgid "Users"
+msgstr "Users"
+
+msgid "Subscriptions"
+msgstr "Subscriptions"
+
+msgid "Invoices"
+msgstr "Invoices"
+
+msgid "Manage tour"
+msgstr "Manage tour"
+
+msgid "Profile"
+msgstr "Profile"
+
+msgid "Log-out"
+msgstr "Log-out"
+
+msgid "Support"
+msgstr "Support"
+
+msgid "Customization mode activated"
+msgstr "Customization mode activated"
+
+msgid "Customize My Editor"
+msgstr "Customize My Editor"
+
+msgid "You current working environment is"
+msgstr "You current working environment is"
+
+msgid "Development"
+msgstr "Development"
+
+msgid "be careful or set it back to"
+msgstr "be careful or set it back to"
+
+msgid "Production"
+msgstr "Production"
+
+msgid "REDUCE"
+msgstr "REDUCE"
+
+msgid "Environment is"
+msgstr "Environment is"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Send your logo"
+msgstr "Send your logo"
+
+msgid "Favicon"
+msgstr "Favicon"
+
+msgid "Send your favicon"
+msgstr "Send your favicon"
+
+msgid "General"
+msgstr "General"
+
+msgid "Background Color"
+msgstr "Background Color"
+
+msgid "Text Color"
+msgstr "Text Color"
+
+msgid "Color blue"
+msgstr "Color blue"
+
+msgid "Color red"
+msgstr "Color red"
+
+msgid "Color yellow"
+msgstr "Color yellow"
+
+msgid "Color green"
+msgstr "Color green"
+
+msgid "Titles"
+msgstr "Titles"
+
+msgid "Border Red"
+msgstr "Border Red"
+
+msgid "Border Color"
+msgstr "Border Color"
+
+msgid "Border Blue"
+msgstr "Border Blue"
+
+msgid "Border Yellow"
+msgstr "Border Yellow"
+
+msgid "Border Purple"
+msgstr "Border Purple"
+
+msgid "Border Green"
+msgstr "Border Green"
+
+msgid "Border Grey"
+msgstr "Border Grey"
+
+msgid "Content background"
+msgstr "Content background"
+
+msgid "Grey buttons"
+msgstr "Grey buttons"
+
+msgid "Background Color - Hover"
+msgstr "Background Color - Hover"
+
+msgid "Text Color - Hover"
+msgstr "Text Color - Hover"
+
+msgid "Font Color blue"
+msgstr "Font Color blue"
+
+msgid "Content color"
+msgstr "Content color"
+
+msgid "Input flat"
+msgstr "Input flat"
+
+msgid "Color purple"
+msgstr "Color purple"
+
+msgid "Step menu background"
+msgstr "Step menu background"
+
+msgid "Sidebar background"
+msgstr "Sidebar background"
+
+msgid "Background Color - Active"
+msgstr "Background Color - Active"
+
+msgid "Text Color - Active"
+msgstr "Text Color - Active"
+
+msgid "Loading your white label editor."
+msgstr "Loading your white label editor."
+
+msgid "Your customization has been applied to your white label panel."
+msgstr "Your customization has been applied to your white label panel."
+
+msgid "Design"
+msgstr "Design"
+
+msgid "Colors"
+msgstr "Colors"
+
+msgid "Features"
+msgstr "Features"
+
+msgid "Application"
+msgstr "Application"
+
+msgid "Publication"
+msgstr "Publication"
 
 msgid "Editor"
 msgstr "Editor"
+
+msgid "Promote"
+msgstr "Promote"
+
+msgid "Analytics"
+msgstr "Analytics"
+
+msgid "App analytics"
+msgstr "App analytics"
+
+msgid "Feature Analytics"
+msgstr "Feature Analytics"
+
+msgid "Terms & Conditions"
+msgstr "Terms & Conditions"
+
+msgid "APIs"
+msgstr "APIs"
+
+msgid "Domain"
+msgstr "Domain"
+
+msgid "Messages"
+msgstr "Messages"
+
+msgid "Advanced"
+msgstr "Advanced"
+
+msgid "Modules"
+msgstr "Modules"
+
+msgctxt "cabride"
+msgid "Cab-Ride"
+msgstr "Cab-Ride"
+
+msgctxt "cabride"
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgctxt "cabride"
+msgid "Rides"
+msgstr "Rides"
+
+msgctxt "cabride"
+msgid "Payments"
+msgstr "Payments"
+
+msgctxt "cabride"
+msgid "Users"
+msgstr "Users"
+
+msgctxt "cabride"
+msgid "Drivers"
+msgstr "Drivers"
+
+msgctxt "cabride"
+msgid "Vehicle types"
+msgstr "Vehicle types"
+
+msgctxt "cabride"
+msgid "Settings"
+msgstr "Settings"
 
 msgid "Close"
 msgstr "Close"
@@ -98,50 +454,10 @@ msgstr "Right"
 msgid "Bottom"
 msgstr "Bottom"
 
-msgid "Left"
-msgstr "Left"
-
-msgid "Remove this step"
-msgstr "Remove this step"
-
-msgid "Save"
-msgstr "Save"
-
-msgid "Tour Edition"
-msgstr "Tour Edition"
-
-msgid "Element n°"
-msgstr "Element n°"
-
-msgid "No linkable element found on this page."
-msgstr "No linkable element found on this page."
-
-msgid "A step requires at least a title and a text."
-msgstr "A step requires at least a title and a text."
-
-msgid "An error occurred while saving. Please try again later."
-msgstr "An error occurred while saving. Please try again later."
-
-msgid "404, Page not found"
-msgstr "404, Page not found"
-
-msgid "text/html; charset=utf-8"
-msgstr "text/html; charset=utf-8"
-
-msgid "width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"
-msgstr "width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"
-
-msgid "Back"
-msgstr "Back"
-
-msgid "Next"
-msgstr "Next"
-
-msgid "End tour"
-msgstr "End tour"
-
-msgid "Please create the API keys to enable this feature."
-msgstr "Please create the API keys to enable this feature."
+msgid ""
+"Left\\\n"
+""
+msgstr ""
 
 msgctxt "cabride"
 msgid "Passenger information"
@@ -154,30 +470,3 @@ msgstr "Mobile"
 msgctxt "cabride"
 msgid "Address"
 msgstr "Address"
-
-msgid "Privacy policy"
-msgstr "Privacy policy"
-
-msgid "Contact e-mail"
-msgstr "Contact e-mail"
-
-msgid "Cab-Ride"
-msgstr "Cab-Ride"
-
-msgid "About us"
-msgstr "About us"
-
-msgid "Notifications"
-msgstr "Notifications"
-
-msgid "Weather"
-msgstr "Weather"
-
-msgid "My Account"
-msgstr "My Account"
-
-msgid "More"
-msgstr "More"
-
-msgid "My account"
-msgstr "My account"
