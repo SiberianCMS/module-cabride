@@ -64,25 +64,7 @@
                                           class="course-cost">{{ request.formatted_price }}</span>
                                 </div>
                             </div>
-                            <div class="row course-actions">
-                                <div ng-if="canCancel(request)"
-                                     ng-class="{'col-40': canCancel(request), 'col-80': !canCancel(request)}"
-                                     class="action-cancel">
-                                    <button ng-click="cancel(request)"
-                                            class="button button-full button-assertive button-assertive-custom">{{ "CANCEL" | translate }}</button>
-                                </div>
-                                <div ng-class="{'col-40': canCancel(request), 'col-80': !canCancel(request)}"
-                                     class="action-cancel">
-                                    <button ng-click="contact(request)"
-                                            class="button button-full button-positive button-positive-custom">{{ "CONTACT" | translate }}</button>
-                                </div>
-                                <div class="col-20 action-details">
-                                    <button ng-click="details(request)"
-                                            class="button button-full button-balanced button-balanced-custom">
-                                        <i class="icon ion-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            <div ng-include="'./features/cabride/assets/templates/l1/actions/client-'+ request.status +'.html'"></div>
                         </div>
                     </div>
                 </div>

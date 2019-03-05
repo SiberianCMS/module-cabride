@@ -6,7 +6,10 @@ use Cabride\Model\Client;
 use Cabride\Model\ClientVault;
 use Cabride\Model\Request;
 use Cabride\Model\RequestDriver;
+use Cabride\Model\RequestLog;
 use Cabride\Model\Vehicle;
+use Core\Model\Base;
+use Customer_Model_Customer as Customer;
 use Siberian\Exception;
 use Siberian_Google_Geocoding as Geocoding;
 use Siberian\Feature;
@@ -187,6 +190,101 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
             ];
         }
         
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function fetchAction ()
+    {
+        try {
+            //$application = $this->getApplication();
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            //$optionValue = $this->getCurrentOptionValue();
+            //$customerId = $session->getCustomerId();
+            $requestId = $request->getParam("requestId", null);
+
+            $request = (new Request())->findOneExtended($requestId);
+
+            if (!$request["request_id"]) {
+                throw new Exception(p__("cabride",
+                    "This ride request doesn't exists!"));
+            }
+
+            $data = $request;
+
+            // Makes payload lighter!
+            unset($data["raw_route"]);
+
+            $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"]);
+            $data["formatted_lowest_price"] = Base::_formatPrice($data["estimated_lowest_cost"]);
+
+            $data["formatted_driver_price"] = false;
+            if (!empty($data["driver_id"])) {
+                $driver = (new Driver())->find($data["driver_id"]);
+                $driverCustomer = (new Customer())->find($driver->getCustomerId());
+                $distanceKm = ceil($request["distance"] / 1000);
+                $durationMinute = ceil($request["duration"] / 60);
+                $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
+
+                $data["formatted_driver_price"] = Base::_formatPrice($driverPrice);
+                $data["driver"] = $driver->getData();
+                $data["driverCustomer"] = $driverCustomer->getData();
+            }
+
+            $client = (new Client())->find($data["client_id"]);
+            $clientCustomer = (new Customer())->find($client->getCustomerId());
+
+            $data["client"] = $client->getData();
+            $data["clientCustomer"] = $clientCustomer->getData();
+
+            if ($data["payment_type"] === "credit-card") {
+                $vault = (new ClientVault())->find($data["client_vault_id"]);
+
+                $vaultData = $vault->getData();
+
+                unset($vaultData["raw_payload"]);
+                unset($vaultData["card_token"]);
+
+                $data["vault"] = $vaultData;
+                $data["cash"] = false;
+            } else {
+                $data["cash"] = true;
+            }
+
+            // Recast values
+            $data["search_timeout"] = (integer) $data["search_timeout"];
+            $data["timestamp"] = (integer) $data["timestamp"];
+
+            // Fetch status history
+            $logs = (new RequestLog())->findAll(["request_id = ?" => $requestId], ["created_at DESC"]);
+
+            $data["logs"] = [];
+            foreach($logs as $log) {
+                $dataLog = $log->getData();
+
+                $dateTime = \DateTime::createFromFormat(
+                    "Y-m-d H:i:s",
+                    $dataLog["created_at"]);
+
+                $dataLog["timestamp"] = $dateTime->getTimestamp();
+
+                $data["logs"][] = $dataLog;
+            }
+
+            $payload = [
+                "success" => true,
+                "request" => $data,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
         $this->_sendJson($payload);
     }
 }

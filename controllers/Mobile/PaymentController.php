@@ -1,7 +1,9 @@
 <?php
 
+use Cabride\Model\Cabride;
 use Cabride\Model\Client;
 use Cabride\Model\ClientVault;
+use Customer_Model_Customer as Customer;
 use Siberian\Exception;
 use Siberian\Json;
 
@@ -56,17 +58,20 @@ class Cabride_Mobile_PaymentController extends Application_Controller_Mobile_Def
         )
          */
         try {
+            $application = $this->getApplication();
             $request = $this->getRequest();
             $data = $request->getBodyParams();
             $optionValue = $this->getCurrentOptionValue();
             $customerId = $this->getSession()->getCustomerId();
 
+            $cabride = (new Cabride())->find($optionValue->getId(), "value_id");
             $client = (new Client())->find($customerId, "customer_id");
+            $customer = (new Customer())->find($client->getCustomerId());
 
             if (!$client->getId()) {
                 throw new Exception(p__("cabride", "You session expired!"));
             }
-            
+
             $type = $data["type"];
             $card = $data["card"];
 
@@ -74,16 +79,42 @@ class Cabride_Mobile_PaymentController extends Application_Controller_Mobile_Def
                 throw new Exception(p__("cabride", "This payment type is not allowed."));
             }
 
+            \Stripe\Stripe::setApiKey($cabride->getStripeSecretKey());
+            if (empty($client->getStripeCustomerToken())) {
+                // Creates the Stripe customer first!
+                $customer = \Stripe\Customer::create([
+                    "email" => $customer->getEmail(),
+                    "metadata" => [
+                        "customer_id" => $customer->getId(),
+                        "client_id" => $client->getId(),
+                        "value_id" => $optionValue->getId(),
+                        "app_id" => $application->getId(),
+                    ],
+                ]);
+
+                $client
+                    ->setStripeCustomerToken($customer["id"])
+                    ->save();
+            }
+
+            $stripeCustomer = \Stripe\Customer::retrieve($client->getStripeCustomerToken());
+
+            // Attach the card to the customer!
+            $stripeCard = $stripeCustomer->sources->create(["source" => $card["id"]]);
+
             // Search for a similar card!
             $similarVaults = (new ClientVault())->findAll([
                 "exp = ?" => $card["card"]["exp_month"] . "/" . substr($card["card"]["exp_year"], 2),
                 "last = ?" => $card["card"]["last4"],
                 "brand = ?" => $card["card"]["brand"],
+                "client_id = ?" => $client->getId(),
                 "payment_provider = ?" => $type,
             ]);
 
             if ($similarVaults->count() > 0) {
-                throw new Exception(p__("cabride", "Seems you already added this card! If there was an error please remove the existing card first, then add it again."));
+                throw new Exception(p__(
+                    "cabride",
+                    "Seems you already added this card! If there was an error please remove the existing card first, then add it again."));
             }
 
             $vault = null;
@@ -97,7 +128,7 @@ class Cabride_Mobile_PaymentController extends Application_Controller_Mobile_Def
                         ->setBrand($card["card"]["brand"])
                         ->setExp($card["card"]["exp_month"] . "/" . substr($card["card"]["exp_year"], 2))
                         ->setLast($card["card"]["last4"])
-                        ->setCardToken($card["id"])
+                        ->setCardToken($stripeCard["id"])
                         ->setRawPayload(Json::encode($card))
                         ->save();
 

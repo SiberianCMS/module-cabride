@@ -51,16 +51,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row course-actions">
-                            <div class="col-50 action-decline">
-                                <button ng-click="decline(request.request_id)"
-                                        class="button button-full button-assertive button-assertive-custom">{{ "DECLINE" | translate }}</button>
-                            </div>
-                            <div class="col-50 action-accept">
-                                <button ng-click="accept(request)"
-                                        class="button button-full button-positive button-positive-custom">{{ "ACCEPT" | translate }}</button>
-                            </div>
-                        </div>
+                        <div ng-include="'./features/cabride/assets/templates/l1/actions/driver-'+ request.status +'.html'"></div>
                     </div>
                 </div>
             </div>

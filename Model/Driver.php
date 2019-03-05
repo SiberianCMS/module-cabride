@@ -71,6 +71,9 @@ class Driver extends Base
                     case "driver_license":
                         $field["value"] = $driver->getDriverLicense();
                         break;
+                    case "driver_phone":
+                        $field["value"] = $driver->getDriverPhone();
+                        break;
                     case "base_address":
                         $field["value"] = $driver->getBaseAddress();
                         break;
@@ -122,6 +125,9 @@ class Driver extends Base
                         break;
                     case "driver_license":
                         $driver->setDriverLicense($field["value"]);
+                        break;
+                    case "driver_phone":
+                        $driver->setDriverPhone($field["value"]);
                         break;
                     case "base_address":
                         $driver->setBaseAddress($field["value"]);

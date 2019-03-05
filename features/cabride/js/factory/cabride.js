@@ -2,9 +2,9 @@
  * Cabride factory
  */
 angular.module('starter')
-    .factory('Cabride', function (CabrideSocket, CabridePayment, Customer, Application, Pages, Location, SB,
+    .factory('Cabride', function (CabrideSocket, CabridePayment, Customer, Application, Pages, Modal, Location, SB,
                                   $q, $session, $rootScope, $interval, $timeout, $log, $ionicPlatform,
-                                  $pwaRequest, PushService, Push, Dialog, $state, $ionicSideMenuDelegate) {
+                                  $pwaRequest, PushService, Push, Dialog, Loader, $state, $ionicSideMenuDelegate) {
         var factory = {
             value_id: null,
             settings: {
@@ -186,6 +186,16 @@ angular.module('starter')
             });
         };
 
+        factory.cancelRide = function (requestId) {
+            return $pwaRequest.post('/cabride/mobile_ride/cancel', {
+                urlParams: {
+                    value_id: this.value_id,
+                    requestId: requestId
+                },
+                cache: false
+            });
+        };
+
         factory.driveToPassenger = function (requestId) {
             return $pwaRequest.post('/cabride/mobile_ride/drive-to-passenger', {
                 urlParams: {
@@ -196,8 +206,18 @@ angular.module('starter')
             });
         };
 
-        factory.driveToDirection = function (requestId) {
-            return $pwaRequest.post('/cabride/mobile_ride/drive-to-direction', {
+        factory.driveToDestination = function (requestId) {
+            return $pwaRequest.post('/cabride/mobile_ride/drive-to-destination', {
+                urlParams: {
+                    value_id: this.value_id,
+                    requestId: requestId
+                },
+                cache: false
+            });
+        };
+
+        factory.completeRide = function (requestId) {
+            return $pwaRequest.post('/cabride/mobile_ride/complete', {
                 urlParams: {
                     value_id: this.value_id,
                     requestId: requestId
@@ -286,6 +306,44 @@ angular.module('starter')
                     route: route
                 },
                 cache: false
+            });
+        };
+
+        factory.fetchRequest = function (requestId) {
+            return $pwaRequest.get('/cabride/mobile_request/fetch', {
+                urlParams: {
+                    value_id: this.value_id,
+                    requestId: requestId
+                },
+                cache: false
+            });
+        };
+
+        factory.rdModal = null;
+        factory.requestDetailsModal = function (newScope, requestId, userType) {
+            Loader.show();
+
+            factory
+            .fetchRequest(requestId)
+            .then(function (payload) {
+                Modal
+                .fromTemplateUrl("features/cabride/assets/templates/l1/modal/request-details.html", {
+                    scope: angular.extend(newScope, {
+                        close: function () {
+                            factory.rdModal.hide();
+                        },
+                        request: payload.request,
+                        userType: userType
+                    }),
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    factory.rdModal = modal;
+                    factory.rdModal.show();
+
+                    return modal;
+                });
+            }).then(function () {
+                Loader.hide();
             });
         };
 

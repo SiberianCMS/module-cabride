@@ -24,9 +24,12 @@
         <div ng-if="!isLoading && (!driver.hasVehicle || changingType)"
              class="list">
 
+            <div style="margin-bottom: 20px;"></div>
+
             <div class="item item-divider item-divider-custom text-center">
                 {{ "Please select a vehicle type" | translate }}
             </div>
+
             <div ng-repeat="type in vehicleTypes"
                  ng-click="selectType(type)"
                  class="item item-custom item item-thumbnail-left vehicle-type">

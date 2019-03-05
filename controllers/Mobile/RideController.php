@@ -4,8 +4,10 @@ use Cabride\Model\Client;
 use Cabride\Model\Driver;
 use Cabride\Model\Request;
 use Cabride\Model\Vehicle;
+use Cabride\Model\Payment;
 use Cabride\Model\Cabride;
 use Cabride\Model\RequestDriver;
+use Cabride\Model\ClientVault;
 use Core\Model\Base;
 use Siberian\Json;
 use Siberian_Google_Geocoding as Geocoding;
@@ -48,6 +50,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                     $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
 
                     $data["formatted_driver_price"] = Base::_formatPrice($driverPrice);
+                    $data["driver_phone"] = $driver->getDriverPhone();
                 }
 
                 // Recast values
@@ -145,6 +148,10 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 // Recast values
                 $data["search_timeout"] = (integer) $data["search_timeout"];
                 $data["timestamp"] = (integer) $data["timestamp"];
+
+                $client = (new Client())->find($ride->getVlientId());
+
+                $data["client_phone"] = $client->getMobile();
 
                 $collection[] = $data;
             }
@@ -679,6 +686,113 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                     "lng" => (float) $ride->getToLng(),
                 ],
                 "message" => p__("cabride", "Opening navigation!"),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Driver route
+     */
+    public function completeAction ()
+    {
+        try {
+            $application = $this->getApplication();
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
+            $requestId = $request->getParam("requestId", false);
+            $route = $request->getParam("route", false);
+            $ride = (new Request())->find($requestId);
+
+            if (!$requestId || !$ride->getId()) {
+                throw new Exception(p__("cabride",
+                    "Sorry, we are unable to find this ride request!"));
+            }
+
+            $cabride = (new Cabride())->find($valueId, "value_id");
+            $driver = (new Driver())->find($customerId, "customer_id");
+
+            $requestDriver = (new RequestDriver())->find([
+                "request_id" => $requestId,
+                "driver_id" => $driver->getId(),
+                "status" => "inprogress"
+            ]);
+
+            if (!$requestDriver->getId()) {
+                throw new Exception(p__("cabride",
+                    "Sorry, we are unable to find this ride request!"));
+            }
+
+            $driver = (new Driver())->find($ride->getDriverId());
+            $distanceKm = ceil($ride->getDistance() / 1000);
+            $durationMinute = ceil($ride->getDuration() / 60);
+            $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
+
+            $requestDriver
+                ->setStatus("done")
+                ->save();
+
+            $ride->setCost($driverPrice);
+            $ride->changeStatus("done", Request::SOURCE_DRIVER);
+
+            $charge = null;
+            $status = "paid";
+            $cost = round($ride->getCost() * 100);
+
+            // Create the payment
+            $payment = new Payment();
+
+            if ($ride->getPaymentType() === "credit-card") {
+
+                $clientId = $ride->getClientId();
+                $vaultId = $ride->getClientVaultId();
+
+                $client = (new Client())->find($clientId);
+                $vault = (new ClientVault())->find($vaultId);
+
+                \Stripe\Stripe::setApiKey($cabride->getStripeSecretKey());
+                $charge = \Stripe\Charge::create([
+                    "amount" => $cost,
+                    "currency" => "eur",
+                    "source" => $vault->getCardToken(),
+                    "customer" => $client->getStripeCustomerToken(),
+                    "description" => "[CabRide] client_id {$clientId}",
+                    "metadata" => [
+                        "request_id" => $ride->getId(),
+                        "client_id" => $clientId,
+                        "value_id" => $valueId,
+                        "app_id" => $application->getId(),
+                    ]
+                ]);
+
+                if (!$charge["paid"]) {
+                    $status = "unpaid";
+                }
+
+                $payment->setProvider("stripe");
+            }
+
+            $payment
+                ->setValueId($valueId)
+                ->setClientVaultId($ride->getClientVaultId())
+                ->setAmountCharged($cost)
+                ->setAmount($ride->getCost())
+                ->setMethod($ride->getPaymentType())
+                ->setStatus($status)
+                ->save();
+
+            $payload = [
+                "success" => true,
+                "message" => p__("cabride", "The course is now marked are complete!"),
             ];
         } catch (\Exception $e) {
             $payload = [

@@ -74,6 +74,11 @@ $schemas['cabride_driver'] = [
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'driver_phone' => [
+        'type' => 'varchar(20)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'base_address' => [
         'type' => 'text',
     ],

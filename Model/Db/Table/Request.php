@@ -3,6 +3,7 @@
 namespace Cabride\Model\Db\Table;
 
 use Core_Model_Db_Table;
+use Cabride\Model\Request as ModelRequest;
 
 /**
  * Class Request
@@ -50,6 +51,36 @@ class Request extends Core_Model_Db_Table
             ->order("updated_at DESC");
 
         return $this->toModelClass($this->_db->fetchAll($select));
+    }
+
+    /**
+     * @param $requestId
+     * @return string
+     */
+    public function findOneExtended($requestId)
+    {
+        $select = $this->_db->select()
+            ->from(
+                ["request" => $this->_name],
+                [
+                    "*",
+                    "timestamp" =>new \Zend_Db_Expr("UNIX_TIMESTAMP(request.created_at)"),
+                ]
+            )
+            ->joinInner(
+                ["vehicle" => "cabride_vehicle"],
+                "vehicle.vehicle_id = request.vehicle_id",
+                ["type", "icon", "base_fare", "distance_fare", "time_fare"]
+            )
+            ->joinInner(
+                "cabride",
+                "cabride.value_id = request.value_id",
+                ["search_timeout"]
+            )
+            ->where("request.request_id = ?", $requestId)
+            ->order("updated_at DESC");
+
+        return $this->_db->fetchRow($select);
     }
 
     /**

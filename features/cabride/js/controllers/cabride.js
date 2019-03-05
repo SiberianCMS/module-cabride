@@ -659,7 +659,7 @@ angular.module('starter')
 
 angular.module('starter')
 .controller('CabrideMyRides', function ($scope, $filter, $translate, $ionicScrollDelegate,
-                                        Cabride, CabrideUtils, Dialog, ContextualMenu) {
+                                        Cabride, CabrideUtils, Dialog, ContextualMenu, $window) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("My rides"),
@@ -724,14 +724,36 @@ angular.module('starter')
         return ["pending", "accepted"].indexOf(request.status) != -1;
     };
 
-    $scope.contact = function (request) {
-        console.log("Contact actions");
+    $scope.callDriver = function (request) {
+        $window.open("tel:" + request.driver_phone, "_system");
     };
 
     $scope.cancel = function (request) {
-        console.log("cancel ride");
-        // 1. Dialog with ok/no message
-        // 2. if ok > cancel + push driver!
+        Dialog
+        .confirm("Confirmation", "Are you sure you want to cancel this request?", ['Yes', 'No'], "text-center")
+        .then(function (result) {
+            if (result) {
+                Cabride
+                .cancelRide(request.request_id)
+                .then(function (payload) {
+                    Dialog
+                    .alert("Error", payload.message, "OK", 3500)
+                    .then(function () {
+                        $scope.refresh();
+                    });
+                }, function (error) {
+                    Dialog
+                    .alert("Error", error.message, "OK", 3500)
+                    .then(function () {
+                        $scope.refresh();
+                    });
+                });
+            }
+        });
+    };
+
+    $scope.details = function (request) {
+        Cabride.requestDetailsModal($scope.$new(true), request.request_id, "client");
     };
 
     $scope.imagePath = function (image) {
@@ -825,10 +847,10 @@ angular.module('starter')
         $scope.loadPage();
     };
 
-    $scope.decline = function (requestId) {
+    $scope.decline = function (request) {
         Loader.show();
         Cabride
-        .declineRide(requestId)
+        .declineRide(request.request_id)
         .then(function (payload) {
             Dialog
             .alert("", payload.message, "OK", 2350)
@@ -881,6 +903,10 @@ angular.module('starter')
         });
     };
 
+    $scope.details = function (request) {
+        Cabride.requestDetailsModal($scope.$new(true), request.request_id, "driver");
+    };
+
     $scope.imagePath = function (image) {
         if (image === "") {
             return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg";
@@ -892,7 +918,8 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabrideAcceptedRequests', function ($scope, $translate, Cabride, Dialog, Loader, ContextualMenu) {
+.controller('CabrideAcceptedRequests', function ($scope, $translate, $state, Cabride, Dialog, Loader,
+                                                 ContextualMenu, $window) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Accepted requests"),
@@ -936,7 +963,7 @@ angular.module('starter')
     };
 
     $scope.duration = function (request) {
-        return $scope.toHHMM(request.duration);
+        return CabrideUtils.toHHMM(request.duration);
     };
 
     $scope.calendar = function (timestampSeconds) {
@@ -947,10 +974,10 @@ angular.module('starter')
         $scope.loadPage();
     };
 
-    $scope.driveToPassenger = function (requestId) {
+    $scope.driveToPassenger = function (request) {
         Loader.show();
         Cabride
-        .driveToPassenger(requestId)
+        .driveToPassenger(request.request_id)
         .then(function (payload) {
             Dialog
             .alert("", payload.message, "OK", 2350)
@@ -966,10 +993,10 @@ angular.module('starter')
         });
     };
 
-    $scope.driveToDestination = function (requestId) {
+    $scope.driveToDestination = function (request) {
         Loader.show();
         Cabride
-        .driveToDestination(requestId)
+        .driveToDestination(request.request_id)
         .then(function (payload) {
             Dialog
             .alert("", payload.message, "OK", 2350)
@@ -983,10 +1010,33 @@ angular.module('starter')
             Loader.hide();
             $scope.refresh();
         });
+    };
+
+    $scope.complete = function (request) {
+        Loader.show();
+        Cabride
+        .completeRide(request.request_id)
+        .then(function (payload) {
+            Dialog
+            .alert("", payload.message, "OK", 2350)
+            .then(function () {
+                Loader.hide();
+                $state.go("cabride-completed-rides");
+            });
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            Loader.hide();
+            $scope.refresh();
+        });
+    };
+
+    $scope.callClient = function (request) {
+        $window.open("tel:" + request.client_phone, "_system");
     };
 
     $scope.details = function (request) {
-       alert("Yolo!");
+        Cabride.requestDetailsModal($scope.$new(true), request.request_id, "driver");
     };
 
     $scope.imagePath = function (image) {
@@ -1044,6 +1094,10 @@ angular.module('starter')
 
     $scope.refresh = function () {
         $scope.loadPage();
+    };
+
+    $scope.details = function (request) {
+        Cabride.requestDetailsModal($scope.$new(true), request.request_id, "driver");
     };
 
     $scope.imagePath = function (image) {
@@ -1105,10 +1159,14 @@ angular.module('starter')
         return moment(duration).fromNow();
     };
 
-    $scope.accept = function (requestId) {
+    $scope.details = function (request) {
+        Cabride.requestDetailsModal($scope.$new(true), request.request_id, "driver");
+    };
+
+    $scope.accept = function (request) {
         Loader.show();
         Cabride
-        .acceptRide(requestId)
+        .acceptRide(request.request_id)
         .then(function (payload) {
             Dialog
             .alert("", payload.message, "OK", 2350)

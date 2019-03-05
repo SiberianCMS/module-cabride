@@ -60,6 +60,15 @@ class Request extends Base
     }
 
     /**
+     * @param $requestId
+     * @return mixed
+     */
+    public function findOneExtended($requestId)
+    {
+        return $this->getTable()->findOneExtended($requestId) ;
+    }
+
+    /**
      * @param $valueId
      * @param $clientId
      * @param $status
