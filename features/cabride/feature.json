@@ -80,7 +80,8 @@
         "js/factory/cabride.js",
         "js/controllers/cabride.js",
         "js/controllers/cabride-modal.js",
-        "scss/cabride.scss"
+        "scss/cabride.scss",
+        "scss/card-js.scss"
     ],
     "compile": true,
     "use_account": true,

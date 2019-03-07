@@ -4,6 +4,9 @@ namespace Cabride\Model;
 
 use Core\Model\Base;
 use Siberian\Account;
+use Siberian\Exception;
+use Siberian\Json;
+use Siberian_Google_Geocoding as Geocoding;
 
 /**
  * Class Cabride
@@ -28,7 +31,8 @@ class Cabride extends Base
     }
 
     /**
-     * @return null
+     * @return int|null
+     * @throws Exception
      */
     public static function getCurrentValueId()
     {
@@ -46,7 +50,7 @@ class Cabride extends Base
 
     /**
      * @return \Application_Model_Option_Value|null
-     * @throws \Siberian\Exception
+     * @throws Exception
      */
     public static function getCurrent()
     {
@@ -80,7 +84,6 @@ class Cabride extends Base
     /**
      * @param $editorTree
      * @return mixed
-     * @throws \Siberian\Exception
      */
     public static function dashboardNav($editorTree)
     {
@@ -291,6 +294,138 @@ class Cabride extends Base
         }
 
         return $payload;
+    }
+
+    /**
+     * @param $context
+     * @param $fields
+     * @return mixed
+     * @throws \Zend_Exception
+     */
+    public static function populateExtended ($context, $fields)
+    {
+        $session = $context["session"];
+        $driver = (new Driver())->find($session->getCustomerId(), "customer_id");
+        if ($driver->getId()) {
+            foreach ($fields as &$field) {
+                switch ($field["key"]) {
+                    case "vehicle_model":
+                        $field["value"] = $driver->getVehicleModel();
+                        break;
+                    case "vehicle_license_plate":
+                        $field["value"] = $driver->getVehicleLicensePlate();
+                        break;
+                    case "driver_license":
+                        $field["value"] = $driver->getDriverLicense();
+                        break;
+                    case "driver_phone":
+                        $field["value"] = $driver->getDriverPhone();
+                        break;
+                    case "base_address":
+                        $field["value"] = $driver->getBaseAddress();
+                        break;
+                    case "pickup_radius":
+                        $field["value"] = $driver->getPickupRadius();
+                        break;
+                    case "driver_photo":
+                        $field["value"] = $driver->getDriverPhoto();
+                        break;
+                }
+            }
+        }
+
+        $client = (new Client())->find($session->getCustomerId(), "customer_id");
+        if ($client->getId()) {
+            foreach ($fields as &$field) {
+                switch ($field["key"]) {
+                    case "mobile":
+                        $field["value"] = $client->getMobile();
+                        break;
+                    case "address":
+                        $field["value"] = $client->getAddress();
+                        break;
+                }
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
+     * @param $context
+     * @param $fields
+     * @return mixed
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public static function saveExtended ($context, $fields)
+    {
+        $application = $context["application"];
+        $session = $context["session"];
+        $driver = (new Driver())->find($session->getCustomerId(), "customer_id");
+        if ($driver->getId()) {
+            foreach ($fields as &$field) {
+                switch ($field["key"]) {
+                    case "vehicle_model":
+                        $driver->setVehicleModel($field["value"]);
+                        break;
+                    case "vehicle_license_plate":
+                        $driver->setVehicleLicensePlate($field["value"]);
+                        break;
+                    case "driver_license":
+                        $driver->setDriverLicense($field["value"]);
+                        break;
+                    case "driver_phone":
+                        $driver->setDriverPhone($field["value"]);
+                        break;
+                    case "base_address":
+                        $driver->setBaseAddress($field["value"]);
+
+                        $validated = Geocoding::validateAddress(["address" => $field["value"]], $application->getGooglemapsKey());
+                        if (!$validated) {
+                            throw new Exception(p__("cabride", "We are unable to validate your address!"));
+                        }
+
+                        $parts = Geocoding::rawToParts($validated->getRawResult());
+                        $driver->setBaseAddressParts(Json::encode($parts));
+
+                        break;
+                    case "pickup_radius":
+                        $driver->setPickupRadius($field["value"]);
+                        break;
+                    case "driver_photo":
+                        $driver->setDriverPhoto($field["value"]);
+                        break;
+                }
+            }
+            $driver->save();
+        }
+
+        $client = (new Client())->find($session->getCustomerId(), "customer_id");
+        if ($client->getId()) {
+            foreach ($fields as &$field) {
+                switch ($field["key"]) {
+                    case "mobile":
+                        $client->setMobile($field["value"]);
+                        break;
+                    case "address":
+                        $client->setAddress($field["value"]);
+
+                        $validated = Geocoding::validateAddress(["address" => $field["value"]], $application->getGooglemapsKey());
+                        if (!$validated) {
+                            throw new Exception(p__("cabride", "We are unable to validate your address!"));
+                        }
+
+                        $parts = Geocoding::rawToParts($validated->getRawResult());
+                        $client->setAddressParts(Json::encode($parts));
+
+                        break;
+                }
+            }
+            $client->save();
+        }
+
+        return $fields;
     }
 
     /**

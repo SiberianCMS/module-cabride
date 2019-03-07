@@ -76,6 +76,54 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
     }
 
     /**
+     * Client route cancel
+     */
+    public function cancelAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
+            $requestId = $request->getParam("requestId", false);
+            $ride = (new Request())->find($requestId);
+
+            if (!$requestId || !$ride->getId()) {
+                throw new Exception(p__("cabride",
+                    "Sorry, we are unable to find this ride request!"));
+            }
+
+            $client = (new Client())->find($customerId, "customer_id");
+
+            /**
+             * @var $requestDrivers RequestDriver[]
+             */
+            $requestDrivers = (new RequestDriver())->findAll([
+                "request_id" => $requestId,
+            ]);
+
+            foreach ($requestDrivers as $requestDriver) {
+                $requestDriver->setStatus("aborted")->save();
+            }
+
+            $ride->changeStatus("aborted", "client");
+
+            $payload = [
+                "success" => true,
+                "message" => p__("cabride", "You declined the request!"),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
      * Driver route
      */
     public function pendingAction ()

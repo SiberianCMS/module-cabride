@@ -90,7 +90,7 @@ $schemas['cabride'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
-    'checkout_sid' => [
+    'checkout_merchant_code' => [
         'type' => 'varchar(256)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
@@ -102,13 +102,13 @@ $schemas['cabride'] = [
         'collation' => 'utf8_unicode_ci',
         'null' => true,
     ],
-    'checkout_username' => [
+    'checkout_publishable_key' => [
         'type' => 'varchar(256)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
         'null' => true,
     ],
-    'checkout_password' => [
+    'checkout_private_key' => [
         'type' => 'varchar(256)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',

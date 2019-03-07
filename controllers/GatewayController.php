@@ -4,6 +4,7 @@ use Cabride\Form\Gateway\Stripe;
 use Cabride\Form\Gateway\Twocheckout;
 use Cabride\Form\Gateway\Braintree;
 use Cabride\Model\Cabride;
+use Cabride\Model\Payment\Avangate\Payouts;
 use Siberian\Exception;
 
 /**
@@ -25,7 +26,7 @@ class Cabride_GatewayController extends Application_Controller_Default
                     self::testStripe($values);
                     $form = new Stripe();
                     break;
-                case "2checkout":
+                case "twocheckout":
                     self::testTwocheckout($values);
                     $form = new Twocheckout();
                     break;
@@ -116,43 +117,16 @@ class Cabride_GatewayController extends Application_Controller_Default
 
     /**
      * @param $values
-     * @throws \Siberian\Exception
+     * @throws Exception
+     * @throws \Exception
      */
     private static function testTwocheckout($values)
     {
-        \Twocheckout::privateKey($values["checkout_secret"]);
-        \Twocheckout::sellerId($values["checkout_sid"]);
-        \Twocheckout::sandbox($values["checkout_is_sandbox"] ? true : false);
+        $test = new Payouts($values["checkout_merchant_code"], $values["checkout_secret"]);
 
         try {
-            \Twocheckout_Charge::auth([
-                "sellerId" => $values["checkout_sid"],
-                "merchantOrderId" => "123",
-                "token" => "MjFiYzIzYjAtYjE4YS00ZmI0LTg4YzYtNDIzMTBlMjc0MDlk",
-                "currency" => "USD",
-                "total" => "10.00",
-                "billingAddr" => [
-                    "name" => "Testing Tester",
-                    "addrLine1" => "123 Test St",
-                    "city" => "Columbus",
-                    "state" => "OH",
-                    "zipCode" => "43123",
-                    "country" => "USA",
-                    "email" => "testingtester@2co.com",
-                    "phoneNumber" => "555-555-5555"
-                ],
-                "shippingAddr" => [
-                    "name" => "Testing Tester",
-                    "addrLine1" => "123 Test St",
-                    "city" => "Columbus",
-                    "state" => "OH",
-                    "zipCode" => "43123",
-                    "country" => "USA",
-                    "email" => "testingtester@2co.com",
-                    "phoneNumber" => "555-555-5555"
-                ]
-            ]);
-        } catch (\Twocheckout_Error $e) {
+            $test->getPayouts();
+        } catch (\Exception $e) {
             throw new Exception(__("2Checkout API Error: %s", $e->getMessage()));
         }
     }

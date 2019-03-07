@@ -2,17 +2,27 @@
  * Cabride version 2 controllers
  */
 angular.module('starter')
-.controller('CabridePaymentType', function ($scope, Dialog, CabridePayment) {
+.controller('CabridePaymentType', function ($scope, Dialog, CabridePayment, Loader) {
     angular.extend($scope, {
         hasPaymentType: false,
-        addEditCard: false
+        addEditCard: false,
+        paymentProvider: false
     });
 
     $scope.select = function (paymentType) {
         switch (paymentType) {
             case "credit-card":
-                $scope.addEditCard = true;
-                CabridePayment.addEditCard();
+                Loader.show();
+
+                CabridePayment
+                .addEditCard()
+                .then(function () {
+                    $scope.addEditCard = true;
+                    $scope.paymentProvider = CabridePayment.settings.paymentProvider;
+                }).then(function () {
+                    Loader.hide();
+                });
+
                 break;
             case "cash":
                 // Validate directly!
@@ -42,6 +52,8 @@ angular.module('starter')
     };
 
     $scope.saveCard = function () {
+        Loader.show();
+
         CabridePayment
         .saveCard()
         .then(function (payload) {
@@ -49,6 +61,8 @@ angular.module('starter')
             $scope.addEditCard = false;
         }, function (errorMessage) {
             Dialog.alert("Error", errorMessage, "OK", 5000);
+        }).then(function () {
+            Loader.hide();
         });
     };
 });

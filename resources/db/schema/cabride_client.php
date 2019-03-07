@@ -65,4 +65,8 @@ $schemas['cabride_client'] = [
         'type' => 'varchar(1024)',
         'null' => true,
     ],
+    'address_parts' => [
+        'type' => 'text',
+        'null' => true,
+    ],
 ];

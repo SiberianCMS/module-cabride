@@ -2,84 +2,49 @@
  * CabridePayment service
  */
 angular.module('starter')
-    .service('CabridePayment', function (Application, $injector, $pwaRequest, $q) {
+    .service('CabridePayment', function (Application, $injector, $pwaRequest, $q, $ocLazyLoad) {
         var service = {
             stripe: null,
             settings: null,
-            gateways: {
-                brainTree: {
-                    isLoaded: false,
-                },
-                stripe: {
-                    isLoaded: false,
-                },
-                twocheckout: {
-                    isLoaded: false,
-                }
-            },
         };
 
-        // https://github.com/Xtraball/Siberian/blob/master/ionic/www/js/controllers/mcommerce/sales/stripe.js
         service.init = function () {
-            var deferred = $q.defer();
+            var config = [];
 
-            try {
-                service.settings = $injector.get("Cabride").settings;
-                switch (service.settings.paymentProvider) {
-                    case "braintree":
-                        // @todo
-                        if (!service.gateways.brainTree.isLoaded) {
-                            Application
-                                .loaded
-                                .then(function() {
-                                    var brainTree = document.createElement("script");
-                                    brainTree.type = "text/javascript";
-                                    brainTree.src = "https://js.braintreegateway.com/web/dropin/1.14.1/js/dropin.min.js";
-                                    brainTree.onload = function () {
-                                        deferred.resolve();
-                                        service.gateways.brainTree.isLoaded = true;
-                                    };
-                                    document.body.appendChild(brainTree);
-                                });
-                        }
-                        break;
-                    case "stripe":
-                        if (!service.gateways.stripe.isLoaded) {
-                            Application
-                                .loaded
-                                .then(function() {
-                                    if (typeof Stripe === "undefined") {
-                                        var stripeJS = document.createElement("script");
-                                        stripeJS.type = "text/javascript";
-                                        stripeJS.src = "https://js.stripe.com/v3/";
-                                        stripeJS.onload = function () {
-                                            deferred.resolve();
-                                            service.gateways.stripe.isLoaded = true;
-                                        };
-                                        document.body.appendChild(stripeJS);
-                                    }
-                                });
-                        }
-                        break;
-                    case "twocheckout":
-                        // @todo
-                        if (!service.gateways.twocheckout.isLoaded) {
+            service.settings = $injector.get("Cabride").settings;
 
-                        }
-                        break;
-                }
-            } catch (e) {
-                deferred.reject();
+            switch (service.settings.paymentProvider) {
+                case "braintree":
+                    config = [
+                        "https://js.braintreegateway.com/web/dropin/1.14.1/js/dropin.min.js"
+                    ];
+                    break;
+                case "stripe":
+                    config = [
+                        "https://js.stripe.com/v3/"
+                    ];
+                    break;
+                case "twocheckout":
+                    config = {
+                        serie: true,
+                        files: [
+                            "./features/cabride/assets/js/libs/jquery/jquery-3.3.1.min.js",
+                            "./features/cabride/assets/js/libs/cardjs/card-js.min.js",
+                            "https://www.2checkout.com/checkout/api/2co.min.js"
+                        ]
+                    };
+
+                    break;
             }
 
-            return deferred.promise;
+            return $ocLazyLoad.load(config);
         };
 
         service.card = null;
         service.addEditCard = function () {
-            service
-            .init()
-            .then(function () {
+            var promise = service.init();
+
+            promise.then(function () {
                 switch (service.settings.paymentProvider) {
                     case "stripe":
                         service.addEditCardStripe();
@@ -87,9 +52,12 @@ angular.module('starter')
                     case "braintree":
                         break;
                     case "twocheckout":
+                        service.addEditCardTwocheckout();
                         break;
                 }
             });
+
+            return promise;
         };
 
         service.addEditCardStripe = function () {
@@ -110,7 +78,10 @@ angular.module('starter')
                     iconColor: "#fa755a"
                 }
             };
-            service.card = elements.create("card", {style: style});
+            service.card = elements.create("card", {
+                hidePostalCode: true,
+                style: style
+            });
             var cardElement = document.getElementById("card-element");
             var saveElement = document.getElementById("save-element");
             var displayError = document.getElementById("card-errors");
@@ -133,6 +104,27 @@ angular.module('starter')
             service.card.mount(cardElement);
         };
 
+        service.addEditCardTwocheckout = function () {
+            console.log("addEditCardTwocheckout");
+
+            var coContainer = jQuery("#2co-card-container");
+            coContainer.empty();
+            coContainer.append(
+                "<div id=\"card-element-2co\"\n" +
+                "     class=\"card-js\">\n" +
+                "    <input class=\"card-number\"\n" +
+                "           name=\"card-number\" />\n" +
+                "    <input class=\"expiry-month\"\n" +
+                "           name=\"expiry-month\" />\n" +
+                "    <input class=\"expiry-year\"\n" +
+                "           name=\"expiry-year\" />\n" +
+                "    <input class=\"cvc\"\n" +
+                "           name=\"cvc\" />\n" +
+                "</div>");
+
+            jQuery(".card-js").CardJs();
+        };
+
         service.saveCard = function () {
             switch (service.settings.paymentProvider) {
                 case "stripe":
@@ -140,7 +132,7 @@ angular.module('starter')
                 case "braintree":
                     break;
                 case "twocheckout":
-                    break;
+                    return service.createTwocheckoutToken();
             }
 
             return $q.reject("Invalid payment method!");
@@ -176,6 +168,46 @@ angular.module('starter')
                         });
                     }
                 });
+            } catch (e) {
+                deferred.reject(e.message);
+            }
+
+            return deferred.promise;
+        };
+
+        service.createTwocheckoutToken = function () {
+            var deferred = $q.defer();
+
+            try {
+                var myCard = jQuery("#card-element-2co");
+                var card = {
+                    "sellerId": service.settings.tcoMerchantCode,
+                    "publishableKey": service.settings.tcoPublishableKey,
+                    "ccNo": CardJs.numbersOnlyString(myCard.CardJs("cardNumber")),
+                    "cardType": myCard.CardJs("cardType"),
+                    "expMonth": myCard.CardJs("expiryMonth"),
+                    "expYear": myCard.CardJs("expiryYear"),
+                    "cvv": myCard.CardJs("cvc"),
+                };
+
+                TCO.loadPubKey(service.settings.tcoIsSandbox ? "sandbox" : "production", function () {
+                    TCO.requestToken(function (data) {
+                        $injector.get("Cabride")
+                        .saveCard(data, "twocheckout")
+                        .then(function (payload) {
+                            // Must clear form
+                            // @todo
+
+                            deferred.resolve(payload);
+                        }, function (error) {
+                            deferred.reject(error.message);
+                        });
+                    }, function (data) {
+                        console.log("2checkout requestToken error", data);
+                    }, card);
+                });
+
+
             } catch (e) {
                 deferred.reject(e.message);
             }

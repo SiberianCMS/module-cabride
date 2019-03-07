@@ -97,7 +97,7 @@ function extendedFields ($payload) {
  * @throws Zend_Exception
  */
 function cabridePopulateExtended ($context, $fields) {
-    return Driver::populateExtended($context, $fields);
+    return Cabride::populateExtended($context, $fields);
 }
 
 /**
@@ -107,7 +107,7 @@ function cabridePopulateExtended ($context, $fields) {
  * @throws Zend_Exception
  */
 function cabrideSaveExtended ($context, $fields) {
-    return Driver::saveExtended($context, $fields);
+    return Cabride::saveExtended($context, $fields);
 }
 
 /** Alias for non-confusing escape */

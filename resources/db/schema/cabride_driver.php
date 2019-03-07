@@ -81,6 +81,11 @@ $schemas['cabride_driver'] = [
     ],
     'base_address' => [
         'type' => 'text',
+        'null' => true,
+    ],
+    'base_address_parts' => [
+        'type' => 'text',
+        'null' => true,
     ],
     'base_latitude' => [
         'type' => 'float',
@@ -97,12 +102,15 @@ $schemas['cabride_driver'] = [
     /** Temporary fields */
     'base_fare' => [
         'type' => 'float',
+        'null' => true,
     ],
     'distance_fare' => [
         'type' => 'float',
+        'null' => true,
     ],
     'time_fare' => [
         'type' => 'float',
+        'null' => true,
     ],
     /** Temporary fields */
     'latitude' => [
