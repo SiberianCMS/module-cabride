@@ -14,26 +14,10 @@ angular.module('starter')
             service.settings = $injector.get("Cabride").settings;
 
             switch (service.settings.paymentProvider) {
-                case "braintree":
-                    config = [
-                        "https://js.braintreegateway.com/web/dropin/1.14.1/js/dropin.min.js"
-                    ];
-                    break;
                 case "stripe":
                     config = [
                         "https://js.stripe.com/v3/"
                     ];
-                    break;
-                case "twocheckout":
-                    config = {
-                        serie: true,
-                        files: [
-                            "./features/cabride/assets/js/libs/jquery/jquery-3.3.1.min.js",
-                            "./features/cabride/assets/js/libs/cardjs/card-js.min.js",
-                            "https://www.2checkout.com/checkout/api/2co.min.js"
-                        ]
-                    };
-
                     break;
             }
 
@@ -48,11 +32,6 @@ angular.module('starter')
                 switch (service.settings.paymentProvider) {
                     case "stripe":
                         service.addEditCardStripe();
-                        break;
-                    case "braintree":
-                        break;
-                    case "twocheckout":
-                        service.addEditCardTwocheckout();
                         break;
                 }
             });
@@ -104,35 +83,10 @@ angular.module('starter')
             service.card.mount(cardElement);
         };
 
-        service.addEditCardTwocheckout = function () {
-            console.log("addEditCardTwocheckout");
-
-            var coContainer = jQuery("#2co-card-container");
-            coContainer.empty();
-            coContainer.append(
-                "<div id=\"card-element-2co\"\n" +
-                "     class=\"card-js\">\n" +
-                "    <input class=\"card-number\"\n" +
-                "           name=\"card-number\" />\n" +
-                "    <input class=\"expiry-month\"\n" +
-                "           name=\"expiry-month\" />\n" +
-                "    <input class=\"expiry-year\"\n" +
-                "           name=\"expiry-year\" />\n" +
-                "    <input class=\"cvc\"\n" +
-                "           name=\"cvc\" />\n" +
-                "</div>");
-
-            jQuery(".card-js").CardJs();
-        };
-
         service.saveCard = function () {
             switch (service.settings.paymentProvider) {
                 case "stripe":
                     return service.createStripeToken();
-                case "braintree":
-                    break;
-                case "twocheckout":
-                    return service.createTwocheckoutToken();
             }
 
             return $q.reject("Invalid payment method!");
@@ -174,46 +128,5 @@ angular.module('starter')
 
             return deferred.promise;
         };
-
-        service.createTwocheckoutToken = function () {
-            var deferred = $q.defer();
-
-            try {
-                var myCard = jQuery("#card-element-2co");
-                var card = {
-                    "sellerId": service.settings.tcoMerchantCode,
-                    "publishableKey": service.settings.tcoPublishableKey,
-                    "ccNo": CardJs.numbersOnlyString(myCard.CardJs("cardNumber")),
-                    "cardType": myCard.CardJs("cardType"),
-                    "expMonth": myCard.CardJs("expiryMonth"),
-                    "expYear": myCard.CardJs("expiryYear"),
-                    "cvv": myCard.CardJs("cvc"),
-                };
-
-                TCO.loadPubKey(service.settings.tcoIsSandbox ? "sandbox" : "production", function () {
-                    TCO.requestToken(function (data) {
-                        $injector.get("Cabride")
-                        .saveCard(data, "twocheckout")
-                        .then(function (payload) {
-                            // Must clear form
-                            // @todo
-
-                            deferred.resolve(payload);
-                        }, function (error) {
-                            deferred.reject(error.message);
-                        });
-                    }, function (data) {
-                        console.log("2checkout requestToken error", data);
-                    }, card);
-                });
-
-
-            } catch (e) {
-                deferred.reject(e.message);
-            }
-
-            return deferred.promise;
-        };
-
         return service;
     });

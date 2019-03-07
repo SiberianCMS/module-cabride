@@ -71,21 +71,6 @@
                 <div style="margin-bottom: 20px;"></div>
             </div>
 
-            <div ng-show="addEditCard && paymentProvider == 'twocheckout'"
-                 class="list list-item">
-                <div style="margin-bottom: 20px;"></div>
-                <div class="item item-divider item-divider-custom text-center">{{ "Credit card information" | translate }}</div>
-                <div class="item item-custom"
-                     id="2co-card-container">
-                </div>
-                <button ng-click="saveCard()"
-                        id="save-element-2co"
-                        class="button button-full button-positive button-positive-custom">
-                    {{ "Save" | translate }}
-                </button>
-                <div style="margin-bottom: 20px;"></div>
-            </div>
-
             <div style="margin-bottom: 20px;"></div>
 
             <div ng-if="settings.acceptedPayments == 'cash' || settings.acceptedPayments == 'all'"

@@ -26,14 +26,6 @@ class Cabride_GatewayController extends Application_Controller_Default
                     self::testStripe($values);
                     $form = new Stripe();
                     break;
-                case "twocheckout":
-                    self::testTwocheckout($values);
-                    $form = new Twocheckout();
-                    break;
-                case "braintree":
-                    self::testBraintree($values);
-                    $form = new Braintree();
-                    break;
             }
 
             if ($form === false) {
@@ -49,6 +41,11 @@ class Cabride_GatewayController extends Application_Controller_Default
                 ->find($values["value_id"], "value_id");
 
             unset($values["value_id"]);
+
+            $values["stripe_is_sandbox"] = 0;
+            if (preg_match("/_test_/i", $values["stripe_public_key"]) === 1) {
+                $values["stripe_is_sandbox"] = 1;
+            }
 
             $cabride
                 ->addData($values)
@@ -87,47 +84,6 @@ class Cabride_GatewayController extends Application_Controller_Default
             \Stripe\Customer::all();
         } catch (\Exception $e) {
             throw new Exception(__("Stripe API Error: %s", $e->getMessage()));
-        }
-    }
-
-    /**
-     * @param $values
-     * @throws \Siberian\Exception
-     */
-    private static function testBraintree($values)
-    {
-        $settings = [
-            "environment" => $values["braintree_is_sandbox"] ? "sandbox" : "production",
-            "merchantId" => $values["braintree_merchant_id"],
-            "publicKey" => $values["braintree_public_key"],
-            "privateKey" => $values["braintree_private_key"]
-        ];
-
-        $gateway = new \Braintree\Gateway($settings);
-
-        try {
-            $clientToken = $gateway->clientToken()->generate();
-        } catch (\Braintree\Exception $e) {
-            // rethrow auth exception
-            throw new Exception(__("BrainTree API Error: Invalid credentials"));
-        } catch (\Exception $e) {
-            throw new Exception(__("BrainTree API Error: Invalid credentials, %s", get_class($e)));
-        }
-    }
-
-    /**
-     * @param $values
-     * @throws Exception
-     * @throws \Exception
-     */
-    private static function testTwocheckout($values)
-    {
-        $test = new Payouts($values["checkout_merchant_code"], $values["checkout_secret"]);
-
-        try {
-            $test->getPayouts();
-        } catch (\Exception $e) {
-            throw new Exception(__("2Checkout API Error: %s", $e->getMessage()));
         }
     }
 

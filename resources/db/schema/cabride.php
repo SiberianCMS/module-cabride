@@ -90,34 +90,6 @@ $schemas['cabride'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
-    'checkout_merchant_code' => [
-        'type' => 'varchar(256)',
-        'charset' => 'utf-8',
-        'collation' => 'utf8_unicode_ci',
-        'null' => true,
-    ],
-    'checkout_secret' => [
-        'type' => 'varchar(256)',
-        'charset' => 'utf-8',
-        'collation' => 'utf8_unicode_ci',
-        'null' => true,
-    ],
-    'checkout_publishable_key' => [
-        'type' => 'varchar(256)',
-        'charset' => 'utf-8',
-        'collation' => 'utf8_unicode_ci',
-        'null' => true,
-    ],
-    'checkout_private_key' => [
-        'type' => 'varchar(256)',
-        'charset' => 'utf-8',
-        'collation' => 'utf8_unicode_ci',
-        'null' => true,
-    ],
-    'checkout_is_sandbox' => [
-        'type' => 'tinyint(1)',
-        'default' => '0',
-    ],
     'braintree_merchant_id' => [
         'type' => 'varchar(256)',
         'charset' => 'utf-8',

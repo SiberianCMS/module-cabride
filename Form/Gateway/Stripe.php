@@ -31,7 +31,7 @@ class Stripe extends Siberian_Form_Abstract
 
         $publicKey = $this->addSimpleText("stripe_public_key", p__("cabride", "Public key"));
         $secretKey = $this->addSimpleText("stripe_secret_key", p__("cabride", "Secret key"));
-        $isSandbox = $this->addSimpleCheckbox("stripe_is_sandbox", p__("cabride", "Sandbox mode"));
+        //$isSandbox = $this->addSimpleCheckbox("stripe_is_sandbox", p__("cabride", "Sandbox / Testing mode"));
 
         $publicKey->setRequired(true);
         $secretKey->setRequired(true);

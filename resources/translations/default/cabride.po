@@ -7,8 +7,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-03-07T14:34:22+00:00\n"
-"PO-Revision-Date: 2019-03-07T14:34:22+00:00\n"
+"POT-Creation-Date: 2019-03-07T15:42:37+00:00\n"
+"PO-Revision-Date: 2019-03-07T15:42:37+00:00\n"
 "Language: \n"
 
 msgid "All data"
@@ -62,131 +62,225 @@ msgstr "User Styler"
 msgid "Success"
 msgstr "Success"
 
-msgid "Your design"
-msgstr "Your design"
+msgctxt "cabride"
+msgid "Distance unit"
+msgstr "Distance unit"
 
-msgid "Change your template"
-msgstr "Change your template"
+msgid "Km"
+msgstr "Km"
 
-msgid "Change your layout"
-msgstr "Change your layout"
+msgid "Miles"
+msgstr "Miles"
 
-msgid "Layout options"
-msgstr "Layout options"
+msgctxt "cabride"
+msgid "Search timeout (seconds)"
+msgstr "Search timeout (seconds)"
 
-msgid "This layout has no option."
-msgstr "This layout has no option."
+msgctxt "cabride"
+msgid "Search radius (km/mi)"
+msgstr "Search radius (km/mi)"
 
-msgid "Unified homepage"
-msgstr "Unified homepage"
+msgctxt "cabride"
+msgid "Accepted payments"
+msgstr "Accepted payments"
 
-msgid "The overlay helps you check if important content and/or text on your homepage image is inside the safe boundaries."
-msgstr "The overlay helps you check if important content and/or text on your homepage image is inside the safe boundaries."
+msgctxt "cabride"
+msgid "Credit card"
+msgstr "Credit card"
 
-msgid "dismiss"
-msgstr "dismiss"
+msgctxt "cabride"
+msgid "Cash"
+msgstr "Cash"
 
-msgid "Safe zone overlay"
-msgstr "Safe zone overlay"
+msgctxt "cabride"
+msgid "Credit card & Cash"
+msgstr "Credit card & Cash"
 
-msgid "Overlay color"
-msgstr "Overlay color"
+msgctxt "cabride"
+msgid "Payment provider"
+msgstr "Payment provider"
 
-msgid "Black"
-msgstr "Black"
+msgctxt "cabride"
+msgid "Stripe (Credit card)"
+msgstr "Stripe (Credit card)"
 
-msgid "White"
-msgstr "White"
+msgctxt "cabride"
+msgid "Commission type"
+msgstr "Commission type"
 
-msgid "Zone overlay"
-msgstr "Zone overlay"
+msgctxt "cabride"
+msgid "Disabled"
+msgstr "Disabled"
 
-msgid "Hide overlay"
-msgstr "Hide overlay"
+msgctxt "cabride"
+msgid "Fixed amount"
+msgstr "Fixed amount"
 
-msgid "Safe in portrait"
-msgstr "Safe in portrait"
+msgctxt "cabride"
+msgid "Percentage"
+msgstr "Percentage"
 
-msgid "Safe in portrait (locked)"
-msgstr "Safe in portrait (locked)"
+msgctxt "cabride"
+msgid "Commission"
+msgstr "Commission"
 
-msgid "Safe in landscape"
-msgstr "Safe in landscape"
+msgctxt "cabride"
+msgid "Course mode"
+msgstr "Course mode"
 
-msgid "Safe in portrait & landscape"
-msgstr "Safe in portrait & landscape"
+msgctxt "cabride"
+msgid "Immediate"
+msgstr "Immediate"
 
-msgid "Recommended size:"
-msgstr "Recommended size:"
+msgctxt "cabride"
+msgid "Pricing mode"
+msgstr "Pricing mode"
 
-msgid "Change your homepage"
-msgstr "Change your homepage"
+msgctxt "cabride"
+msgid "Fixed by vehicle type (Admin)"
+msgstr "Fixed by vehicle type (Admin)"
 
-msgid "Download template as"
-msgstr "Download template as"
+msgctxt "cabride"
+msgid "Fixed by the drivers"
+msgstr "Fixed by the drivers"
 
-msgid "or"
-msgstr "or"
+msgctxt "cabride"
+msgid "Driver can register"
+msgstr "Driver can register"
 
-msgid "Use the homepage image as background in all features"
-msgstr "Use the homepage image as background in all features"
-
-msgid "Hide iOS status bar"
-msgstr "Hide iOS status bar"
-
-msgid "Changing this option requires you to republish your iOS application."
-msgstr "Changing this option requires you to republish your iOS application."
-
-msgid "Hide Android status bar"
-msgstr "Hide Android status bar"
-
-msgid "This option is not compatible with applications using Forms and/or features with Keyboard."
-msgstr "This option is not compatible with applications using Forms and/or features with Keyboard."
-
-msgid "Choose your country"
-msgstr "Choose your country"
-
-msgid "This option enables you to set the currency used in your app"
-msgstr "This option enables you to set the currency used in your app"
-
-msgid "Choose a country"
-msgstr "Choose a country"
-
-msgid "Choose your font family"
-msgstr "Choose your font family"
-
-msgid "Serif"
-msgstr "Serif"
-
-msgid "CYRILLIC"
-msgstr "CYRILLIC"
-
-msgid "Sans Serif"
-msgstr "Sans Serif"
-
-msgid "Display"
-msgstr "Display"
-
-msgid "Handwriting"
-msgstr "Handwriting"
-
-msgid "Monospace"
-msgstr "Monospace"
-
-msgid "You can also use another Google Font not listed up there"
-msgstr "You can also use another Google Font not listed up there"
-
-msgid "please respect the font name case!"
-msgstr "please respect the font name case!"
-
-msgid "Custom font"
-msgstr "Custom font"
-
+msgctxt "cabride"
 msgid "Save"
 msgstr "Save"
 
-msgid "If you decide to change the slider size, all images will be dropped. Are you sure ?"
-msgstr "If you decide to change the slider size, all images will be dropped. Are you sure ?"
+msgid "Patientez ..."
+msgstr "Patientez ..."
+
+msgctxt "cabride"
+msgid "Public key"
+msgstr "Public key"
+
+msgctxt "cabride"
+msgid "Secret key"
+msgstr "Secret key"
+
+msgctxt "cabride"
+msgid "Merchant code"
+msgstr "Merchant code"
+
+msgctxt "cabride"
+msgid "Sandbox mode"
+msgstr "Sandbox mode"
+
+msgctxt "cabride"
+msgid "Merchant ID"
+msgstr "Merchant ID"
+
+msgctxt "cabride"
+msgid "Private key"
+msgstr "Private key"
+
+msgctxt "cabride"
+msgid "CabRide settings"
+msgstr "CabRide settings"
+
+msgctxt "cabride"
+msgid "Payment API credentials"
+msgstr "Payment API credentials"
+
+msgctxt "cabride"
+msgid "Stripe"
+msgstr "Stripe"
+
+msgctxt "cabride"
+msgid "2Checkout"
+msgstr "2Checkout"
+
+msgctxt "cabride"
+msgid "BrainTree"
+msgstr "BrainTree"
+
+msgid "Editor"
+msgstr "Editor"
+
+msgid "Design"
+msgstr "Design"
+
+msgid "Colors"
+msgstr "Colors"
+
+msgid "Features"
+msgstr "Features"
+
+msgid "Application"
+msgstr "Application"
+
+msgid "Publication"
+msgstr "Publication"
+
+msgid "Users"
+msgstr "Users"
+
+msgid "Promote"
+msgstr "Promote"
+
+msgid "Analytics"
+msgstr "Analytics"
+
+msgid "App analytics"
+msgstr "App analytics"
+
+msgid "Feature Analytics"
+msgstr "Feature Analytics"
+
+msgid "Terms & Conditions"
+msgstr "Terms & Conditions"
+
+msgid "APIs"
+msgstr "APIs"
+
+msgid "Domain"
+msgstr "Domain"
+
+msgid "Messages"
+msgstr "Messages"
+
+msgid "Advanced"
+msgstr "Advanced"
+
+msgid "Modules"
+msgstr "Modules"
+
+msgctxt "cabride"
+msgid "Cab-Ride"
+msgstr "Cab-Ride"
+
+msgctxt "cabride"
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgctxt "cabride"
+msgid "Rides"
+msgstr "Rides"
+
+msgctxt "cabride"
+msgid "Payments"
+msgstr "Payments"
+
+msgctxt "cabride"
+msgid "Users"
+msgstr "Users"
+
+msgctxt "cabride"
+msgid "Drivers"
+msgstr "Drivers"
+
+msgctxt "cabride"
+msgid "Vehicle types"
+msgstr "Vehicle types"
+
+msgctxt "cabride"
+msgid "Settings"
+msgstr "Settings"
 
 msgid "Dashboard"
 msgstr "Dashboard"
@@ -202,9 +296,6 @@ msgstr "Activity"
 
 msgid "My account"
 msgstr "My account"
-
-msgid "Users"
-msgstr "Users"
 
 msgid "Subscriptions"
 msgstr "Subscriptions"
@@ -293,20 +384,59 @@ msgstr "Border Color"
 msgid "Border Blue"
 msgstr "Border Blue"
 
-msgid "404, page not found"
-msgstr "404, page not found"
+msgid "Border Yellow"
+msgstr "Border Yellow"
 
-msgid "Ouch, this page doesn't exist"
-msgstr "Ouch, this page doesn't exist"
+msgid "Border Purple"
+msgstr "Border Purple"
 
-msgid "Do you want to return to the homepage?"
-msgstr "Do you want to return to the homepage?"
+msgid "Border Green"
+msgstr "Border Green"
 
-msgid "Or do you want to return to editor?"
-msgstr "Or do you want to return to editor?"
+msgid "Border Grey"
+msgstr "Border Grey"
 
-msgid "Editor"
-msgstr "Editor"
+msgid "Content background"
+msgstr "Content background"
+
+msgid "Grey buttons"
+msgstr "Grey buttons"
+
+msgid "Background Color - Hover"
+msgstr "Background Color - Hover"
+
+msgid "Text Color - Hover"
+msgstr "Text Color - Hover"
+
+msgid "Font Color blue"
+msgstr "Font Color blue"
+
+msgid "Content color"
+msgstr "Content color"
+
+msgid "Input flat"
+msgstr "Input flat"
+
+msgid "Color purple"
+msgstr "Color purple"
+
+msgid "Step menu background"
+msgstr "Step menu background"
+
+msgid "Sidebar background"
+msgstr "Sidebar background"
+
+msgid "Background Color - Active"
+msgstr "Background Color - Active"
+
+msgid "Text Color - Active"
+msgstr "Text Color - Active"
+
+msgid "Loading your white label editor."
+msgstr "Loading your white label editor."
+
+msgid "Your customization has been applied to your white label panel."
+msgstr "Your customization has been applied to your white label panel."
 
 msgid "Close"
 msgstr "Close"
@@ -341,6 +471,9 @@ msgstr "Left"
 msgid "Remove this step"
 msgstr "Remove this step"
 
+msgid "Save"
+msgstr "Save"
+
 msgid "Tour Edition"
 msgstr "Tour Edition"
 
@@ -356,8 +489,8 @@ msgstr "A step requires at least a title and a text."
 msgid "An error occurred while saving. Please try again later."
 msgstr "An error occurred while saving. Please try again later."
 
-msgid "404, Page not found"
-msgstr "404, Page not found"
+msgid "CabRide Settings"
+msgstr "CabRide Settings"
 
 msgid "text/html; charset=utf-8"
 msgstr "text/html; charset=utf-8"
@@ -374,47 +507,26 @@ msgstr "Next"
 msgid "End tour"
 msgstr "End tour"
 
+msgid "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
+msgstr "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
+
 msgid "Please create the API keys to enable this feature."
 msgstr "Please create the API keys to enable this feature."
 
-msgctxt "cabride"
-msgid "Passenger information"
-msgstr "Passenger information"
+msgid "404, page not found"
+msgstr "404, page not found"
 
-msgctxt "cabride"
-msgid "Mobile"
-msgstr "Mobile"
+msgid "Ouch, this page doesn't exist"
+msgstr "Ouch, this page doesn't exist"
 
-msgctxt "cabride"
-msgid "Address"
-msgstr "Address"
+msgid "Do you want to return to the homepage?"
+msgstr "Do you want to return to the homepage?"
 
-msgid "Border Yellow"
-msgstr "Border Yellow"
+msgid "Or do you want to return to editor?"
+msgstr "Or do you want to return to editor?"
 
-msgid "Border Purple"
-msgstr "Border Purple"
+msgid "404, Page not found"
+msgstr "404, Page not found"
 
-msgid "Border Green"
-msgstr "Border Green"
-
-msgid "Border Grey"
-msgstr "Border Grey"
-
-msgid "Content background"
-msgstr "Content background"
-
-msgid "Grey buttons"
-msgstr "Grey buttons"
-
-msgid "Background Color - Hover"
-msgstr "Background Color - Hover"
-
-msgid "Text Color - Hover"
-msgstr "Text Color - Hover"
-
-msgid "Font Color blue"
-msgstr "Font Color blue"
-
-msgid "Content color"
-msgstr "Con"
+msgid "Stripe API Error: %s"
+msgstr "Stripe API Error: %s"

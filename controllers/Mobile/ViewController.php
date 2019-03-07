@@ -47,9 +47,6 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     "paymentProvider" => (string) $dbConfig->getPaymentProvider(),
                     "stripePublicKey" => (string) $dbConfig->getStripePublicKey(),
                     "stripeIsSandbox" => (boolean) $dbConfig->getStripeIsSandbox(),
-                    "tcoMerchantCode" => (string) $dbConfig->getCheckoutMerchantCode(),
-                    "tcoPublishableKey" => (string) $dbConfig->getCheckoutPublishableKey(),
-                    "tcoIsSandbox" => (boolean) $dbConfig->getCheckoutIsSandbox(),
                     "driverCanRegister" => (boolean) $dbConfig->getDriverCanRegister(),
                 ]
             ];
