@@ -6,7 +6,6 @@ use Siberian\Service;
 use Siberian\Assets;
 use Siberian\Hook;
 use Cabride\Model\Cabride;
-use Cabride\Model\Driver;
 
 $initializeApiUser = function () {
     $cabrideUser = (new Api_Model_User())
@@ -74,7 +73,6 @@ $initializeApiUser = function () {
 /**
  * @param $payload
  * @return mixed
- * @throws \Siberian\Exception
  */
 function dashboardNav ($payload) {
     return Cabride::dashboardNav($payload);
@@ -105,6 +103,7 @@ function cabridePopulateExtended ($context, $fields) {
  * @param $fields
  * @return mixed
  * @throws Zend_Exception
+ * @throws \Siberian\Exception
  */
 function cabrideSaveExtended ($context, $fields) {
     return Cabride::saveExtended($context, $fields);
@@ -112,6 +111,7 @@ function cabrideSaveExtended ($context, $fields) {
 
 /** Alias for non-confusing escape */
 class_alias("Cabride\Model\Service", "CabrideService");
+class_alias("Cabride\Model\Cabride", "Cabride_Model_Cabride");
 
 $init = function($bootstrap) use ($initializeApiUser) {
 

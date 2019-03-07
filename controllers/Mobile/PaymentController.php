@@ -3,9 +3,6 @@
 use Cabride\Model\Cabride;
 use Cabride\Model\Client;
 use Cabride\Model\ClientVault;
-use Cabride\Model\Payment\Avangate\Customer as PaymentCustomer;
-use Cabride\Model\Payment\Avangate\Order as PaymentOrder;
-use Cabride\Model\Payment\Twocheckout\Charge as PaymentCharge;
 use Customer_Model_Customer as Customer;
 use Siberian\Exception;
 use Siberian\Json;

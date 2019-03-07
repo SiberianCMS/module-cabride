@@ -1,10 +1,7 @@
 <?php
 
 use Cabride\Form\Gateway\Stripe;
-use Cabride\Form\Gateway\Twocheckout;
-use Cabride\Form\Gateway\Braintree;
 use Cabride\Model\Cabride;
-use Cabride\Model\Payment\Avangate\Payouts;
 use Siberian\Exception;
 
 /**
@@ -49,6 +46,7 @@ class Cabride_GatewayController extends Application_Controller_Default
 
             $cabride
                 ->addData($values)
+                ->setPaymentProvider("stripe") // Enforce stripe for now!
                 ->save();
 
             $payload = [

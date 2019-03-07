@@ -2,26 +2,34 @@
  * CabridePayment service
  */
 angular.module('starter')
-    .service('CabridePayment', function (Application, $injector, $pwaRequest, $q, $ocLazyLoad) {
+    .service('CabridePayment', function (Application, $injector, $pwaRequest, $q) {
         var service = {
             stripe: null,
             settings: null,
         };
 
         service.init = function () {
-            var config = [];
+            var deferred = $q.defer();
 
             service.settings = $injector.get("Cabride").settings;
 
             switch (service.settings.paymentProvider) {
                 case "stripe":
-                    config = [
-                        "https://js.stripe.com/v3/"
-                    ];
+                    if (typeof Stripe === "undefined") {
+                        var stripeJS = document.createElement("script");
+                        stripeJS.type = "text/javascript";
+                        stripeJS.src = "https://js.stripe.com/v3/";
+                        stripeJS.onload = function () {
+                            deferred.resolve();
+                        };
+                        document.body.appendChild(stripeJS);
+                    } else {
+                        deferred.resolve();
+                    }
                     break;
             }
 
-            return $ocLazyLoad.load(config);
+            return deferred.promise;
         };
 
         service.card = null;

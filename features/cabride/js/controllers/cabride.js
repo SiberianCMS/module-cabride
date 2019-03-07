@@ -4,7 +4,7 @@
 angular.module('starter')
 .controller('CabrideHome', function ($window, $state, $scope, $rootScope, $timeout, $translate,
                                      $ionicSideMenuDelegate, Modal, Cabride, CabrideUtils, Customer,
-                                     Loader, ContextualMenu, GoogleMaps, Dialog, Location, SB, CabridePayment) {
+                                     Loader, ContextualMenu, GoogleMaps, Dialog, Location, SB) {
     angular.extend($scope, {
         pageTitle: $translate.instant("CabRide"),
         valueId: Cabride.getValueId(),

@@ -31,8 +31,7 @@ class Cabride extends Base
     }
 
     /**
-     * @return int|null
-     * @throws Exception
+     * @return null
      */
     public static function getCurrentValueId()
     {
@@ -49,8 +48,7 @@ class Cabride extends Base
     }
 
     /**
-     * @return \Application_Model_Option_Value|null
-     * @throws Exception
+     * @return null
      */
     public static function getCurrent()
     {
