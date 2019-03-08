@@ -4,6 +4,8 @@ use Cabride\Controller\Dashboard as Dashboard;
 use Cabride\Model\Driver as Driver;
 use Cabride\Form\Driver as FormDriver;
 use Cabride\Form\Driver\Delete as DriverDelete;
+use Siberian_Google_Geocoding as Geocoding;
+use Siberian\Exception;
 
 /**
  * Class Cabride_DriverController
@@ -74,26 +76,45 @@ class Cabride_DriverController extends Dashboard
      */
     public function editpostAction()
     {
-        $values = $this->getRequest()->getPost();
+        try {
+            $application = $this->getApplication();
+            $values = $this->getRequest()->getPost();
 
-        $form = new FormDriver();
-        $form->loadVehicles($values["value_id"]);
-        if ($form->isValid($values)) {
-            /** Do whatever you need when form is valid */
-            $driver = new Driver();
-            $driver->addData($values);
-            $driver->save();
+            $form = new FormDriver();
+            $form->loadVehicles($values["value_id"]);
+            if ($form->isValid($values)) {
+                /** Do whatever you need when form is valid */
 
-            $payload = [
-                'success' => true,
-                'message' => __('Success.'),
-            ];
-        } else {
+                // Geocoding base address
+                $position = Geocoding::getLatLng(
+                    ["address" => $values["base_address"]],
+                    $application->getGooglemapsKey());
+
+                if (empty($position[0]) || empty($position[1])) {
+                    throw new Exception(p__("cabride", "Invalid address!"));
+                }
+
+                $driver = new Driver();
+                $driver->addData($values);
+                $driver->save();
+
+                $payload = [
+                    "success" => true,
+                    "message" => __("Success."),
+                ];
+            } else {
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    "error" => true,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true),
+                ];
+            }
+        } catch (\Exception $e) {
             /** Do whatever you need when form is not valid */
             $payload = [
-                'error' => true,
-                'message' => $form->getTextErrors(),
-                'errors' => $form->getTextErrors(true),
+                "error" => true,
+                "message" => $e->getMessage(),
             ];
         }
 

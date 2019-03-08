@@ -231,11 +231,16 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 ]);
 
             if (!$driver->getId()) {
-                throw new Exception(p__("cabride", "You are not registered as a driver! Please contact the App owner."));
+                throw new Exception(p__("cabride",
+                    "You are not registered as a driver! Please contact the App owner."));
             }
 
-            if ($driver->getMustFillVehicle()) {
-                throw new Exception(p__("cabride", "You must fill your vehicle information before going online!"));
+            $profileErrors = $driver->getProfileErrors();
+            if ($isOnline && sizeof($profileErrors) > 0) {
+                foreach ($profileErrors as &$profileError) {
+                    $profileError = "- {$profileError}";
+                }
+                throw new Exception(p__("cabride", join("<br />", $profileErrors)));
             }
 
             $driver

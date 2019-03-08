@@ -50,31 +50,40 @@ class Driver extends Base
     }
 
     /**
-     * @return bool
-     * @throws \Siberian\Exception
+     * @return array
      */
-    public function getMustFillVehicle()
+    public function getProfileErrors()
     {
+        $errors = [];
         if (empty($this->getVehicleLicensePlate())) {
-            return true;
+            $errors[] = p__("cabride", "Vehicle license plate");
         }
 
         if (empty($this->getDriverLicense())) {
-            return true;
+            $errors[] = p__("cabride", "Driving license");
         }
 
         $cabride = Cabride::getCurrent();
         if ($cabride->getPricingMode() === "driver") {
             if (empty($this->getBaseFare())) {
-                return true;
+                $errors[] = p__("cabride", "Base fare");
             }
 
             if (empty($this->getDistanceFare()) && empty($this->getTimeFare())) {
-                return true;
+                $errors[] = p__("cabride", "Distance and/or time fare");
             }
         }
 
-        return false;
+        if (empty($this->getDriverPhone())) {
+            $errors[] = p__("cabride", "Mobile phone number");
+        }
+
+        if (empty($this->getBaseAddress()) ||
+            ($this->getBaseLatitude() == 0 && $this->getBaseLongitude() == 0)) {
+            $errors[] = p__("cabride", "Incorrect base address");
+        }
+
+        return $errors;
     }
 
     /**

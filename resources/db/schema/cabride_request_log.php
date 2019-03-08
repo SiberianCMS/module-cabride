@@ -23,11 +23,13 @@ $schemas['cabride_request_log'] = [
         'type' => 'varchar(128)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
+        'null' => true,
     ],
     'status_to' => [ // "pending", "accepted", "declined", "done", "aborted", "expired"
         'type' => 'varchar(128)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
+        'null' => true,
     ],
     'source' => [ // "client", "driver", "cron", "admin"
         'type' => 'varchar(128)',

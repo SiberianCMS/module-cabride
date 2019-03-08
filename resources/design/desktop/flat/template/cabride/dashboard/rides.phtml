@@ -20,20 +20,24 @@ function colorForStatus ($status) {
     switch ($status) {
         case "pending":
             return "label-info";
+        case "onway":
+        case "inprogress":
         case "accepted":
             return "label-info";
         case "done":
             return "label-success";
         case "declined":
-            case "aborted":
+        case "aborted":
             return "label-danger";
         case "expired":
             return "label-warning";
+        default:
+            return "label-info";
     }
 }
 
 ?>
-<div class="row">
+<div class="row cabride-rides">
     <div class="col-md-12">
         <div class="page-content-wrapper">
             <div id="apis_content"
@@ -52,6 +56,7 @@ function colorForStatus ($status) {
                                 <th class="sortable numeric text-right"><?php echo p__("cabride", "Distance"); ?></th>
                                 <th class="sortable numeric text-right"><?php echo p__("cabride", "Duration"); ?></th>
                                 <th class="sortable numeric text-right"><?php echo p__("cabride", "Est. cost"); ?></th>
+                                <th class="sortable numeric text-right"><?php echo p__("cabride", "Cost"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Ride"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Status"); ?></th>
                                 <th></th>
@@ -80,6 +85,7 @@ function colorForStatus ($status) {
                                     <td class="text-right"><?php echo $ride->getDistance(); ?>m</td>
                                     <td class="text-right"><?php echo $ride->getDuration(); ?></td>
                                     <td class="text-right"><?php echo $ride->getEstimatedCost(); ?>€</td>
+                                    <td class="text-right"><?php echo $ride->getCost(); ?>€</td>
                                     <td>
                                         <?php echo $ride->getFromAddress(); ?><br />
                                         <?php echo $ride->getToAddress(); ?>
@@ -117,3 +123,12 @@ function colorForStatus ($status) {
         });
     });
 </script>
+<style type="text/css">
+    .cabride-rides .label {
+        font-size: 80%;
+        font-weight: 200;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: .2em .4em .2em;
+    }
+</style>

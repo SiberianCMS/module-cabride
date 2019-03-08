@@ -33,6 +33,14 @@ $schemas['cabride_payment'] = [
         'type' => 'int(11) unsigned',
         'null' => true,
     ],
+    'request_id' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
+    'driver_id' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
     'amount' => [
         'type' => 'float',
     ],

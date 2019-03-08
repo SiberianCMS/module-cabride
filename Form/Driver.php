@@ -54,8 +54,8 @@ class Driver extends Siberian_Form_Abstract
         $pickup_radius = $this->addSimpleText("pickup_radius", p__("cabride", "Pickup radius"));
         $pickup_radius->setRequired(true);
 
-        $status = $this->addSimpleText("status", p__("cabride", "Status"));
-        $status->setRequired(true);#
+        //$status = $this->addSimpleText("status", p__("cabride", "Status"));
+        //$status->setRequired(true);#
 
         $submit = $this->addSubmit("Save", "Save");
         $submit->addClass("pull-right");

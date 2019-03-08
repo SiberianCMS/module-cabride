@@ -111,7 +111,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
 
             $payload = [
                 "success" => true,
-                "message" => p__("cabride", "You declined the request!"),
+                "message" => p__("cabride", "Your request is cancelled!"),
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -573,9 +573,17 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                     "Sorry, we are unable to find your driver profile!"));
             }
 
-            if (empty($driverParams["driver_license"]) || empty($driverParams["vehicle_license_plate"])) {
-                throw new Exception(p__("cabride",
-                    "Both your driving license & vehicle license plate are required!"));
+            $errors = [];
+            if (empty($driverParams["driver_license"])) {
+                $errors[] = p__("cabride", "Driver license");
+            }
+
+            if (empty($driverParams["vehicle_license_plate"])) {
+                $errors[] = p__("cabride", "License plate");
+            }
+
+            if (empty($driverParams["driver_phone"])) {
+                $errors[] = p__("cabride", "Mobile number");
             }
 
             // Geocoding base address
@@ -584,34 +592,41 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 $application->getGooglemapsKey());
 
             if (empty($position[0]) || empty($position[1])) {
-                throw new Exception(p__("cabride",
-                    "We were unable to validate your address, please try again!"));
+                $errors[] = p__("cabride", "Invalid address!");
             }
-
-            $driver
-                ->setVehicleModel($driverParams["vehicle_model"])
-                ->setVehicleLicensePlate($driverParams["vehicle_license_plate"])
-                ->setDriverLicense($driverParams["driver_license"])
-                ->setBaseAddress($driverParams["base_address"])
-                ->setBaseLatitude($position[0])
-                ->setBaseLongitude($position[1])
-                ->setPickupRadius($driverParams["pickup_radius"]);
 
             if ($cabride->getPricingMode() === "driver") {
                 if ($driverParams["base_fare"] <= 0 &&
                     ($driverParams["distance_fare"] <= 0 || $driverParams["time_fare"] <= 0)) {
-                    throw new Exception(p__("cabride", "Driving fares are required!"));
+                    $errors[] = p__("cabride", "Driving fares!");
                 }
 
                 if (empty($driverParams["base_fare"]) &&
                     (empty($driverParams["distance_fare"]) || empty($driverParams["time_fare"]))) {
-                    throw new Exception(p__("cabride", "Driving fares are required!"));
+                    $errors[] = p__("cabride", "Driving fares!");
                 }
 
                 $driver
                     ->setBaseFare($driverParams["base_fare"])
                     ->setDistanceFare($driverParams["distance_fare"])
                     ->setTimeFare($driverParams["time_fare"]);
+            }
+
+            $driver
+                ->setVehicleModel($driverParams["vehicle_model"])
+                ->setVehicleLicensePlate($driverParams["vehicle_license_plate"])
+                ->setDriverPhone($driverParams["driver_phone"])
+                ->setDriverLicense($driverParams["driver_license"])
+                ->setBaseAddress($driverParams["base_address"])
+                ->setBaseLatitude($position[0])
+                ->setBaseLongitude($position[1])
+                ->setPickupRadius($driverParams["pickup_radius"]);
+
+            if (sizeof($errors) > 0) {
+                foreach ($errors as &$error) {
+                    $error = "- {$error}";
+                }
+                throw new Exception(join("<br />", $errors));
             }
 
             $driver->save();
@@ -781,6 +796,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             }
 
             $driver = (new Driver())->find($ride->getDriverId());
+
             $distanceKm = ceil($ride->getDistance() / 1000);
             $durationMinute = ceil($ride->getDuration() / 60);
             $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
@@ -831,6 +847,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
 
             $payment
                 ->setValueId($valueId)
+                ->setRequestId($ride->getId())
+                ->setDriverId($driver->getId())
                 ->setClientVaultId($ride->getClientVaultId())
                 ->setAmountCharged($cost)
                 ->setAmount($ride->getCost())
@@ -846,6 +864,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $payload = [
                 "error" => true,
                 "message" => $e->getMessage(),
+                "trace" => $e->getTraceAsString(),
             ];
         }
 

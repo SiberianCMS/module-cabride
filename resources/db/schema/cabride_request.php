@@ -38,6 +38,7 @@ $schemas['cabride_request'] = [
         'type' => 'varchar(128)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
+        'null' => true,
     ],
     'static_image' => [
         'type' => 'varchar(256)',

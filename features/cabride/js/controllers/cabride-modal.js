@@ -103,7 +103,7 @@ angular.module('starter')
 
         switch (source) {
             case "cron":
-                return $translate.instant("System");
+                return $translate.instant("App");
             case "admin":
                 return $translate.instant("App manager");
             case "driver":

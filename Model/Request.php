@@ -162,7 +162,6 @@ class Request extends Base
 
         $this
             ->setValueId($valueId)
-            ->setStatus("pending")
             ->setClientId($clientId)
             ->setVehicleId($vehicleType->getId())
             ->setStaticImage($staticMap)
@@ -189,7 +188,7 @@ class Request extends Base
 
         $this->save();
 
-        self::log($this, "", "pending", $source);
+        $this->changeStatus("pending", $source);
 
         return $this;
     }
@@ -242,9 +241,6 @@ class Request extends Base
         $clientId = $this->getClientId();
         $requestId = $this->getRequestId();
 
-        // If there is a driver yet ...
-        $driverId = $this->getDriverId();
-
         $status = $this->getStatus();
         switch ($status) {
             case "pending";
@@ -267,7 +263,9 @@ class Request extends Base
                     $pushDevice = (new PushDevice())
                         ->find($customerId, "customer_id");
 
-                    $pushDevice->sendMessage($title, $message, $requestId, "driver", $status, $actionUrl);
+                    if ($pushDevice->getId()) {
+                        $pushDevice->sendMessage($title, $message, $requestId, "driver", $status, $actionUrl);
+                    }
                 }
 
                 break;
@@ -284,7 +282,9 @@ class Request extends Base
                 $pushDevice = (new PushDevice())
                     ->find($customerId, "customer_id");
 
-                $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                if ($pushDevice->getId()) {
+                    $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                }
                 break;
             case "onway";
                 // Send push to passenger!
@@ -300,7 +300,10 @@ class Request extends Base
                 $pushDevice = (new PushDevice())
                     ->find($customerId, "customer_id");
 
-                $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                if ($pushDevice->getId()) {
+                    $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                }
+
                 break;
             case "inprogress";
 
@@ -319,7 +322,9 @@ class Request extends Base
                 $pushDevice = (new PushDevice())
                     ->find($customerId, "customer_id");
 
-                $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                if ($pushDevice->getId()) {
+                    $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                }
 
                 break;
             case "done";
@@ -336,7 +341,10 @@ class Request extends Base
                 $pushDevice = (new PushDevice())
                     ->find($customerId, "customer_id");
 
-                $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                if ($pushDevice->getId()) {
+                    $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                }
+
                 break;
             case "aborted";
 
@@ -355,7 +363,10 @@ class Request extends Base
                 $pushDevice = (new PushDevice())
                     ->find($customerId, "customer_id");
 
-                $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                if ($pushDevice->getId()) {
+                    $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                }
+
                 break;
         }
     }

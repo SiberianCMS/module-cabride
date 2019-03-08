@@ -99,6 +99,19 @@
 
             <label class="item item-input item-custom">
                 <div class="input-label">
+                    <b>{{ "Mobile number" | translate }} *</b>
+                </div>
+                <input class="text-right"
+                       type="text"
+                       required="required"
+                       placeholder="{{ 'Mobile number' | translate }}"
+                       ng-model="driver.driver_phone" />
+            </label>
+
+            <div style="margin-bottom: 20px;"></div>
+
+            <label class="item item-input item-custom">
+                <div class="input-label">
                     <b>{{ "Model" | translate }}</b>
                 </div>
                 <input class="text-right"
