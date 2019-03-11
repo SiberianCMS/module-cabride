@@ -202,6 +202,7 @@ class Request extends Base
     }
 
     /**
+     * @param $clientId
      * @return Request[]
      */
     public function fetchPendingForClient($clientId)

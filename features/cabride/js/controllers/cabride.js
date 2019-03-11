@@ -263,28 +263,42 @@ angular.module('starter')
         CabrideUtils.clearRoute();
     };
 
+    $scope.disableTap = function (inputId) {
+        var input = document.getElementsByClassName("pac-container");
+        // disable ionic data tab
+        angular.element(input).attr("data-tap-disabled", "true");
+        // leave input field if google-address-entry is selected
+        angular.element(input).on("click", function () {
+            document.getElementById(inputId).blur();
+        });
+    };
+
     $scope.pinText = function () {
         if ($scope.ride.pickupAddress === "") {
             return {
                 action: "pickup",
+                class: "positive",
                 text: $translate.instant("Set Pick-Up Location")
             };
         }
         if ($scope.ride.dropoffAddress === "") {
             return {
                 action: "dropoff",
+                class: "energized",
                 text: $translate.instant("Set Drop-Off Location")
             };
         }
         if ($scope.ride.isSearching) {
             return {
                 action: "loading",
+                class: "",
                 text: ""
             };
         }
         if ($scope.ride.pickupAddress !== "" && $scope.ride.dropoffAddress !== "") {
             return {
                 action: "search",
+                class: "balanced",
                 text: $translate.instant("Request a ride!")
             };
         }
@@ -716,6 +730,12 @@ angular.module('starter')
         return moment(duration).fromNow();
     };
 
+    $scope.eta = function (request) {
+        // Ensure values are integers
+        var duration = parseInt(request.eta_driver, 10) * 1000;
+        return moment(duration).fromNow();
+    };
+
     $scope.refresh = function () {
         $scope.loadPage();
     };
@@ -781,6 +801,82 @@ angular.module('starter')
     $scope.$watch("filterName", function () {
         $scope.filtered = $filter("cabrideStatusFilter")($scope.collection, $scope.statuses)
     });
+
+    $scope.loadPage();
+});
+
+angular.module('starter')
+.controller('CabrideMyPayments', function ($scope, $filter, $translate, $ionicScrollDelegate,
+                                           Cabride, CabrideUtils, Dialog, ContextualMenu) {
+    angular.extend($scope, {
+        isLoading: false,
+        pageTitle: $translate.instant("My payments"),
+        valueId: Cabride.getValueId(),
+        filtered: null,
+        filterName: "payments",
+        payments: [],
+        cards: [],
+    });
+
+    $scope.loadPage = function () {
+        $scope.isLoading = true;
+        Cabride
+        .getMyPayments()
+        .then(function (payload) {
+            $scope.payments = payload.payments;
+            $scope.cards = payload.cards;
+        }, function (error) {
+            Dialog.alert("Error", error.message, "OK");
+        }).then(function () {
+            $scope.isLoading = false;
+        });
+    };
+
+    $scope.deleteVault = function (card) {
+        Dialog
+        .confirm("Confirmation", "Are you sure you want to delete this card?", ['Yes', 'No'], "text-center")
+        .then(function (result) {
+            if (result) {
+                $scope.isLoading = true;
+                Cabride
+                .deleteVault(card)
+                .then(function (payload) {
+                    Dialog.alert("Success", payload.message, "OK", 2350);
+                }, function (error) {
+                    Dialog.alert("Error", error.message, "OK");
+                }).then(function () {
+                    $scope.isLoading = false;
+                    $scope.refresh();
+                });
+            }
+        });
+    };
+
+    $scope.isTaxiLayout = function () {
+        return Cabride.isTaxiLayout;
+    };
+
+    $scope.toggleRightMenu = function () {
+        // Toggling nav
+        ContextualMenu.toggle();
+    };
+
+    $scope.refresh = function () {
+        $scope.loadPage();
+    };
+
+    $scope.statusFilter = function (filter) {
+        // "payments", "cards"
+        switch (filter) {
+            case "payments":
+                $scope.filterName = "payments";
+                break;
+            case "cards":
+                $scope.filterName = "cards";
+                break;
+        }
+        $ionicScrollDelegate.scrollTop();
+    };
 
     $scope.loadPage();
 });
@@ -918,7 +1014,7 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabrideAcceptedRequests', function ($scope, $translate, $state, Cabride, Dialog, Loader,
+.controller('CabrideAcceptedRequests', function ($scope, $translate, $state, Cabride, CabrideUtils, Dialog, Loader,
                                                  ContextualMenu, $window) {
     angular.extend($scope, {
         isLoading: false,
@@ -976,18 +1072,36 @@ angular.module('starter')
 
     $scope.driveToPassenger = function (request) {
         Loader.show();
-        Cabride
-        .driveToPassenger(request.request_id)
-        .then(function (payload) {
-            Dialog
-            .alert("", payload.message, "OK", 2350)
-            .then(function () {
+        CabrideUtils
+        .getDirectionWaypoints(
+            Cabride.lastPosition,
+            {
+                latitude: request.from_lat,
+                longitude: request.from_lng,
+            },
+            {
+                latitude: request.to_lat,
+                longitude: request.to_lng,
+            },
+            true
+        ).then(function (route) {
+            Cabride
+            .driveToPassenger(request.request_id, route)
+            .then(function (payload) {
+                Dialog
+                .alert("", payload.message, "OK", 2350)
+                .then(function () {
+                    Loader.hide();
+                    Navigator.navigate(payload.driveTo);
+                });
+            }, function (error) {
+                Dialog.alert("Error", error.message, "OK");
+            }).then(function () {
                 Loader.hide();
-                Navigator.navigate(payload.driveTo);
+                $scope.refresh();
             });
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
-        }).then(function () {
+            Dialog.alert("Error", error[1], "OK");
             Loader.hide();
             $scope.refresh();
         });
@@ -1165,18 +1279,36 @@ angular.module('starter')
 
     $scope.accept = function (request) {
         Loader.show();
-        Cabride
-        .acceptRide(request.request_id)
-        .then(function (payload) {
-            Dialog
-            .alert("", payload.message, "OK", 2350)
-            .then(function () {
+        CabrideUtils
+        .getDirectionWaypoints(
+            Cabride.lastPosition,
+            {
+                latitude: request.from_lat,
+                longitude: request.from_lng,
+            },
+            {
+                latitude: request.to_lat,
+                longitude: request.to_lng,
+            },
+            true
+        ).then(function (route) {
+            Cabride
+            .acceptRide(request.request_id, route)
+            .then(function (payload) {
+                Dialog
+                .alert("", payload.message, "OK", 2350)
+                .then(function () {
+                    Loader.hide();
+                    $state.go("cabride-accepted-requests");
+                });
+            }, function (error) {
+                Dialog.alert("Error", error.message, "OK");
+            }).then(function () {
                 Loader.hide();
-                $state.go("cabride-accepted-requests");
+                $scope.refresh();
             });
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
-        }).then(function () {
+            Dialog.alert("Error", error[1], "OK");
             Loader.hide();
             $scope.refresh();
         });
@@ -1338,6 +1470,9 @@ angular.module('starter')
         switch (identifier) {
             case "my-rides":
                 $state.go("cabride-my-rides");
+                break;
+            case "my-payments":
+                $state.go("cabride-my-payments");
                 break;
             case "cabride-home":
                 $state.go("cabride-home");

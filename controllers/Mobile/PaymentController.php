@@ -3,6 +3,7 @@
 use Cabride\Model\Cabride;
 use Cabride\Model\Client;
 use Cabride\Model\ClientVault;
+use Cabride\Model\Request;
 use Customer_Model_Customer as Customer;
 use Siberian\Exception;
 use Siberian\Json;
@@ -116,6 +117,74 @@ class Cabride_Mobile_PaymentController extends Application_Controller_Mobile_Def
             $payload = [
                 "success" => true,
                 "vaults" => $vaults
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * @throws Zend_Exception
+     */
+    public function deleteVaultAction()
+    {
+        $optionValue = $this->getCurrentOptionValue();
+        $cabride = (new Cabride())->find($optionValue->getId(), "value_id");
+
+        switch ($cabride->getPaymentProvider()) {
+            case "stripe":
+                $this->deleteVaultStripe();
+                break;
+        }
+    }
+
+    public function deleteVaultStripe()
+    {
+        try {
+            $application = $this->getApplication();
+            $request = $this->getRequest();
+            $vaultId = $request->getParam("vaultId", null);
+            $optionValue = $this->getCurrentOptionValue();
+            $customerId = $this->getSession()->getCustomerId();
+
+            $client = (new Client())->find($customerId, "customer_id");
+            $cabride = (new Cabride())->find($optionValue->getId(), "value_id");
+            $vault = (new ClientVault())->find([
+                "client_vault_id" => $vaultId,
+                "payment_provider" => "stripe",
+            ]);
+
+            if (!$vault->getId()) {
+                throw new Exception(p__("cabride",
+                    "This vault doesn't exists!"));
+            }
+
+            // Check if the vault can be safely removed!
+            $requests = (new Request())->findAll([
+                "client_vault_id = ?" => $vaultId,
+                "status IN (?)" => ["pending", "accepted", "onway", "inprogress"]
+            ]);
+
+            if ($requests->count() > 0) {
+                throw new Exception(p__("cabride",
+                    "This vault can't be removed yet, it is currently used for a ride!"));
+            }
+
+            \Stripe\Stripe::setApiKey($cabride->getStripeSecretKey());
+
+            // Delete the card from the customer!
+            \Stripe\Customer::deleteSource($client->getStripeCustomerToken(), $vault->getCardToken());
+
+            $vault->delete();
+
+            $payload = [
+                "success" => true,
+                "message" => p__("cabride", "This card is now deleted!"),
             ];
         } catch (\Exception $e) {
             $payload = [

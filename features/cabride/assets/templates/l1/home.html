@@ -60,12 +60,14 @@
                         <div class="cr-map-pickup">
                             <label class="cr-pickup-text">
                                 <input type="text"
+                                       id="id-cr-pickup"
                                        name="cr-pickup"
                                        placeholder="{{ 'Pick-up location' | translate }}"
                                        sb-google-autocomplete
                                        options="gmapsAutocompleteOptions"
                                        on-address-change="setPickupAddress()"
                                        place="ride.pickupPlace"
+                                       ng-focus="disableTap('id-cr-pickup')"
                                        ng-model="ride.pickupAddress" />
                             </label>
                             <span ng-click="geoPickup()">
@@ -75,12 +77,14 @@
                         <div class="cr-map-dropoff">
                             <label class="cr-dropoff-text">
                                 <input type="text"
+                                       id="id-cr-dropoff"
                                        name="cr-dropoff"
                                        placeholder="{{ 'Drop-off location' | translate }}"
                                        sb-google-autocomplete
                                        options="gmapsAutocompleteOptions"
                                        on-address-change="setDropoffAddress()"
                                        place="ride.dropoffPlace"
+                                       ng-focus="disableTap('id-cr-dropoff')"
                                        ng-model="ride.dropoffAddress" />
                             </label>
                             <span ng-click="geoDropoff()">
@@ -125,6 +129,7 @@
                         <div class="cr-pin-text"
                              ng-if="isPassenger && pinText().action !== 'none'"
                              ng-click="setPinLocation(pinText().action)"
+                             ng-class="pinText().class"
                              ng-bind-html="pinText().text"></div>
                         <div class="cr-pin-icon">
                             <img src="./features/cabride/assets/templates/images/003-pin.svg" />

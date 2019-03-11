@@ -43,8 +43,13 @@
                                 <img src="" />
                             </div>
                             <span class="course-status {{ request.status }}">{{ request.status | translate }}</span>
+
                             <span ng-show="filterName != 'archived' && request.status == 'pending'"
-                                  class="course-expiration {{ request.status }}">{{ "Expires" }} {{ expiration(request) }}</span>
+                                  class="course-expiration {{ request.status }}">{{ "Expires" | translate }} {{ expiration(request) }}</span>
+
+                            <span ng-show="filterName != 'archived' && request.status == 'onway'"
+                                  class="course-eta {{ request.status }}">{{ "Driver arrival" | translate }} {{ eta(request) }}</span>
+
                             <div class="row course-details">
                                 <div class="col-75">
                                     <span class="vehicle-type">{{ request.type }}</span>

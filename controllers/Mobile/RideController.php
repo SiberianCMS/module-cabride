@@ -51,6 +51,16 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
 
                     $data["formatted_driver_price"] = Base::_formatPrice($driverPrice);
                     $data["driver_phone"] = $driver->getDriverPhone();
+
+                    // Driver request!
+                    $driverRequest = (new RequestDriver())->find([
+                        "driver_id" => $driver->getId(),
+                        "request_id" => $ride->getId(),
+                    ]);
+
+                    if ($driverRequest->getId()) {
+                        $data["eta_driver"] = (integer) $driverRequest->getEtaToClient();
+                    }
                 }
 
                 // Recast values
@@ -63,6 +73,62 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $payload = [
                 "success" => true,
                 "collection" => $collection,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => __("An unknown error occurred, please try again later."),
+                "except" => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Client route
+     */
+    public function myPaymentsAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
+
+            $cabride = (new Cabride())->find($valueId, "value_id");
+            $client = (new Client())->find($customerId, "customer_id");
+            $payments = (new Payment())->findAll([
+                "client_id = ?" => $client->getId(),
+                "status = ?" => "paid"
+            ]);
+
+            $cards = (new clientVault())->findAll([
+                "client_id = ?" => $client->getId(),
+                "payment_provider = ?" => $cabride->getPaymentProvider(),
+            ]);
+
+            $paymentData = [];
+            foreach ($payments as $payment) {
+                $data = $payment->getData();
+
+                $paymentData[] = $data;
+            }
+
+            $cardData= [];
+            foreach ($cards as $card) {
+                $data = $card->getData();
+
+                unset($data["raw_payload"]);
+
+                $cardData[] = $data;
+            }
+
+            $payload = [
+                "success" => true,
+                "payments" => $paymentData,
+                "cards" => $cardData,
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -191,7 +257,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 // Makes payload lighter!
                 unset($data["raw_route"]);
 
-                $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"]);
+                $data["formatted_price"] = Base::_formatPrice($data["cost"]);
 
                 // Recast values
                 $data["search_timeout"] = (integer) $data["search_timeout"];
@@ -241,7 +307,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 // Makes payload lighter!
                 unset($data["raw_route"]);
 
-                $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"]);
+                $data["formatted_price"] = Base::_formatPrice($data["cost"]);
 
                 // Recast values
                 $data["search_timeout"] = (integer) $data["search_timeout"];
@@ -370,7 +436,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
             $requestId = $request->getParam("requestId", false);
-            $route = $request->getParam("route", false);
+            $data = $request->getBodyParams();
+            $route = $data["route"];
             $ride = (new Request())->find($requestId);
 
             if (!$requestId || !$ride->getId()) {
@@ -395,6 +462,11 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 ->setRawRoute(Json::encode($route))
                 ->setStatus("accepted")
                 ->save();
+
+            $distanceKm = ceil($ride->getDistance() / 1000);
+            $durationMinute = ceil($ride->getDuration() / 60);
+            $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
+            $ride->setCost($driverPrice);
 
             $ride->changeStatus("accepted", Request::SOURCE_DRIVER);
 
@@ -660,6 +732,10 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
             $requestId = $request->getParam("requestId", false);
+
+            $data = $request->getBodyParams();
+            $route = $data["route"];
+
             $ride = (new Request())->find($requestId);
 
             if (!$requestId || !$ride->getId()) {
@@ -680,8 +756,17 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                     "Sorry, we are unable to find this ride request!"));
             }
 
+            $timeToClient = (integer) $route["routes"][0]["legs"][0]["duration"]["value"];
+            $timeToDestination =
+                (integer) $route["routes"][0]["legs"][0]["duration"]["value"] +
+                (integer) $route["routes"][0]["legs"][1]["duration"]["value"];
+
             $requestDriver
                 ->setStatus("onway")
+                ->setEtaToClient($timeToClient + time())
+                ->setEtaToDestination($timeToDestination + time())
+                ->setTimeToClient($timeToClient)
+                ->setTimeToDestination($timeToDestination)
                 ->save();
 
             $ride->changeStatus("onway", Request::SOURCE_DRIVER);
@@ -855,6 +940,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 ->setMethod($ride->getPaymentType())
                 ->setStatus($status)
                 ->save();
+
+            $payment->addCommission();
 
             $payload = [
                 "success" => true,

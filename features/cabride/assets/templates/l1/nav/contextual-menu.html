@@ -159,6 +159,15 @@
                 </div>
             </li>
 
+            <li class="lines border-custom"
+                ng-if="isLoggedIn && isPassenger"
+                ng-click="loadPage('my-payments')">
+                <div class="line-box">
+                    <i class="line-icon icon ion-cab-credit-card"></i>
+                    <span class="line-title">{{ "My payments" | translate }}</span>
+                </div>
+            </li>
+
         </ul>
     </ion-content>
 </div>

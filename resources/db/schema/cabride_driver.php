@@ -127,6 +127,6 @@ $schemas['cabride_driver'] = [
     ],
     'status' => [
         'type' => 'varchar(64)',
-        'default' => 'pending',
+        'default' => 'active',
     ],
 ];

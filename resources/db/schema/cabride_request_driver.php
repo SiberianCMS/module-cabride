@@ -24,6 +24,22 @@ $schemas['cabride_request_driver'] = [
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'eta_to_client' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
+    'eta_to_destination' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
+    'time_to_client' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
+    'time_to_destination' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
     'status' => [ // "pending", "accepted", "accepted_other", "onway", "inprogress", "declined", "done", "aborted", "expired"
         'type' => 'varchar(128)',
         'charset' => 'utf-8',

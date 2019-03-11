@@ -89,7 +89,6 @@ class Service extends Base
         try {
             echo $command . PHP_EOL;
             exec($command, $output, $return);
-            file_put_contents('/tmp/debug.log', print_r(!(boolean)$return, true), FILE_APPEND);
             return !(boolean)$return;
         } catch (Exception $e) {
             return false;

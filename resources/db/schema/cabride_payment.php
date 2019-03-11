@@ -29,6 +29,10 @@ $schemas['cabride_payment'] = [
             'is_unique' => false,
         ],
     ],
+    'client_id' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
     'client_vault_id' => [
         'type' => 'int(11) unsigned',
         'null' => true,
@@ -45,6 +49,14 @@ $schemas['cabride_payment'] = [
         'type' => 'float',
     ],
     'amount_charged' => [
+        'type' => 'float',
+    ],
+    'commission_type' => [
+        'type' => 'varchar(32)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'commission_amount' => [
         'type' => 'float',
     ],
     'method' => [

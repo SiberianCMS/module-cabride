@@ -177,6 +177,8 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
                 throw new Exception(p__("cabride",
                     "We are sorry, but an error occurred while sending your request to the available drivers!"));
             }
+
+            $request->notify();
             
             $payload = [
                 "success" => true,

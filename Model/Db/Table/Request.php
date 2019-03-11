@@ -164,7 +164,7 @@ class Request extends Core_Model_Db_Table
 
     /**
      * @param $clientId
-     * @return mixed
+     * @return Request[]
      */
     public function fetchPendingForClient($clientId)
     {

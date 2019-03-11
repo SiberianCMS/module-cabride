@@ -129,6 +129,15 @@ angular.module('starter')
             });
         };
 
+        factory.getMyPayments = function () {
+            return $pwaRequest.post('/cabride/mobile_ride/my-payments', {
+                urlParams: {
+                    value_id: this.value_id
+                },
+                cache: false
+            });
+        };
+
         factory.getPendingRides = function () {
             return $pwaRequest.post('/cabride/mobile_ride/pending', {
                 urlParams: {
@@ -179,7 +188,9 @@ angular.module('starter')
             return $pwaRequest.post('/cabride/mobile_ride/accept', {
                 urlParams: {
                     value_id: this.value_id,
-                    requestId: requestId,
+                    requestId: requestId
+                },
+                data: {
                     route: route
                 },
                 cache: false
@@ -196,11 +207,14 @@ angular.module('starter')
             });
         };
 
-        factory.driveToPassenger = function (requestId) {
+        factory.driveToPassenger = function (requestId, route) {
             return $pwaRequest.post('/cabride/mobile_ride/drive-to-passenger', {
                 urlParams: {
                     value_id: this.value_id,
                     requestId: requestId
+                },
+                data: {
+                    route: route
                 },
                 cache: false
             });
@@ -265,6 +279,16 @@ angular.module('starter')
                 data: {
                     card: card,
                     type: type
+                },
+                cache: false
+            });
+        };
+
+        factory.deleteVault = function (vault) {
+            return $pwaRequest.post('/cabride/mobile_payment/delete-vault', {
+                urlParams: {
+                    value_id: this.value_id,
+                    vaultId: vault.client_vault_id
                 },
                 cache: false
             });

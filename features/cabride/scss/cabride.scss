@@ -229,6 +229,24 @@
           pointer-events: all !important;
           white-space: nowrap;
           box-shadow: 1px 1px 1px #333333;
+
+          &.positive {
+            background-color: $button-positive-custom-bg;
+            border: 1px solid $button-positive-custom-border;
+            color: $button-positive-custom-text;
+          }
+
+          &.energized {
+            background-color: $button-energized-custom-bg;
+            border: 1px solid $button-energized-custom-border;
+            color: $button-positive-custom-text;
+          }
+
+          &.balanced {
+            background-color: $button-balanced-custom-bg;
+            border: 1px solid $button-balanced-custom-border;
+            color: $button-balanced-custom-text;
+          }
         }
 
         .cr-pin-icon {
@@ -301,11 +319,13 @@
     span.vehicle-type {
       font-weight: bold;
       font-size: 0.9em;
+      white-space: normal;
     }
 
     span.course-date {
       font-size: .75em;
       opacity: 0.7;
+      white-space: normal;
     }
 
     .driver-photo {
@@ -355,6 +375,7 @@
       }
     }
 
+    .course-eta,
     .course-expiration {
       position: absolute;
       top: 3.2em;
@@ -692,4 +713,8 @@
   i.icon.line-icon {
     color: $homepage-custom-image;
   }
+}
+
+.pac-container {
+  pointer-events: auto !important;
 }

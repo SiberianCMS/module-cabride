@@ -156,6 +156,10 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                             ->setStatus("active") // @todo adapt to settings
                             ->save();
                     }
+                    $driver
+                        ->setStatus("active") // @todo adapt to settings
+                        ->save();
+
                     break;
             }
 

@@ -48,7 +48,12 @@ $schemas['cabride'] = [
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
-    'payment_provider' => [ // CB, Cash, All
+    'payment_provider' => [ // stripe (only)
+        'type' => 'varchar(64)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'commission_type' => [
         'type' => 'varchar(64)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
