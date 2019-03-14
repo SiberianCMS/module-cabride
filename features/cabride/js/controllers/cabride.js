@@ -305,7 +305,7 @@ angular.module('starter')
             return {
                 action: "search",
                 class: "balanced",
-                text: $translate.instant("Request a driver!")
+                text: $translate.instant("Request a driver")
             };
         }
         return {

@@ -676,8 +676,8 @@ msgid "Please select a vehicle type"
 msgstr "Please select a vehicle type"
 
 msgctxt "cabride"
-msgid "Request a driver!"
-msgstr "Request a driver!"
+msgid "Request a driver"
+msgstr "Request a driver"
 
 msgctxt "cabride"
 msgid "Request sent"

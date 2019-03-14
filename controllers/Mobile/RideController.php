@@ -104,7 +104,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 "status = ?" => "paid"
             ]);
 
-            $cards = (new clientVault())->findAll([
+            $cards = (new ClientVault())->findAll([
                 "client_id = ?" => $client->getId(),
                 "payment_provider = ?" => $cabride->getPaymentProvider(),
                 "is_deleted = ?" => 0,
