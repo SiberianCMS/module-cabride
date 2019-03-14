@@ -225,7 +225,12 @@ class Request extends Base
             ->save();
 
         // Trigger notifications!
-        $this->notify();
+        try {
+            $this->notify();
+        } catch (\Exception $e) {
+            // Error on notify;
+            echo $e->getMessage();
+        }
 
         self::log($this, $statusFrom, $statusTo, $source);
     }
@@ -238,6 +243,7 @@ class Request extends Base
         $valueId = $this->getValueId();
         $cabride = (new \Application_Model_Option_Value())->find($valueId);
         $application = (new \Application_Model_Application())->find($cabride->getAppId());
+        $appId = $application->getId();
         $appKey = $application->getKey();
         $clientId = $this->getClientId();
         $requestId = $this->getRequestId();
@@ -265,7 +271,8 @@ class Request extends Base
                         ->find($customerId, "customer_id");
 
                     if ($pushDevice->getId()) {
-                        $pushDevice->sendMessage($title, $message, $requestId, "driver", $status, $actionUrl);
+                        $pushDevice->sendMessage($title, $message, $requestId, "driver",
+                            $status, $actionUrl, $valueId, $appId);
                     }
                 }
 
@@ -284,7 +291,8 @@ class Request extends Base
                     ->find($customerId, "customer_id");
 
                 if ($pushDevice->getId()) {
-                    $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                    $pushDevice->sendMessage($title, $message, $requestId, "passenger",
+                        $status, $actionUrl, $valueId, $appId);
                 }
                 break;
             case "onway";
@@ -302,7 +310,8 @@ class Request extends Base
                     ->find($customerId, "customer_id");
 
                 if ($pushDevice->getId()) {
-                    $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                    $pushDevice->sendMessage($title, $message, $requestId, "passenger",
+                        $status, $actionUrl, $valueId, $appId);
                 }
 
                 break;
@@ -324,7 +333,8 @@ class Request extends Base
                     ->find($customerId, "customer_id");
 
                 if ($pushDevice->getId()) {
-                    $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                    $pushDevice->sendMessage($title, $message, $requestId, "passenger",
+                        $status, $actionUrl, $valueId, $appId);
                 }
 
                 break;
@@ -343,7 +353,8 @@ class Request extends Base
                     ->find($customerId, "customer_id");
 
                 if ($pushDevice->getId()) {
-                    $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                    $pushDevice->sendMessage($title, $message, $requestId, "passenger",
+                        $status, $actionUrl, $valueId, $appId);
                 }
 
                 break;
@@ -365,7 +376,8 @@ class Request extends Base
                     ->find($customerId, "customer_id");
 
                 if ($pushDevice->getId()) {
-                    $pushDevice->sendMessage($title, $message, $requestId, "passenger", $status, $actionUrl);
+                    $pushDevice->sendMessage($title, $message, $requestId, "passenger",
+                        $status, $actionUrl, $valueId, $appId);
                 }
 
                 break;

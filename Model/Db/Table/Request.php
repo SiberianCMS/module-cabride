@@ -164,7 +164,7 @@ class Request extends Core_Model_Db_Table
 
     /**
      * @param $clientId
-     * @return Request[]
+     * @return \Cabride\Model\Request[]
      */
     public function fetchPendingForClient($clientId)
     {

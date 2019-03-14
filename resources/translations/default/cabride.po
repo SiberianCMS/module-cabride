@@ -7,72 +7,197 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-03-11T15:43:50+00:00\n"
-"PO-Revision-Date: 2019-03-11T15:43:50+00:00\n"
+"POT-Creation-Date: 2019-03-12T10:00:40+00:00\n"
+"PO-Revision-Date: 2019-03-12T10:00:40+00:00\n"
 "Language: \n"
 
-msgid "All data"
-msgstr "All data"
+msgctxt "cabride"
+msgid "Dashboard"
+msgstr "Dashboard"
 
-msgid "Clean-up sensible data"
-msgstr "Clean-up sensible data"
+msgctxt "cabride"
+msgid "MORE INFO"
+msgstr "MORE INFO"
 
-msgid "Fanwall"
-msgstr "Fanwall"
+msgctxt "cabride"
+msgid "Cab-Ride"
+msgstr "Cab-Ride"
 
-msgid "M-Commerce"
-msgstr "M-Commerce"
+msgctxt "cabride"
+msgid "Rides"
+msgstr "Rides"
 
-msgid "Appointment Activation Key"
-msgstr "Appointment Activation Key"
+msgctxt "cabride"
+msgid "Payments"
+msgstr "Payments"
 
-msgid "CabRide"
-msgstr "CabRide"
+msgctxt "cabride"
+msgid "Passengers"
+msgstr "Passengers"
 
+msgctxt "cabride"
+msgid "Drivers"
+msgstr "Drivers"
+
+msgctxt "cabride"
+msgid "Vehicle types"
+msgstr "Vehicle types"
+
+msgctxt "cabride"
 msgid "Settings"
 msgstr "Settings"
 
-msgid "Join lobby"
-msgstr "Join lobby"
-
-msgid "Send request"
-msgstr "Send request"
-
-msgid "Aggregate information"
-msgstr "Aggregate information"
-
-msgid "Chatrooms"
-msgstr "Chatrooms"
-
-msgid "Get user"
-msgstr "Get user"
-
-msgid "Realtime Chat"
-msgstr "Realtime Chat"
-
-msgid "Device preview"
-msgstr "Device preview"
-
-msgid "Satispay"
-msgstr "Satispay"
-
-msgid "User Styler"
-msgstr "User Styler"
-
-msgid "Success"
-msgstr "Success"
+msgctxt "cabride"
+msgid "Ride requests"
+msgstr "Ride requests"
 
 msgctxt "cabride"
-msgid "Driver information"
-msgstr "Driver information"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "cabride"
+msgid "Client"
+msgstr "Client"
+
+msgctxt "cabride"
+msgid "Driver"
+msgstr "Driver"
+
+msgctxt "cabride"
+msgid "Distance"
+msgstr "Distance"
+
+msgctxt "cabride"
+msgid "Duration"
+msgstr "Duration"
+
+msgctxt "cabride"
+msgid "Est. cost"
+msgstr "Est. cost"
+
+msgctxt "cabride"
+msgid "Cost"
+msgstr "Cost"
+
+msgctxt "cabride"
+msgid "Ride"
+msgstr "Ride"
+
+msgctxt "cabride"
+msgid "Status"
+msgstr "Status"
+
+msgctxt "cabride"
+msgid "aborted"
+msgstr "aborted"
+
+msgctxt "cabride"
+msgid "expired"
+msgstr "expired"
+
+msgctxt "cabride"
+msgid "done"
+msgstr "done"
+
+msgctxt "cabride"
+msgid "declined"
+msgstr "declined"
+
+msgctxt "cabride"
+msgid "No results for your search."
+msgstr "No results for your search."
+
+msgctxt "cabride"
+msgid "Cash return requests"
+msgstr "Cash return requests"
+
+msgctxt "cabride"
+msgid "Archived requests"
+msgstr "Archived requests"
+
+msgctxt "cabride"
+msgid "Commission pay-out"
+msgstr "Commission pay-out"
+
+msgctxt "cabride"
+msgid "Commissions pay-out"
+msgstr "Commissions pay-out"
+
+msgctxt "cabride"
+msgid "Archived pay-out"
+msgstr "Archived pay-out"
+
+msgctxt "cabride"
+msgid "Customer ID"
+msgstr "Customer ID"
+
+msgctxt "cabride"
+msgid "Firstname"
+msgstr "Firstname"
+
+msgctxt "cabride"
+msgid "Lastname"
+msgstr "Lastname"
+
+msgctxt "cabride"
+msgid "Email"
+msgstr "Email"
+
+msgctxt "cabride"
+msgid "SET AS DRIVER"
+msgstr "SET AS DRIVER"
+
+msgctxt "cabride"
+msgid "EDIT"
+msgstr "EDIT"
+
+msgctxt "cabride"
+msgid "Search ..."
+msgstr "Search ..."
+
+msgctxt "cabride"
+msgid "Delete passenger"
+msgstr "Delete passenger"
+
+msgctxt "cabride"
+msgid "Are you sure?"
+msgstr "Are you sure?"
+
+msgctxt "cabride"
+msgid "Yes, Delete"
+msgstr "Yes, Delete"
+
+msgctxt "cabride"
+msgid "No, go back!"
+msgstr "No, go back!"
+
+msgctxt "cabride"
+msgid "This user will be granted as a driver."
+msgstr "This user will be granted as a driver."
+
+msgctxt "cabride"
+msgid "Yes, Set as driver"
+msgstr "Yes, Set as driver"
+
+msgctxt "cabride"
+msgid "Vehicle type"
+msgstr "Vehicle type"
+
+msgctxt "cabride"
+msgid "Vehicle model"
+msgstr "Vehicle model"
+
+msgctxt "cabride"
+msgid "License plate"
+msgstr "License plate"
 
 msgctxt "cabride"
 msgid "Driving license"
 msgstr "Driving license"
 
 msgctxt "cabride"
-msgid "Mobile number"
-msgstr "Mobile number"
+msgid "Photo"
+msgstr "Photo"
 
 msgctxt "cabride"
 msgid "Base address"
@@ -82,5 +207,686 @@ msgctxt "cabride"
 msgid "Pickup radius"
 msgstr "Pickup radius"
 
-msgid "Привет"
-msgstr "Привет"
+msgctxt "cabride"
+msgid "DELETE"
+msgstr "DELETE"
+
+msgctxt "cabride"
+msgid "Delete driver"
+msgstr "Delete driver"
+
+msgctxt "cabride"
+msgid "CabRide vehicle types"
+msgstr "CabRide vehicle types"
+
+msgctxt "cabride"
+msgid "Add a vehicle type"
+msgstr "Add a vehicle type"
+
+msgctxt "cabride"
+msgid "Icon"
+msgstr "Icon"
+
+msgctxt "cabride"
+msgid "Base fare"
+msgstr "Base fare"
+
+msgctxt "cabride"
+msgid "Distance fare"
+msgstr "Distance fare"
+
+msgctxt "cabride"
+msgid "Time fare"
+msgstr "Time fare"
+
+msgctxt "cabride"
+msgid "Is visible?"
+msgstr "Is visible?"
+
+msgctxt "cabride"
+msgid "YES"
+msgstr "YES"
+
+msgctxt "cabride"
+msgid "Distance unit"
+msgstr "Distance unit"
+
+msgctxt "cabride"
+msgid "Search timeout (seconds)"
+msgstr "Search timeout (seconds)"
+
+msgctxt "cabride"
+msgid "Search radius (km/mi)"
+msgstr "Search radius (km/mi)"
+
+msgctxt "cabride"
+msgid "Accepted payments"
+msgstr "Accepted payments"
+
+msgctxt "cabride"
+msgid "Credit card"
+msgstr "Credit card"
+
+msgctxt "cabride"
+msgid "Cash"
+msgstr "Cash"
+
+msgctxt "cabride"
+msgid "Credit card & Cash"
+msgstr "Credit card & Cash"
+
+msgctxt "cabride"
+msgid "Payment provider"
+msgstr "Payment provider"
+
+msgctxt "cabride"
+msgid "Stripe (Credit card)"
+msgstr "Stripe (Credit card)"
+
+msgctxt "cabride"
+msgid "Commission type"
+msgstr "Commission type"
+
+msgctxt "cabride"
+msgid "Disabled"
+msgstr "Disabled"
+
+msgctxt "cabride"
+msgid "Fixed amount"
+msgstr "Fixed amount"
+
+msgctxt "cabride"
+msgid "Percentage"
+msgstr "Percentage"
+
+msgctxt "cabride"
+msgid "Commission"
+msgstr "Commission"
+
+msgctxt "cabride"
+msgid "Course mode"
+msgstr "Course mode"
+
+msgctxt "cabride"
+msgid "Immediate"
+msgstr "Immediate"
+
+msgctxt "cabride"
+msgid "Pricing mode"
+msgstr "Pricing mode"
+
+msgctxt "cabride"
+msgid "Fixed by vehicle type (Admin)"
+msgstr "Fixed by vehicle type (Admin)"
+
+msgctxt "cabride"
+msgid "Fixed by the drivers"
+msgstr "Fixed by the drivers"
+
+msgctxt "cabride"
+msgid "Driver can register"
+msgstr "Driver can register"
+
+msgctxt "cabride"
+msgid "Save"
+msgstr "Save"
+
+msgctxt "cabride"
+msgid "Public key"
+msgstr "Public key"
+
+msgctxt "cabride"
+msgid "Secret key"
+msgstr "Secret key"
+
+msgctxt "cabride"
+msgid "Merchant code"
+msgstr "Merchant code"
+
+msgctxt "cabride"
+msgid "Sandbox mode"
+msgstr "Sandbox mode"
+
+msgctxt "cabride"
+msgid "Merchant ID"
+msgstr "Merchant ID"
+
+msgctxt "cabride"
+msgid "Private key"
+msgstr "Private key"
+
+msgctxt "cabride"
+msgid "CabRide settings"
+msgstr "CabRide settings"
+
+msgctxt "cabride"
+msgid "Payment API credentials"
+msgstr "Payment API credentials"
+
+msgctxt "cabride"
+msgid "Stripe"
+msgstr "Stripe"
+
+msgctxt "cabride"
+msgid "Type"
+msgstr "Type"
+
+msgctxt "cabride"
+msgid "The pricing is set by the driver, you can't edit the values."
+msgstr "The pricing is set by the driver, you can't edit the values."
+
+msgctxt "cabride"
+msgid "Distance fare (each km/mi)"
+msgstr "Distance fare (each km/mi)"
+
+msgctxt "cabride"
+msgid "Time fare (every minute)"
+msgstr "Time fare (every minute)"
+
+msgctxt "cabride"
+msgid "Is visible"
+msgstr "Is visible"
+
+msgctxt "cabride"
+msgid "Edit vehicle type"
+msgstr "Edit vehicle type"
+
+msgctxt "cabride"
+msgid "Go back"
+msgstr "Go back"
+
+msgctxt "cabride"
+msgid "Vehicle license plate"
+msgstr "Vehicle license plate"
+
+msgctxt "cabride"
+msgid "Driver license"
+msgstr "Driver license"
+
+msgctxt "cabride"
+msgid "Driver photo"
+msgstr "Driver photo"
+
+msgctxt "cabride"
+msgid "Edit driver"
+msgstr "Edit driver"
+
+msgctxt "cabride"
+msgid "ACCEPT"
+msgstr "ACCEPT"
+
+msgctxt "cabride"
+msgid "Aborted"
+msgstr "Aborted"
+
+msgctxt "cabride"
+msgid "Accepted"
+msgstr "Accepted"
+
+msgctxt "cabride"
+msgid "Accepted requests"
+msgstr "Accepted requests"
+
+msgctxt "cabride"
+msgid "Add a credit card"
+msgstr "Add a credit card"
+
+msgctxt "cabride"
+msgid "An unexpected error occurred while calculating the route."
+msgstr "An unexpected error occurred while calculating the route."
+
+msgctxt "cabride"
+msgid "App"
+msgstr "App"
+
+msgctxt "cabride"
+msgid "App manager"
+msgstr "App manager"
+
+msgctxt "cabride"
+msgid "Archived"
+msgstr "Archived"
+
+msgctxt "cabride"
+msgid "Are you sure you want to cancel this request?"
+msgstr "Are you sure you want to cancel this request?"
+
+msgctxt "cabride"
+msgid "Are you sure you want to delete this card?"
+msgstr "Are you sure you want to delete this card?"
+
+msgctxt "cabride"
+msgid "Base"
+msgstr "Base"
+
+msgctxt "cabride"
+msgid "CALL"
+msgstr "CALL"
+
+msgctxt "cabride"
+msgid "CALL DRIVER"
+msgstr "CALL DRIVER"
+
+msgctxt "cabride"
+msgid "CANCEL"
+msgstr "CANCEL"
+
+msgctxt "cabride"
+msgid "CLIENT"
+msgstr "CLIENT"
+
+msgctxt "cabride"
+msgid "COMPLETE"
+msgstr "COMPLETE"
+
+msgctxt "cabride"
+msgid "CabRide"
+msgstr "CabRide"
+
+msgctxt "cabride"
+msgid "Cancel"
+msgstr "Cancel"
+
+msgctxt "cabride"
+msgid "Change type"
+msgstr "Change type"
+
+msgctxt "cabride"
+msgid "Completed requests"
+msgstr "Completed requests"
+
+msgctxt "cabride"
+msgid "Completed rides"
+msgstr "Completed rides"
+
+msgctxt "cabride"
+msgid "Confirmation"
+msgstr "Confirmation"
+
+msgctxt "cabride"
+msgid "Course details"
+msgstr "Course details"
+
+msgctxt "cabride"
+msgid "Course done"
+msgstr "Course done"
+
+msgctxt "cabride"
+msgid "Course in progress"
+msgstr "Course in progress"
+
+msgctxt "cabride"
+msgid "Created"
+msgstr "Created"
+
+msgctxt "cabride"
+msgid "Credit card information"
+msgstr "Credit card information"
+
+msgctxt "cabride"
+msgid "Custom fares"
+msgstr "Custom fares"
+
+msgctxt "cabride"
+msgid "DECLINE"
+msgstr "DECLINE"
+
+msgctxt "cabride"
+msgid "DESTINATION"
+msgstr "DESTINATION"
+
+msgctxt "cabride"
+msgid "DETAILS"
+msgstr "DETAILS"
+
+msgctxt "cabride"
+msgid "DRIVE TO"
+msgstr "DRIVE TO"
+
+msgctxt "cabride"
+msgid "Declined"
+msgstr "Declined"
+
+msgctxt "cabride"
+msgid "Declined requests"
+msgstr "Declined requests"
+
+msgctxt "cabride"
+msgid "Distance (every km/mi)"
+msgstr "Distance (every km/mi)"
+
+msgctxt "cabride"
+msgid "Driver arrival"
+msgstr "Driver arrival"
+
+msgctxt "cabride"
+msgid "Driver on way"
+msgstr "Driver on way"
+
+msgctxt "cabride"
+msgid "Drop-off location"
+msgstr "Drop-off location"
+
+msgctxt "cabride"
+msgid "Est."
+msgstr "Est."
+
+msgctxt "cabride"
+msgid "Est. duration"
+msgstr "Est. duration"
+
+msgctxt "cabride"
+msgid "Expired"
+msgstr "Expired"
+
+msgctxt "cabride"
+msgid "Expires"
+msgstr "Expires"
+
+msgctxt "cabride"
+msgid "History"
+msgstr "History"
+
+msgctxt "cabride"
+msgid "In progress"
+msgstr "In progress"
+
+msgctxt "cabride"
+msgid "Invalid payment method!"
+msgstr "Invalid payment method!"
+
+msgctxt "cabride"
+msgid "LOGIN"
+msgstr "LOGIN"
+
+msgctxt "cabride"
+msgid "Loading ..."
+msgstr "Loading ..."
+
+msgctxt "cabride"
+msgid "Location"
+msgstr "Location"
+
+msgctxt "cabride"
+msgid "Looking for drivers"
+msgstr "Looking for drivers"
+
+msgctxt "cabride"
+msgid "MARK AS"
+msgstr "MARK AS"
+
+msgctxt "cabride"
+msgid "Mobile number"
+msgstr "Mobile number"
+
+msgctxt "cabride"
+msgid "Model"
+msgstr "Model"
+
+msgctxt "cabride"
+msgid "My payments"
+msgstr "My payments"
+
+msgctxt "cabride"
+msgid "My rides"
+msgstr "My rides"
+
+msgctxt "cabride"
+msgid "OR"
+msgstr "OR"
+
+msgctxt "cabride"
+msgid "Origin & destination"
+msgstr "Origin & destination"
+
+msgctxt "cabride"
+msgid "Passenger"
+msgstr "Passenger"
+
+msgctxt "cabride"
+msgid "Pay with cash"
+msgstr "Pay with cash"
+
+msgctxt "cabride"
+msgid "Payment card"
+msgstr "Payment card"
+
+msgctxt "cabride"
+msgid "Payment history"
+msgstr "Payment history"
+
+msgctxt "cabride"
+msgid "Payment method"
+msgstr "Payment method"
+
+msgctxt "cabride"
+msgid "Pending requests"
+msgstr "Pending requests"
+
+msgctxt "cabride"
+msgid "Pick-up location"
+msgstr "Pick-up location"
+
+msgctxt "cabride"
+msgid "Please now wait for a driver!"
+msgstr "Please now wait for a driver!"
+
+msgctxt "cabride"
+msgid "Please select a vehicle type"
+msgstr "Please select a vehicle type"
+
+msgctxt "cabride"
+msgid "Request a driver!"
+msgstr "Request a driver!"
+
+msgctxt "cabride"
+msgid "Request sent"
+msgstr "Request sent"
+
+msgctxt "cabride"
+msgid "SIGNUP"
+msgstr "SIGNUP"
+
+msgctxt "cabride"
+msgid "Saved cards"
+msgstr "Saved cards"
+
+msgctxt "cabride"
+msgid "Saved!"
+msgstr "Saved!"
+
+msgctxt "cabride"
+msgid "Select a payment method"
+msgstr "Select a payment method"
+
+msgctxt "cabride"
+msgid "Select a vehicle type"
+msgstr "Select a vehicle type"
+
+msgctxt "cabride"
+msgid "Sending request ..."
+msgstr "Sending request ..."
+
+msgctxt "cabride"
+msgid "Set drop-off location"
+msgstr "Set drop-off location"
+
+msgctxt "cabride"
+msgid "Set pick-up location"
+msgstr "Set pick-up location"
+
+msgctxt "cabride"
+msgid "Sorry we are unable to locate you, please check your GPS settings & authorization."
+msgstr "Sorry we are unable to locate you, please check your GPS settings & authorization."
+
+msgctxt "cabride"
+msgid "Sorry!"
+msgstr "Sorry!"
+
+msgctxt "cabride"
+msgid "Thanks"
+msgstr "Thanks"
+
+msgctxt "cabride"
+msgid "There is no route available with these informations."
+msgstr "There is no route available with these informations."
+
+msgctxt "cabride"
+msgid "Time"
+msgstr "Time"
+
+msgctxt "cabride"
+msgid "Time (every minute)"
+msgstr "Time (every minute)"
+
+msgctxt "cabride"
+msgid "Vehicle information"
+msgstr "Vehicle information"
+
+msgctxt "cabride"
+msgid "We are sorry we didnt found any available driver around you!"
+msgstr "We are sorry we didnt found any available driver around you!"
+
+msgctxt "cabride"
+msgid "Who are you?"
+msgstr "Who are you?"
+
+msgctxt "cabride"
+msgid "You"
+msgstr "You"
+
+msgctxt "cabride"
+msgid "You are offline"
+msgstr "You are offline"
+
+msgctxt "cabride"
+msgid "You are online"
+msgstr "You are online"
+
+msgctxt "cabride"
+msgid "You have no cancelled requests"
+msgstr "You have no cancelled requests"
+
+msgctxt "cabride"
+msgid "You have no card saved"
+msgstr "You have no card saved"
+
+msgctxt "cabride"
+msgid "You have no completed requests"
+msgstr "You have no completed requests"
+
+msgctxt "cabride"
+msgid "You have no payments"
+msgstr "You have no payments"
+
+msgctxt "cabride"
+msgid "You have no pending requests"
+msgstr "You have no pending requests"
+
+msgctxt "cabride"
+msgid "You have no rides archived"
+msgstr "You have no rides archived"
+
+msgctxt "cabride"
+msgid "You have no rides in progress"
+msgstr "You have no rides in progress"
+
+msgctxt "cabride"
+msgid "You'll pay the driver directly when the course ends!"
+msgstr "You'll pay the driver directly when the course ends!"
+
+msgctxt "cabride"
+msgid "Your position doesn't resolve to a valid address."
+msgstr "Your position doesn't resolve to a valid address."
+
+msgctxt "cabride"
+msgid "Passenger information"
+msgstr "Passenger information"
+
+msgctxt "cabride"
+msgid "Mobile"
+msgstr "Mobile"
+
+msgctxt "cabride"
+msgid "Address"
+msgstr "Address"
+
+msgctxt "cabride"
+msgid "pending"
+msgstr "pending"
+
+msgctxt "cabride"
+msgid "accepted"
+msgstr "accepted"
+
+msgctxt "cabride"
+msgid "onway"
+msgstr "on way"
+
+msgctxt "cabride"
+msgid "inprogress"
+msgstr "in progress"
+
+msgctxt "cabride"
+msgid "Driver information"
+msgstr "Driver information"
+
+msgctxt "cabride"
+msgid "Ride request!"
+msgstr "Ride request!"
+
+msgctxt "cabride"
+msgid "You have a new ride request!"
+msgstr "You have a new ride request!"
+
+msgctxt "cabride"
+msgid "Ride accepted!"
+msgstr "Ride accepted!"
+
+msgctxt "cabride"
+msgid "A driver accepted your request, he will be on your way soon!"
+msgstr "A driver accepted your request, he will be on your way soon!"
+
+msgctxt "cabride"
+msgid "You finally accepted the request!"
+msgstr "You finally accepted the request!"
+
+msgctxt "cabride"
+msgid "Driver on your way!"
+msgstr "Driver on your way!"
+
+msgctxt "cabride"
+msgid "You driver is on your way!"
+msgstr "You driver is on your way!"
+
+msgctxt "cabride"
+msgid "We notified your passenger that you are on his way!"
+msgstr "We notified your passenger that you are on his way!"
+
+msgctxt "cabride"
+msgid "Opening navigation!"
+msgstr "Opening navigation!"
+
+msgctxt "cabride"
+msgid "Your ride is done!"
+msgstr "Your ride is done!"
+
+msgctxt "cabride"
+msgid "Thanks for riding with us, hope to see you again soon!"
+msgstr "Thanks for riding with us, hope to see you again soon!"
+
+msgctxt "cabride"
+msgid "The course is now marked are complete!"
+msgstr "The course is now marked are complete!"
+
+msgctxt "cabride"
+msgid "Seems you already added this card! If there was an error please remove the existing card first, then add it again."
+msgstr "Seems you already added this card! If there was an error please remove the existing card first, then add it again."
+
+msgctxt "cabride"
+msgid "You request expired!"
+msgstr "You request expired!"
+
+msgctxt "cabride"
+msgid "Sorry there was no driver available to drive you, please try again!"
+msgstr "Sorry there was no driver available to drive you, please try again!"

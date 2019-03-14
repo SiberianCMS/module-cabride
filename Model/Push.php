@@ -11,6 +11,7 @@ use Siberian_Service_Push_Apns;
 use Siberian\Exception;
 use Siberian\CloudMessaging\Sender\Gcm;
 use Siberian\CloudMessaging\Sender\Fcm;
+use Application_Model_Application as Application;
 use Zend_Registry;
 
 /**
@@ -36,12 +37,18 @@ class Push extends Base
     /**
      * @param $device
      * @param $message
+     * @param $appId
      * @throws \Zend_Exception
      */
-    public function sendPush($device, $message)
+    public function sendPush($device, $message, $appId = null)
     {
         $logger = Zend_Registry::get("logger");
-        $application = self::getApplication();
+        if ($appId === null) {
+            $application = self::getApplication();
+        } else {
+            $application = (new Application())->find($appId);
+        }
+
         $appId = $application->getId();
 
         $iosCertificate = path(Push_Model_Certificate::getiOSCertificat($appId));

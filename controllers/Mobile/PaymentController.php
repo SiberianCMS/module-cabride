@@ -84,6 +84,7 @@ class Cabride_Mobile_PaymentController extends Application_Controller_Mobile_Def
                 "brand LIKE ?" => $card["card"]["brand"],
                 "client_id = ?" => $client->getId(),
                 "payment_provider = ?" => $type,
+                "is_deleted = ?" => "0",
             ]);
 
             if ($similarVaults->count() > 0) {
@@ -102,6 +103,7 @@ class Cabride_Mobile_PaymentController extends Application_Controller_Mobile_Def
                 ->setLast($card["card"]["last4"])
                 ->setCardToken($stripeCard["id"])
                 ->setRawPayload(Json::encode($card))
+                ->setIsDeleted(0)
                 ->save();
 
             $clientVaults = (new ClientVault())->fetchForClientId($client->getId());
@@ -177,10 +179,13 @@ class Cabride_Mobile_PaymentController extends Application_Controller_Mobile_Def
 
             \Stripe\Stripe::setApiKey($cabride->getStripeSecretKey());
 
-            // Delete the card from the customer!
+            // Delete the card from the Stripe customer!
             \Stripe\Customer::deleteSource($client->getStripeCustomerToken(), $vault->getCardToken());
 
-            $vault->delete();
+            // "delete" the vault, we keep tack of it for recap pages & stripe search history!
+            $vault
+                ->setIsDeleted(1)
+                ->save();
 
             $payload = [
                 "success" => true,

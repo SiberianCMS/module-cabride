@@ -3,7 +3,7 @@
  */
 angular.module('starter')
     .factory('Cabride', function (CabrideSocket, CabridePayment, Customer, Application, Pages, Modal, Location, SB,
-                                  $q, $session, $rootScope, $interval, $timeout, $log, $ionicPlatform,
+                                  $q, $session, $rootScope, $interval, $timeout, $log, $ionicPlatform, ContextualMenu,
                                   $pwaRequest, PushService, Push, Dialog, Loader, $state, $ionicSideMenuDelegate) {
         var factory = {
             value_id: null,
@@ -41,11 +41,8 @@ angular.module('starter')
         };
 
         factory.onStart = function () {
-            console.log('cabride loaded');
             Application.loaded.then(function () {
-                console.log('cabride application loaded');
                 // App runtime!
-
                 var cabride = _.find(Pages.getActivePages(), {
                     code: 'cabride'
                 });
@@ -59,7 +56,6 @@ angular.module('starter')
                     .setValueId(cabride.value_id)
                     .init()
                     .then(function (success) {
-                        console.log('cabride init ok loaded');
                         // Debug connected users & rooms
                         setInterval(function () {
                             factory
@@ -547,6 +543,9 @@ angular.module('starter')
          */
         factory.setIsTaxiLayout = function (isTaxiLayout) {
             factory.isTaxiLayout = isTaxiLayout;
+
+            // Clear ContextualMenu
+            ContextualMenu.reset();
         };
 
         /**

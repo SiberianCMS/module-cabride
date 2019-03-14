@@ -65,6 +65,10 @@ $schemas['cabride_client_vault'] = [
         'type' => 'varchar(1024)',
         'null' => true,
     ],
+    'is_deleted' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'created_at' => [
         'type' => 'datetime',
     ],

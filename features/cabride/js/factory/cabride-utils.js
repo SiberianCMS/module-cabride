@@ -143,17 +143,12 @@ angular.module('starter')
                 factory.directionsRenderer = new google.maps.DirectionsRenderer();
             }
 
-            console.log("route", route);
-
             factory.directionsRenderer.setMap(map);
             factory.directionsRenderer.setDirections(route);
 
             // Then fit the map
             if (route.routes.length > 0) {
-                console.log("boundaries", route.routes[0].bounds);
                 map.fitBounds(route.routes[0].bounds);
-            } else {
-                console.log("KO if (route.routes.length > 0) {", route);
             }
         };
 

@@ -32,11 +32,15 @@ class PushDevice extends Base
      * @param $target
      * @param $status
      * @param $actionValue
+     * @param $valueId
+     * @param $appId
      * @throws \Zend_Exception
      */
-    public function sendMessage($title, $text, $requestId, $target, $status, $actionValue = null)
+    public function sendMessage($title, $text, $requestId, $target, $status, $actionValue = null, $valueId = null, $appId = null)
     {
-        $valueId = Cabride::getCurrentValueId();
+        if ($valueId === null) {
+            $valueId = Cabride::getCurrentValueId();
+        }
 
         $device = $this->getDevice() == 1 ? "android" : "ios";
 
@@ -64,6 +68,6 @@ class PushDevice extends Base
             ->setForceAppRoute(true)
             ->setBase64(false);
 
-        (new Push())->sendPush($device, $message);
+        (new Push())->sendPush($device, $message, $appId);
     }
 }

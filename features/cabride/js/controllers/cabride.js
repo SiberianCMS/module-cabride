@@ -14,6 +14,7 @@ angular.module('starter')
         customer: null,
         crMap: null,
         crMapPin: null,
+        showMapPin: true,
         driverMarkers: [],
         gmapsAutocompleteOptions: {},
         ride: {
@@ -197,7 +198,6 @@ angular.module('starter')
                 }
             };
             var heading = google.maps.geometry.spherical.computeHeading(a, b);
-            console.log("heading", heading);
 
             var icon = {
                 url: CabrideUtils.taxiIcon(heading),
@@ -264,6 +264,8 @@ angular.module('starter')
     };
 
     $scope.disableTap = function (inputId) {
+        $scope.showMapPin = false;
+
         var input = document.getElementsByClassName("pac-container");
         // disable ionic data tab
         angular.element(input).attr("data-tap-disabled", "true");
@@ -273,19 +275,23 @@ angular.module('starter')
         });
     };
 
+    $scope.displayMapPin = function () {
+        $scope.showMapPin = true;
+    };
+
     $scope.pinText = function () {
         if ($scope.ride.pickupAddress === "") {
             return {
                 action: "pickup",
                 class: "positive",
-                text: $translate.instant("Set Pick-Up Location")
+                text: $translate.instant("Set pick-up location")
             };
         }
         if ($scope.ride.dropoffAddress === "") {
             return {
                 action: "dropoff",
                 class: "energized",
-                text: $translate.instant("Set Drop-Off Location")
+                text: $translate.instant("Set drop-off location")
             };
         }
         if ($scope.ride.isSearching) {
@@ -299,7 +305,7 @@ angular.module('starter')
             return {
                 action: "search",
                 class: "balanced",
-                text: $translate.instant("Request a ride!")
+                text: $translate.instant("Request a driver!")
             };
         }
         return {
@@ -328,7 +334,7 @@ angular.module('starter')
                     }
                 }, function () {
                     Dialog.alert(
-                        "Position",
+                        "Location",
                         "Your position doesn't resolve to a valid address.",
                         "OK");
                 });
@@ -350,7 +356,7 @@ angular.module('starter')
                     }
                 }, function () {
                     Dialog.alert(
-                        "Position",
+                        "Location",
                         "Your position doesn't resolve to a valid address.",
                         "OK");
                 });
@@ -361,7 +367,6 @@ angular.module('starter')
                 break;
             case "none":
             default:
-                console.log("setPinLocation(none)");
                 break;
         }
     };
@@ -525,7 +530,7 @@ angular.module('starter')
                 }
             }, function () {
                 Dialog.alert(
-                    "Position",
+                    "Location",
                     "Your position doesn't resolve to a valid address.",
                     "OK");
             })
@@ -553,7 +558,7 @@ angular.module('starter')
                 }
             }, function () { // Error!
                 Dialog.alert(
-                    "Position",
+                    "Location",
                     "Your position doesn't resolve to a valid address.",
                     "OK");
             });
@@ -850,6 +855,18 @@ angular.module('starter')
                 });
             }
         });
+    };
+
+    $scope.creditCardBrand = function (brand) {
+        switch (brand.toLowerCase()) {
+            case "visa":
+                return "./features/cabride/assets/templates/images/011-cc-visa.svg";
+            case "mastercard":
+                return "./features/cabride/assets/templates/images/012-cc-mastercard.svg";
+            case "american express":
+                return "./features/cabride/assets/templates/images/013-cc-amex.png";
+        }
+        return "./features/cabride/assets/templates/images/014-cc.svg";
     };
 
     $scope.isTaxiLayout = function () {

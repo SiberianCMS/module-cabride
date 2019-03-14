@@ -85,7 +85,45 @@ function dashboardNav ($payload) {
  * @throws \Siberian\Exception
  */
 function extendedFields ($payload) {
-    return Cabride::extendedFields($payload);
+
+    Siberian\Account::addFields(
+        "MyModule",
+        [
+            [
+                "type" => "spacer",
+                "key" => "mymodule_spacer",
+            ],
+            [
+                "type" => "divider",
+                "key" => "mymodule_divider",
+                "label" => __("Divider #1"),
+            ],
+            [
+                "type" => "text",
+                "key" => "mobile_number",
+                "label" => __("Mobile number"),
+            ],
+            [
+                "type" => "textarea",
+                "key" => "address",
+                "rows" => "3",
+                "label" => __("Address"),
+            ],
+            [
+                "type" => "number",
+                "key" => "age",
+                "min" => "1",
+                "max" => "100",
+                "step" => "1",
+                "label" => __("Age"),
+            ]
+        ],
+        "cabridePopulateExtended",
+        "cabrideSaveExtended"
+    );
+
+    return $payload;
+    //return Cabride::extendedFields($payload);
 };
 
 /**

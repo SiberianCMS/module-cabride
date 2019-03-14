@@ -107,6 +107,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $cards = (new clientVault())->findAll([
                 "client_id = ?" => $client->getId(),
                 "payment_provider = ?" => $cabride->getPaymentProvider(),
+                "is_deleted = ?" => 0,
             ]);
 
             $paymentData = [];
@@ -866,6 +867,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                     "Sorry, we are unable to find this ride request!"));
             }
 
+            $clientId = $ride->getClientId();
+            $client = (new Client())->find($clientId);
             $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($customerId, "customer_id");
 
@@ -901,11 +904,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $payment = new Payment();
 
             if ($ride->getPaymentType() === "credit-card") {
-
-                $clientId = $ride->getClientId();
                 $vaultId = $ride->getClientVaultId();
 
-                $client = (new Client())->find($clientId);
                 $vault = (new ClientVault())->find($vaultId);
 
                 \Stripe\Stripe::setApiKey($cabride->getStripeSecretKey());
@@ -933,7 +933,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $payment
                 ->setValueId($valueId)
                 ->setRequestId($ride->getId())
-                ->setDriverId($driver->getId())
+                ->setDriverId($client->getId())
+                ->setClientId($driver->getId())
                 ->setClientVaultId($ride->getClientVaultId())
                 ->setAmountCharged($cost)
                 ->setAmount($ride->getCost())

@@ -82,9 +82,10 @@ angular.module('starter')
         var distance = request.distance / 1000;
         switch (unit) {
             case "mi":
-                    return Math.ceil(distance) + " mi";
-                break;
-            case "km": default:
+                return Math.ceil(distance) + " mi";
+            break;
+            case "km":
+            default:
                 return Math.ceil(distance) + " Km";
             break;
         }

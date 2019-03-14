@@ -72,7 +72,6 @@ class Service extends Base
         // Expire requests
         Request::toExpire($cron);
 
-
         $cron->log("[Cabride] watcher done");
     }
 

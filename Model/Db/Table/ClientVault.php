@@ -29,6 +29,7 @@ class ClientVault extends Core_Model_Db_Table
         $select = $this->_db->select()
             ->from(["vault" => $this->_name], "*")
             ->where("vault.client_id = ?", $clientId)
+            ->where("vault.is_deleted = ?", 0)
             /** Show favorite first, then last used & then more recently added */
             ->order([
                 "is_favorite DESC",

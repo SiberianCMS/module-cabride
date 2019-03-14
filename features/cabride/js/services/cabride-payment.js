@@ -2,8 +2,9 @@
  * CabridePayment service
  */
 angular.module('starter')
-    .service('CabridePayment', function (Application, $injector, $pwaRequest, $q) {
+    .service('CabridePayment', function (Application, $injector, $translate, $pwaRequest, $q) {
         var service = {
+            card: null,
             stripe: null,
             settings: null,
         };
@@ -65,6 +66,15 @@ angular.module('starter')
                     iconColor: "#fa755a"
                 }
             };
+
+            if (service.card !== null) {
+                try {
+                    service.card.destroy();
+                } catch (e) {
+                    // Silent!
+                }
+            }
+
             service.card = elements.create("card", {
                 hidePostalCode: true,
                 style: style
@@ -111,7 +121,7 @@ angular.module('starter')
                     if (result.error) {
                         // Inform the customer that there was an error.
                         displayErrorParent.classList.remove("ng-hide");
-                        displayError.textContent = result.error.message;
+                        displayError.textContent = $translate.instant(result.error.message);
 
                         deferred.reject(result.error.message);
                     } else {
@@ -123,6 +133,7 @@ angular.module('starter')
 
                             // Clear on success!
                             service.card.clear();
+                            service.card.blur();
 
                             deferred.resolve(payload);
                         }, function (error) {

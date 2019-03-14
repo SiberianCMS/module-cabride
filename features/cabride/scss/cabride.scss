@@ -81,8 +81,10 @@
 
             input {
               width: 100%;
-              padding: 6px 2rem 6px 12px;
-              font-variant: all-petite-caps;
+              padding: 4px 2rem 9px 12px;
+              font-variant: small-caps;
+              text-transform: lowercase;
+              letter-spacing: 0.05em;
               font-size: 1rem;
               text-overflow: ellipsis;
             }
@@ -154,7 +156,9 @@
         overflow: hidden;
         border: 1px solid lightgrey;
         background-color: #fefefe;
-        font-variant: all-petite-caps;
+        font-variant: small-caps;
+        text-transform: lowercase;
+        letter-spacing: 0.05em;
         font-size: 1rem;
         border-radius: 4px;
         box-shadow: 1px 1px 1px #333333;
@@ -188,7 +192,9 @@
         text-align: center;
         border: 1px solid lightgrey;
         background-color: #fefefe;
-        font-variant: all-petite-caps;
+        font-variant: small-caps;
+        text-transform: lowercase;
+        letter-spacing: 0.05em;
         font-size: 1rem;
         border-radius: 4px;
         box-shadow: 1px 1px 1px #333333;
@@ -196,6 +202,10 @@
         .cr-map-loader {
           .cr-loader-spinner {
             margin-top: 1rem;
+
+            img {
+              height: 60%;
+            }
           }
 
           .cr-loader-label {
@@ -223,7 +233,8 @@
           transform: translate(-50%, -50%);
           padding: .1rem .75rem .25rem .75rem;
           border-radius: 100px;
-          font-variant: all-small-caps;
+          font-variant: small-caps;
+          text-transform: lowercase;
           font-size: 1rem;
           font-weight: bold;
           pointer-events: all !important;
@@ -569,6 +580,7 @@
     margin-left: 1em;
     font-weight: bold;
     font-variant: small-caps;
+    text-transform: lowercase;
   }
 
   .line-box {
@@ -617,6 +629,7 @@
     border-radius: 100px;
     font-size: 120%;
     font-variant: small-caps;
+    text-transform: lowercase;
     letter-spacing: .5px;
     margin-right: 1vw;
     transform: translateY(-6px);
@@ -634,6 +647,7 @@
     color: white;
     font-size: 120%;
     font-variant: small-caps;
+    text-transform: lowercase;
     letter-spacing: .5px;
     border: 2px solid transparent;
     margin-right: 1vw;
@@ -706,6 +720,13 @@
       font-size: 2rem;
     }
   }
+}
+
+.cabride-contextual-menu {
+  min-height: 100vh;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 1.5em;
 }
 
 /** Overriding layout_taxi icon colors */
