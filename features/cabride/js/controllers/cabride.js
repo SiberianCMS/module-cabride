@@ -1444,19 +1444,85 @@ angular.module('starter')
 });
 
 angular.module('starter')
-.controller('CabridePaymentHistory', function ($scope, $translate, Cabride, CabridePayment) {
+.controller('CabridePaymentHistory', function ($scope, $translate, $ionicScrollDelegate, Cabride, ContextualMenu,
+                                               Dialog) {
+
     angular.extend($scope, {
+        isLoading: false,
         pageTitle: $translate.instant("Payment history"),
-        valueId: Cabride.getValueId()
+        valueId: Cabride.getValueId(),
+        filtered: null,
+        filterName: "card-pending",
+        keyName: "cardPayments",
+        collections: [],
     });
+
+    $scope.loadPage = function () {
+        $scope.isLoading = true;
+        Cabride
+            .getPaymentHistory()
+            .then(function (payload) {
+                $scope.collections = payload;
+                $scope.filtered = $scope.collections[$scope.keyName];
+            }, function (error) {
+                Dialog.alert("Error", error.message, "OK");
+            }).then(function () {
+                $scope.isLoading = false;
+            });
+    };
 
     $scope.isTaxiLayout = function () {
         return Cabride.isTaxiLayout;
     };
 
-    $scope.payNow = function () {
-        CabridePayment.pay();
+    $scope.toggleRightMenu = function () {
+        // Toggling nav
+        ContextualMenu.toggle();
     };
+
+    $scope.calendar = function (timestampSeconds) {
+        return moment(timestampSeconds * 1000).calendar();
+    };
+
+    $scope.refresh = function () {
+        $scope.loadPage();
+    };
+
+    $scope.details = function (request) {
+        Cabride.requestDetailsModal($scope.$new(true), request.request_id, "client");
+    };
+
+    $scope.imagePath = function (image) {
+        if (image === "") {
+            return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg";
+        }
+        return IMAGE_URL + "images/application" + image;
+    };
+
+    $scope.statusFilter = function (filter) {
+        switch (filter) {
+            case "card-pending":
+                $scope.filterName = "card-pending";
+                $scope.keyName = "cardPayments";
+                break;
+            case "card-paid":
+                $scope.filterName = "card-paid";
+                $scope.keyName = "cardPaidoutPayments";
+                break;
+            case "cash-pending":
+                $scope.filterName = "card-paid";
+                $scope.keyName = "cashPayments";
+                break;
+            case "cash-returned":
+                $scope.filterName = "cash-returned";
+                $scope.keyName = "cashReturnedPayments";
+                break;
+        }
+        $scope.filtered = $scope.collections[$scope.keyName];
+        $ionicScrollDelegate.scrollTop();
+    };
+
+    $scope.loadPage();
 });
 
 angular.module('starter')

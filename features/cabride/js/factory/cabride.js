@@ -134,6 +134,15 @@ angular.module('starter')
             });
         };
 
+        factory.getPaymentHistory = function () {
+            return $pwaRequest.post('/cabride/mobile_driver/payment-history', {
+                urlParams: {
+                    value_id: this.value_id
+                },
+                cache: false
+            });
+        };
+
         factory.getPendingRides = function () {
             return $pwaRequest.post('/cabride/mobile_ride/pending', {
                 urlParams: {
