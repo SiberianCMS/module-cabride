@@ -3,6 +3,7 @@
 namespace Cabride\Form;
 
 use Siberian_Form_Abstract;
+use Cabride\Model\Stripe\Currency;
 
 /**
  * Class Cabride
@@ -28,6 +29,15 @@ class Cabride extends Siberian_Form_Abstract
 
         // Builds the default form from schema!
         $this->addSimpleHidden("value_id");
+
+        $adminEmails = $this->addSimpleText(
+            "admin_emails",
+            p__("cabride", "Admin e-mails (coma separated)"));
+
+        $currency = $this->addSimpleSelect(
+            "currency",
+            p__("cabride", "Currency"),
+            array_combine(Currency::$supported, Currency::$supported));
 
         $distance_unit = $this->addSimpleSelect(
             "distance_unit",

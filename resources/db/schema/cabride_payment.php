@@ -68,13 +68,13 @@ $schemas['cabride_payment'] = [
         'type' => 'varchar(128)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
-        'default' => 'idle',
+        'default' => 'unpaid',
     ],
     'return_status' => [
         'type' => 'varchar(128)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
-        'default' => 'idle',
+        'default' => 'toreturn',
     ],
     'created_at' => [
         'type' => 'datetime',

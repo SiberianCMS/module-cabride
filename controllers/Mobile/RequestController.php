@@ -119,7 +119,7 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
     /**
      *
      */
-    public function validateAction () 
+    public function validateAction()
     {
         try {
             $application = $this->getApplication();
@@ -179,7 +179,7 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
             }
 
             $request->notify();
-            
+
             $payload = [
                 "success" => true,
                 "message" => __("Success"),
@@ -190,7 +190,7 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
                 "message" => $e->getMessage(),
             ];
         }
-        
+
         $this->_sendJson($payload);
     }
 
@@ -200,13 +200,13 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
     public function fetchAction ()
     {
         try {
-            //$application = $this->getApplication();
             $request = $this->getRequest();
             $session = $this->getSession();
-            //$optionValue = $this->getCurrentOptionValue();
-            //$customerId = $session->getCustomerId();
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
             $requestId = $request->getParam("requestId", null);
 
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $request = (new Request())->findOneExtended($requestId);
 
             if (!$request["request_id"]) {
@@ -219,8 +219,8 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
             // Makes payload lighter!
             unset($data["raw_route"]);
 
-            $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"]);
-            $data["formatted_lowest_price"] = Base::_formatPrice($data["estimated_lowest_cost"]);
+            $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"], $cabride->getCurrency());
+            $data["formatted_lowest_price"] = Base::_formatPrice($data["estimated_lowest_cost"], $cabride->getCurrency());
 
             $data["formatted_driver_price"] = false;
             if (!empty($data["driver_id"])) {
@@ -230,7 +230,7 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
                 $durationMinute = ceil($request["duration"] / 60);
                 $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
 
-                $data["formatted_driver_price"] = Base::_formatPrice($driverPrice);
+                $data["formatted_driver_price"] = Base::_formatPrice($driverPrice, $cabride->getCurrency());
                 $data["driver"] = $driver->getData();
                 $data["driverCustomer"] = $driverCustomer->getData();
             }
@@ -288,4 +288,5 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
 
         $this->_sendJson($payload);
     }
+
 }

@@ -8,6 +8,7 @@ use Cabride\Model\Payment;
 use Cabride\Model\Cabride;
 use Cabride\Model\RequestDriver;
 use Cabride\Model\ClientVault;
+use Cabride\Model\Stripe\Currency;
 use Core\Model\Base;
 use Siberian\Json;
 use Siberian_Google_Geocoding as Geocoding;
@@ -29,6 +30,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
 
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $client = (new Client())->find($customerId, "customer_id");
             $rides = (new Request())->findExtended($valueId, $client->getId());
 
@@ -39,8 +41,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 // Makes payload lighter!
                 unset($data["raw_route"]);
 
-                $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"]);
-                $data["formatted_lowest_price"] = Base::_formatPrice($data["estimated_lowest_cost"]);
+                $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"], $cabride->getCurrency());
+                $data["formatted_lowest_price"] = Base::_formatPrice($data["estimated_lowest_cost"], $cabride->getCurrency());
 
                 $data["formatted_driver_price"] = false;
                 if (!empty($data["driver_id"])) {
@@ -49,7 +51,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                     $durationMinute = ceil($ride->getDuration() / 60);
                     $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
 
-                    $data["formatted_driver_price"] = Base::_formatPrice($driverPrice);
+                    $data["formatted_driver_price"] = Base::_formatPrice($driverPrice, $cabride->getCurrency());
                     $data["driver_phone"] = $driver->getDriverPhone();
 
                     // Driver request!
@@ -154,6 +156,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
             $requestId = $request->getParam("requestId", false);
+
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $ride = (new Request())->find($requestId);
 
             if (!$requestId || !$ride->getId()) {
@@ -202,6 +206,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
 
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($customerId, "customer_id");
             $rides = (new Request())->findForDriver($valueId, $driver->getId(), "pending");
 
@@ -212,7 +217,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 // Makes payload lighter!
                 unset($data["raw_route"]);
 
-                $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"]);
+                $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"], $cabride->getCurrency());
 
                 // Recast values
                 $data["search_timeout"] = (integer) $data["search_timeout"];
@@ -248,6 +253,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
 
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($customerId, "customer_id");
             $rides = (new Request())->findForDriver($valueId, $driver->getId(), ["accepted", "onway", "inprogress"]);
 
@@ -258,7 +264,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 // Makes payload lighter!
                 unset($data["raw_route"]);
 
-                $data["formatted_price"] = Base::_formatPrice($data["cost"]);
+                $data["formatted_price"] = Base::_formatPrice($data["cost"], $cabride->getCurrency());
 
                 // Recast values
                 $data["search_timeout"] = (integer) $data["search_timeout"];
@@ -298,6 +304,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
 
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($customerId, "customer_id");
             $rides = (new Request())->findForDriver($valueId, $driver->getId(), "done");
 
@@ -308,7 +315,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 // Makes payload lighter!
                 unset($data["raw_route"]);
 
-                $data["formatted_price"] = Base::_formatPrice($data["cost"]);
+                $data["formatted_price"] = Base::_formatPrice($data["cost"], $cabride->getCurrency());
 
                 // Recast values
                 $data["search_timeout"] = (integer) $data["search_timeout"];
@@ -344,6 +351,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
 
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($customerId, "customer_id");
             $rides = (new Request())->findForDriver($valueId, $driver->getId(), "declined");
 
@@ -354,7 +362,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 // Makes payload lighter!
                 unset($data["raw_route"]);
 
-                $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"]);
+                $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"], $cabride->getCurrency());
 
                 // Recast values
                 $data["search_timeout"] = (integer) $data["search_timeout"];
@@ -390,6 +398,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
             $requestId = $request->getParam("requestId", false);
+
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $ride = (new Request())->find($requestId);
 
             if (!$requestId || !$ride->getId()) {
@@ -439,6 +449,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $requestId = $request->getParam("requestId", false);
             $data = $request->getBodyParams();
             $route = $data["route"];
+
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $ride = (new Request())->find($requestId);
 
             if (!$requestId || !$ride->getId()) {
@@ -511,6 +523,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $valueId = $optionValue->getId();
             $requestId = $request->getParam("requestId", false);
 
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($customerId, "customer_id");
 
             if (!$driver->getId()) {
@@ -534,11 +547,11 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
 
                 $data["id"] = $data["vehicle_id"];
                 $data["label"] = $data["type"];
-                $data["baseFare"] = Base::_formatPrice($data["base_fare"]);
+                $data["baseFare"] = Base::_formatPrice($data["base_fare"], $cabride->getCurrency());
                 $data["distanceFare"] = ($data["distance_fare"] > 0) ?
-                    Base::_formatPrice($data["distance_fare"]) : 0;
+                    Base::_formatPrice($data["distance_fare"], $cabride->getCurrency()) : 0;
                 $data["timeFare"] = ($data["time_fare"] > 0) ?
-                    Base::_formatPrice($data["time_fare"]) : 0;
+                    Base::_formatPrice($data["time_fare"], $cabride->getCurrency()) : 0;
 
                 $types[] = $data;
 
@@ -574,7 +587,10 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $session = $this->getSession();
             $customerId = $session->getCustomerId();
             $typeId = $request->getParam("typeId", false);
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
 
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($customerId, "customer_id");
 
             if (!$driver->getId()) {
@@ -601,11 +617,11 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
 
             $currentType["id"] = $currentType["vehicle_id"];
             $currentType["label"] = $currentType["type"];
-            $currentType["baseFare"] = Base::_formatPrice($currentType["base_fare"]);
+            $currentType["baseFare"] = Base::_formatPrice($currentType["base_fare"], $cabride->getCurrency());
             $currentType["distanceFare"] = ($currentType["distance_fare"] > 0) ?
-                Base::_formatPrice($currentType["distance_fare"]) : 0;
+                Base::_formatPrice($currentType["distance_fare"], $cabride->getCurrency()) : 0;
             $currentType["timeFare"] = ($currentType["time_fare"] > 0) ?
-                Base::_formatPrice($currentType["time_fare"]) : 0;
+                Base::_formatPrice($currentType["time_fare"], $cabride->getCurrency()) : 0;
 
             $driverData = $driver->toJson();
 
@@ -637,8 +653,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $data = $request->getBodyParams();
             $driverParams = $data["driver"];
             $valueId = Cabride::getCurrentValueId();
-            $cabride = (new Cabride())->find($valueId, "value_id");
 
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($driverParams["driver_id"]);
 
             if (!$driver->getId()) {
@@ -737,6 +753,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $data = $request->getBodyParams();
             $route = $data["route"];
 
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $ride = (new Request())->find($requestId);
 
             if (!$requestId || !$ride->getId()) {
@@ -802,6 +819,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
             $requestId = $request->getParam("requestId", false);
+
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $ride = (new Request())->find($requestId);
 
             if (!$requestId || !$ride->getId()) {
@@ -860,6 +879,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             $valueId = $optionValue->getId();
             $requestId = $request->getParam("requestId", false);
             $route = $request->getParam("route", false);
+
+            $cabride = (new Cabride())->find($valueId, "value_id");
             $ride = (new Request())->find($requestId);
 
             if (!$requestId || !$ride->getId()) {
@@ -898,7 +919,13 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
 
             $charge = null;
             $status = "paid";
-            $cost = round($ride->getCost() * 100);
+
+            $stripeCost = round($ride->getCost());
+
+            // zero-decimals stripe currencies ....
+            if (!in_array($cabride->getCurrency(), Currency::$zeroDecimals)) {
+                $stripeCost = round($ride->getCost() * 100);
+            }
 
             // Create the payment
             $payment = new Payment();
@@ -910,7 +937,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
 
                 \Stripe\Stripe::setApiKey($cabride->getStripeSecretKey());
                 $charge = \Stripe\Charge::create([
-                    "amount" => $cost,
+                    "amount" => $stripeCost,
                     "currency" => "eur",
                     "source" => $vault->getCardToken(),
                     "customer" => $client->getStripeCustomerToken(),
@@ -936,7 +963,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 ->setDriverId($client->getId())
                 ->setClientId($driver->getId())
                 ->setClientVaultId($ride->getClientVaultId())
-                ->setAmountCharged($cost)
+                ->setAmountCharged($stripeCost)
                 ->setAmount($ride->getCost())
                 ->setMethod($ride->getPaymentType())
                 ->setStatus($status)

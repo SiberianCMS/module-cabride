@@ -64,16 +64,16 @@
                    class="default-fares">
                     <span class="pull-left">
                         <span>
-                                <span>{{ "Base" | translate }}</span>{{ currentType.baseFare }}
-                            </span>
+                            <span>{{ "Base" | translate }}</span>{{ currentType.baseFare }}
+                        </span>
                         <br />
                         <span ng-if="currentType.distance_fare > 0">
-                                    <span>{{ "Distance" | translate }}</span>{{ currentType.distanceFare }}
-                                </span>
+                                <span>{{ "Distance" | translate }}</span>{{ currentType.distanceFare }}
+                            </span>
                         <br />
                         <span ng-if="currentType.time_fare > 0">
-                                <span>{{ "Time" | translate }}</span>{{ currentType.timeFare }}
-                            </span>
+                            <span>{{ "Time" | translate }}</span>{{ currentType.timeFare }}
+                        </span>
                     </span>
                     <span class="pull-right">
                         <button ng-click="changeType()"

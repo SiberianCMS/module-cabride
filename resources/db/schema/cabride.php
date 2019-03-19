@@ -29,6 +29,17 @@ $schemas['cabride'] = [
             'is_unique' => false,
         ],
     ],
+    'admin_emails' => [ // currency
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'currency' => [ // currency
+        'type' => 'varchar(10)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'USD',
+    ],
     'distance_unit' => [ // km or miles
         'type' => 'varchar(16)',
         'charset' => 'utf8',

@@ -1,6 +1,18 @@
 <?php
 $application = $this->getApplication();
 $request = $this->getRequest();
+
+use Cabride\Model\Cabride;
+use Cabride\Model\Request;
+use Cabride\Model\Stripe\Currency;
+
+$application = $this->getApplication();
+$request = $this->getRequest();
+$valueId = Cabride::getCurrentValueId();
+$cabride = (new Cabride())->find($valueId, "value_id");
+
+$payments = (new Payment())->aggregateCashReturn($valueId);
+
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -17,15 +29,50 @@ $request = $this->getRequest();
                             <?php echo p__("cabride", "Cash return requests") ?>
                         </h4>
                         <div class="container-fluid content-feature">
-                            <br />
-                            <ul>
-                                <li>Nom du Driver</li>
-                                <li>Email</li>
-                                <li>Montant du cash récolté sur la période</li>
-                                <li>CTA "Request Cash return"</li>
-                                <li>- Archivage</li>
-                                <li>- Envoi e-mail / ou export CSV</li>
-                            </ul>
+
+                            <table class="table content-white-bkg sb-pager margin-top">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th class="sortable numeric"><?php echo p__("cabride", "ID"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Driver"); ?></th>
+                                    <th class="sortable numeric text-right"><?php echo p__("cabride", "E-mail"); ?></th>
+                                    <th class="sortable numeric text-right"><?php echo p__("cabride", "Total amount"); ?></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($payments as $payment): ?>
+                                    <tr class="sb-pager">
+                                        <td>
+                                            <b>#<?php echo $payment->getId(); ?></b>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-xs btn-info"
+                                               href="<?php echo __path("/cabride/driver/edit", [
+                                                   "driver_id" => $payment->getDriverId()
+                                               ]); ?>">
+                                                #<?php echo $payment->getDriverId(); ?>
+                                            </a>
+                                        </td>
+                                        <td class="text-right"><?php echo $payment->getDriverEmail() ?></td>
+                                        <td class="text-right"><?php echo $payment->getTotal() ?> mn</td>
+                                        <td class="text-right">
+                                            <a class="btn btn-xs btn-warning cash-return"
+                                               data-driver-id="<?php echo $payment->getDriverId(); ?>">
+                                                <?php echo p__("cabride", "REQUEST CASH RETURN") ?>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <?php echo p__("cabride", "No results for your search.") ?>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
                         </div>
 
                         <br />

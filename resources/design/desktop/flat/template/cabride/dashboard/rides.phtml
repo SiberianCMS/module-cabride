@@ -2,11 +2,12 @@
 
 use Cabride\Model\Cabride;
 use Cabride\Model\Request;
+use Cabride\Model\Stripe\Currency;
 
 $application = $this->getApplication();
 $request = $this->getRequest();
 $valueId = Cabride::getCurrentValueId();
-
+$cabride = (new Cabride())->find($valueId, "value_id");
 
 $rides = (new Request())->findAll([
     "value_id = ?" => $valueId,
@@ -15,6 +16,9 @@ $rides = (new Request())->findAll([
 ], [
     "limit" => 1000 // Only 1000 last ride requests for now.
 ]);
+
+$du = $cabride->getDistanceUnit();
+$cs = Currency::getCurrency($cabride->getCurrency())["symbol_native"];
 
 function colorForStatus ($status) {
     switch ($status) {
@@ -82,10 +86,18 @@ function colorForStatus ($status) {
                                             #<?php echo $ride->getDriverId(); ?>
                                         </a>
                                     </td>
-                                    <td class="text-right"><?php echo $ride->getDistance(); ?>m</td>
-                                    <td class="text-right"><?php echo $ride->getDuration(); ?></td>
-                                    <td class="text-right"><?php echo $ride->getEstimatedCost(); ?>€</td>
-                                    <td class="text-right"><?php echo $ride->getCost(); ?>€</td>
+                                    <td class="text-right"><?php echo round($ride->getDistance() / 1000, 1); ?> <?php echo $du ?></td>
+                                    <td class="text-right"><?php echo $durationMinute = ceil($ride->getDuration() / 60); ?> mn</td>
+                                    <td class="text-right">
+                                        <?php if ($ride->getEstimatedCost() == $ride->getEstimatedLowestCost()): ?>
+                                            <?php echo $ride->getEstimatedCost() . " " . $cs; ?>
+                                        <?php else: ?>
+                                            <?php echo $ride->getEstimatedLowestCost() . " " . $cs; ?>
+                                            -
+                                            <?php echo $ride->getEstimatedCost() . " " . $cs; ?>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-right"><?php echo ($ride->getCost() <= 0) ? "-" : $ride->getCost() . " " . $cs; ?></td>
                                     <td>
                                         <?php echo $ride->getFromAddress(); ?><br />
                                         <?php echo $ride->getToAddress(); ?>

@@ -29,12 +29,10 @@ class Cabride_Mobile_DriverController extends Application_Controller_Mobile_Defa
             $payments = (new Payment())->findAll([
                 "driver_id = ?" => $driver->getId(),
                 "status = ?" => "paid"
-            ]);
+            ], "");
 
             $cashPayments = [];
-            $cashReturnedPayments = [];
             $cardPayments = [];
-            $cardPaidoutPayments = [];
             foreach ($payments as $payment) {
                 $data = $payment->getData();
 
@@ -48,18 +46,10 @@ class Cabride_Mobile_DriverController extends Application_Controller_Mobile_Defa
 
                 switch ($payment->getMethod()) {
                     case "credit-card":
-                        if ($payment->getPayoutStatus() === "paid") {
-                            $cardPaidoutPayments[] = $data;
-                        } else {
-                            $cardPayments[] = $data;
-                        }
+                        $cardPayments[] = $data;
                         break;
                     case "cash":
-                        if ($payment->getReturnStatus() === "returned") {
-                            $cashReturnedPayments[] = $data;
-                        } else {
-                            $cashPayments[] = $data;
-                        }
+                        $cashPayments[] = $data;
                         break;
                 }
             }
@@ -67,9 +57,7 @@ class Cabride_Mobile_DriverController extends Application_Controller_Mobile_Defa
             $payload = [
                 "success" => true,
                 "cashPayments" => $cashPayments,
-                "cashReturnedPayments" => $cashReturnedPayments,
                 "cardPayments" => $cardPayments,
-                "cardPaidoutPayments" => $cardPaidoutPayments,
             ];
         } catch (\Exception $e) {
             $payload = [

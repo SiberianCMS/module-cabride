@@ -3,6 +3,7 @@
 namespace Cabride\Model\Stripe;
 
 use Siberian\Json;
+use Siberian\Exception;
 
 /**
  * Class Currency
@@ -179,11 +180,20 @@ class Currency
 
     /**
      * @param $code
+     * @return mixed
+     * @throws Exception
      */
     public static function getCurrency ($code)
     {
         if (self::$jsonSource === null) {
-            self::$jsonSource = Json::decode(file_get_contents(__path("app/local/modules/Cabride/Model/Stripe/common-currency.json")));
+            $contents = file_get_contents(path("/app/local/modules/Cabride/Model/Stripe/common-currency.json"));
+            self::$jsonSource = Json::decode($contents);
         }
+
+        if (array_key_exists($code, self::$jsonSource)) {
+            return self::$jsonSource[$code];
+        }
+
+        throw new Exception(p__("cabride", "Invalid currency `%s`.", $code));
     }
 }

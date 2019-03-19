@@ -56,6 +56,10 @@ angular.module('starter')
         $ionicSideMenuDelegate.canDragContent(true);
     });
 
+    $scope.cs = function () {
+        return Cabride.currencySymbol();
+    };
+
     $scope.reconnect = function () {
         Cabride.init();
     };
@@ -694,6 +698,10 @@ angular.module('starter')
         ]
     });
 
+    $scope.cs = function () {
+        return Cabride.currencySymbol();
+    };
+
     $scope.loadPage = function () {
         $scope.isLoading = true;
         Cabride
@@ -823,6 +831,10 @@ angular.module('starter')
         cards: [],
     });
 
+    $scope.cs = function () {
+        return Cabride.currencySymbol();
+    };
+
     $scope.loadPage = function () {
         $scope.isLoading = true;
         Cabride
@@ -906,6 +918,10 @@ angular.module('starter')
         valueId: Cabride.getValueId(),
         collection: []
     });
+
+    $scope.cs = function () {
+        return Cabride.currencySymbol();
+    };
 
     $scope.loadPage = function () {
         $scope.isLoading = true;
@@ -1039,6 +1055,10 @@ angular.module('starter')
         valueId: Cabride.getValueId(),
         collection: []
     });
+
+    $scope.cs = function () {
+        return Cabride.currencySymbol();
+    };
 
     $scope.loadPage = function () {
         $scope.isLoading = true;
@@ -1189,6 +1209,10 @@ angular.module('starter')
         collection: []
     });
 
+    $scope.cs = function () {
+        return Cabride.currencySymbol();
+    };
+
     $scope.loadPage = function () {
         $scope.isLoading = true;
         Cabride
@@ -1249,6 +1273,10 @@ angular.module('starter')
         valueId: Cabride.getValueId(),
         collection: []
     });
+
+    $scope.cs = function () {
+        return Cabride.currencySymbol();
+    };
 
     $scope.loadPage = function () {
         $scope.isLoading = true;
@@ -1356,6 +1384,10 @@ angular.module('starter')
         collection: []
     });
 
+    $scope.cs = function () {
+        return Cabride.currencySymbol();
+    };
+
     $scope.loadPage = function () {
         $scope.isLoading = true;
         Cabride
@@ -1452,10 +1484,14 @@ angular.module('starter')
         pageTitle: $translate.instant("Payment history"),
         valueId: Cabride.getValueId(),
         filtered: null,
-        filterName: "card-pending",
+        filterName: "card",
         keyName: "cardPayments",
         collections: [],
     });
+
+    $scope.cs = function () {
+        return Cabride.currencySymbol();
+    };
 
     $scope.loadPage = function () {
         $scope.isLoading = true;
@@ -1499,23 +1535,27 @@ angular.module('starter')
         return IMAGE_URL + "images/application" + image;
     };
 
+    $scope.creditCardBrand = function (brand) {
+        switch (brand.toLowerCase()) {
+            case "visa":
+                return "./features/cabride/assets/templates/images/011-cc-visa.svg";
+            case "mastercard":
+                return "./features/cabride/assets/templates/images/012-cc-mastercard.svg";
+            case "american express":
+                return "./features/cabride/assets/templates/images/013-cc-amex.png";
+        }
+        return "./features/cabride/assets/templates/images/014-cc.svg";
+    };
+
     $scope.statusFilter = function (filter) {
         switch (filter) {
-            case "card-pending":
-                $scope.filterName = "card-pending";
+            case "card":
+                $scope.filterName = "card";
                 $scope.keyName = "cardPayments";
                 break;
-            case "card-paid":
-                $scope.filterName = "card-paid";
-                $scope.keyName = "cardPaidoutPayments";
-                break;
-            case "cash-pending":
-                $scope.filterName = "card-paid";
+            case "cash":
+                $scope.filterName = "cash";
                 $scope.keyName = "cashPayments";
-                break;
-            case "cash-returned":
-                $scope.filterName = "cash-returned";
-                $scope.keyName = "cashReturnedPayments";
                 break;
         }
         $scope.filtered = $scope.collections[$scope.keyName];
@@ -1539,6 +1579,10 @@ angular.module('starter')
         isDriver: false,
         cabride: null,
     });
+
+    $scope.cs = function () {
+        return Cabride.currencySymbol();
+    };
 
     /**
      * @param identifier

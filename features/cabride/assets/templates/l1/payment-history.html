@@ -2,6 +2,19 @@
           class="cabride cabride-view cabride-payment-history">
     <ion-nav-title>{{ pageTitle }}</ion-nav-title>
 
+    <ion-nav-buttons side="secondary">
+        <button ng-click="refresh()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+
+        <button ng-if="!isTaxiLayout()"
+                ng-click="toggleRightMenu()"
+                class="button button-clear header-item cabride toggle-taxi-menu">
+            <i class="icon ion-sb-more"></i>
+        </button>
+    </ion-nav-buttons>
+
     <ion-content class="has-footer">
         <div ng-if="isLoading"
              class="loader">
@@ -9,46 +22,76 @@
         </div>
 
         <div ng-if="!isLoading">
+            <div class="item item-divider item-divider-custom">
+                <span ng-show="filterName == 'card'">{{ "Pending payout" | translate }}</span>
+                <span ng-show="filterName == 'cash'">{{ "Pending cash return" | translate }}</span>
+            </div>
+
+            <div class="item item-custom">
+                <h2>{{ "You have" }} {{ "35.56 €" }} {{ "xxxxx" }}</h2>
+            </div>
+
+            <div style="margin-bottom: 20px;"></div>
+
+            <div class="item item-divider item-divider-custom">
+                {{ "Payments list" | translate }}
+            </div>
+
             <div ng-show="filtered.length == 0"
                  class="list">
                 <div class="item item-custom text-center">
-                    <span ng-if="filterName == 'card-pending'">{{ "You have no card-pending" | translate }}</span>
-                    <span ng-if="filterName == 'card-paid'">{{ "You have no card-paid" | translate }}</span>
-                    <span ng-if="filterName == 'cash-pending'">{{ "You have no cash-pending" | translate }}</span>
-                    <span ng-if="filterName == 'cash-returned'">{{ "You have no cash-returned" | translate }}</span>
+
                 </div>
             </div>
 
             <div ng-if="filtered.length > 0"
                  class="list">
-                <div ng-repeat="payment in filtered"
-                     class="item item-custom item-course">
-                    <div >
-                        <div ng-if="filterName.indexOf('cash') == 0"
-                             class="item item-custom item-icon-left">
-                            <i class="icon">
-                                <img src="./features/cabride/assets/templates/images/010-money.svg"
-                                     style="height: 60%; margin-right: 15px;" />
-                            </i>
-                            <b>{{ "Cash" | translate }}</b>
-                            <p>{{ "Total" }} {{ payment.amount }} €</p>
-                            <p>{{ "Cash to return" }} {{ payment.commission_amount }} €</p>
-                            <p>{{ "Payout" }} {{ payment.amount - payment.commission_amount }} €</p>
-                        </div>
 
-                        <div ng-if="filterName.indexOf('card') == 0"
-                             class="item item-custom item-icon-left item-icon-right">
-                            <i class="icon">
-                                <img src="{{ creditCardBrand(payment.vault.brand) }}"
-                                     style="height: 60%; margin-right: 15px;" />
-                            </i>
-                            <span class="saved-card">
-                                <span class="last-star">**** **** **** ****</span>
-                                <span class="exp"> - {{ payment.vault.exp }}</span>
-                            </span>
-                            <p>{{ "Total" }} {{ payment.amount }} €</p>
-                            <p>{{ "Commission" }} {{ payment.commission_amount }} €</p>
-                            <p>{{ "Payout" }} {{ payment.amount - payment.commission_amount }} €</p>
+                <div ng-repeat="payment in filtered"
+                     class="item item-custom item-icon-left"
+                     style="padding-top: 5px; padding-bottom: 5px;">
+                    <div ng-if="filterName.indexOf('cash') == 0">
+                        <i class="icon">
+                            <img src="./features/cabride/assets/templates/images/010-money.svg"
+                                 style="height: 60%;" />
+                        </i>
+                        <div class="row"
+                             style="margin-left: 10px;">
+                            <div class="col-50"
+                                 style="text-transform: uppercase;">
+                                <b>{{ payment.return_status | translate }}</b>
+                            </div>
+                            <div class="col-50 text-right">
+                                <b>{{ payment.amount }} {{ cs() }}</b>
+                            </div>
+                        </div>
+                        <div class="row"
+                             style="margin-left: 10px; font-size: 0.8em;">
+                            <div class="col-50">{{ "Cash to return" }} {{ payment.commission_amount }} {{ cs() }}</div>
+                            <div class="col-50 text-right">{{ "Payout" }} {{ payment.amount - payment.commission_amount }} {{ cs() }}</div>
+                        </div>
+                    </div>
+
+                    <div ng-if="filterName.indexOf('card') == 0">
+                        <i class="icon">
+                            <img src="{{ creditCardBrand(payment.vault.brand) }}"
+                                 style="height: 60%;" />
+                        </i>
+
+                        <div class="row"
+                             style="margin-left: 10px;">
+                            <div class="col-50"
+                                 style="text-transform: uppercase;">
+                                <b>{{ payment.payout_status | translate }}</b>
+                            </div>
+                            <div class="col-50 text-right">
+                                <b>{{ payment.amount }} {{ cs() }}</b>
+                            </div>
+                        </div>
+                        <div class="row"
+                             style="margin-left: 10px; font-size: 0.8em;">
+                            <div class="col-50">{{ "Commission" }} {{ payment.commission_amount }} {{ cs() }}</div>
+                            <div class="col-50 text-right">{{ "Payout" }} {{ payment.amount - payment.commission_amount }} {{ cs() }}</div>
                         </div>
                     </div>
                 </div>
@@ -57,25 +100,15 @@
     </ion-content>
 
     <div class="tabs tabs-icon-top">
-        <a ng-click="statusFilter('card-pending')"
+        <a ng-click="statusFilter('card')"
            class="tab-item">
             <i class="icon ion-card"></i>
-            {{ "Pending" | translate }}
+            {{ "Credit card" | translate }}
         </a>
-        <a ng-click="statusFilter('card-paid')"
-           class="tab-item">
-            <i class="icon ion-card"></i>
-            {{ "Paid" | translate }}
-        </a>
-        <a ng-click="statusFilter('cash-pending')"
+        <a ng-click="statusFilter('cash')"
            class="tab-item">
             <i class="icon ion-cash"></i>
-            {{ "Pending" | translate }}
-        </a>
-        <a ng-click="statusFilter('cash-returned')"
-           class="tab-item">
-            <i class="icon ion-cash"></i>
-            {{ "Returned" | translate }}
+            {{ "Cash" | translate }}
         </a>
     </div>
 </ion-view>

@@ -36,6 +36,10 @@ angular.module('starter')
             return factory;
         };
 
+        factory.currencySymbol = function () {
+            return factory.settings.currency.symbol_native;
+        };
+
         factory.getValueId = function () {
             return factory.value_id;
         };

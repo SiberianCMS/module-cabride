@@ -4,6 +4,7 @@ use Cabride\Model\PushDevice;
 use Cabride\Model\Cabride;
 use Cabride\Model\Client;
 use Cabride\Model\Driver;
+use Cabride\Model\Stripe\Currency;
 use Siberian\Exception;
 
 /**
@@ -34,6 +35,8 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             $dbConfig = (new Cabride())
                 ->find($valueId, "value_id");
 
+            $currency = Currency::getCurrency($dbConfig->getCurrency());
+
             $payload = [
                 "success" => true,
                 "settings" => [
@@ -48,13 +51,14 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     "stripePublicKey" => (string) $dbConfig->getStripePublicKey(),
                     "stripeIsSandbox" => (boolean) $dbConfig->getStripeIsSandbox(),
                     "driverCanRegister" => (boolean) $dbConfig->getDriverCanRegister(),
+                    "currency" => $currency,
                 ]
             ];
 
         } catch (\Exception $e) {
             $payload = [
                 "error" => true,
-                "message" => __("An unknown error occurred, please try again later.")
+                "message" => $e->getMessage()
             ];
         }
 
