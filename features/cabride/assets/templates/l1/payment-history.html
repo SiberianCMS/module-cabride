@@ -27,20 +27,83 @@
                 <span ng-show="filterName == 'cash'">{{ "Pending cash return" | translate }}</span>
             </div>
 
-            <div class="item item-custom">
-                <h2>{{ "You have" }} {{ "35.56 €" }} {{ "xxxxx" }}</h2>
+            <div ng-if="filterName == 'card'"
+                 class="item item-custom">
+                <div ng-if="pendingPayouts.length > 0"
+                     ng-repeat="pendingPayout in pendingPayouts"
+                     class="item item-custom"
+                     style="padding-top: 5px; padding-bottom: 5px;">
+                    <div class="row">
+                        <div class="col-60">
+                            {{ pendingPayout.updated_at | moment_calendar }}
+                        </div>
+                        <div class="col-40 text-right">
+                            <b>{{ pendingPayout.formatted_total }}</b>
+                        </div>
+                    </div>
+                    <div class="row"
+                         style="font-size: .85em;">
+                        <div class="col-60">
+                            {{ "Period" | translate }}
+                        </div>
+                        <div class="col-40 text-right">
+                            {{ dateFormat(pendingPayout.period_from_timestamp) }} - {{ dateFormat(pendingPayout.period_to_timestamp) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="pendingPayouts.length == 0"
+                     class="item item-custom"
+                     style="padding-top: 5px; padding-bottom: 5px;">
+                    {{ "You have no pending payout." | translate }}
+                </div>
+
+            </div>
+
+            <div ng-if="filterName == 'cash'"
+                 class="list">
+
+                <div ng-if="cashReturns.length > 0"
+                     ng-repeat="cashReturn in cashReturns"
+                     class="item item-custom"
+                     style="padding-top: 5px; padding-bottom: 5px;">
+                    <div class="row">
+                        <div class="col-60">
+                            {{ cashReturn.updated_at | moment_calendar }}
+                        </div>
+                        <div class="col-40 text-right">
+                            <b>{{ cashReturn.formatted_total }}</b>
+                        </div>
+                    </div>
+                    <div class="row"
+                         style="font-size: .85em;">
+                        <div class="col-60">
+                            {{ "Period" | translate }}
+                        </div>
+                        <div class="col-40 text-right">
+                            {{ dateFormat(cashReturn.period_from_timestamp) }} - {{ dateFormat(cashReturn.period_to_timestamp) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="cashReturns.length == 0"
+                     class="item item-custom"
+                     style="padding-top: 5px; padding-bottom: 5px;">
+                    {{ "You have no cash return requests." | translate }}
+                </div>
+
             </div>
 
             <div style="margin-bottom: 20px;"></div>
 
             <div class="item item-divider item-divider-custom">
-                {{ "Payments list" | translate }}
+                {{ "Payments list (last 100)" | translate }}
             </div>
 
             <div ng-show="filtered.length == 0"
                  class="list">
                 <div class="item item-custom text-center">
-
+                    {{ "You have no payment." | translate }}
                 </div>
             </div>
 
@@ -50,7 +113,7 @@
                 <div ng-repeat="payment in filtered"
                      class="item item-custom item-icon-left"
                      style="padding-top: 5px; padding-bottom: 5px;">
-                    <div ng-if="filterName.indexOf('cash') == 0">
+                    <div ng-if="filterName == 'cash'">
                         <i class="icon">
                             <img src="./features/cabride/assets/templates/images/010-money.svg"
                                  style="height: 60%;" />
@@ -62,17 +125,17 @@
                                 <b>{{ payment.return_status | translate }}</b>
                             </div>
                             <div class="col-50 text-right">
-                                <b>{{ payment.amount }} {{ cs() }}</b>
+                                <b>{{ payment.formatted_amount }}</b>
                             </div>
                         </div>
                         <div class="row"
                              style="margin-left: 10px; font-size: 0.8em;">
-                            <div class="col-50">{{ "Cash to return" }} {{ payment.commission_amount }} {{ cs() }}</div>
-                            <div class="col-50 text-right">{{ "Payout" }} {{ payment.amount - payment.commission_amount }} {{ cs() }}</div>
+                            <div class="col-50">{{ "Cash to return" | translate }} {{ payment.formatted_commission_amount }}</div>
+                            <div class="col-50 text-right">{{ "For you" | translate }} {{ payment.formatted_payout }}</div>
                         </div>
                     </div>
 
-                    <div ng-if="filterName.indexOf('card') == 0">
+                    <div ng-if="filterName == 'card'">
                         <i class="icon">
                             <img src="{{ creditCardBrand(payment.vault.brand) }}"
                                  style="height: 60%;" />
@@ -85,13 +148,13 @@
                                 <b>{{ payment.payout_status | translate }}</b>
                             </div>
                             <div class="col-50 text-right">
-                                <b>{{ payment.amount }} {{ cs() }}</b>
+                                <b>{{ payment.formatted_amount }}</b>
                             </div>
                         </div>
                         <div class="row"
                              style="margin-left: 10px; font-size: 0.8em;">
-                            <div class="col-50">{{ "Commission" }} {{ payment.commission_amount }} {{ cs() }}</div>
-                            <div class="col-50 text-right">{{ "Payout" }} {{ payment.amount - payment.commission_amount }} {{ cs() }}</div>
+                            <div class="col-50">{{ "Commission" | translate }} {{ payment.formatted_commission_amount }}</div>
+                            <div class="col-50 text-right">{{ "Payout" | translate }} {{ payment.formatted_payout }}</div>
                         </div>
                     </div>
                 </div>
@@ -101,11 +164,13 @@
 
     <div class="tabs tabs-icon-top">
         <a ng-click="statusFilter('card')"
+           ng-class="{'activated': filterName == 'card'}"
            class="tab-item">
             <i class="icon ion-card"></i>
             {{ "Credit card" | translate }}
         </a>
         <a ng-click="statusFilter('cash')"
+           ng-class="{'activated': filterName == 'cash'}"
            class="tab-item">
             <i class="icon ion-cash"></i>
             {{ "Cash" | translate }}

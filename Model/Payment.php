@@ -8,6 +8,8 @@ use Siberian\Exception;
 /**
  * Class Payment
  * @package Cabride\Model
+ *
+ * @method Db\Table\Payment getTable()
  */
 class Payment extends Base
 {
@@ -62,5 +64,52 @@ class Payment extends Base
         }
 
         return $this;
+    }
+
+    /**
+     * @param $valueId
+     * @return mixed
+     */
+    public function aggregateCashReturn ($valueId)
+    {
+        return $this->getTable()->aggregateCashReturn($valueId);
+    }
+
+    /**
+     * @param $driverId
+     * @param $statuses
+     * @return mixed
+     */
+    public function cashReturnForDriverId ($driverId, $statuses = ["toreturn"])
+    {
+        return $this->getTable()->cashReturnForDriverId($driverId, $statuses);
+    }
+
+    /**
+     * @param $valueId
+     * @return mixed
+     */
+    public function aggregatePayout ($valueId)
+    {
+        return $this->getTable()->aggregatePayout($valueId);
+    }
+
+    /**
+     * @param $driverId
+     * @param $statuses
+     * @return mixed
+     */
+    public function payoutForDriverId ($driverId, $statuses = ["unpaid"])
+    {
+        return $this->getTable()->payoutForDriverId($driverId, $statuses);
+    }
+
+    /**
+     * @param $valueId
+     * @return mixed
+     */
+    public function aggregateDashboard ($valueId)
+    {
+        return $this->getTable()->aggregateDashboard($valueId);
     }
 }

@@ -4,6 +4,8 @@ use Cabride\Model\Cabride;
 use Cabride\Model\Driver;
 use Cabride\Model\Payment;
 use Cabride\Model\ClientVault;
+use Cabride\Model\Cashreturn;
+use Core\Model\Base;
 use Siberian\Exception;
 use Siberian\Json;
 
@@ -26,10 +28,16 @@ class Cabride_Mobile_DriverController extends Application_Controller_Mobile_Defa
 
             $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($customerId, "customer_id");
-            $payments = (new Payment())->findAll([
-                "driver_id = ?" => $driver->getId(),
-                "status = ?" => "paid"
-            ], "");
+            $payments = (new Payment())->findAll(
+                [
+                    "driver_id = ?" => $driver->getId(),
+                    "status = ?" => "paid",
+                ],
+                "payment_id DESC",
+                [
+                    "limit" => 100
+                ]
+            );
 
             $cashPayments = [];
             $cardPayments = [];
@@ -44,6 +52,10 @@ class Cabride_Mobile_DriverController extends Application_Controller_Mobile_Defa
 
                 $data["vault"] = $vaultData;
 
+                $data["formatted_amount"] = Base::_formatPrice($data["amount"], $cabride->getCurrency());
+                $data["formatted_commission_amount"] = Base::_formatPrice($data["commission_amount"], $cabride->getCurrency());
+                $data["formatted_payout"] = Base::_formatPrice($data["amount"] - $data["commission_amount"], $cabride->getCurrency());
+
                 switch ($payment->getMethod()) {
                     case "credit-card":
                         $cardPayments[] = $data;
@@ -54,16 +66,55 @@ class Cabride_Mobile_DriverController extends Application_Controller_Mobile_Defa
                 }
             }
 
+            $cashReturns = (new Cashreturn())->findAll(
+                [
+                    "driver_id = ?" => $driver->getId(),
+                    "status = ?" => "requested",
+                ]
+            );
+
+            $dataCashReturns = [];
+            foreach ($cashReturns as $cashReturn) {
+                $data = $cashReturn->getData();
+
+                $data["formatted_total"] = Base::_formatPrice($data["amount"], $cabride->getCurrency());
+                $data["period_from_timestamp"] = datetime_to_format($data["period_from"], Zend_Date::TIMESTAMP);
+                $data["period_to_timestamp"] = datetime_to_format($data["period_to"], Zend_Date::TIMESTAMP);
+
+                $dataCashReturns[] = $data;
+            }
+
+            $payouts = (new Payout())->findAll(
+                [
+                    "driver_id = ?" => $driver->getId(),
+                    "status = ?" => "pending",
+                ]
+            );
+
+            $dataPayouts = [];
+            foreach ($payouts as $payout) {
+                $data = $payout->getData();
+
+                $data["formatted_total"] = Base::_formatPrice($data["amount"], $cabride->getCurrency());
+                $data["period_from_timestamp"] = datetime_to_format($data["period_from"], Zend_Date::TIMESTAMP);
+                $data["period_to_timestamp"] = datetime_to_format($data["period_to"], Zend_Date::TIMESTAMP);
+
+                $dataPayouts[] = $data;
+            }
+
             $payload = [
                 "success" => true,
-                "cashPayments" => $cashPayments,
-                "cardPayments" => $cardPayments,
+                "collections" => [
+                    "cashPayments" => $cashPayments,
+                    "cardPayments" => $cardPayments,
+                ],
+                "cashReturns" => $dataCashReturns,
+                "pendingPayouts" => $dataPayouts,
             ];
         } catch (\Exception $e) {
             $payload = [
                 "error" => true,
-                "message" => __("An unknown error occurred, please try again later."),
-                "except" => $e->getMessage()
+                "message" => $e->getMessage(),
             ];
         }
 

@@ -400,6 +400,11 @@ class Request extends Base
             ->setStatusFrom($statusFrom)
             ->setStatusTo($statusTo)
             ->setSource($source)
+            ->setSegmentHour(date("H"))
+            ->setSegmentMinute(date("i"))
+            ->setSegmentDay(date("d"))
+            ->setSegmentMonth(date("m"))
+            ->setSegmentYear(date("Y"))
             ->save();
     }
 

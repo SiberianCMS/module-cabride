@@ -1,7 +1,8 @@
 <?php
 
 use Cabride\Controller\Dashboard;
-use Cabride\Model\Vehicle as Vehicle;
+use Cabride\Model\Cabride;
+use Cabride\Model\Vehicle;
 use Cabride\Form\Vehicle as FormVehicle;
 use Cabride\Form\Vehicle\Delete as VehicleDelete;
 
@@ -80,7 +81,14 @@ class Cabride_VehicleController extends Dashboard
         $values = $this->getRequest()->getPost();
         $optionValue = $this->getCurrentOptionValue();
 
+        $cabride = (new Cabride())->find($optionValue->getId(), "value_id");
+
         $form = new FormVehicle();
+
+        if ($cabride->getPricingMode() === "driver") {
+            $form->disableFares();
+        }
+
         if ($form->isValid($values)) {
             /** Do whatever you need when form is valid */
             $vehicle = new Vehicle();

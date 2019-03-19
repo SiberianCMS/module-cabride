@@ -2,30 +2,31 @@
 
 use Cabride\Model\Driver;
 use Cabride\Model\Payment;
+use Cabride\Model\Cashreturn;
 use Siberian\Exception;
 
 /**
- * Class Cabride_PayoutController
+ * Class Cabride_CashreturnController
  */
-class Cabride_PayoutController extends Application_Controller_Default
+class Cabride_CashreturnController extends Application_Controller_Default
 {
     /**
      *
      */
-    public function payoutAction()
+    public function requestCashReturnAction()
     {
         try {
             $request = $this->getRequest();
             $driverId = $request->getParam("driverId", null);
-
+            
             $driver = (new Driver())->find($driverId);
-
+            
             if (!$driver->getId()) {
                 throw new Exception(p__("cabride", "This driver doesn't exists."));
             }
-
-            $cashReturn = (new Payment())->payoutForDriverId($driverId);
-
+            
+            $cashReturn = (new Payment())->cashReturnForDriverId($driverId);
+            
             if (isset($cashReturn["total"]) && $cashReturn["total"] > 0) {
                 $_cashReturn = new Cashreturn();
                 $_cashReturn
@@ -37,7 +38,7 @@ class Cabride_PayoutController extends Application_Controller_Default
                     ->setPeriodFrom($cashReturn["period_from"])
                     ->setPeriodTo($cashReturn["period_to"])
                     ->save();
-
+                
                 // Update payments cash to "requested"
                 $paymentIds = explode(",", $cashReturn["payment_ids"]);
                 foreach ($paymentIds as $paymentId) {
@@ -49,7 +50,7 @@ class Cabride_PayoutController extends Application_Controller_Default
                     }
                 }
             }
-
+            
             $payload = [
                 "success" => true,
                 "message" => __("Success"),
@@ -60,12 +61,12 @@ class Cabride_PayoutController extends Application_Controller_Default
                 "message" => $e->getMessage(),
             ];
         }
-
+        
         $this->_sendJson($payload);
     }
 
     /**
-     *
+     * 
      */
     public function markAsReturnedAction ()
     {
@@ -94,7 +95,7 @@ class Cabride_PayoutController extends Application_Controller_Default
                 ->setStatus("returned")
                 ->setReturnDate(date("Y-m-d H:i:s"))
                 ->save();
-
+            
             $payload = [
                 "success" => true,
                 "message" => __("Success"),
@@ -105,7 +106,7 @@ class Cabride_PayoutController extends Application_Controller_Default
                 "message" => $e->getMessage(),
             ];
         }
-
+        
         $this->_sendJson($payload);
     }
 

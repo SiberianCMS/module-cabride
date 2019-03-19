@@ -7,6 +7,7 @@ use Cabride\Model\Driver;
 use Cabride\Model\Client;
 use Cabride\Model\Request;
 use Cabride\Model\RequestDriver;
+use Cabride\Model\Cashreturn;
 
 /**
  * Class Cabride_Api_MessageController
@@ -131,6 +132,7 @@ class Cabride_Api_MessageController extends Base
                     "declined" => 0,
                     "done" => 0,
                     "rides" => 0,
+                    "paymentHistory" => 0,
                 ]
             ];
 
@@ -171,6 +173,16 @@ class Cabride_Api_MessageController extends Base
                 }
 
                 $mustFillVehicle = $driver->getMustFillVehicle();
+
+                // Cash return pending
+                $cashReturns = (new Cashreturn())->findAll(
+                    [
+                        "driver_id = ?" => $driver->getId(),
+                        "status = ?" => "requested",
+                    ]
+                );
+
+                $data["counters"]["paymentHistory"] += $cashReturns->count();
             }
 
             $client = (new Client)->find($this->userId, "customer_id");

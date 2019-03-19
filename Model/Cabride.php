@@ -121,18 +121,18 @@ class Cabride extends Base
             "url" => self::_getUrl("/"),
             "icon" => "fa fa-taxi",
             "childs" => [
-                //"dashboard" => [
-                //    "hasChilds" => false,
-                //    "isVisible" => self::_canAccess("cabride_dashboard"),
-                //    "label" => p__("cabride", "Dashboard"),
-                //    "icon" => "fa fa-home",
-                //    "url" => self::_getUrl("cabride/dashboard/index"),
-                //    "is_current" => ("/cabride/dashboard" === $currentUrl),
-                //],
+                "dashboard" => [
+                    "hasChilds" => false,
+                    "isVisible" => self::_canAccess("cabride_dashboard"),
+                    "label" => p__("cabride", "Dashboard"),
+                    "icon" => "fa fa-home",
+                    "url" => self::_getUrl("cabride/dashboard/index"),
+                    "is_current" => ("/cabride/dashboard" === $currentUrl),
+                ],
                 "rides" => [
                     "hasChilds" => false,
                     "isVisible" => self::_canAccess("cabride_rides"),
-                    "label" => p__("cabride", "Dashboard") . " - " . p__("cabride", "Rides"),
+                    "label" => p__("cabride", "Rides"),
                     "icon" => "icon ion-cab-car",
                     "url" => self::_getUrl("cabride/dashboard/rides"),
                     "is_current" => ("/cabride/dashboard/rides" === $currentUrl),

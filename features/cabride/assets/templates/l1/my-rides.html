@@ -79,11 +79,13 @@
 
     <div class="tabs tabs-icon-top">
         <a ng-click="statusFilter('inprogress')"
+           ng-class="{'activated': filterName == 'in progress'}"
            class="tab-item">
             <i class="icon ion-clock"></i>
             {{ "In progress" | translate }}
         </a>
         <a ng-click="statusFilter('archives')"
+           ng-class="{'activated': filterName == 'archived'}"
            class="tab-item">
             <i class="icon ion-archive"></i>
             {{ "Archived" | translate }}

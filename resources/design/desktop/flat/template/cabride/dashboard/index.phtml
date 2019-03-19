@@ -1,45 +1,31 @@
 <?php
+
+use Cabride\Model\Payment;
+use Cabride\Model\Cabride;
+use Core\Model\Base;
+
 $application = $this->getApplication();
 $request = $this->getRequest();
+$valueId = Cabride::getCurrentValueId();
 
-$payments = [
+$cabride = (new Cabride())->find($valueId, "value_id");
+
+$cu = $cabride->getCurrency();
+
+$payments = (new Payment())->findAll(
     [
-        "id" => "1",
-        "type" => "Cash",
-        "date" => "12 Déc. 2018",
-        "amount" => "15.60 €",
+        "value_id = ?" => $valueId,
+        "status = ?" => "paid"
     ],
+    "created_at DESC",
     [
-        "id" => "2",
-        "type" => "Credit Card (Stripe)",
-        "date" => "13 Déc. 2018",
-        "amount" => "156.00 €",
-    ],
-    [
-        "id" => "3",
-        "type" => "Credit Card (Stripe)",
-        "date" => "16 Déc. 2018",
-        "amount" => "120 €",
-    ],
-    [
-        "id" => "4",
-        "type" => "Credit Card (Stripe)",
-        "date" => "16 Déc. 2018",
-        "amount" => "12.20 €",
-    ],
-    [
-        "id" => "5",
-        "type" => "Credit Card (Stripe)",
-        "date" => "1 Jan. 2019",
-        "amount" => "23.57 €",
-    ],
-    [
-        "id" => "6",
-        "type" => "Cash",
-        "date" => "1 Jan. 2019",
-        "amount" => "25.00 €",
-    ],
-];
+        "limit" => 100,
+    ]
+);
+
+$stats = (new Payment())->aggregateDashboard($valueId);
+
+
 ?>
 <div class="cabride row">
     <div class="col-md-12">
@@ -52,62 +38,95 @@ $payments = [
                 <div class="subcontent content-color">
                     <div class="col-md-3">
                         <div class="alert alert-info">
-                            <p class="dashboard-income">120.24 €</p>
-                            <p class="income-hint income-day">TOTAL REVENUE TODAY</p>
+                            <p class="dashboard-income"><?php echo Base::_formatPrice($stats["dayRow"], $cu) ?></p>
+                            <p class="income-hint income-day">
+
+                            </p>
                             <p class="income-more">
-                                <?php echo p__("cabride", "MORE INFO"); ?>
+                                <?php echo p__("cabride", "TOTAL REVENUE TODAY"); ?>
                             </p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="alert alert-warning">
-                            <p class="dashboard-income">1756.76 €</p>
-                            <p class="income-hint income-week">TOTAL REVENUE OF LAST 7 DAYS</p>
+                            <p class="dashboard-income"><?php echo Base::_formatPrice($stats["weekRow"], $cu) ?></p>
+                            <p class="income-hint income-week">
+
+                            </p>
                             <p class="income-more">
-                                <?php echo p__("cabride", "MORE INFO"); ?>
+                                <?php echo p__("cabride", "TOTAL REVENUE OF LAST 7 DAYS"); ?>
                             </p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="alert alert-success">
-                            <p class="dashboard-income">4780.60 €</p>
-                            <p class="income-hint income-month">TOTAL REVENUE OF LAST 30 DAYS</p>
+                            <p class="dashboard-income"><?php echo Base::_formatPrice($stats["monthRow"], $cu) ?></p>
+                            <p class="income-hint income-month">
+
+                            </p>
                             <p class="income-more">
-                                <?php echo p__("cabride", "MORE INFO"); ?>
+                                <?php echo p__("cabride", "TOTAL REVENUE OF LAST 30 DAYS"); ?>
                             </p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="alert alert-danger">
-                            <p class="dashboard-income">72,333.78 €</p>
-                            <p class="income-hint income-year">TOTAL REVENUE OF LAST 365 DAYS</p>
+                            <p class="dashboard-income"><?php echo Base::_formatPrice($stats["yearRow"], $cu) ?></p>
+                            <p class="income-hint income-year">
+
+                            </p>
                             <p class="income-more">
-                                <?php echo p__("cabride", "MORE INFO"); ?>
+                                <?php echo p__("cabride", "TOTAL REVENUE OF LAST 365 DAYS"); ?>
                             </p>
                         </div>
                     </div>
 
-
                     <div class="col-md-12">
-                        <table class="table table-striped">
+
+                        <div class="pull-right">
+                            <div class="alert alert-info">
+                                <?php echo p__("cabride", "Only the 100 latest payments are shown") ?>
+                            </div>
+                        </div>
+
+                        <table class="table table-striped sb-pager">
                             <thead>
-                            <tr class="content-white-bkg">
-                                <th>ID</th>
-                                <th>Type</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                            </tr>
+                            <tr class="border-grey">
+                                    <th class="sortable numeric"><?php echo p__("cabride", "ID") ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Method") ?></th>
+                                    <th class="sortable numeric text-right"><?php echo p__("cabride", "Amount") ?></th>
+                                    <th class="sortable date text-right"><?php echo p__("cabride", "Date") ?></th>
+                                </tr>
                             </thead>
                             <tbody>
                             <?php foreach ($payments as $payment): ?>
-                                <tr>
-                                    <td><?php echo $payment["id"]; ?></td>
-                                    <td><?php echo $payment["type"]; ?></td>
-                                    <td><?php echo $payment["amount"]; ?></td>
-                                    <td><?php echo $payment["date"]; ?></td>
+                                <tr class="sb-pager">
+                                    <td>
+                                        <b>#<?php echo $payment->getId(); ?></b>
+                                    </td>
+                                    <td>
+                                        <?php if ($payment->getMethod() === "credit-card"): ?>
+                                            <img style="height: 20px;"
+                                                 src="/app/local/modules/Cabride/features/cabride/assets/templates/images/009-credit-card.svg" />
+                                            <span><?php echo p__("cabride", "Credit card") ?></span>
+                                        <?php else: ?>
+                                            <img style="height: 20px;"
+                                                 src="/app/local/modules/Cabride/features/cabride/assets/templates/images/010-money.svg" />
+                                            <span><?php echo p__("cabride", "Cash") ?></span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-right"><?php echo Base::_formatPrice($payment->getAmount(), $cu); ?></td>
+                                    <td class="text-right"><?php echo datetime_to_format($payment->getCreatedAt()); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <?php echo p__("cabride", "No results for your search.") ?>
+                                </td>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -118,7 +137,13 @@ $payments = [
     </div>
 </div>
 <script type="text/javascript">
-
+    var searchPlaceholder = '<?php echo __js("Search ...", "'") ?>';
+    $(document).ready(function () {
+        $("table.sb-pager").sbpager({
+            with_search: true,
+            search_placeholder: searchPlaceholder
+        });
+    });
 </script>
 <style type="text/css">
     @import url("https://fonts.googleapis.com/css?family=Titillium+Web&text=0123456789%C2%A3$%E2%82%AC.,");
@@ -137,7 +162,7 @@ $payments = [
         margin: -13px;
         padding: 10px;
         font-size: 1rem;
-        text-align: center;
+        text-align: left;
     }
 
     .alert-info p.income-more {

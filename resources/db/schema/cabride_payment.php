@@ -47,6 +47,18 @@ $schemas['cabride_payment'] = [
     'amount_charged' => [
         'type' => 'float',
     ],
+    'currency' => [
+        'type' => 'varchar(16)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'stripe_token' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
     'method' => [
         'type' => 'varchar(128)',
         'charset' => 'utf-8',

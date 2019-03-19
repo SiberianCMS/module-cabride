@@ -3,6 +3,7 @@
 use Cabride\Model\Cabride;
 use Cabride\Model\Request;
 use Cabride\Model\Stripe\Currency;
+use Core\Model\Base;
 
 $application = $this->getApplication();
 $request = $this->getRequest();
@@ -18,6 +19,7 @@ $rides = (new Request())->findAll([
 ]);
 
 $du = $cabride->getDistanceUnit();
+$cu = $cabride->getCurrency();
 $cs = Currency::getCurrency($cabride->getCurrency())["symbol_native"];
 
 function colorForStatus ($status) {
@@ -57,8 +59,7 @@ function colorForStatus ($status) {
                                 <th class="sortable numeric"><?php echo p__("cabride", "ID"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Client"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Driver"); ?></th>
-                                <th class="sortable numeric text-right"><?php echo p__("cabride", "Distance"); ?></th>
-                                <th class="sortable numeric text-right"><?php echo p__("cabride", "Duration"); ?></th>
+                                <th class="sortable numeric text-right"><?php echo p__("cabride", "Dist. / Dur."); ?></th>
                                 <th class="sortable numeric text-right"><?php echo p__("cabride", "Est. cost"); ?></th>
                                 <th class="sortable numeric text-right"><?php echo p__("cabride", "Cost"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Ride"); ?></th>
@@ -86,18 +87,33 @@ function colorForStatus ($status) {
                                             #<?php echo $ride->getDriverId(); ?>
                                         </a>
                                     </td>
-                                    <td class="text-right"><?php echo round($ride->getDistance() / 1000, 1); ?> <?php echo $du ?></td>
-                                    <td class="text-right"><?php echo $durationMinute = ceil($ride->getDuration() / 60); ?> mn</td>
+                                    <td class="text-right">
+                                        <?php echo round($ride->getDistance() / 1000, 1); ?> <?php echo $du ?>
+                                        -
+                                        <?php echo $durationMinute = ceil($ride->getDuration() / 60); ?> mn
+                                    </td>
                                     <td class="text-right">
                                         <?php if ($ride->getEstimatedCost() == $ride->getEstimatedLowestCost()): ?>
-                                            <?php echo $ride->getEstimatedCost() . " " . $cs; ?>
+                                            <?php echo Base::_formatPrice($ride->getEstimatedCost(), $cu); ?>
                                         <?php else: ?>
-                                            <?php echo $ride->getEstimatedLowestCost() . " " . $cs; ?>
+                                            <?php echo Base::_formatPrice($ride->getEstimatedLowestCost(), $cu); ?>
                                             -
-                                            <?php echo $ride->getEstimatedCost() . " " . $cs; ?>
+                                            <?php echo Base::_formatPrice($ride->getEstimatedCost(), $cu); ?>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="text-right"><?php echo ($ride->getCost() <= 0) ? "-" : $ride->getCost() . " " . $cs; ?></td>
+                                    <td class="text-right">
+                                        <?php if ($ride->getCost() <= 0): ?>
+                                            -
+                                        <?php else: ?>
+                                            <?php if ($ride->getPaymentType() === "credit-card"): ?>
+                                                <img style="height: 20px;"
+                                                     src="/app/local/modules/Cabride/features/cabride/assets/templates/images/009-credit-card.svg" />
+                                            <?php else: ?>
+                                                <img style="height: 20px;"
+                                                     src="/app/local/modules/Cabride/features/cabride/assets/templates/images/010-money.svg" />
+                                            <?php endif; ?>
+                                            <?php echo Base::_formatPrice($ride->getCost(), $cu); ?></td>
+                                        <?php endif; ?>
                                     <td>
                                         <?php echo $ride->getFromAddress(); ?><br />
                                         <?php echo $ride->getToAddress(); ?>

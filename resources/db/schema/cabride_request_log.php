@@ -34,6 +34,51 @@ $schemas['cabride_request_log'] = [
     'source' => [ // "client", "driver", "cron", "admin"
         'type' => 'varchar(128)',
     ],
+    'segment_hour' => [
+        'type' => 'varchar(20)',
+        'index' => [
+            'key_name' => 'segment_hour',
+            'index_type' => 'BTREE',
+            'is_null' => false,
+            'is_unique' => false,
+        ],
+    ],
+    'segment_minute' => [
+        'type' => 'varchar(20)',
+        'index' => [
+            'key_name' => 'segment_minute',
+            'index_type' => 'BTREE',
+            'is_null' => false,
+            'is_unique' => false,
+        ],
+    ],
+    'segment_day' => [
+        'type' => 'varchar(20)',
+        'index' => [
+            'key_name' => 'segment_day',
+            'index_type' => 'BTREE',
+            'is_null' => false,
+            'is_unique' => false,
+        ],
+    ],
+    'segment_month' => [
+        'type' => 'varchar(20)',
+        'index' => [
+            'key_name' => 'segment_month',
+            'index_type' => 'BTREE',
+            'is_null' => false,
+            'is_unique' => false,
+        ],
+    ],
+    'segment_year' => [
+        'type' => 'varchar(20)',
+        'index' => [
+            'key_name' => 'segment_year',
+            'index_type' => 'BTREE',
+            'is_null' => false,
+            'is_unique' => false,
+        ],
+    ],
     'created_at' => [
         'type' => 'datetime',
     ],

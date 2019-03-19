@@ -145,6 +145,8 @@
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-credit-card"></i>
                     <span class="line-title">{{ "Payment history" | translate }}</span>
+                    <span ng-if="information && information.counters.paymentHistory > 0"
+                          class="badge badge-positive badge-positive-custom">{{ information.counters.paymentHistory }}</span>
                 </div>
             </li>
 

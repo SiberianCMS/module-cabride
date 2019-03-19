@@ -4,14 +4,40 @@ $request = $this->getRequest();
 
 use Cabride\Model\Cabride;
 use Cabride\Model\Request;
+use Cabride\Model\Payment;
+use Cabride\Model\Cashreturn;
 use Cabride\Model\Stripe\Currency;
+use Cabride\Form\PeriodPicker;
+use Core\Model\Base;
 
 $application = $this->getApplication();
 $request = $this->getRequest();
 $valueId = Cabride::getCurrentValueId();
 $cabride = (new Cabride())->find($valueId, "value_id");
 
+$cu = $cabride->getCurrency();
+$cs = Currency::getCurrency($cabride->getCurrency())["symbol_native"];
+
 $payments = (new Payment())->aggregateCashReturn($valueId);
+
+$cashArchives = (new Cashreturn())->fetchArchives($valueId);
+
+$payouts = (new Payment())->aggregatePayout($valueId);
+
+//$cashArchives = (new Cashreturn())->fetchArchives($valueId);
+
+$periodPicker = new PeriodPicker();
+
+function colorForStatus ($status) {
+    switch ($status) {
+        case "requested":
+            return "label-warning";
+        case "returned":
+            return "label-success";
+        default:
+            return "label-info";
+    }
+}
 
 ?>
 <div class="row">
@@ -30,12 +56,46 @@ $payments = (new Payment())->aggregateCashReturn($valueId);
                         </h4>
                         <div class="container-fluid content-feature">
 
+                            <br />
+
+                            <div class="row"
+                                 id="period_picker">
+                                <div class="col-md-1 text-left">
+                                    <label for="from"
+                                           style="line-height: 32px;"><?php echo p__("cabride", "FROM"); ?></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" 
+                                           id="from_cash"
+                                           name="from"
+                                           class="input-flat" />
+                                </div>
+                                <div class="col-md-1 text-center">
+                                    <label for="to"
+                                           style="line-height: 32px;"><?php echo p__("cabride", "TO"); ?></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text"
+                                           id="to_cash"
+                                           name="to"
+                                           class="input-flat" />
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn color-blue" onclick="filter()"><?php echo p__("cabride", "FILTER"); ?></button>
+                                    <button class="btn color-blue" onclick="clear()"><?php echo p__("cabride", "CLEAR"); ?></button>
+                                </div>
+                            </div>
+
+                            <br />
+
                             <table class="table content-white-bkg sb-pager margin-top">
                                 <thead>
                                 <tr class="border-grey">
                                     <th class="sortable numeric"><?php echo p__("cabride", "ID"); ?></th>
                                     <th class="sortable"><?php echo p__("cabride", "Driver"); ?></th>
-                                    <th class="sortable numeric text-right"><?php echo p__("cabride", "E-mail"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "E-mail"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Period"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Payments"); ?></th>
                                     <th class="sortable numeric text-right"><?php echo p__("cabride", "Total amount"); ?></th>
                                     <th></th>
                                 </tr>
@@ -51,13 +111,31 @@ $payments = (new Payment())->aggregateCashReturn($valueId);
                                                href="<?php echo __path("/cabride/driver/edit", [
                                                    "driver_id" => $payment->getDriverId()
                                                ]); ?>">
-                                                #<?php echo $payment->getDriverId(); ?>
+                                                #<?php echo sprintf("%s %s %s", $payment->getDriverId(), $payment->getFirstname(), $payment->getLastname()) ?>
                                             </a>
                                         </td>
-                                        <td class="text-right"><?php echo $payment->getDriverEmail() ?></td>
-                                        <td class="text-right"><?php echo $payment->getTotal() ?> mn</td>
+                                        <td><?php echo $payment->getEmail() ?></td>
+                                        <td>
+                                            <?php echo datetime_to_format($payment->getPeriodFrom(), Zend_Date::DATE_SHORT) ?>
+                                            -
+                                            <?php echo datetime_to_format($payment->getPeriodTo(), Zend_Date::DATE_SHORT) ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                                $ids = explode(",", $payment->getPaymentIds());
+                                                foreach ($ids as $id) {
+                                                    ?>
+                                                    <a class="btn btn-xs btn-info"
+                                                       href="#">
+                                                        #<?php echo $id ?>
+                                                    </a>
+                                                    <?php
+                                                }
+                                            ?>
+                                        </td>
+                                        <td class="text-right"><?php echo Base::_formatPrice($payment->getTotal(), $cu) ?></td>
                                         <td class="text-right">
-                                            <a class="btn btn-xs btn-warning cash-return"
+                                            <a class="btn btn-xs btn-success request-cash-return"
                                                data-driver-id="<?php echo $payment->getDriverId(); ?>">
                                                 <?php echo p__("cabride", "REQUEST CASH RETURN") ?>
                                             </a>
@@ -82,15 +160,86 @@ $payments = (new Payment())->aggregateCashReturn($valueId);
                         </h4>
                         <div class="container-fluid content-feature">
                             <br />
-                            <ul>
-                                <li>ID</li>
-                                <li>Période</li>
-                                <li>Nom du Driver</li>
-                                <li>Email</li>
-                                <li>Montant du cash récolté sur la période</li>
-                                <li>Status: Pending/Returned</li>
-                                <li>CTA: "Mark as returned"</li>
-                            </ul>
+
+                            <br />
+
+                            <table class="table content-white-bkg sb-pager margin-top cabride-archives">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th class="sortable numeric"><?php echo p__("cabride", "ID"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Driver"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "E-mail"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Period"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Payments"); ?></th>
+                                    <th class="sortable numeric text-right"><?php echo p__("cabride", "Total amount"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Status"); ?></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($cashArchives as $cashArchive): ?>
+                                    <tr class="sb-pager">
+                                        <td>
+                                            <b>#<?php echo $cashArchive->getId(); ?></b>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-xs btn-info"
+                                               href="<?php echo __path("/cabride/driver/edit", [
+                                                   "driver_id" => $cashArchive->getDriverId()
+                                               ]); ?>">
+                                                #<?php echo sprintf("%s %s %s", $cashArchive->getDriverId(), $cashArchive->getFirstname(), $cashArchive->getLastname()) ?>
+                                            </a>
+                                        </td>
+                                        <td><?php echo $cashArchive->getEmail() ?></td>
+                                        <td>
+                                            <?php echo datetime_to_format($cashArchive->getPeriodFrom(), Zend_Date::DATE_SHORT) ?>
+                                            -
+                                            <?php echo datetime_to_format($cashArchive->getPeriodTo(), Zend_Date::DATE_SHORT) ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            $ids = explode(",", $cashArchive->getPaymentIds());
+                                            foreach ($ids as $id) {
+                                                ?>
+                                                <a class="btn btn-xs btn-info"
+                                                   href="#">
+                                                    #<?php echo $id ?>
+                                                </a>
+                                                <?php
+                                            }
+                                            ?>
+                                        </td>
+                                        <td class="text-right"><?php echo Base::_formatPrice($cashArchive->getAmount(), $cu) ?></td>
+                                        <td>
+                                            <span class="label <?php echo colorForStatus($cashArchive->getStatus()) ?>">
+                                                <?php echo p__("cabride", $cashArchive->getStatus()); ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-right">
+                                            <?php if ($cashArchive->getStatus() === "returned"): ?>
+                                                <a class="btn btn-xs btn-info"
+                                                   href="#">
+                                                    <?php echo p__("cabride", "RETURNED ON %s", datetime_to_format($cashArchive->getReturnDate(), Zend_Date::DATE_SHORT)) ?>
+                                                </a>
+                                            <?php else: ?>
+                                                <a class="btn btn-xs btn-success mark-as-returned"
+                                                   data-id="<?php echo $cashArchive->getId(); ?>">
+                                                    <?php echo p__("cabride", "MARK AS RETURNED") ?>
+                                                </a>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <?php echo p__("cabride", "No results for your search.") ?>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+
                         </div>
 
                     </div>
@@ -109,16 +258,73 @@ $payments = (new Payment())->aggregateCashReturn($valueId);
                             <?php echo p__("cabride", "Commissions pay-out") ?>
                         </h4>
                         <div class="container-fluid content-feature">
+
                             <br />
-                            <ul>
-                                <li>ID ride</li>
-                                <li>Date</li>
-                                <li>Driver Name/Email + link</li>
-                                <li>Montant de la course</li>
-                                <li>Montant de la commission</li>
-                                <li>Status: Paid/To pay</li>
-                                <li>CTA: create mass payment file</li>
-                            </ul>
+
+                            <table class="table content-white-bkg sb-pager margin-top">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th class="sortable numeric"><?php echo p__("cabride", "ID"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Driver"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "E-mail"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Period"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Payments"); ?></th>
+                                    <th class="sortable numeric text-right"><?php echo p__("cabride", "Total amount"); ?></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($payouts as $payout): ?>
+                                    <tr class="sb-pager">
+                                        <td>
+                                            <b>#<?php echo $payout->getId(); ?></b>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-xs btn-info"
+                                               href="<?php echo __path("/cabride/driver/edit", [
+                                                   "driver_id" => $payout->getDriverId()
+                                               ]); ?>">
+                                                #<?php echo sprintf("%s %s %s", $payout->getDriverId(), $payout->getFirstname(), $payout->getLastname()) ?>
+                                            </a>
+                                        </td>
+                                        <td><?php echo $payout->getEmail() ?></td>
+                                        <td>
+                                            <?php echo datetime_to_format($payout->getPeriodFrom(), Zend_Date::DATE_SHORT) ?>
+                                            -
+                                            <?php echo datetime_to_format($payout->getPeriodTo(), Zend_Date::DATE_SHORT) ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            $ids = explode(",", $payout->getPaymentIds());
+                                            foreach ($ids as $id) {
+                                                ?>
+                                                <a class="btn btn-xs btn-info"
+                                                   href="#">
+                                                    #<?php echo $id ?>
+                                                </a>
+                                                <?php
+                                            }
+                                            ?>
+                                        </td>
+                                        <td class="text-right"><?php echo Base::_formatPrice($payout->getTotal(), $cu) ?></td>
+                                        <td class="text-right">
+                                            <a class="btn btn-xs btn-success request-cash-return"
+                                               data-driver-id="<?php echo $payout->getDriverId(); ?>">
+                                                <?php echo p__("cabride", "PAY OUT") ?>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <?php echo p__("cabride", "No results for your search.") ?>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+
                         </div>
 
                         <br />
@@ -140,5 +346,128 @@ $payments = (new Payment())->aggregateCashReturn($valueId);
     </div>
 </div>
 <script type="text/javascript">
+    var search_placeholder = '<?php echo p__js("cabride","Search, filter ...", "'") ?>';
+    $(document).ready(function () {
+        $("table.sb-pager").sbpager({
+            with_search: true,
+            search_placeholder: search_placeholder
+        });
 
+        if($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']) {
+            $.datepicker.setDefaults($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']);
+        } else {
+            $.datepicker.setDefaults($.datepicker.regional['en']);
+        }
+
+        $("#from_cash").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            numberOfMonths: 2,
+            onClose: function( selectedDate ) {
+                $("#to_cash").datepicker("option", "minDate", selectedDate);
+            }
+        });
+
+        $("#to_cash").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            numberOfMonths: 2,
+            onClose: function( selectedDate ) {
+                $("#from_cash").datepicker("option", "maxDate", selectedDate);
+            }
+        });
+
+        let requestCashReturn = $(".request-cash-return");
+
+        requestCashReturn.off("click");
+        requestCashReturn.on("click", function () {
+            let button = $(this);
+            let driverId = button.attr("data-driver-id");
+            swal({
+                html: true,
+                title: '<?php echo p__js("cabride", "Request a cash return", "'") ?>',
+                text: '<?php echo p__js("cabride","Are you sure?", "'") ?>',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                closeOnCancel: true,
+                confirmButtonColor: '#ff3a2e',
+                confirmButtonText: '<?php echo p__js("cabride","Yes, send cash request", "'") ?>',
+                cancelButtonText: '<?php echo p__js("cabride","No, go back!", "'") ?>',
+            }, function (value) {
+                if (value === false) {
+                    return;
+                }
+
+                formget(
+                    "/cabride/cashreturn/request-cash-return",
+                    {
+                        'driverId': driverId
+                    },
+                    function (data) {
+                        // Success!
+                        feature_form_success(data.message);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 3000);
+                    },
+                    function (data) {
+                        feature_form_error(data.message);
+                    });
+
+                swal.close();
+                return true;
+            });
+        });
+
+        let markAsReturned = $(".mark-as-returned");
+
+        markAsReturned.off("click");
+        markAsReturned.on("click", function () {
+            let button = $(this);
+            let cashReturnId = button.attr("data-id");
+            swal({
+                html: true,
+                title: '<?php echo p__js("cabride", "Mark as returned", "'") ?>',
+                text: '<?php echo p__js("cabride","Are you sure?", "'") ?>',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                closeOnCancel: true,
+                confirmButtonColor: '#ff3a2e',
+                confirmButtonText: '<?php echo p__js("cabride","Yes, mark as returned", "'") ?>',
+                cancelButtonText: '<?php echo p__js("cabride","No, go back!", "'") ?>',
+            }, function (value) {
+                if (value === false) {
+                    return;
+                }
+
+                formget(
+                    "/cabride/cashreturn/mark-as-returned",
+                    {
+                        'cashReturnId': cashReturnId
+                    },
+                    function (data) {
+                        // Success!
+                        feature_form_success(data.message);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 3000);
+                    },
+                    function (data) {
+                        feature_form_error(data.message);
+                    });
+
+                swal.close();
+                return true;
+            });
+        });
+    });
 </script>
+<style type="text/css">
+    .cabride-archives .label {
+        font-size: 80%;
+        font-weight: 200;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: .2em .4em .2em;
+    }
+</style>

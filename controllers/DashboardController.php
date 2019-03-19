@@ -10,8 +10,7 @@ class Cabride_DashboardController extends Application_Controller_Default
      */
     public function indexAction()
     {
-        //$this->loadPartials();
-        $this->redirect("/cabride/dashboard/rides");
+        $this->loadPartials();
     }
 
     /**

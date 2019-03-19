@@ -1,14 +1,14 @@
 <?php
 /**
  *
- * Schema definition for 'cabride_payout'
+ * Schema definition for 'cabride_cashreturn'
  *
  * Last update: 2018-10-26
  *
  */
 $schemas = (!isset($schemas)) ? [] : $schemas;
-$schemas['cabride_payout'] = [
-    'payout_id' => [
+$schemas['cabride_cashreturn'] = [
+    'cashreturn_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
@@ -18,7 +18,7 @@ $schemas['cabride_payout'] = [
         'foreign_key' => [
             'table' => 'cabride_driver',
             'column' => 'driver_id',
-            'name' => 'FK_CABRIDE_DID_DRIVER_DID',
+            'name' => 'FK_CABRIDE_CRI_DRIVER_DID',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
         ],
@@ -34,7 +34,7 @@ $schemas['cabride_payout'] = [
         'foreign_key' => [
             'table' => 'application_option_value',
             'column' => 'value_id',
-            'name' => 'FK_CABRIDE_PAYOUT_VID_AOV_VID',
+            'name' => 'FK_CABRIDE_CRI_VID_AOV_VID',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
         ],
@@ -69,7 +69,7 @@ $schemas['cabride_payout'] = [
     'period_to' => [
         'type' => 'datetime',
     ],
-    'payout_date' => [
+    'return_date' => [
         'type' => 'datetime',
         'null' => true,
     ],

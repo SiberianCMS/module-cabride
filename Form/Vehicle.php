@@ -99,6 +99,23 @@ HTML;
     /**
      * @return $this
      */
+    public function disableFares ()
+    {
+        $els = [
+            "base_fare",
+            "distance_fare",
+            "time_fare",
+        ];
+        foreach ($els as $el) {
+            $_tmpEl = $this->getElement($el)->setRequired(false);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
     public function removePricingHtml()
     {
         $this->removeElement("pricing_disabled");

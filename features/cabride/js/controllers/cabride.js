@@ -1486,6 +1486,8 @@ angular.module('starter')
         filtered: null,
         filterName: "card",
         keyName: "cardPayments",
+        pendingPayouts: [],
+        cashReturns: [],
         collections: [],
     });
 
@@ -1498,13 +1500,19 @@ angular.module('starter')
         Cabride
             .getPaymentHistory()
             .then(function (payload) {
-                $scope.collections = payload;
+                $scope.collections = payload.collections;
+                $scope.cashReturns = payload.cashReturns;
+                $scope.pendingPayouts = payload.pendingPayouts;
                 $scope.filtered = $scope.collections[$scope.keyName];
             }, function (error) {
                 Dialog.alert("Error", error.message, "OK");
             }).then(function () {
                 $scope.isLoading = false;
             });
+    };
+
+    $scope.dateFormat = function (timestampSeconds) {
+        return moment(timestampSeconds * 1000).calendar();
     };
 
     $scope.isTaxiLayout = function () {
