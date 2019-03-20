@@ -38,9 +38,12 @@ $stats = (new Payment())->aggregateDashboard($valueId);
                 <div class="subcontent content-color">
                     <div class="col-md-3">
                         <div class="alert alert-info">
-                            <p class="dashboard-income"><?php echo Base::_formatPrice($stats["dayRow"], $cu) ?></p>
+                            <p class="dashboard-income"><?php echo Base::_formatPrice($stats["dayRow"]["total"], $cu) ?></p>
                             <p class="income-hint income-day">
-
+                                <?php echo p__("cabride", "Commissions") ?>
+                                <span class="pull-right">
+                                    <?php echo Base::_formatPrice($stats["dayRow"]["commission"], $cu) ?>
+                                </span>
                             </p>
                             <p class="income-more">
                                 <?php echo p__("cabride", "TOTAL REVENUE TODAY"); ?>
@@ -49,9 +52,12 @@ $stats = (new Payment())->aggregateDashboard($valueId);
                     </div>
                     <div class="col-md-3">
                         <div class="alert alert-warning">
-                            <p class="dashboard-income"><?php echo Base::_formatPrice($stats["weekRow"], $cu) ?></p>
+                            <p class="dashboard-income"><?php echo Base::_formatPrice($stats["weekRow"]["total"], $cu) ?></p>
                             <p class="income-hint income-week">
-
+                                <?php echo p__("cabride", "Commissions") ?>
+                                <span class="pull-right">
+                                    <?php echo Base::_formatPrice($stats["weekRow"]["commission"], $cu) ?>
+                                </span>
                             </p>
                             <p class="income-more">
                                 <?php echo p__("cabride", "TOTAL REVENUE OF LAST 7 DAYS"); ?>
@@ -60,9 +66,12 @@ $stats = (new Payment())->aggregateDashboard($valueId);
                     </div>
                     <div class="col-md-3">
                         <div class="alert alert-success">
-                            <p class="dashboard-income"><?php echo Base::_formatPrice($stats["monthRow"], $cu) ?></p>
+                            <p class="dashboard-income"><?php echo Base::_formatPrice($stats["monthRow"]["total"], $cu) ?></p>
                             <p class="income-hint income-month">
-
+                                <?php echo p__("cabride", "Commissions") ?>
+                                <span class="pull-right">
+                                    <?php echo Base::_formatPrice($stats["monthRow"]["commission"], $cu) ?>
+                                </span>
                             </p>
                             <p class="income-more">
                                 <?php echo p__("cabride", "TOTAL REVENUE OF LAST 30 DAYS"); ?>
@@ -71,9 +80,12 @@ $stats = (new Payment())->aggregateDashboard($valueId);
                     </div>
                     <div class="col-md-3">
                         <div class="alert alert-danger">
-                            <p class="dashboard-income"><?php echo Base::_formatPrice($stats["yearRow"], $cu) ?></p>
+                            <p class="dashboard-income"><?php echo Base::_formatPrice($stats["yearRow"]["total"], $cu) ?></p>
                             <p class="income-hint income-year">
-
+                                <?php echo p__("cabride", "Commissions") ?>
+                                <span class="pull-right">
+                                    <?php echo Base::_formatPrice($stats["yearRow"]["commission"], $cu) ?>
+                                </span>
                             </p>
                             <p class="income-more">
                                 <?php echo p__("cabride", "TOTAL REVENUE OF LAST 365 DAYS"); ?>
@@ -95,6 +107,7 @@ $stats = (new Payment())->aggregateDashboard($valueId);
                                     <th class="sortable numeric"><?php echo p__("cabride", "ID") ?></th>
                                     <th class="sortable"><?php echo p__("cabride", "Method") ?></th>
                                     <th class="sortable numeric text-right"><?php echo p__("cabride", "Amount") ?></th>
+                                    <th class="sortable numeric text-right"><?php echo p__("cabride", "Commission") ?></th>
                                     <th class="sortable date text-right"><?php echo p__("cabride", "Date") ?></th>
                                 </tr>
                             </thead>
@@ -116,6 +129,7 @@ $stats = (new Payment())->aggregateDashboard($valueId);
                                         <?php endif; ?>
                                     </td>
                                     <td class="text-right"><?php echo Base::_formatPrice($payment->getAmount(), $cu); ?></td>
+                                    <td class="text-right"><?php echo Base::_formatPrice($payment->getCommissionAmount(), $cu); ?></td>
                                     <td class="text-right"><?php echo datetime_to_format($payment->getCreatedAt()); ?></td>
                                 </tr>
                             <?php endforeach; ?>
@@ -154,15 +168,16 @@ $stats = (new Payment())->aggregateDashboard($valueId);
     }
 
     p.income-hint {
-        font-size: 1rem;
-        padding: 15px 0 10px;
+        font-size: 1.2rem;
+        padding: 0 0 10px;
+        line-height: 1.8rem;
     }
 
     p.income-more {
         margin: -13px;
         padding: 10px;
         font-size: 1rem;
-        text-align: left;
+        text-align: center;
     }
 
     .alert-info p.income-more {

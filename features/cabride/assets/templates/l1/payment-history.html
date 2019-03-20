@@ -27,8 +27,7 @@
                 <span ng-show="filterName == 'cash'">{{ "Pending cash return" | translate }}</span>
             </div>
 
-            <div ng-if="filterName == 'card'"
-                 class="item item-custom">
+            <div ng-if="filterName == 'card'">
                 <div ng-if="pendingPayouts.length > 0"
                      ng-repeat="pendingPayout in pendingPayouts"
                      class="item item-custom"
@@ -53,7 +52,7 @@
                 </div>
 
                 <div ng-if="pendingPayouts.length == 0"
-                     class="item item-custom"
+                     class="text-center"
                      style="padding-top: 5px; padding-bottom: 5px;">
                     {{ "You have no pending payout." | translate }}
                 </div>
@@ -87,7 +86,7 @@
                 </div>
 
                 <div ng-if="cashReturns.length == 0"
-                     class="item item-custom"
+                     class="text-center"
                      style="padding-top: 5px; padding-bottom: 5px;">
                     {{ "You have no cash return requests." | translate }}
                 </div>

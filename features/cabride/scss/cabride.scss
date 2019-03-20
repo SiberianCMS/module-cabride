@@ -484,11 +484,6 @@
     }
   }
 
-  .vehicle-warning {
-    color: #f13c30;
-    font-size: 1.7em;
-  }
-
   &.toggle-taxi-menu {
     margin: 0 .8em;
   }
@@ -533,6 +528,12 @@
   .badge {
     margin-left: 1em;
   }
+}
+
+.vehicle-warning {
+  color: $util-positive-custom-text !important;
+  margin-left: 15px;
+  font-size: 2em;
 }
 
 /** Contextual menu (=layout_taxi) */

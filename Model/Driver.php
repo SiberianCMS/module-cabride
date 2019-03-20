@@ -51,6 +51,7 @@ class Driver extends Base
 
     /**
      * @return array
+     * @throws \Siberian\Exception
      */
     public function getProfileErrors()
     {

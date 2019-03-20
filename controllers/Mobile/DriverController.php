@@ -5,6 +5,7 @@ use Cabride\Model\Driver;
 use Cabride\Model\Payment;
 use Cabride\Model\ClientVault;
 use Cabride\Model\Cashreturn;
+use Cabride\Model\Payout;
 use Core\Model\Base;
 use Siberian\Exception;
 use Siberian\Json;
@@ -87,7 +88,7 @@ class Cabride_Mobile_DriverController extends Application_Controller_Mobile_Defa
             $payouts = (new Payout())->findAll(
                 [
                     "driver_id = ?" => $driver->getId(),
-                    "status = ?" => "pending",
+                    "status = ?" => "inprogress",
                 ]
             );
 

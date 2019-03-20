@@ -19,6 +19,11 @@ use Siberian_Google_Geocoding as Geocoding;
 class Cabride extends Base
 {
     /**
+     * @var null
+     */
+    public static $acl = null;
+
+    /**
      * Cabride constructor.
      * @param array $params
      * @throws \Zend_Exception
@@ -31,7 +36,8 @@ class Cabride extends Base
     }
 
     /**
-     * @return null
+     * @return int|null
+     * @throws Exception
      */
     public static function getCurrentValueId()
     {
@@ -48,7 +54,8 @@ class Cabride extends Base
     }
 
     /**
-     * @return null
+     * @return \Application_Model_Option_Value|null
+     * @throws Exception
      */
     public static function getCurrent()
     {
@@ -82,6 +89,7 @@ class Cabride extends Base
     /**
      * @param $editorTree
      * @return mixed
+     * @throws Exception
      */
     public static function dashboardNav($editorTree)
     {
@@ -102,7 +110,7 @@ class Cabride extends Base
 
 
         $currentUrl = str_replace(self::getBaseUrl(), "", self::getCurrentUrl());
-        $editorAccess = in_array($currentUrl, [
+        $editorAccess = [
             "cabride_dashboard",
             "cabride_users",
             "cabride_drivers",
@@ -110,7 +118,7 @@ class Cabride extends Base
             "cabride_payments",
             "cabride_vehicle_types",
             "cabride_settings",
-        ]);
+        ];
 
         $editorTree["cabride"] = [
             "hasChilds" => true,
@@ -129,6 +137,14 @@ class Cabride extends Base
                     "url" => self::_getUrl("cabride/dashboard/index"),
                     "is_current" => ("/cabride/dashboard" === $currentUrl),
                 ],
+                "payments" => [
+                    "hasChilds" => false,
+                    "isVisible" => self::_canAccess("cabride_payments"),
+                    "label" => p__("cabride", "Accountancy"),
+                    "icon" => "fa fa-credit-card",
+                    "url" => self::_getUrl("cabride/dashboard/payments"),
+                    "is_current" => preg_match("#^/cabride/dashboard/payments#", $currentUrl),
+                ],
                 "rides" => [
                     "hasChilds" => false,
                     "isVisible" => self::_canAccess("cabride_rides"),
@@ -136,14 +152,6 @@ class Cabride extends Base
                     "icon" => "icon ion-cab-car",
                     "url" => self::_getUrl("cabride/dashboard/rides"),
                     "is_current" => ("/cabride/dashboard/rides" === $currentUrl),
-                ],
-                "payments" => [
-                    "hasChilds" => false,
-                    "isVisible" => self::_canAccess("cabride_payments"),
-                    "label" => p__("cabride", "Payments"),
-                    "icon" => "fa fa-credit-card",
-                    "url" => self::_getUrl("cabride/dashboard/payments"),
-                    "is_current" => ("/cabride/dashboard/payments" === $currentUrl),
                 ],
                 "users" => [
                     "hasChilds" => false,
@@ -432,7 +440,12 @@ class Cabride extends Base
      */
     protected static function _canAccessAnyOf($acl = [])
     {
-        return true;
+        foreach ($acl as $_acl) {
+            if (self::_canAccess($_acl)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -441,6 +454,11 @@ class Cabride extends Base
      */
     protected static function _canAccess($acl)
     {
+        $aclList = \Admin_Controller_Default::_getAcl();
+        if ($aclList) {
+            return $aclList->isAllowed($acl);
+        }
+
         return true;
     }
 

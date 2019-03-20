@@ -172,7 +172,7 @@ class Cabride_Api_MessageController extends Base
                     }
                 }
 
-                $mustFillVehicle = $driver->getMustFillVehicle();
+                $mustFillVehicle = sizeof($driver->getProfileErrors()) > 0;
 
                 // Cash return pending
                 $cashReturns = (new Cashreturn())->findAll(

@@ -5,10 +5,10 @@ namespace Cabride\Model;
 use Core\Model\Base;
 
 /**
- * Class Payout
+ * Class PayoutBulk
  * @package Cabride\Model
  */
-class Payout extends Base
+class PayoutBulk extends Base
 {
     /**
      * Payout constructor.
@@ -18,7 +18,7 @@ class Payout extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride\Model\Db\Table\Payout';
+        $this->_db_table = 'Cabride\Model\Db\Table\PayoutBulk';
         return $this;
     }
 

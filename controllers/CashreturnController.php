@@ -1,9 +1,12 @@
 <?php
 
+use Cabride\Model\Cabride;
 use Cabride\Model\Driver;
 use Cabride\Model\Payment;
 use Cabride\Model\Cashreturn;
+use Core\Model\Base;
 use Siberian\Exception;
+use Siberian\Mail;
 
 /**
  * Class Cabride_CashreturnController
@@ -11,21 +14,32 @@ use Siberian\Exception;
 class Cabride_CashreturnController extends Application_Controller_Default
 {
     /**
-     *
+     * @throws \Siberian\Zend_Layout_Exception
      */
     public function requestCashReturnAction()
     {
         try {
             $request = $this->getRequest();
             $driverId = $request->getParam("driverId", null);
-            
+            $from = $request->getParam("from", null);
+            $to = $request->getParam("to", null);
+
             $driver = (new Driver())->find($driverId);
+            $cabride = (new Cabride())->find($driver->getValueId(), "value_id");
             
             if (!$driver->getId()) {
                 throw new Exception(p__("cabride", "This driver doesn't exists."));
             }
+
+            $params = null;
+            if (!empty($from) && !empty($to)) {
+                $params = [
+                    "from" => $from,
+                    "to" => $to,
+                ];
+            }
             
-            $cashReturn = (new Payment())->cashReturnForDriverId($driverId);
+            $cashReturn = (new Payment())->cashReturnForDriverId($driverId, ["toreturn"], $params);
             
             if (isset($cashReturn["total"]) && $cashReturn["total"] > 0) {
                 $_cashReturn = new Cashreturn();
@@ -48,6 +62,38 @@ class Cabride_CashreturnController extends Application_Controller_Default
                             ->setReturnStatus("requested")
                             ->save();
                     }
+                }
+
+                // Notify driver by e-mail
+                try {
+                    $values = [
+                        'title' => p__("cabride",
+                            "You have a new cash return request, please check inside the application for more details."),
+                        'more' => p__("cabride", "The total amount to be returned is %s",
+                            Base::_formatPrice($cashReturn["total"], $cabride->getCurrency()))
+                    ];
+
+                    // Fake recipient for the smtp-sender!
+                    $recipient = new Admin_Model_Admin();
+                    $recipient
+                        ->setEmail($cashReturn["email"])
+                        ->setFirstname($cashReturn["firstname"])
+                        ->setLastname($cashReturn["lastname"]);
+
+                    // SMTP Mailer
+                    (new Mail())
+                        ->simpleEmail(
+                            'cabride',
+                            'cash_return_request',
+                            p__("cabride","You have a new cash return request"),
+                            [
+                                $recipient
+                            ],
+                            $values,
+                            explode(",", $cabride->getAdminEmails())[0])
+                        ->send();
+                } catch (\Exception $e) {
+                    // Unable to send e-mail
                 }
             }
             

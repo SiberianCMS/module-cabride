@@ -22,10 +22,22 @@ class Payment extends Core_Model_Db_Table
 
     /**
      * @param $valueId
+     * @param $params
      * @return mixed
      */
-    public function aggregateCashReturn ($valueId)
+    public function aggregateCashReturn ($valueId, $params = null)
     {
+        $periodFrom = new \Zend_Db_Expr("MIN(p.created_at)");
+        $periodTo = new \Zend_Db_Expr("MAX(p.created_at)");
+
+        $hasPeriod = false;
+        if (is_array($params) && isset($params["from"]) && isset($params["to"])) {
+            $hasPeriod = true;
+
+            $periodFrom = new \Zend_Db_Expr("CONCAT('" . $params["from"] . "')");
+            $periodTo = new \Zend_Db_Expr("CONCAT('" . $params["to"] . "')");
+        }
+
         $select = $this->_db->select()
             ->from(
                 ["p" => $this->_name],
@@ -33,8 +45,8 @@ class Payment extends Core_Model_Db_Table
                     "*",
                     "total" => new \Zend_Db_Expr("SUM(commission_amount)"),
                     "payment_ids" => new \Zend_Db_Expr("GROUP_CONCAT(payment_id)"),
-                    "period_from" => new \Zend_Db_Expr("MIN(p.created_at)"),
-                    "period_to" => new \Zend_Db_Expr("MAX(p.created_at)")
+                    "period_from" => $periodFrom,
+                    "period_to" => $periodTo
                 ]
             )
             ->joinInner(
@@ -58,16 +70,34 @@ class Payment extends Core_Model_Db_Table
             ->group("driver_id")
         ;
 
+        if ($hasPeriod) {
+            $select
+                ->where("p.created_at >= ?", $params["from"])
+                ->where("p.created_at <= ?", $params["to"]);
+        }
+
         return $this->toModelClass($this->_db->fetchAll($select));
     }
 
     /**
      * @param $driverId
      * @param $statuses
+     * @param $params
      * @return mixed
      */
-    public function cashReturnForDriverId ($driverId, $statuses = ["toreturn"])
+    public function cashReturnForDriverId ($driverId, $statuses = ["toreturn"], $params = null)
     {
+        $periodFrom = new \Zend_Db_Expr("MIN(p.created_at)");
+        $periodTo = new \Zend_Db_Expr("MAX(p.created_at)");
+
+        $hasPeriod = false;
+        if (is_array($params) && isset($params["from"]) && isset($params["to"])) {
+            $hasPeriod = true;
+
+            $periodFrom = new \Zend_Db_Expr("CONCAT('" . $params["from"] . "')");
+            $periodTo = new \Zend_Db_Expr("CONCAT('" . $params["to"] . "')");
+        }
+
         $select = $this->_db->select()
             ->from(
                 ["p" => $this->_name],
@@ -75,8 +105,8 @@ class Payment extends Core_Model_Db_Table
                     "*",
                     "total" => new \Zend_Db_Expr("SUM(commission_amount)"),
                     "payment_ids" => new \Zend_Db_Expr("GROUP_CONCAT(payment_id)"),
-                    "period_from" => new \Zend_Db_Expr("MIN(p.created_at)"),
-                    "period_to" => new \Zend_Db_Expr("MAX(p.created_at)")
+                    "period_from" => $periodFrom,
+                    "period_to" => $periodTo
                 ]
             )
             ->joinInner(
@@ -100,15 +130,33 @@ class Payment extends Core_Model_Db_Table
             ->group("driver_id")
         ;
 
+        if ($hasPeriod) {
+            $select
+                ->where("p.created_at >= ?", $params["from"])
+                ->where("p.created_at <= ?", $params["to"]);
+        }
+
         return $this->_db->fetchRow($select);
     }
 
     /**
      * @param $valueId
+     * @param $params
      * @return mixed
      */
-    public function aggregatePayout ($valueId)
+    public function aggregatePayout ($valueId, $params = null)
     {
+        $periodFrom = new \Zend_Db_Expr("MIN(p.created_at)");
+        $periodTo = new \Zend_Db_Expr("MAX(p.created_at)");
+
+        $hasPeriod = false;
+        if (is_array($params) && isset($params["from"]) && isset($params["to"])) {
+            $hasPeriod = true;
+
+            $periodFrom = new \Zend_Db_Expr("CONCAT('" . $params["from"] . "')");
+            $periodTo = new \Zend_Db_Expr("CONCAT('" . $params["to"] . "')");
+        }
+
         $select = $this->_db->select()
             ->from(
                 ["p" => $this->_name],
@@ -116,8 +164,8 @@ class Payment extends Core_Model_Db_Table
                     "*",
                     "total" => new \Zend_Db_Expr("SUM(amount) - SUM(commission_amount)"),
                     "payment_ids" => new \Zend_Db_Expr("GROUP_CONCAT(payment_id)"),
-                    "period_from" => new \Zend_Db_Expr("MIN(p.created_at)"),
-                    "period_to" => new \Zend_Db_Expr("MAX(p.created_at)")
+                    "period_from" => $periodFrom,
+                    "period_to" => $periodTo
                 ]
             )
             ->joinInner(
@@ -141,16 +189,34 @@ class Payment extends Core_Model_Db_Table
             ->group("driver_id")
         ;
 
+        if ($hasPeriod) {
+            $select
+                ->where("p.created_at >= ?", $params["from"])
+                ->where("p.created_at <= ?", $params["to"]);
+        }
+
         return $this->toModelClass($this->_db->fetchAll($select));
     }
 
     /**
      * @param $driverId
      * @param $statuses
+     * @param $params
      * @return mixed
      */
-    public function payoutForDriverId ($driverId, $statuses = ["unpaid"])
+    public function payoutForDriverId ($driverId, $statuses = ["unpaid"], $params = null)
     {
+        $periodFrom = new \Zend_Db_Expr("MIN(p.created_at)");
+        $periodTo = new \Zend_Db_Expr("MAX(p.created_at)");
+
+        $hasPeriod = false;
+        if (is_array($params) && isset($params["from"]) && isset($params["to"])) {
+            $hasPeriod = true;
+
+            $periodFrom = new \Zend_Db_Expr("CONCAT('" . $params["from"] . "')");
+            $periodTo = new \Zend_Db_Expr("CONCAT('" . $params["to"] . "')");
+        }
+
         $select = $this->_db->select()
             ->from(
                 ["p" => $this->_name],
@@ -158,8 +224,8 @@ class Payment extends Core_Model_Db_Table
                     "*",
                     "total" => new \Zend_Db_Expr("SUM(amount) - SUM(commission_amount)"),
                     "payment_ids" => new \Zend_Db_Expr("GROUP_CONCAT(payment_id)"),
-                    "period_from" => new \Zend_Db_Expr("MIN(p.created_at)"),
-                    "period_to" => new \Zend_Db_Expr("MAX(p.created_at)")
+                    "period_from" => $periodFrom,
+                    "period_to" => $periodTo
                 ]
             )
             ->joinInner(
@@ -182,6 +248,12 @@ class Payment extends Core_Model_Db_Table
             ->having("total > 0") // Total must greater than 0!
             ->group("driver_id")
         ;
+
+        if ($hasPeriod) {
+            $select
+                ->where("p.created_at >= ?", $params["from"])
+                ->where("p.created_at <= ?", $params["to"]);
+        }
 
         return $this->_db->fetchRow($select);
     }
@@ -217,6 +289,8 @@ class Payment extends Core_Model_Db_Table
                 ["p" => $this->_name],
                 [
                     "total" => new \Zend_Db_Expr("SUM(amount)"),
+                    "net" => new \Zend_Db_Expr("SUM(amount) - SUM(commission_amount)"),
+                    "commission" => new \Zend_Db_Expr("SUM(commission_amount)"),
                 ]
             )
             ->where("p.value_id = ?", $valueId)
@@ -224,7 +298,7 @@ class Payment extends Core_Model_Db_Table
             ->where("p.created_at >= ?", $todayLow)
             ->where("p.created_at < ? ", $todayHigh);
 
-        $dayRow = $this->_db->fetchOne($select);
+        $dayRow = $this->_db->fetchRow($select);
 
         // Week!
         $select = $this->_db->select()
@@ -232,6 +306,8 @@ class Payment extends Core_Model_Db_Table
                 ["p" => $this->_name],
                 [
                     "total" => new \Zend_Db_Expr("SUM(amount)"),
+                    "net" => new \Zend_Db_Expr("SUM(amount) - SUM(commission_amount)"),
+                    "commission" => new \Zend_Db_Expr("SUM(commission_amount)"),
                 ]
             )
             ->where("p.value_id = ?", $valueId)
@@ -239,7 +315,7 @@ class Payment extends Core_Model_Db_Table
             ->where("p.created_at >= ?", $weekLow)
             ->where("p.created_at < ? ", $weekHigh);
 
-        $weekRow = $this->_db->fetchOne($select);
+        $weekRow = $this->_db->fetchRow($select);
 
         // Month!
         $select = $this->_db->select()
@@ -247,6 +323,8 @@ class Payment extends Core_Model_Db_Table
                 ["p" => $this->_name],
                 [
                     "total" => new \Zend_Db_Expr("SUM(amount)"),
+                    "net" => new \Zend_Db_Expr("SUM(amount) - SUM(commission_amount)"),
+                    "commission" => new \Zend_Db_Expr("SUM(commission_amount)"),
                 ]
             )
             ->where("p.value_id = ?", $valueId)
@@ -254,7 +332,7 @@ class Payment extends Core_Model_Db_Table
             ->where("p.created_at >= ?", $monthLow)
             ->where("p.created_at < ? ", $monthHigh);
 
-        $monthRow = $this->_db->fetchOne($select);
+        $monthRow = $this->_db->fetchRow($select);
 
         // Year!
         $select = $this->_db->select()
@@ -262,6 +340,8 @@ class Payment extends Core_Model_Db_Table
                 ["p" => $this->_name],
                 [
                     "total" => new \Zend_Db_Expr("SUM(amount)"),
+                    "net" => new \Zend_Db_Expr("SUM(amount) - SUM(commission_amount)"),
+                    "commission" => new \Zend_Db_Expr("SUM(commission_amount)"),
                 ]
             )
             ->where("p.value_id = ?", $valueId)
@@ -269,7 +349,7 @@ class Payment extends Core_Model_Db_Table
             ->where("p.created_at >= ?", $yearLow)
             ->where("p.created_at < ? ", $yearHigh);
 
-        $yearRow = $this->_db->fetchOne($select);
+        $yearRow = $this->_db->fetchRow($select);
 
         return [
             "dayRow" => $dayRow,

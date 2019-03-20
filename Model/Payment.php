@@ -68,40 +68,44 @@ class Payment extends Base
 
     /**
      * @param $valueId
+     * @param $params
      * @return mixed
      */
-    public function aggregateCashReturn ($valueId)
+    public function aggregateCashReturn ($valueId, $params)
     {
-        return $this->getTable()->aggregateCashReturn($valueId);
+        return $this->getTable()->aggregateCashReturn($valueId, $params);
     }
 
     /**
      * @param $driverId
      * @param $statuses
+     * @param $params
      * @return mixed
      */
-    public function cashReturnForDriverId ($driverId, $statuses = ["toreturn"])
+    public function cashReturnForDriverId ($driverId, $statuses = ["toreturn"], $params = null)
     {
-        return $this->getTable()->cashReturnForDriverId($driverId, $statuses);
+        return $this->getTable()->cashReturnForDriverId($driverId, $statuses, $params);
     }
 
     /**
      * @param $valueId
+     * @param $params
      * @return mixed
      */
-    public function aggregatePayout ($valueId)
+    public function aggregatePayout ($valueId, $params)
     {
-        return $this->getTable()->aggregatePayout($valueId);
+        return $this->getTable()->aggregatePayout($valueId, $params);
     }
 
     /**
      * @param $driverId
      * @param $statuses
+     * @param $params
      * @return mixed
      */
-    public function payoutForDriverId ($driverId, $statuses = ["unpaid"])
+    public function payoutForDriverId ($driverId, $statuses = ["unpaid"], $params = null)
     {
-        return $this->getTable()->payoutForDriverId($driverId, $statuses);
+        return $this->getTable()->payoutForDriverId($driverId, $statuses, $params);
     }
 
     /**
