@@ -48,7 +48,7 @@ class Payout extends Core_Model_Db_Table
                 ]
             )
             ->where("pr.value_id = ?", $valueId)
-            ->order("pr.payout_id DESC")
+            ->order("FIELD(pr.status, 'inprogress','paid'), pr.payout_id DESC")
         ;
 
         return $this->toModelClass($this->_db->fetchAll($select));

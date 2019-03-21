@@ -116,4 +116,13 @@ class Payment extends Base
     {
         return $this->getTable()->aggregateDashboard($valueId);
     }
+
+    /**
+     * @param $clientId
+     * @return mixed
+     */
+    public function fetchForClientId ($clientId)
+    {
+        return $this->getTable()->fetchForClientId($clientId);
+    }
 }

@@ -359,5 +359,34 @@ class Payment extends Core_Model_Db_Table
         ];
     }
 
+    /**
+     * @param $clientId
+     * @return mixed
+     */
+    public function fetchForClientId ($clientId)
+    {
+        $select = $this->_db->select()
+            ->from(
+                ["p" => $this->_name],
+                [
+                    "*",
+                    "timestamp" => new \Zend_Db_Expr("UNIX_TIMESTAMP(p.created_at)")
+                ]
+            )
+            ->joinInner(
+                ["cv" => "cabride_client_vault"],
+                "cv.client_vault_id = p.client_vault_id",
+                [
+                    "brand",
+                    "exp",
+                    "last",
+                ]
+            )
+            ->where("p.client_id = ?", $clientId)
+            ->where("p.status = ?", "paid");
+
+        return $this->toModelClass($this->_db->fetchAll($select));
+    }
+
 
 }

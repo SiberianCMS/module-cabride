@@ -16,11 +16,14 @@ CALL DRIVER
 CANCEL
 CLIENT
 COMPLETE
+COMPLETED
 CabRide
 Cancel
 Cash
+Cash to return
 Change type
 Client
+Commission
 Completed requests
 Completed rides
 Confirmation
@@ -28,6 +31,7 @@ Course details
 Course done
 Course in progress
 Created
+Credit card
 Credit card information
 Custom fares
 DECLINE
@@ -47,6 +51,7 @@ Est.
 Est. duration
 Expired
 Expires
+For you
 History
 In progress
 Invalid payment method!
@@ -68,7 +73,12 @@ Payment card
 Payment history
 Payment method
 Payments
+Payments list (last 100)
+Payout
+Pending cash return
+Pending payout
 Pending requests
+Period
 Pick-up location
 Pickup radius
 Please now wait for a driver!
@@ -98,18 +108,22 @@ You are offline
 You are online
 You have no cancelled requests
 You have no card saved
+You have no cash return requests.
 You have no completed requests
+You have no payment.
 You have no payments
+You have no pending payout.
 You have no pending requests
 You have no rides archived
 You have no rides in progress
 You'll pay the driver directly when the course ends!
 Your position doesn't resolve to a valid address.
-pending
+aborted
 accepted
-onway
-inprogress
 declined
 done
-aborted
 expired
+inprogress
+mn
+onway
+pending

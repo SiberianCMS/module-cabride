@@ -284,13 +284,13 @@ function colorForStatus ($status) {
             <div id="commission_payout"
                  class="content solo-page sb-tour">
                 <h3 class="title-editor border-blue text-center">
-                    <?php echo p__("cabride", "Commission pay-out"); ?>
+                    <?php echo p__("cabride", "Pay-out"); ?>
                 </h3>
                 <div class="subcontent content-color">
                     <div class="col-md-12">
 
                         <h4 class="title-editor no-border-radius title-feature-indent">
-                            <?php echo p__("cabride", "Commissions pay-out") ?>
+                            <?php echo p__("cabride", "Pay-out") ?>
                         </h4>
                         <div class="container-fluid content-feature">
 
@@ -468,7 +468,7 @@ function colorForStatus ($status) {
                                                     <?php echo p__("cabride", "PAID ON %s", datetime_to_format($payoutArchive->getPayoutDate(), Zend_Date::DATE_SHORT)) ?>
                                                 </a>
                                             <?php else: ?>
-                                                <a class="btn btn-xs btn-success mark-as-returned"
+                                                <a class="btn btn-xs btn-success mark-as-paid"
                                                    data-id="<?php echo $payoutArchive->getId(); ?>">
                                                     <?php echo p__("cabride", "MARK AS PAID") ?>
                                                 </a>
@@ -819,6 +819,48 @@ function colorForStatus ($status) {
                         ,"from": "<?php echo $paramsPayout["from"] ?>",
                         "to": "<?php echo $paramsPayout["to"] ?>"
                         <?php endif; ?>
+                    },
+                    function (data) {
+                        // Success!
+                        feature_form_success(data.message);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 3000);
+                    },
+                    function (data) {
+                        feature_form_error(data.message);
+                    });
+
+                swal.close();
+                return true;
+            });
+        });
+
+        let markAsPaid = $(".mark-as-paid");
+
+        markAsPaid.off("click");
+        markAsPaid.on("click", function () {
+            let button = $(this);
+            let payoutId = button.attr("data-id");
+            swal({
+                html: true,
+                title: '<?php echo p__js("cabride", "Mark as paid", "'") ?>',
+                text: '<?php echo p__js("cabride","Are you sure?", "'") ?>',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                closeOnCancel: true,
+                confirmButtonColor: '#449d44',
+                confirmButtonText: '<?php echo p__js("cabride","Yes, mark as paid", "'") ?>',
+                cancelButtonText: '<?php echo p__js("cabride","No, go back!", "'") ?>',
+            }, function (value) {
+                if (value === false) {
+                    return;
+                }
+
+                formget(
+                    "/cabride/payout/mark-as-paid",
+                    {
+                        'payoutId': payoutId
                     },
                     function (data) {
                         // Success!

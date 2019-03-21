@@ -890,6 +890,10 @@ angular.module('starter')
         ContextualMenu.toggle();
     };
 
+    $scope.calendar = function (timestampSeconds) {
+        return moment(timestampSeconds * 1000).calendar();
+    };
+
     $scope.refresh = function () {
         $scope.loadPage();
     };

@@ -120,28 +120,28 @@ class Cabride_PayoutController extends Application_Controller_Default
     {
         try {
             $request = $this->getRequest();
-            $cashReturnId = $request->getParam("cashReturnId", null);
+            $payoutId = $request->getParam("payoutId", null);
 
-            $cashReturn = (new Cashreturn())->find($cashReturnId);
+            $payout = (new Payout())->find($payoutId);
 
-            if (!$cashReturn->getId()) {
-                throw new Exception(p__("cabride", "This cash return request doesn't exists."));
+            if (!$payout->getId()) {
+                throw new Exception(p__("cabride", "This payout doesn't exists."));
             }
 
-            // Update payments cash to "requested"
-            $paymentIds = explode(",", $cashReturn->getPaymentIds());
+            // Update payments cash to "paid"
+            $paymentIds = explode(",", $payout->getPaymentIds());
             foreach ($paymentIds as $paymentId) {
                 $_payment = (new Payment())->find($paymentId);
                 if ($_payment->getId()) {
                     $_payment
-                        ->setReturnStatus("returned")
+                        ->setPayoutStatus("paid")
                         ->save();
                 }
             }
 
-            $cashReturn
-                ->setStatus("returned")
-                ->setReturnDate(date("Y-m-d H:i:s"))
+            $payout
+                ->setStatus("paid")
+                ->setPayoutDate(date("Y-m-d H:i:s"))
                 ->save();
 
             $payload = [

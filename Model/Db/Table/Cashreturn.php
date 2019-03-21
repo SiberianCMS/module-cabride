@@ -48,7 +48,7 @@ class Cashreturn extends Core_Model_Db_Table
                 ]
             )
             ->where("cr.value_id = ?", $valueId)
-            ->order("cr.cashreturn_id DESC")
+            ->order("FIELD(cr.status, 'requested','returned'), cr.cashreturn_id DESC")
         ;
 
         return $this->toModelClass($this->_db->fetchAll($select));

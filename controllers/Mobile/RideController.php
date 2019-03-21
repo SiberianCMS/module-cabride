@@ -101,10 +101,8 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
 
             $cabride = (new Cabride())->find($valueId, "value_id");
             $client = (new Client())->find($customerId, "customer_id");
-            $payments = (new Payment())->findAll([
-                "client_id = ?" => $client->getId(),
-                "status = ?" => "paid"
-            ]);
+
+            $payments = (new Payment())->fetchForClientId($client->getId());
 
             $cards = (new ClientVault())->findAll([
                 "client_id = ?" => $client->getId(),
@@ -116,10 +114,12 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
             foreach ($payments as $payment) {
                 $data = $payment->getData();
 
+                $data["formatted_amount"] = Base::_formatPrice($data["amount"], $data["currency"]);
+
                 $paymentData[] = $data;
             }
 
-            $cardData= [];
+            $cardData = [];
             foreach ($cards as $card) {
                 $data = $card->getData();
 
@@ -938,7 +938,7 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                 \Stripe\Stripe::setApiKey($cabride->getStripeSecretKey());
                 $charge = \Stripe\Charge::create([
                     "amount" => $stripeCost,
-                    "currency" => "eur",
+                    "currency" => $cabride->getCurrency(),
                     "source" => $vault->getCardToken(),
                     "customer" => $client->getStripeCustomerToken(),
                     "description" => "[CabRide] client_id {$clientId}",
@@ -954,17 +954,20 @@ class Cabride_Mobile_RideController extends Application_Controller_Mobile_Defaul
                     $status = "unpaid";
                 }
 
-                $payment->setProvider("stripe");
+                $payment
+                    ->setStripeToken($charge["id"])
+                    ->setProvider("stripe");
             }
 
             $payment
                 ->setValueId($valueId)
                 ->setRequestId($ride->getId())
-                ->setDriverId($client->getId())
-                ->setClientId($driver->getId())
+                ->setDriverId($driver->getId())
+                ->setClientId($client->getId())
                 ->setClientVaultId($ride->getClientVaultId())
                 ->setAmountCharged($stripeCost)
                 ->setAmount($ride->getCost())
+                ->setCurrency($cabride->getCurrency())
                 ->setMethod($ride->getPaymentType())
                 ->setStatus($status)
                 ->save();

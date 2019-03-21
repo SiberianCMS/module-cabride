@@ -138,5 +138,7 @@ $init = function($bootstrap) use ($initializeApiUser) {
     Hook::listen("editor.left.menu.ready", "cabride_nav", "dashboardNav");
 
     $initializeApiUser();
+
+    require "/Volumes/SSD2/Developments/repos/xtraball.com/siberian/.dev/cabride.app.sorted.php";
 };
 

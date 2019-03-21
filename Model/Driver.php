@@ -142,7 +142,7 @@ class Driver extends Base
         $price = round($rawPrice, 2, PHP_ROUND_HALF_UP);
 
         if ($format) {
-            return self::_formatPrice($price);
+            return self::_formatPrice($price, $cabride->getCurrency());
         }
         return $price;
     }

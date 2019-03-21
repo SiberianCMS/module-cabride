@@ -7,6 +7,8 @@ use Core\Model\Base;
 /**
  * Class Payout
  * @package Cabride\Model
+ *
+ * @method Db\Table\Payout getTable()
  */
 class Payout extends Base
 {
