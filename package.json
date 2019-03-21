@@ -1,6 +1,11 @@
 {
   "name": "Cabride",
   "decription": "Cabride taxi module",
+  "description": "<a href=\"https://updates02.siberiancms.com/release-notes/modules/cabride.html\" target=\"_blank\">Cabride taxi module: click here to see the release notes</a>",
+  "release_note": {
+    "url": "https://updates02.siberiancms.com/release-notes/modules/cabride.html",
+    "show": true
+  },
   "type": "module",
   "version": "1.0.0",
   "dependencies": {
