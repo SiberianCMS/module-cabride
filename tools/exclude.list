@@ -1,0 +1,14 @@
+*.DS_Store*
+*.git*
+*.idea*
+*.localized*
+README.md
+.eslintrc
+.directory
+*.zip
+docs*
+tools*
+scripts/build.php
+sass*
+resources/server/bin/node_64.osx
+resources/server/config.json

@@ -39,49 +39,11 @@ try {
 
     $binPath = false;
 
-    # Test 1
-    exec('/usr/local/bin/nodejs --version 2>&1', $output, $returnVal);
+    $bin64 = path('/app/local/modules/Cabride/resources/server/bin/node_64');
+    exec($bin64 . ' --version 2>&1', $output, $returnVal);
+
     if ($returnVal === 0) {
-        $binPath = '/usr/local/bin/nodejs';
-    }
-
-    # Test 2
-    if (!$binPath) {
-        exec('/usr/bin/nodejs --version 2>&1', $output, $returnVal);
-
-        if ($returnVal === 0) {
-            $binPath = '/usr/bin/nodejs';
-        }
-    }
-
-    # Fallback
-    if (!$binPath) {
-        # Windows
-        # $exe_32_path = Core_Model_Directory::getBasePathTo("/app/local/modules/Cabride/resources/bin/node_32.exe");
-        # $exe_64_path = Core_Model_Directory::getBasePathTo("/app/local/modules/Cabride/resources/bin/node_32.exe");
-
-        # Fallback with the node binaries
-        # MacOSX
-        $isDarwin = exec('uname');
-        if (strpos($isDarwin, 'arwin') !== false) {
-            $binPath = path('/app/local/modules/Cabride/resources/server/bin/node_64.osx');
-            # Windows
-        } else {
-            $bin_32 = path('/app/local/modules/Cabride/resources/server/bin/node_32');
-            exec($bin_32 . ' --version 2>&1', $output, $returnVal);
-
-            if ($returnVal === 0) {
-                $binPath = $bin_32;
-            } else {
-
-                $bin64 = path('/app/local/modules/Cabride/resources/server/bin/node_64');
-                exec($bin64 . ' --version 2>&1', $output, $returnVal);
-
-                if ($returnVal === 0) {
-                    $binPath = $bin64;
-                }
-            }
-        }
+        $binPath = $bin64;
     }
 
 } catch (\Exception $e) {

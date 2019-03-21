@@ -43,7 +43,7 @@ class Service extends Base
 
         try {
             exec($command, $output, $return);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $cron->log('CabRide server exception.');
         }
 

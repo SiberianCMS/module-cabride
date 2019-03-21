@@ -30,7 +30,7 @@ class Driver extends Siberian_Form_Abstract
 
         // Builds the default form from schema!
         
-        $customer_id = $this->addSimpleText("customer_id", p__("cabride", "Customer ID"));
+        $customer_id = $this->addSimpleHidden("customer_id", p__("cabride", "Customer ID"));
         $customer_id->setRequired(true);
 
         $vehicle_id = $this->addSimpleSelect("vehicle_id", p__("cabride", "Vehicle type"));
@@ -45,8 +45,8 @@ class Driver extends Siberian_Form_Abstract
         $driver_license = $this->addSimpleText("driver_license", p__("cabride", "Driver license"));
         $driver_license->setRequired(true);
 
-        $driver_photo = $this->addSimpleText("driver_photo", p__("cabride", "Driver photo"));
-        $driver_photo->setRequired(true);
+        $driver_photo = $this->addSimpleHidden("driver_photo", p__("cabride", "Driver photo"));
+        //$driver_photo->setRequired(true);
 
         $base_address = $this->addSimpleTextarea("base_address", p__("cabride", "Base address"));
         $base_address->setRequired(true);

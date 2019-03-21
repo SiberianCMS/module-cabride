@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Simple test code for WebSocket
  */
