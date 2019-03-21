@@ -7,8 +7,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-03-21T12:16:47+00:00\n"
-"PO-Revision-Date: 2019-03-21T12:16:47+00:00\n"
+"POT-Creation-Date: 2019-03-21T13:05:37+00:00\n"
+"PO-Revision-Date: 2019-03-21T13:05:37+00:00\n"
 "Language: \n"
 
 msgctxt "cabride"
@@ -530,79 +530,3 @@ msgstr "onway"
 msgctxt "cabride"
 msgid "pending"
 msgstr "pending"
-
-msgctxt "cabride"
-msgid "Passenger information"
-msgstr "Passenger information"
-
-msgctxt "cabride"
-msgid "Mobile"
-msgstr "Mobile"
-
-msgctxt "cabride"
-msgid "Address"
-msgstr "Address"
-
-msgctxt "cabride"
-msgid "Vehicle license plate"
-msgstr "Vehicle license plate"
-
-msgctxt "cabride"
-msgid "Mobile phone number"
-msgstr "Mobile phone number"
-
-msgctxt "cabride"
-msgid "Driver information"
-msgstr "Driver information"
-
-msgctxt "cabride"
-msgid "You finally accepted the request!"
-msgstr "You finally accepted the request!"
-
-msgctxt "cabride"
-msgid "Success!"
-msgstr "Success!"
-
-msgctxt "cabride"
-msgid "Ride request!"
-msgstr "Ride request!"
-
-msgctxt "cabride"
-msgid "You have a new ride request!"
-msgstr "You have a new ride request!"
-
-msgctxt "cabride"
-msgid "Ride accepted!"
-msgstr "Ride accepted!"
-
-msgctxt "cabride"
-msgid "A driver accepted your request, he will be on your way soon!"
-msgstr "A driver accepted your request, he will be on your way soon!"
-
-msgctxt "cabride"
-msgid "Driver on your way!"
-msgstr "Driver on your way!"
-
-msgctxt "cabride"
-msgid "You driver is on your way!"
-msgstr "You driver is on your way!"
-
-msgctxt "cabride"
-msgid "We notified your passenger that you are on his way!"
-msgstr "We notified your passenger that you are on his way!"
-
-msgctxt "cabride"
-msgid "Opening navigation!"
-msgstr "Opening navigation!"
-
-msgctxt "cabride"
-msgid "Your ride is done!"
-msgstr "Your ride is done!"
-
-msgctxt "cabride"
-msgid "Thanks for riding with us, hope to see you again soon!"
-msgstr "Thanks for riding with us, hope to see you again soon!"
-
-msgctxt "cabride"
-msgid "The course is now marked are complete!"
-msgstr "The course is now marked are complete!"
