@@ -103,7 +103,7 @@ $stats = (new Payment())->aggregateDashboard($valueId);
 
                         <table class="table table-striped sb-pager">
                             <thead>
-                            <tr class="border-grey">
+                                <tr class="border-grey">
                                     <th class="sortable numeric"><?php echo p__("cabride", "ID") ?></th>
                                     <th class="sortable"><?php echo p__("cabride", "Method") ?></th>
                                     <th class="sortable numeric text-right"><?php echo p__("cabride", "Amount") ?></th>
@@ -130,13 +130,18 @@ $stats = (new Payment())->aggregateDashboard($valueId);
                                     </td>
                                     <td class="text-right"><?php echo Base::_formatPrice($payment->getAmount(), $cu); ?></td>
                                     <td class="text-right"><?php echo Base::_formatPrice($payment->getCommissionAmount(), $cu); ?></td>
-                                    <td class="text-right"><?php echo datetime_to_format($payment->getCreatedAt()); ?></td>
+                                    <td class="text-right">
+                                        <span style="display: none;">
+                                            <?php echo datetime_to_format($payment->getCreatedAt(), Zend_Date::TIMESTAMP); ?>
+                                        </span>
+                                        <?php echo datetime_to_format($payment->getCreatedAt()); ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
                             <tfoot>
                             <tr>
-                                <td colspan="4">
+                                <td colspan="5">
                                     <?php echo p__("cabride", "No results for your search.") ?>
                                 </td>
                             </tr>

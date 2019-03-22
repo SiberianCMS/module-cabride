@@ -40,6 +40,22 @@ $schemas['cabride_vehicle'] = [
         'collation' => 'utf8_unicode_ci',
         'null' => true,
     ],
+    'base_address' => [
+        'type' => 'text',
+        'null' => true,
+    ],
+    'base_address_parts' => [
+        'type' => 'text',
+        'null' => true,
+    ],
+    'base_latitude' => [
+        'type' => 'float',
+        'null' => true,
+    ],
+    'base_longitude' => [
+        'type' => 'float',
+        'null' => true,
+    ],
     'base_fare' => [
         'type' => 'float',
     ],
