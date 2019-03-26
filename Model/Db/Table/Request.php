@@ -48,7 +48,8 @@ class Request extends Core_Model_Db_Table
             )
             ->where("request.value_id = ?", $valueId)
             ->where("request.client_id = ?", $clientId)
-            ->order("updated_at DESC");
+            ->order("request.updated_at DESC")
+            ->group("request.request_id");
 
         return $this->toModelClass($this->_db->fetchAll($select));
     }
@@ -121,7 +122,8 @@ class Request extends Core_Model_Db_Table
             ->where("request.value_id = ?", $valueId)
             ->where("request_driver.status IN (?)", $status)
             ->where("request_driver.driver_id = ?", $driverId)
-            ->order("updated_at DESC");
+            ->order("request.updated_at DESC")
+            ->group("request.request_id");
 
         // We only show declined requests, if they still are pending!
         if ($status === "declined") {
@@ -157,7 +159,8 @@ class Request extends Core_Model_Db_Table
                     "search_timeout"
                 ]
             )
-            ->where("request.status = ?", "pending");
+            ->where("request.status = ?", "pending")
+            ->group("request.request_id");
 
         return $this->toModelClass($this->_db->fetchAll($select));
     }
@@ -171,7 +174,8 @@ class Request extends Core_Model_Db_Table
         $select = $this->_db->select()
             ->from($this->_name)
             ->where("status IN (?)", ["pending", "onway", "inprogress", "accepted"])
-            ->where("client_id = ?", $clientId);
+            ->where("client_id = ?", $clientId)
+            ->group("request.request_id");
 
         return $this->toModelClass($this->_db->fetchAll($select));
     }
