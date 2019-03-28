@@ -8,7 +8,13 @@ use Core\Model\Base;
 $application = $this->getApplication();
 $request = $this->getRequest();
 $valueId = Cabride::getCurrentValueId();
+
 $cabride = (new Cabride())->find($valueId, "value_id");
+if (!$cabride->getId()) {
+    $cabride->setValueId($valueId);
+    $cabride->save();
+    $cabride->reload();
+}
 
 $rides = (new Request())->findAll([
     "value_id = ?" => $valueId,

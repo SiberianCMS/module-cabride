@@ -142,8 +142,8 @@ angular.module('starter')
         $scope.crMap = GoogleMaps.createMap("crMap", {
             zoom: 10,
             center: {
-                lat: 43.600000,
-                lng: 1.433333
+                lat: Cabride.settings.defaultLat,
+                lng: Cabride.settings.defaultLng
             },
             disableDefaultUI: true
         });

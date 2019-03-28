@@ -19,10 +19,10 @@ class Cabride_Api_MessageController extends Base
      * @var array
      */
     public $secured_actions = [
-        'settings',
-        'join-lobby',
-        'send-request',
-        'aggregate-information',
+        "settings",
+        "join-lobby",
+        "send-request",
+        "aggregate-information",
     ];
 
     /**
@@ -36,23 +36,23 @@ class Cabride_Api_MessageController extends Base
              */
             $sslCertificate = (new System_Model_SslCertificates())
                 ->find([
-                    'hostname' => $this->getRequest()->getHttpHost()
+                    "hostname" => $this->getRequest()->getHttpHost()
                 ]);
             if (!$sslCertificate->getId()) {
-                throw new Exception(__('Unable to find a corresponding SSL Certificate!'));
+                throw new Exception(__("Unable to find a corresponding SSL Certificate!"));
             }
 
             $payload = [
-                'success' => true,
-                'privateKey' => file_get_contents($sslCertificate->getPrivate()),
-                'chain' => file_get_contents($sslCertificate->getChain()),
-                'certificate' => file_get_contents($sslCertificate->getCertificate())
+                "success" => true,
+                "privateKey" => file_get_contents($sslCertificate->getPrivate()),
+                "chain" => file_get_contents($sslCertificate->getChain()),
+                "certificate" => file_get_contents($sslCertificate->getCertificate())
             ];
 
         } catch (\Exception $e) {
             $payload = [
-                'error' => true,
-                'message' => __('An unknown error occurred, please try again later.')
+                "error" => true,
+                "message" => __("An unknown error occurred, please try again later.")
             ];
         }
 

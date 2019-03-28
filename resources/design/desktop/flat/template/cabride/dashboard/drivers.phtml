@@ -9,6 +9,12 @@ $valueId = Cabride::getCurrentValueId();
 
 $settings = (new Cabride())
     ->find($valueId, "value_id");
+$settings = (new Cabride())->find($valueId, "value_id");
+if (!$settings->getId()) {
+    $settings->setValueId($valueId);
+    $settings->save();
+    $settings->reload();
+}
 
 $distanceUnit = $settings->getDistanceUnit();
 

@@ -3,7 +3,7 @@
  */
 angular.module('starter')
     .factory('CabrideUtils', function (Cabride, $q) {
-        let factory = {
+        var factory = {
             directionsService: null,
         };
 

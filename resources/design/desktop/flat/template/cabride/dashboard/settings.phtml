@@ -15,6 +15,12 @@ $formSettings->setValueId($valueId);
 
 $settings = (new Cabride())
     ->find($valueId, "value_id");
+$settings = (new Cabride())->find($valueId, "value_id");
+if (!$settings->getId()) {
+    $settings->setValueId($valueId);
+    $settings->save();
+    $settings->reload();
+}
 
 $formStripe = new FormStripe();
 $formStripe->setValueId($valueId);
@@ -118,10 +124,23 @@ $(document).ready(function () {
 
     let updateCommission = function () {
         let value = commissionType.val();
-        if (value === "disabled") {
-            $("#commission").parents(".sb-form-line").hide();
-        } else {
-            $("#commission").parents(".sb-form-line").show();
+        switch (value) {
+            case "disabled":
+                $("#commission").parents(".sb-form-line").hide();
+                $("#commission_fixed").parents(".sb-form-line").hide();
+                break;
+            case "fixed":
+                $("#commission").parents(".sb-form-line").hide();
+                $("#commission_fixed").parents(".sb-form-line").show();
+                break;
+            case "percentage":
+                $("#commission").parents(".sb-form-line").show();
+                $("#commission_fixed").parents(".sb-form-line").hide();
+                break;
+            case "mixed":
+                $("#commission").parents(".sb-form-line").show();
+                $("#commission_fixed").parents(".sb-form-line").show();
+                break;
         }
     };
 

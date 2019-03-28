@@ -11,11 +11,13 @@ const
     });
 
 client.on('connectFailed', function (error) {
+    console.log(error);
     process.exit(1);
 });
 
 client.on('connect', function (connection) {
     connection.on('error', function (error) {
+        console.log(error);
         process.exit(1);
     });
     connection.on('message', function (message) {

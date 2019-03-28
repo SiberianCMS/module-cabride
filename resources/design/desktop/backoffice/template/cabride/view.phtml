@@ -1,0 +1,84 @@
+<sb-section title="'<?php echo p__js("cabride", "Settings", "'"); ?>'">
+
+    <form ng-submit="save()">
+        <div class="form-group">
+
+            <div class="col-md-6">
+                <label for="cabride_server_auth"><?php echo p__("cabride", "Auth type") ?></label>
+                <select id="cabride_server_auth"
+                        class="form-control"
+                        ng-model="settings.cabride_server_auth">
+                    <option value="basic"><?php echo p__("cabride","HTTP Basic"); ?></option>
+                    <option value="bearer"><?php echo p__("cabride","Bearer token"); ?></option>
+                </select>
+
+                <div class="alert alert-info"
+                     style="margin-top: 15px;">
+                    <?php echo p__("cabride", "With some admin panels, HTTP Basic is not available, you can switch to Bearer token if this is your case.") ?>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="cabride_server_port"><?php echo p__("cabride", "WebSocket port") ?></label>
+                <input id="cabride_server_port"
+                       class="form-control"
+                       type="number"
+                       min="1"
+                       max="65535"
+                       step="1"
+                       ng-model="settings.cabride_server_port" />
+
+                <div class="alert alert-info"
+                     style="margin-top: 15px;">
+                    <?php echo p__("cabride", "Port 37000 is the default.") ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button type="submit"
+                            class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                    <sb-loader is_visible="form_loader_is_visible"
+                               type="'inner_content'"
+                               size="'small'"
+                               animation="'no'"
+                               class="form_loader"></sb-loader>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+        </div>
+    </form>
+
+</sb-section>
+
+<sb-section title="'<?php echo p__js("cabride", "Maintenance", "'"); ?>'">
+
+    <form ng-submit="restartSocket()">
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="alert alert-warning">
+                    <?php echo __("You can force the WebSocket server instance to restart below.") ?>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <button type="submit"
+                        class="btn btn-primary right">
+                    <i class="fa fa-play"></i> <?php echo __("Restart the WebSocket"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+
+    </form>
+
+</sb-section>

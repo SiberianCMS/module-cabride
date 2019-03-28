@@ -56,8 +56,20 @@ class Cabride_ApplicationController extends Application_Controller_Default
         $form = new FormCabride();
 
         // Removes the require on commission if disabled!
-        if ($values["commission_type"] === "disabled") {
-            $form->getElement("commission")->setRequired(false);
+        switch ($values["commission_type"]) {
+            case "disabled":
+                $form->getElement("commission")->setRequired(false);
+                $form->getElement("commission_fixed")->setRequired(false);
+                break;
+            case "fixed":
+                $form->getElement("commission")->setRequired(false);
+                break;
+            case "percentage":
+                $form->getElement("commission_fixed")->setRequired(false);
+                break;
+            case "mixed":
+                // Leave both required
+                break;
         }
 
         if ($form->isValid($values)) {

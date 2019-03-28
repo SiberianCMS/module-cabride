@@ -6,6 +6,7 @@ use Core\Model\Base;
 use Siberian\Account;
 use Siberian\Exception;
 use Siberian\Json;
+use Siberian\Api;
 use Siberian_Google_Geocoding as Geocoding;
 
 /**
@@ -36,8 +37,7 @@ class Cabride extends Base
     }
 
     /**
-     * @return int|null
-     * @throws Exception
+     * @return null
      */
     public static function getCurrentValueId()
     {
@@ -54,8 +54,7 @@ class Cabride extends Base
     }
 
     /**
-     * @return \Application_Model_Option_Value|null
-     * @throws Exception
+     * @return null
      */
     public static function getCurrent()
     {
@@ -89,7 +88,6 @@ class Cabride extends Base
     /**
      * @param $editorTree
      * @return mixed
-     * @throws Exception
      */
     public static function dashboardNav($editorTree)
     {
@@ -195,6 +193,90 @@ class Cabride extends Base
         ];
 
         return $editorTree;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public static function initApiUser ()
+    {
+        // Defaults!
+        $serverAuth = __get("cabride_server_auth");
+        if (empty($serverAuth)) {
+            __set("cabride_server_auth", "basic");
+        }
+
+        $serverPort = __get("cabride_server_port");
+        if (empty($serverPort)) {
+            __set("cabride_server_port", 37000);
+        }
+
+        /**
+         * @var $cabrideUser \Api_Model_User
+         */
+        $cabrideUser = (new \Api_Model_User())
+            ->find('cabride', 'username');
+
+        $acl = [];
+        foreach (Api::$acl_keys as $key => $subkeys) {
+            // Filter only cabride API endpoints
+            if ($key === 'cabride') {
+                if (!isset($acl[$key])) {
+                    $acl[$key] = [];
+                }
+
+                if (is_array($acl[$key])) {
+                    foreach ($subkeys as $subkey => $subvalue) {
+                        if (!array_key_exists($subkey, $acl[$key])) {
+                            $acl[$key][$subkey] = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!$cabrideUser->getId()) {
+            // Create API User with full access
+            $password = "cr" . uniqid() . "api";
+            $cabrideUser
+                ->setUsername("cabride")
+                ->setPassword($password)
+                ->setBearerToken($cabrideUser->_generateBearerToken())
+                ->setIsVisible(0)
+                ->setAcl(Json::encode($acl))
+                ->save();
+
+            // Save Credentials for cabride server
+            $serverHost = sprintf(
+                "%s://%s",
+                $_SERVER["REQUEST_SCHEME"],
+                explode(":", $_SERVER["HTTP_HOST"])[0]
+            );
+
+            $wssHost = sprintf(
+                "wss://%s",
+                explode(":", $_SERVER["HTTP_HOST"])[0]
+            );
+
+            $configFile = path("/app/local/modules/Cabride/resources/server/config.json");
+            $config = [
+                "apiUrl" => $serverHost,
+                "wssHost" => $wssHost,
+                "port" => __get("cabride_server_port"),
+                "username" => "cabride",
+                "password" => base64_encode($password),
+                "auth" => __get("cabride_server_auth"), // Defaults to basic
+                "bearer" => $cabrideUser->getBearerToken()
+            ];
+            file_put_contents($configFile, Json::encode($config));
+
+        } else {
+            // Update ACL to full access after any updates, in case there is new API Endpoints
+            $cabrideUser
+                ->setIsVisible(0)
+                ->setAcl(Json::encode($acl))
+                ->save();
+        }
     }
 
     /**

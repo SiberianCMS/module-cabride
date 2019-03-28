@@ -3,7 +3,6 @@
 namespace Cabride\Model\Db\Table;
 
 use Core_Model_Db_Table;
-use Cabride\Model\Request as ModelRequest;
 
 /**
  * Class Request

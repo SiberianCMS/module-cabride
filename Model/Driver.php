@@ -3,7 +3,6 @@
 namespace Cabride\Model;
 
 use Core\Model\Base;
-use Siberian\Json;
 
 /**
  * Class Driver
@@ -51,7 +50,6 @@ class Driver extends Base
 
     /**
      * @return array
-     * @throws \Siberian\Exception
      */
     public function getProfileErrors()
     {

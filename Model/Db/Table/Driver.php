@@ -3,7 +3,7 @@
 namespace Cabride\Model\Db\Table;
 
 use Core_Model_Db_Table;
-use Cabride\Model\Cabride;
+use Cabride\Model\Cabride as ModelCabride;
 use Cabride\Model\Driver as ModelDriver;
 
 /**
@@ -30,7 +30,7 @@ class Driver extends Core_Model_Db_Table
      */
     public function findNearestOnline($valueId, $formula)
     {
-        $settings = (new Cabride())
+        $settings = (new ModelCabride())
             ->find($valueId, "value_id");
         $unit = $settings->getDistanceUnit();
         $radius = $settings->getSearchRadius();

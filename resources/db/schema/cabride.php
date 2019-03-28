@@ -74,6 +74,11 @@ $schemas['cabride'] = [
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'commission_fixed' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'course_mode' => [ // immediate, all
         'type' => 'varchar(256)',
         'charset' => 'utf-8',
@@ -127,6 +132,18 @@ $schemas['cabride'] = [
     'braintree_is_sandbox' => [
         'type' => 'tinyint(1)',
         'default' => '0',
+    ],
+    'center_map' => [
+        'type' => 'varchar(1024)',
+        'null' => true,
+    ],
+    'default_lat' => [
+        'type' => 'float',
+        'default' => '43.600000',
+    ],
+    'default_lng' => [
+        'type' => 'float',
+        'default' => '1.433333',
     ],
     'created_at' => [
         'type' => 'datetime',

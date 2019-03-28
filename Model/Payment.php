@@ -39,6 +39,7 @@ class Payment extends Base
 
         $commissionType = $cabride->getCommissionType();
         $commission = (float) $cabride->getCommission();
+        $commissionFixed = (float) $cabride->getCommissionFixed();
         switch ($commissionType) {
             case "disabled":
                 $this
@@ -49,7 +50,7 @@ class Payment extends Base
             case "fixed":
                 $this
                     ->setCommissionType("fixed")
-                    ->setCommissionAmount($commission)
+                    ->setCommissionAmount(round($commissionFixed, 2))
                     ->save();
                 break;
             case "percentage":
@@ -58,6 +59,15 @@ class Payment extends Base
 
                 $this
                     ->setCommissionType("percentage")
+                    ->setCommissionAmount($part)
+                    ->save();
+                break;
+            case "mixed":
+                $total = $this->getAmount();
+                $part = round(($total / 100 * $commission) + $commissionFixed, 2);
+
+                $this
+                    ->setCommissionType("mixed")
                     ->setCommissionAmount($part)
                     ->save();
                 break;

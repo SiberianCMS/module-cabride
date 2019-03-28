@@ -26,9 +26,7 @@ let config = require('./config.json'),
     debug = true,
     defaultUrl = config.apiUrl + '/#APP_KEY#/cabride/api_message',
     apiUrl = null,
-    requestDefaultHeaders = {
-        'Authorization': 'Basic ' + btoa(config.username + ':' + atob(config.password))
-    },
+    requestDefaultHeaders = {},
     globals = {
         allConnections: [],
         drivers: [],
@@ -36,6 +34,21 @@ let config = require('./config.json'),
         users: [],
         rooms: []
     };
+
+if (config.auth) {
+    switch (config.auth) {
+        case "bearer":
+            requestDefaultHeaders = {
+                'Api-Auth-Bearer': 'Bearer ' + config.bearer
+            };
+            break;
+        case "basic":
+        default:
+            requestDefaultHeaders = {
+                'Authorization': 'Basic ' + btoa(config.username + ':' + atob(config.password)),
+            };
+    }
+}
 
 /**
  *
@@ -270,12 +283,14 @@ const functions = {
                             globals.drivers[localConnection.uuid] = {
                                 position: params.position,
                                 previous: previous,
+                                appKey: localConnection.appKey,
                             };
                         }
                     } catch (e) {
                         globals.drivers[localConnection.uuid] = {
                             position: params.position,
                             previous: params.position,
+                            appKey: localConnection.appKey,
                         };
                     }
 
@@ -298,12 +313,14 @@ const functions = {
                             globals.passengers[localConnection.uuid] = {
                                 position: params.position,
                                 previous: previous,
+                                appKey: localConnection.appKey,
                             };
                         }
                     } catch (e) {
                         globals.passengers[localConnection.uuid] = {
                             position: params.position,
                             previous: params.position,
+                            appKey: localConnection.appKey,
                         };
                     }
 
@@ -322,8 +339,13 @@ const functions = {
                 latitude: passenger.position.latitude,
                 longitude: passenger.position.longitude,
             };
-            for(let uuid in globals.drivers) {
+            for (let uuid in globals.drivers) {
                 let driver = globals.drivers[uuid];
+
+                if (localConnection.appKey !== driver.appKey) {
+                    continue; // Just skip drivers not inside the same app
+                }
+
                 let position = {
                     latitude: driver.position.latitude,
                     longitude: driver.position.longitude,

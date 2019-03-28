@@ -51,6 +51,8 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     "stripePublicKey" => (string) $dbConfig->getStripePublicKey(),
                     "stripeIsSandbox" => (boolean) $dbConfig->getStripeIsSandbox(),
                     "driverCanRegister" => (boolean) $dbConfig->getDriverCanRegister(),
+                    "defaultLat" => (float) $dbConfig->getDefaultLat(),
+                    "defaultLng" => (float) $dbConfig->getDefaultLng(),
                     "currency" => $currency,
                 ]
             ];

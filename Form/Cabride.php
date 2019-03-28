@@ -47,6 +47,8 @@ class Cabride extends Siberian_Form_Abstract
                 "mi" => __("Miles"),
             ]);
 
+        $this->addSimpleText("map_center", p__("cabride", "Center map address"));
+
         $search_timeout = $this->addSimpleNumber(
             "search_timeout",
             p__("cabride", "Search timeout (seconds)"),
@@ -90,9 +92,13 @@ class Cabride extends Siberian_Form_Abstract
                 "disabled" => p__("cabride", "Disabled"),
                 "fixed" => p__("cabride", "Fixed amount"),
                 "percentage" => p__("cabride", "Percentage"),
+                "mixed" => p__("cabride", "Fixed amount + percentage"),
             ]);
 
-        $commission = $this->addSimpleText("commission", p__("cabride", "Commission"));
+        $commissionFixed = $this->addSimpleText("commission_fixed", p__("cabride", "Commission (fixed)"));
+        $commissionFixed->setRequired(true);
+
+        $commission = $this->addSimpleText("commission", p__("cabride", "Commission (percentage)"));
         $commission->setRequired(true);
 
         $course_mode = $this->addSimpleSelect(

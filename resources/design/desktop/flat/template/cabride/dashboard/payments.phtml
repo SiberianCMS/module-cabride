@@ -15,7 +15,13 @@ use Core\Model\Base;
 $application = $this->getApplication();
 $request = $this->getRequest();
 $valueId = Cabride::getCurrentValueId();
+
 $cabride = (new Cabride())->find($valueId, "value_id");
+if (!$cabride->getId()) {
+    $cabride->setValueId($valueId);
+    $cabride->save();
+    $cabride->reload();
+}
 
 $cu = $cabride->getCurrency();
 $cs = Currency::getCurrency($cabride->getCurrency())["symbol_native"];
