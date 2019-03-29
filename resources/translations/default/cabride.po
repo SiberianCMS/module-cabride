@@ -202,3 +202,44 @@ msgstr "Commission (percentage)"
 msgctxt "cabride"
 msgid "Fixed amount + percentage"
 msgstr "Fixed amount + percentage"
+
+msgctxt "cabride"
+msgid "Auth type"
+msgstr "Auth type"
+
+msgctxt "cabride"
+msgid "HTTP Basic"
+msgstr "HTTP Basic"
+
+msgctxt "cabride"
+msgid "Bearer token"
+msgstr "Bearer token"
+
+msgctxt "cabride"
+msgid "With some admin panels, HTTP Basic is not available, you can switch to Bearer token if this is your case."
+msgstr "With some admin panels, HTTP Basic is not available, you can switch to Bearer token if this is your case."
+
+msgctxt "cabride"
+msgid "WebSocket port"
+msgstr "WebSocket port"
+
+msgctxt "cabride"
+msgid "Port 37000 is the default."
+msgstr "Port 37000 is the default."
+
+msgctxt "cabride"
+msgid "Maintenance"
+msgstr "Maintenance"
+
+msgctxt "cabride"
+msgid "Cabride"
+msgstr "Cabride"
+
+msgctxt "cabride"
+msgid "Settings saved, WebSocket is restarting."
+msgstr "Settings saved, WebSocket is restarting."
+
+#, mobile
+msgctxt "cabride"
+msgid "ACCEPT"
+msgstr "ACCEPT"

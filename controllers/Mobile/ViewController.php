@@ -31,7 +31,8 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             $wssUrl = $config["wssHost"] . ":" . $config["port"] . "/cabride";
 
             // DB Config!
-            $valueId = $this->getCurrentOptionValue()->getId();
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
             $dbConfig = (new Cabride())
                 ->find($valueId, "value_id");
 
@@ -41,6 +42,7 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 "success" => true,
                 "settings" => [
                     "wssUrl" => $wssUrl,
+                    "pageTitle" => (string) $optionValue->getTabbarName(),
                     "distanceUnit" => (string) $dbConfig->getDistanceUnit(),
                     "searchTimeout" => (integer) $dbConfig->getSearchTimeout(),
                     "searchRadius" => (integer) $dbConfig->getSearchRadius(),

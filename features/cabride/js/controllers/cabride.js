@@ -6,7 +6,7 @@ angular.module('starter')
                                      $ionicSideMenuDelegate, Modal, Cabride, CabrideUtils, Customer,
                                      Loader, ContextualMenu, GoogleMaps, Dialog, Location, SB) {
     angular.extend($scope, {
-        pageTitle: $translate.instant("CabRide"),
+        pageTitle: $translate.instant(Cabride.settings.pageTitle),
         valueId: Cabride.getValueId(),
         isAlive: Cabride.isAlive,
         isLoggedIn: Customer.isLoggedIn(),
