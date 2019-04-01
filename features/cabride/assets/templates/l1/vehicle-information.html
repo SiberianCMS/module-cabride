@@ -27,7 +27,7 @@
             <div style="margin-bottom: 20px;"></div>
 
             <div class="item item-divider item-divider-custom text-center">
-                {{ "Please select a vehicle type" | translate }}
+                {{ "Please select a vehicle type" | translate:"cabride" }}
             </div>
 
             <div ng-repeat="type in vehicleTypes"
@@ -38,15 +38,15 @@
                     <p ng-if="showFixedPricing()"
                        class="default-fares">
                         <span>
-                            <span>{{ "Base" | translate }}</span>{{ type.baseFare }}
+                            <span>{{ "Base" | translate:"cabride" }}</span>{{ type.baseFare }}
                         </span>
                         <br />
                         <span ng-if="type.distance_fare > 0">
-                            <span>{{ "Distance" | translate }}</span>{{ type.distanceFare }}
+                            <span>{{ "Distance" | translate:"cabride" }}</span>{{ type.distanceFare }}
                         </span>
                         <br />
                         <span ng-if="type.time_fare > 0">
-                            <span>{{ "Time" | translate }}</span>{{ type.timeFare }}
+                            <span>{{ "Time" | translate:"cabride" }}</span>{{ type.timeFare }}
                         </span>
                     </p>
             </div>
@@ -64,22 +64,22 @@
                    class="default-fares">
                     <span class="pull-left">
                         <span>
-                            <span>{{ "Base" | translate }}</span>{{ currentType.baseFare }}
+                            <span>{{ "Base" | translate:"cabride" }}</span>{{ currentType.baseFare }}
                         </span>
                         <br />
                         <span ng-if="currentType.distance_fare > 0">
-                                <span>{{ "Distance" | translate }}</span>{{ currentType.distanceFare }}
+                                <span>{{ "Distance" | translate:"cabride" }}</span>{{ currentType.distanceFare }}
                             </span>
                         <br />
                         <span ng-if="currentType.time_fare > 0">
-                            <span>{{ "Time" | translate }}</span>{{ currentType.timeFare }}
+                            <span>{{ "Time" | translate:"cabride" }}</span>{{ currentType.timeFare }}
                         </span>
                     </span>
                     <span class="pull-right">
                         <button ng-click="changeType()"
                                 style="border-radius: 0 !important; text-transform: uppercase;"
                                 class="button button-small button-positive button-positive-custom">
-                            {{ "Change type" | translate }}
+                            {{ "Change type" | translate:"cabride" }}
                         </button>
                     </span>
                 </p>
@@ -89,7 +89,7 @@
                         <button ng-click="changeType()"
                                 style="border-radius: 0 !important; text-transform: uppercase;"
                                 class="button button-small button-positive button-positive-custom">
-                            {{ "Change type" | translate }}
+                            {{ "Change type" | translate:"cabride" }}
                         </button>
                     </span>
                 </p>
@@ -99,12 +99,12 @@
 
             <label class="item item-input item-custom">
                 <div class="input-label">
-                    <b>{{ "Mobile number" | translate }} *</b>
+                    <b>{{ "Mobile number" | translate:"cabride" }} *</b>
                 </div>
                 <input class="text-right"
                        type="text"
                        required="required"
-                       placeholder="{{ 'Mobile number' | translate }}"
+                       placeholder="{{ 'Mobile number' | translate:'cabride' }}"
                        ng-model="driver.driver_phone" />
             </label>
 
@@ -112,39 +112,39 @@
 
             <label class="item item-input item-custom">
                 <div class="input-label">
-                    <b>{{ "Model" | translate }}</b>
+                    <b>{{ "Model" | translate:"cabride" }}</b>
                 </div>
                 <input class="text-right"
                        type="text"
-                       placeholder="{{ 'Model' | translate }}"
+                       placeholder="{{ 'Model' | translate:'cabride' }}"
                        ng-model="driver.vehicle_model" />
             </label>
 
             <label class="item item-input item-custom">
                 <div class="input-label">
-                    <b>{{ "License plate" | translate }} *</b>
+                    <b>{{ "License plate" | translate:"cabride" }} *</b>
                 </div>
                 <input class="text-right"
                        type="text"
                        required="required"
-                       placeholder="{{ 'License plate' | translate }}"
+                       placeholder="{{ 'License plate' | translate:'cabride' }}"
                        ng-model="driver.vehicle_license_plate" />
             </label>
 
             <label class="item item-input item-custom">
                 <div class="input-label">
-                    <b>{{ "Driving license" | translate }} *</b>
+                    <b>{{ "Driving license" | translate:"cabride" }} *</b>
                 </div>
                 <input class="text-right"
                        type="text"
                        required="required"
-                       placeholder="{{ 'Driving license' | translate }}"
+                       placeholder="{{ 'Driving license' | translate:'cabride' }}"
                        ng-model="driver.driver_license" />
             </label>
 
             <label class="item item-input item-custom item-stacked-label">
                 <div class="input-label">
-                    <b>{{ "Base address" | translate }}</b>
+                    <b>{{ "Base address" | translate:"cabride" }}</b>
                 </div>
                 <textarea rows="3"
                           ng-model="driver.base_address"></textarea>
@@ -152,7 +152,7 @@
 
             <label class="item item-input item-custom">
                 <div class="input-label">
-                    <b>{{ "Pickup radius" | translate }} ({{ distanceUnit() }})</b>
+                    <b>{{ "Pickup radius" | translate:"cabride" }} ({{ distanceUnit() }})</b>
                 </div>
                 <input class="text-right"
                        type="number"
@@ -167,12 +167,12 @@
                 <div style="margin-bottom: 20px;"></div>
 
                 <div class="item item-divider item-divider-custom text-center">
-                    <h2>{{ "Custom fares" | translate }}</h2>
+                    <h2>{{ "Custom fares" | translate:"cabride" }}</h2>
                 </div>
 
                 <label class="item item-input item-custom">
                     <div class="input-label">
-                        <b>{{ "Base" | translate }} *</b>
+                        <b>{{ "Base" | translate:"cabride" }} *</b>
                     </div>
                     <input class="text-right"
                            type="number"
@@ -184,7 +184,7 @@
 
                 <label class="item item-input item-custom">
                     <div class="input-label">
-                        <b>{{ "Distance (every km/mi)" | translate }} *</b>
+                        <b>{{ "Distance (every km/mi)" | translate:"cabride" }} *</b>
                     </div>
                     <input class="text-right"
                            type="number"
@@ -196,7 +196,7 @@
 
                 <label class="item item-input item-custom">
                     <div class="input-label">
-                        <b>{{ "Time (every minute)" | translate }} *</b>
+                        <b>{{ "Time (every minute)" | translate:"cabride" }} *</b>
                     </div>
                     <input class="text-right"
                            type="number"
@@ -217,14 +217,14 @@
                 ng-click="save()"
                 style="margin: -1px; text-transform: uppercase;"
                 class="button button-full button-positive button-positive-custom">
-            {{ "Save" | translate }}
+            {{ "Save" | translate:"cabride" }}
         </button>
 
         <button ng-if="changingType && driver.hasVehicle"
                 ng-click="cancelType()"
                 style="margin: -1px; text-transform: uppercase;"
                 class="button button-full button-assertive button-assertive-custom">
-            {{ "Cancel" | translate }}
+            {{ "Cancel" | translate:"cabride" }}
         </button>
     </div>
 </ion-view>

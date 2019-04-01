@@ -6,7 +6,7 @@ angular.module('starter')
                                      $ionicSideMenuDelegate, Modal, Cabride, CabrideUtils, Customer,
                                      Loader, ContextualMenu, GoogleMaps, Dialog, Location, SB) {
     angular.extend($scope, {
-        pageTitle: $translate.instant(Cabride.settings.pageTitle),
+        pageTitle: $translate.instant("CabRide", "cabride"),
         valueId: Cabride.getValueId(),
         isAlive: Cabride.isAlive,
         isLoggedIn: Customer.isLoggedIn(),
@@ -148,6 +148,16 @@ angular.module('starter')
             disableDefaultUI: true
         });
 
+        // Center on user location if default is blank!
+        if (Cabride.settings.defaultLat === 0 &&
+            Cabride.settings.defaultLng === 0) {
+            google.maps.event.addListenerOnce($scope.crMap, 'tilesloaded', function(){
+                $timeout(function () {
+                    $scope.centerMe();
+                }, 500);
+            });
+        }
+
         var icon = {
             url: "./features/cabride/assets/templates/images/004-blank.png",
             width: 48,
@@ -230,7 +240,9 @@ angular.module('starter')
             Dialog.alert(
                 "Location",
                 "Sorry we are unable to locate you, please check your GPS settings & authorization.",
-                "OK");
+                "OK",
+                1,
+                "cabride");
         });
     };
 
@@ -288,14 +300,14 @@ angular.module('starter')
             return {
                 action: "pickup",
                 class: "positive",
-                text: $translate.instant("Set pick-up location")
+                text: $translate.instant("Set pick-up location", "cabride")
             };
         }
         if ($scope.ride.dropoffAddress === "") {
             return {
                 action: "dropoff",
                 class: "energized",
-                text: $translate.instant("Set drop-off location")
+                text: $translate.instant("Set drop-off location", "cabride")
             };
         }
         if ($scope.ride.isSearching) {
@@ -309,7 +321,7 @@ angular.module('starter')
             return {
                 action: "search",
                 class: "balanced",
-                text: $translate.instant("Request a driver")
+                text: $translate.instant("Request a driver", "cabride")
             };
         }
         return {
@@ -340,7 +352,9 @@ angular.module('starter')
                     Dialog.alert(
                         "Location",
                         "Your position doesn't resolve to a valid address.",
-                        "OK");
+                        "OK",
+                        -1,
+                        "cabride");
                 });
                 break;
             case "dropoff":
@@ -362,7 +376,9 @@ angular.module('starter')
                     Dialog.alert(
                         "Location",
                         "Your position doesn't resolve to a valid address.",
-                        "OK");
+                        "OK",
+                        -1,
+                        "cabride");
                 });
                 break;
             case "search":
@@ -685,7 +701,7 @@ angular.module('starter')
                                         Cabride, CabrideUtils, Dialog, ContextualMenu, $window) {
     angular.extend($scope, {
         isLoading: false,
-        pageTitle: $translate.instant("My rides"),
+        pageTitle: $translate.instant("My rides", "cabride"),
         valueId: Cabride.getValueId(),
         filtered: null,
         filterName: "in progress",
@@ -823,7 +839,7 @@ angular.module('starter')
                                            Cabride, CabrideUtils, Dialog, ContextualMenu) {
     angular.extend($scope, {
         isLoading: false,
-        pageTitle: $translate.instant("My payments"),
+        pageTitle: $translate.instant("My payments", "cabride"),
         valueId: Cabride.getValueId(),
         filtered: null,
         filterName: "payments",
@@ -918,7 +934,7 @@ angular.module('starter')
 .controller('CabridePendingRequests', function ($scope, $translate, $state, Cabride, CabrideUtils, Dialog, Loader, ContextualMenu) {
     angular.extend($scope, {
         isLoading: false,
-        pageTitle: $translate.instant("Pending requests"),
+        pageTitle: $translate.instant("Pending requests", "cabride"),
         valueId: Cabride.getValueId(),
         collection: []
     });
@@ -1055,7 +1071,7 @@ angular.module('starter')
                                                  ContextualMenu, $window) {
     angular.extend($scope, {
         isLoading: false,
-        pageTitle: $translate.instant("Accepted requests"),
+        pageTitle: $translate.instant("Accepted requests", "cabride"),
         valueId: Cabride.getValueId(),
         collection: []
     });
@@ -1208,7 +1224,7 @@ angular.module('starter')
 .controller('CabrideCompletedRides', function ($scope, $translate, Cabride, Dialog, ContextualMenu) {
     angular.extend($scope, {
         isLoading: false,
-        pageTitle: $translate.instant("Completed requests"),
+        pageTitle: $translate.instant("Completed requests", "cabride"),
         valueId: Cabride.getValueId(),
         collection: []
     });
@@ -1273,7 +1289,7 @@ angular.module('starter')
 .controller('CabrideCancelled', function ($scope, $translate, $state, Cabride, CabrideUtils, Dialog, Loader, ContextualMenu) {
     angular.extend($scope, {
         isLoading: false,
-        pageTitle: $translate.instant("Declined requests"),
+        pageTitle: $translate.instant("Declined requests", "cabride"),
         valueId: Cabride.getValueId(),
         collection: []
     });
@@ -1381,7 +1397,7 @@ angular.module('starter')
 .controller('CabrideVehicleInformation', function ($scope, $translate, Cabride, Dialog, Loader, ContextualMenu) {
     angular.extend($scope, {
         isLoading: false,
-        pageTitle: $translate.instant("Vehicle information"),
+        pageTitle: $translate.instant("Vehicle information", "cabride"),
         valueId: Cabride.getValueId(),
         pricingMode: Cabride.settings.pricingMode,
         changingType: false,
@@ -1485,7 +1501,7 @@ angular.module('starter')
 
     angular.extend($scope, {
         isLoading: false,
-        pageTitle: $translate.instant("Payment history"),
+        pageTitle: $translate.instant("Payment history", "cabride"),
         valueId: Cabride.getValueId(),
         filtered: null,
         filterName: "card",

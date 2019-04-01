@@ -8,7 +8,7 @@
                 <i class="icon ion-sb-close-modal"></i>
             </button>
         </div>
-        <h1 class="title">{{ "Select a vehicle type" | translate }}</h1>
+        <h1 class="title">{{ "Select a vehicle type" | translate:"cabride" }}</h1>
     </ion-header-bar>
 
     <ion-content>
@@ -20,10 +20,10 @@
                 <h2 class="vehicle-type-title">{{ vehicleType.type }}</h2>
                 <p class="default-fares">
                     <span ng-if="vehicleType.lowPricing != vehicleType.pricing">
-                        {{ "Est." | translate }} {{ vehicleType.lowPricing }} - {{ vehicleType.pricing }}
+                        {{ "Est." | translate:"cabride" }} {{ vehicleType.lowPricing }} - {{ vehicleType.pricing }}
                     </span>
                     <span ng-if="vehicleType.lowPricing == vehicleType.pricing">
-                        {{ "Est." | translate }} {{ vehicleType.pricing }}
+                        {{ "Est." | translate:"cabride" }} {{ vehicleType.pricing }}
                     </span>
                 </p>
             </div>

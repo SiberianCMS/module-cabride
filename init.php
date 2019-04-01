@@ -4,6 +4,7 @@ use Siberian\Api;
 use Siberian\Service;
 use Siberian\Assets;
 use Siberian\Hook;
+use Siberian\Translation;
 use Siberian_Module as Module;
 use Cabride\Model\Cabride;
 
@@ -80,6 +81,8 @@ $init = function($bootstrap) {
 
     Module::addMenu("Cabride", "cabride", "Cabride",
         "cabride/backoffice_view", "icofont icofont-car");
+
+    Translation::registerExtractor("cabride", "Cabride");
 
     Hook::listen("mobile.controller.init", "cabride_extendedfields", "extendedFields");
     Hook::listen("editor.left.menu.ready", "cabride_nav", "dashboardNav");

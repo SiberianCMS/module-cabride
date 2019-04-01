@@ -25,8 +25,8 @@
             <div ng-show="filtered.length == 0"
                  class="list">
                 <div class="item item-custom text-center">
-                    <span ng-if="filterName == 'in progress'">{{ "You have no rides in progress" | translate }}</span>
-                    <span ng-if="filterName == 'archived'">{{ "You have no rides archived" | translate }}</span>
+                    <span ng-if="filterName == 'in progress'">{{ "You have no rides in progress" | translate:"cabride" }}</span>
+                    <span ng-if="filterName == 'archived'">{{ "You have no rides archived" | translate:"cabride" }}</span>
                 </div>
             </div>
 
@@ -42,13 +42,13 @@
                             <div class="driver-photo">
                                 <img src="" />
                             </div>
-                            <span class="course-status {{ request.status }}">{{ request.status | translate }}</span>
+                            <span class="course-status {{ request.status }}">{{ request.status | translate:"cabride" }}</span>
 
                             <span ng-show="filterName != 'archived' && request.status == 'pending'"
-                                  class="course-expiration {{ request.status }}">{{ "Expires" | translate }} {{ expiration(request) }}</span>
+                                  class="course-expiration {{ request.status }}">{{ "Expires" | translate:"cabride" }} {{ expiration(request) }}</span>
 
                             <span ng-show="filterName != 'archived' && request.status == 'onway'"
-                                  class="course-eta {{ request.status }}">{{ "Driver arrival" | translate }} {{ eta(request) }}</span>
+                                  class="course-eta {{ request.status }}">{{ "Driver arrival" | translate:"cabride" }} {{ eta(request) }}</span>
 
                             <div class="row course-details">
                                 <div class="col-75">
@@ -63,7 +63,7 @@
                                     </span>
                                     <span ng-if="request.formatted_price != request.formatted_lowest_price"
                                           ng-class="{'price-stroke': request.formatted_driver_price}"
-                                          class="course-cost">{{ "Est." | translate }} {{ request.formatted_lowest_price }} - {{ request.formatted_price }}</span>
+                                          class="course-cost">{{ "Est." | translate:"cabride" }} {{ request.formatted_lowest_price }} - {{ request.formatted_price }}</span>
                                     <span ng-if="request.formatted_price == request.formatted_lowest_price"
                                           ng-class="{'price-stroke': request.formatted_driver_price}"
                                           class="course-cost">{{ request.formatted_price }}</span>
@@ -82,13 +82,13 @@
            ng-class="{'activated': filterName == 'in progress'}"
            class="tab-item">
             <i class="icon ion-clock"></i>
-            {{ "In progress" | translate }}
+            {{ "In progress" | translate:"cabride" }}
         </a>
         <a ng-click="statusFilter('archives')"
            ng-class="{'activated': filterName == 'archived'}"
            class="tab-item">
             <i class="icon ion-archive"></i>
-            {{ "Archived" | translate }}
+            {{ "Archived" | translate:"cabride" }}
         </a>
     </div>
 </ion-view>

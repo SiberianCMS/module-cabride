@@ -2,7 +2,7 @@
  *
  */
 App.factory("Cabride", function ($http, Url) {
-    let factory = {};
+    var factory = {};
 
     /**
      *

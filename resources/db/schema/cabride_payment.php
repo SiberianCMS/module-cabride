@@ -72,6 +72,10 @@ $schemas['cabride_payment'] = [
     'commission_amount' => [
         'type' => 'float',
     ],
+    'commission_exceed_amount' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'method' => [
         'type' => 'varchar(128)',
         'charset' => 'utf-8',

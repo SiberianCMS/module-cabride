@@ -41,7 +41,7 @@ class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Def
             $durationMinute = ceil($route["routes"][0]["legs"][0]["duration"]["value"] / 60);
 
             // Searching for closest drivers!
-            // Attention, distance is computed by the fly!
+            // Attention, distance is computed on the fly!
             $formula = Geocoding::getDistanceFormula($lat, $lng, "d", "latitude", "longitude");
 
             $drivers = (new Driver())

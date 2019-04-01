@@ -9,7 +9,7 @@
                 <i class="icon ion-sb-close-modal"></i>
             </button>
         </div>
-        <h1 class="title">{{ "Course details" | translate }}</h1>
+        <h1 class="title">{{ "Course details" | translate:"cabride" }}</h1>
     </ion-header-bar>
 
     <ion-content>
@@ -23,7 +23,7 @@
                         <div class="driver-photo">
                             <img src="" />
                         </div>
-                        <span class="course-status {{ request.status }}">{{ request.status | translate }}</span>
+                        <span class="course-status {{ request.status }}">{{ request.status | translate:"cabride" }}</span>
                         <span ng-show="filterName != 'archived' && request.status == 'pending'"
                               class="course-expiration {{ request.status }}">{{ "Expires" }} {{ expiration(request) }}</span>
                         <div class="row course-details">
@@ -39,7 +39,7 @@
                                 </span>
                                 <span ng-if="userType == 'client' && request.formatted_price != request.formatted_lowest_price"
                                       ng-class="{'price-stroke': request.formatted_driver_price}"
-                                      class="course-cost">{{ "Est." | translate }} {{ request.formatted_lowest_price }} - {{ request.formatted_price }}</span>
+                                      class="course-cost">{{ "Est." | translate:"cabride" }} {{ request.formatted_lowest_price }} - {{ request.formatted_price }}</span>
                                 <span ng-if="userType == 'client' && request.formatted_price == request.formatted_lowest_price"
                                       ng-class="{'price-stroke': request.formatted_driver_price}"
                                       class="course-cost">{{ request.formatted_price }}</span>
@@ -52,7 +52,7 @@
             <div style="margin-bottom: 20px;"></div>
 
             <div class="item item-divider item-divider-custom">
-                {{ "Origin & destination" | translate }}
+                {{ "Origin & destination" | translate:"cabride" }}
             </div>
 
             <div class="item item-custom request-detail-small item-icon-left">
@@ -76,7 +76,7 @@
             <div class="item item-custom request-detail-small item-icon-left">
                 <i class="icon ion-clock"></i>
                 <p>
-                    {{ duration(request) }} {{ "mn" | translate }}
+                    {{ duration(request) }} {{ "mn" | translate:"cabride" }}
                 </p>
             </div>
 
@@ -84,7 +84,7 @@
                 <div style="margin-bottom: 20px;"></div>
 
                 <div class="item item-divider item-divider-custom">
-                    {{ "Payment method" | translate }}
+                    {{ "Payment method" | translate:"cabride" }}
                 </div>
 
                 <div ng-if="request.cash"
@@ -93,7 +93,7 @@
                         <img src="./features/cabride/assets/templates/images/010-money.svg"
                              style="height: 60%; margin-right: 15px;" />
                     </i>
-                    <b>{{ "Cash" | translate }}</b>
+                    <b>{{ "Cash" | translate:"cabride" }}</b>
                 </div>
 
                 <div ng-if="request.vault"
@@ -114,7 +114,7 @@
                     <div style="margin-bottom: 20px;"></div>
 
                     <div class="item item-divider item-divider-custom">
-                        {{ "Payment card" | translate }}
+                        {{ "Payment card" | translate:"cabride" }}
                     </div>
 
                     <div class="item item-custom item-icon-left item-icon-right">
@@ -134,7 +134,7 @@
                     <div style="margin-bottom: 20px;"></div>
 
                     <div class="item item-divider item-divider-custom">
-                        {{ "Payment method" | translate }}
+                        {{ "Payment method" | translate:"cabride" }}
                     </div>
 
                     <div class="item item-custom item-icon-left">
@@ -142,7 +142,7 @@
                             <img src="./features/cabride/assets/templates/images/010-money.svg"
                                  style="height: 60%; margin-right: 15px;" />
                         </i>
-                        <b>{{ "Cash" | translate }}</b>
+                        <b>{{ "Cash" | translate:"cabride" }}</b>
                     </div>
                 </div>
             </div>
@@ -151,7 +151,7 @@
                 <div style="margin-bottom: 20px;"></div>
 
                 <div class="item item-divider item-divider-custom">
-                    {{ "Driver" | translate }}
+                    {{ "Driver" | translate:"cabride" }}
                 </div>
 
                 <div class="item item-custom item-thumbnail-left">
@@ -168,7 +168,7 @@
                 <div style="margin-bottom: 20px;"></div>
 
                 <div class="item item-divider item-divider-custom">
-                    {{ "Client" | translate }}
+                    {{ "Client" | translate:"cabride" }}
                 </div>
 
                 <div class="item item-custom item-thumbnail-left">
@@ -184,7 +184,7 @@
                 <div style="margin-bottom: 20px;"></div>
 
                 <div class="item item-divider item-divider-custom">
-                    {{ "History" | translate }}
+                    {{ "History" | translate:"cabride" }}
                 </div>
 
                 <div class="item item-custom request-detail-small"

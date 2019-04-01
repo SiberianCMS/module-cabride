@@ -3,6 +3,8 @@
 use Cabride\Model\Cabride as Cabride;
 use Cabride\Form\Cabride as FormCabride;
 use Cabride\Form\Cabride\Delete as CabrideDelete;
+use Siberian_Google_Geocoding as Geocoding;
+use Siberian\Exception;
 
 /**
  * Class Cabride_ApplicationController
@@ -45,48 +47,76 @@ class Cabride_ApplicationController extends Application_Controller_Default
     }
 
     /**
-     * Create/Edit Cabride
      *
-     * @throws exception
      */
     public function editpostAction()
     {
-        $values = $this->getRequest()->getPost();
+        try {
+            $values = $this->getRequest()->getPost();
+            $application = $this->getApplication();
 
-        $form = new FormCabride();
+            $form = new FormCabride();
 
-        // Removes the require on commission if disabled!
-        switch ($values["commission_type"]) {
-            case "disabled":
-                $form->getElement("commission")->setRequired(false);
-                $form->getElement("commission_fixed")->setRequired(false);
-                break;
-            case "fixed":
-                $form->getElement("commission")->setRequired(false);
-                break;
-            case "percentage":
-                $form->getElement("commission_fixed")->setRequired(false);
-                break;
-            case "mixed":
-                // Leave both required
-                break;
-        }
+            // Removes the require on commission if disabled!
+            switch ($values["commission_type"]) {
+                case "disabled":
+                    $form->getElement("commission")->setRequired(false);
+                    $form->getElement("commission_fixed")->setRequired(false);
+                    break;
+                case "fixed":
+                    $form->getElement("commission")->setRequired(false);
+                    break;
+                case "percentage":
+                    $form->getElement("commission_fixed")->setRequired(false);
+                    break;
+                case "mixed":
+                    // Leave both required
+                    break;
+            }
 
-        if ($form->isValid($values)) {
-            $cabride = new Cabride();
-            $cabride->addData($values);
-            $cabride->save();
+            if ($form->isValid($values)) {
+                $cabride = new Cabride();
+                $cabride->addData($values);
 
-            $payload = [
-                "success" => true,
-                "message" => __("Success"),
-            ];
-        } else {
-            /** Do whatever you need when form is not valid */
+                // Validating center map address
+                if (!empty($values["center_map"])) {
+                    $validate = Geocoding::validateAddress([
+                        "refresh" => true,
+                        "address" => $values["center_map"]
+                    ], $application->getGooglemapsKey());
+
+                    if ($validate === false) {
+                        throw new Exception(p__("cabride","We are unable to validate your address!"));
+                    }
+
+                    $cabride
+                        ->setDefaultLat($validate->getLatitude())
+                        ->setDefaultLng($validate->getLongitude());
+                } else {
+                    $cabride
+                        ->setCenterMap(null)
+                        ->setDefaultLat(null)
+                        ->setDefaultLng(null);
+                }
+
+                $cabride->save();
+
+                $payload = [
+                    "success" => true,
+                    "message" => __("Success"),
+                ];
+            } else {
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    "error" => true,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true),
+                ];
+            }
+        } catch (\Exception $e) {
             $payload = [
                 "error" => true,
-                "message" => $form->getTextErrors(),
-                "errors" => $form->getTextErrors(true),
+                "message" => $e->getMessage(),
             ];
         }
 

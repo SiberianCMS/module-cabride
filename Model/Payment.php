@@ -45,30 +45,53 @@ class Payment extends Base
                 $this
                     ->setCommissionType("disabled")
                     ->setCommissionAmount(0)
+                    ->setCommissionExceedAmount(false)
                     ->save();
                 break;
             case "fixed":
+                $comValue = round($commissionFixed, 2);
+                $commissionExceedAmount = false;
+                if ($comValue > $this->getAmount()) {
+                    $comValue = $this->getAmount();
+                    $commissionExceedAmount = true;
+                }
+
                 $this
                     ->setCommissionType("fixed")
-                    ->setCommissionAmount(round($commissionFixed, 2))
+                    ->setCommissionAmount($comValue)
+                    ->setCommissionExceedAmount($commissionExceedAmount)
                     ->save();
                 break;
             case "percentage":
                 $total = $this->getAmount();
                 $part = round($total / 100 * $commission, 2);
 
+                $commissionExceedAmount = false;
+                if ($part > $total) {
+                    $part = $this->getAmount();
+                    $commissionExceedAmount = true;
+                }
+
                 $this
                     ->setCommissionType("percentage")
                     ->setCommissionAmount($part)
+                    ->setCommissionExceedAmount($commissionExceedAmount)
                     ->save();
                 break;
             case "mixed":
                 $total = $this->getAmount();
                 $part = round(($total / 100 * $commission) + $commissionFixed, 2);
 
+                $commissionExceedAmount = false;
+                if ($part > $total) {
+                    $part = $this->getAmount();
+                    $commissionExceedAmount = true;
+                }
+
                 $this
                     ->setCommissionType("mixed")
                     ->setCommissionAmount($part)
+                    ->setCommissionExceedAmount($commissionExceedAmount)
                     ->save();
                 break;
         }

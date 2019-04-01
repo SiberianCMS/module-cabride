@@ -47,7 +47,22 @@ class Cabride extends Siberian_Form_Abstract
                 "mi" => __("Miles"),
             ]);
 
-        $this->addSimpleText("map_center", p__("cabride", "Center map address"));
+        $this->addSimpleText("center_map", p__("cabride", "Center map address"));
+
+        $centerMapHint = p__("cabride", "Leave blank to center map on user GPS position.");
+        $html = <<<RAW
+<div class="form-group sb-form-line">
+    <label class="col-sm-3">&nbsp;</label>
+    <div class="col-sm-7" 
+         style="margin: 0 9px 0 7px;">
+        <div class="alert alert-warning">
+            $centerMapHint
+        </div>
+    </div>
+</div>
+RAW;
+
+        $this->addSimpleHtml("center_map_hint", $html);
 
         $search_timeout = $this->addSimpleNumber(
             "search_timeout",
@@ -95,10 +110,10 @@ class Cabride extends Siberian_Form_Abstract
                 "mixed" => p__("cabride", "Fixed amount + percentage"),
             ]);
 
-        $commissionFixed = $this->addSimpleText("commission_fixed", p__("cabride", "Commission (fixed)"));
+        $commissionFixed = $this->addSimpleNumber("commission_fixed", p__("cabride", "Commission (fixed)"), 0, null, true);
         $commissionFixed->setRequired(true);
 
-        $commission = $this->addSimpleText("commission", p__("cabride", "Commission (percentage)"));
+        $commission = $this->addSimpleNumber("commission", p__("cabride", "Commission (percentage)"), 0, 100, true);
         $commission->setRequired(true);
 
         $course_mode = $this->addSimpleSelect(

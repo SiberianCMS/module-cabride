@@ -97,20 +97,20 @@ angular.module('starter')
 
     $scope.source = function (source) {
         if ($scope.userType === "driver" && source === "driver") {
-            return $translate.instant("You");
+            return $translate.instant("You", "cabride");
         } else if ($scope.userType === "client" && source === "client") {
-            return $translate.instant("You");
+            return $translate.instant("You", "cabride");
         }
 
         switch (source) {
             case "cron":
-                return $translate.instant("App");
+                return $translate.instant("App", "cabride");
             case "admin":
-                return $translate.instant("App manager");
+                return $translate.instant("App manager", "cabride");
             case "driver":
-                return $translate.instant("Driver");
+                return $translate.instant("Driver", "cabride");
             case "client":
-                return $translate.instant("Client");
+                return $translate.instant("Client", "cabride");
         }
 
         // Return unchanged if no match
@@ -121,21 +121,21 @@ angular.module('starter')
         // "pending", "accepted", "onway", "inprogress", "declined", "done", "aborted", "expired"
         switch (status) {
             case "pending":
-                return $translate.instant("Created");
+                return $translate.instant("Created", "cabride");
             case "accepted":
-                return $translate.instant("Accepted");
+                return $translate.instant("Accepted", "cabride");
             case "onway":
-                return $translate.instant("Driver on way");
+                return $translate.instant("Driver on way", "cabride");
             case "inprogress":
-                return $translate.instant("Course in progress");
+                return $translate.instant("Course in progress", "cabride");
             case "declined":
-                return $translate.instant("Declined");
+                return $translate.instant("Declined", "cabride");
             case "done":
-                return $translate.instant("Course done");
+                return $translate.instant("Course done", "cabride");
             case "aborted":
-                return $translate.instant("Aborted");
+                return $translate.instant("Aborted", "cabride");
             case "expired":
-                return $translate.instant("Expired");
+                return $translate.instant("Expired", "cabride");
         }
     };
 
