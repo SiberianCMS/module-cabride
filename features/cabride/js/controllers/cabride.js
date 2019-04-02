@@ -241,7 +241,7 @@ angular.module('starter')
                 "Location",
                 "Sorry we are unable to locate you, please check your GPS settings & authorization.",
                 "OK",
-                1,
+                -1,
                 "cabride");
         });
     };
@@ -401,10 +401,10 @@ angular.module('starter')
                 $scope.vaults = response.vaults;
                 $scope.showModal(response.collection);
             } else {
-                Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK");
+                Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK", -1, "cabride");
             }
         }, function (error) {
-            Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK");
+            Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK", -1, "cabride");
         }).then(function () {
             $scope.ride.isSearching = false;
         });
@@ -552,13 +552,13 @@ angular.module('starter')
                 Dialog.alert(
                     "Location",
                     "Your position doesn't resolve to a valid address.",
-                    "OK");
+                    "OK", -1, "cabride");
             })
         }, function () {
             Dialog.alert(
                 "Location",
                 "Sorry we are unable to locate you, please check your GPS settings & authorization.",
-                "OK");
+                "OK", -1, "cabride");
         });
     };
 
@@ -580,13 +580,13 @@ angular.module('starter')
                 Dialog.alert(
                     "Location",
                     "Your position doesn't resolve to a valid address.",
-                    "OK");
+                    "OK", -1, "cabride");
             });
         }, function () { // Error!
             Dialog.alert(
                 "Location",
                 "Sorry we are unable to locate you, please check your GPS settings & authorization.",
-                "OK");
+                "OK", -1, "cabride");
         });
     };
 
@@ -726,7 +726,7 @@ angular.module('starter')
             $scope.collection = payload.collection;
             $scope.filtered = $filter("cabrideStatusFilter")($scope.collection, $scope.statuses);
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
+            Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
             $scope.isLoading = false;
         });
@@ -859,7 +859,7 @@ angular.module('starter')
             $scope.payments = payload.payments;
             $scope.cards = payload.cards;
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
+            Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
             $scope.isLoading = false;
         });
@@ -874,9 +874,9 @@ angular.module('starter')
                 Cabride
                 .deleteVault(card)
                 .then(function (payload) {
-                    Dialog.alert("Success", payload.message, "OK", 2350);
+                    Dialog.alert("Success", payload.message, "OK", 2350, "cabride");
                 }, function (error) {
-                    Dialog.alert("Error", error.message, "OK");
+                    Dialog.alert("Error", error.message, "OK", -1, "cabride");
                 }).then(function () {
                     $scope.isLoading = false;
                     $scope.refresh();
@@ -950,7 +950,7 @@ angular.module('starter')
         .then(function (payload) {
             $scope.collection = payload.collection;
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
+            Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
             $scope.isLoading = false;
         });
@@ -1008,7 +1008,7 @@ angular.module('starter')
                 $state.go("cabride-cancelled");
             });
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
+            Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
             Loader.hide();
             $scope.refresh();
@@ -1040,13 +1040,13 @@ angular.module('starter')
                     $state.go("cabride-accepted-requests");
                 });
             }, function (error) {
-                Dialog.alert("Error", error.message, "OK");
+                Dialog.alert("Error", error.message, "OK", -1, "cabride");
             }).then(function () {
                 Loader.hide();
                 $scope.refresh();
             });
         }, function (error) {
-            Dialog.alert("Error", error[1], "OK");
+            Dialog.alert("Error", error[1], "OK", -1, "cabride");
             Loader.hide();
             $scope.refresh();
         });
@@ -1087,7 +1087,7 @@ angular.module('starter')
         .then(function (payload) {
             $scope.collection = payload.collection;
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
+            Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
             $scope.isLoading = false;
         });
@@ -1152,13 +1152,13 @@ angular.module('starter')
                     Navigator.navigate(payload.driveTo);
                 });
             }, function (error) {
-                Dialog.alert("Error", error.message, "OK");
+                Dialog.alert("Error", error.message, "OK", -1, "cabride");
             }).then(function () {
                 Loader.hide();
                 $scope.refresh();
             });
         }, function (error) {
-            Dialog.alert("Error", error[1], "OK");
+            Dialog.alert("Error", error[1], "OK", -1, "cabride");
             Loader.hide();
             $scope.refresh();
         });
@@ -1176,7 +1176,7 @@ angular.module('starter')
                 Navigator.navigate(payload.driveTo);
             });
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
+            Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
             Loader.hide();
             $scope.refresh();
@@ -1195,7 +1195,7 @@ angular.module('starter')
                 $state.go("cabride-completed-rides");
             });
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
+            Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
             Loader.hide();
             $scope.refresh();
@@ -1240,7 +1240,7 @@ angular.module('starter')
         .then(function (payload) {
             $scope.collection = payload.collection;
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
+            Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
             $scope.isLoading = false;
         });
@@ -1305,7 +1305,7 @@ angular.module('starter')
         .then(function (payload) {
             $scope.collection = payload.collection;
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
+            Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
             $scope.isLoading = false;
         });
@@ -1367,13 +1367,13 @@ angular.module('starter')
                     $state.go("cabride-accepted-requests");
                 });
             }, function (error) {
-                Dialog.alert("Error", error.message, "OK");
+                Dialog.alert("Error", error.message, "OK", -1, "cabride");
             }).then(function () {
                 Loader.hide();
                 $scope.refresh();
             });
         }, function (error) {
-            Dialog.alert("Error", error[1], "OK");
+            Dialog.alert("Error", error[1], "OK", -1, "cabride");
             Loader.hide();
             $scope.refresh();
         });
@@ -1400,6 +1400,7 @@ angular.module('starter')
         pageTitle: $translate.instant("Vehicle information", "cabride"),
         valueId: Cabride.getValueId(),
         pricingMode: Cabride.settings.pricingMode,
+        settings: Cabride.settings,
         changingType: false,
         collection: []
     });
@@ -1417,7 +1418,7 @@ angular.module('starter')
             $scope.driver = payload.driver;
             $scope.currentType = payload.currentType;
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
+            Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
             $scope.isLoading = false;
         });
@@ -1432,7 +1433,7 @@ angular.module('starter')
             $scope.currentType = payload.currentType;
             $scope.changingType = false;
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
+            Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
             Loader.hide();
         });
@@ -1461,9 +1462,9 @@ angular.module('starter')
         .saveDriver($scope.driver)
         .then(function (payload) {
             $scope.driver = payload.driver;
-            Dialog.alert("Saved!", payload.message, "OK");
+            Dialog.alert("Saved!", payload.message, "OK", -1, "cabride");
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK");
+            Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
             Loader.hide();
         });
@@ -1525,7 +1526,7 @@ angular.module('starter')
                 $scope.pendingPayouts = payload.pendingPayouts;
                 $scope.filtered = $scope.collections[$scope.keyName];
             }, function (error) {
-                Dialog.alert("Error", error.message, "OK");
+                Dialog.alert("Error", error.message, "OK", -1, "cabride");
             }).then(function () {
                 $scope.isLoading = false;
             });

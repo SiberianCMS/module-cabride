@@ -51,12 +51,12 @@ class Cabride_Backoffice_ViewController extends Backoffice_Controller_Default
 
             // Rebuild config
             $cabrideUser = (new \Api_Model_User())
-                ->find('cabride', 'username');
+                ->find("cabride", "username");
             if ($cabrideUser->getId()) {
                 $cabrideUser->delete();
             }
 
-            Cabride::initApiUser();
+            Cabride::initApiUser($settings["cabride_server_auth"], $settings["cabride_server_port"]);
 
             // Call for a restart!
             exec("pkill -9 node_64 2&>1");

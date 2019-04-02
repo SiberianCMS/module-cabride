@@ -60,7 +60,7 @@ angular.module('starter')
             $scope.vaults = payload.vaults;
             $scope.addEditCard = false;
         }, function (errorMessage) {
-            Dialog.alert("Error", errorMessage, "OK", 5000);
+            Dialog.alert("Error", errorMessage, "OK", 5000, "cabride");
         }).then(function () {
             Loader.hide();
         });

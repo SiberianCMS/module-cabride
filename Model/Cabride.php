@@ -196,26 +196,32 @@ class Cabride extends Base
     }
 
     /**
+     * @param null $auth
+     * @param null $port
      * @throws \Exception
      */
-    public static function initApiUser ()
+    public static function initApiUser ($auth = null, $port = null)
     {
         // Defaults!
-        $serverAuth = __get("cabride_server_auth");
+        $serverAuth = ($auth === null) ?
+            __get("cabride_server_auth") : $auth;
         if (empty($serverAuth)) {
             __set("cabride_server_auth", "basic");
+            $serverAuth = "basic";
         }
 
-        $serverPort = __get("cabride_server_port");
+        $serverPort = ($port === null) ?
+            __get("cabride_server_port") : $port;
         if (empty($serverPort)) {
             __set("cabride_server_port", 37000);
+            $serverPort = 37000;
         }
 
         /**
          * @var $cabrideUser \Api_Model_User
          */
         $cabrideUser = (new \Api_Model_User())
-            ->find('cabride', 'username');
+            ->find("cabride", "username");
 
         $acl = [];
         foreach (Api::$acl_keys as $key => $subkeys) {
@@ -262,10 +268,10 @@ class Cabride extends Base
             $config = [
                 "apiUrl" => $serverHost,
                 "wssHost" => $wssHost,
-                "port" => __get("cabride_server_port"),
+                "port" => $serverPort,
                 "username" => "cabride",
                 "password" => base64_encode($password),
-                "auth" => __get("cabride_server_auth"), // Defaults to basic
+                "auth" => $serverAuth, // Defaults to basic
                 "bearer" => $cabrideUser->getBearerToken()
             ];
             file_put_contents($configFile, Json::encode($config));

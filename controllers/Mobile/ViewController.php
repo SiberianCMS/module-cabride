@@ -6,6 +6,7 @@ use Cabride\Model\Client;
 use Cabride\Model\Driver;
 use Cabride\Model\Stripe\Currency;
 use Siberian\Exception;
+use Core\Model\Base;
 
 /**
  * Class Cabride_Mobile_ViewController
@@ -56,6 +57,11 @@ class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     "defaultLat" => (float) $dbConfig->getDefaultLat(),
                     "defaultLng" => (float) $dbConfig->getDefaultLng(),
                     "currency" => $currency,
+                    "commission_type" => (string) $dbConfig->getCommissionType(),
+                    "commission" => (float) $dbConfig->getCommission(),
+                    "commission_fmt" => Base::_formatPrice($dbConfig->getCommission(), $currency),
+                    "commission_fixed" => (float) $dbConfig->getCommissionFixed(),
+                    "commission_fixed_fmt" => Base::_formatPrice($dbConfig->getCommissionFixed(), $currency),
                 ]
             ];
 

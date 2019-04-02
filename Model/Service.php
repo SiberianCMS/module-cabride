@@ -88,7 +88,7 @@ class Service extends Base
         try {
             echo $command . PHP_EOL;
             exec($command, $output, $return);
-            return !(boolean)$return;
+            return !(boolean) $return;
         } catch (Exception $e) {
             return false;
         }

@@ -113,7 +113,7 @@ $stats = (new Payment())->aggregateDashboard($valueId);
                                     <th class="sortable"><?php echo p__("cabride", "Method") ?></th>
                                     <th class="sortable numeric text-right"><?php echo p__("cabride", "Amount") ?></th>
                                     <th class="sortable numeric text-right"><?php echo p__("cabride", "Commission") ?></th>
-                                    <th class="sortable date text-right"><?php echo p__("cabride", "Date") ?></th>
+                                    <th class="sortable numeric text-right"><?php echo p__("cabride", "Date") ?></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -135,7 +135,10 @@ $stats = (new Payment())->aggregateDashboard($valueId);
                                     </td>
                                     <td class="text-right"><?php echo Base::_formatPrice($payment->getAmount(), $cu); ?></td>
                                     <td class="text-right"><?php echo Base::_formatPrice($payment->getCommissionAmount(), $cu); ?></td>
-                                    <td class="text-right"><?php echo datetime_to_format($payment->getCreatedAt()); ?></td>
+                                    <td class="text-right">
+                                        <span style="display: none;"><?php echo datetime_to_format($payment->getCreatedAt(), Zend_Date::TIMESTAMP); ?></span>
+                                        <?php echo datetime_to_format($payment->getCreatedAt()); ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
