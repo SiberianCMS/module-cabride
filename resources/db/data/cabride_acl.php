@@ -24,7 +24,7 @@ $acls = [
     ],
     [
         "code" => "cabride_payments",
-        "label" => "Payments",
+        "label" => "Accountancy",
         "url" => "cabride/dashboard/payments",
     ],
     [

@@ -138,6 +138,7 @@ msgctxt "cabride"
 msgid "CLEAR"
 msgstr "CLEAR"
 
+#, mobile
 msgctxt "cabride"
 msgid "Driver"
 msgstr "Driver"
@@ -515,6 +516,7 @@ msgctxt "cabride"
 msgid "Fixed amount"
 msgstr "Fixed amount"
 
+#, mobile
 msgctxt "cabride"
 msgid "Percentage"
 msgstr "Percentage"
@@ -917,7 +919,7 @@ msgstr "You have no rides in progress"
 #, mobile
 msgctxt "cabride"
 msgid "pending"
-msgstr "pending"
+msgstr "searching"
 
 #, mobile
 msgctxt "cabride"
@@ -1006,3 +1008,154 @@ msgstr "Your position doesn't resolve to a valid address."
 msgctxt "cabride"
 msgid "Sorry we are unable to locate you, please check your GPS settings & authorization."
 msgstr "Sorry we are unable to locate you, please check your GPS settings & authorization."
+
+msgctxt "cabride"
+msgid "Ride accepted!"
+msgstr "Ride accepted!"
+
+msgctxt "cabride"
+msgid "A driver accepted your request, he will be on your way soon!"
+msgstr "A driver accepted your request, he will be on your way soon!"
+
+msgctxt "cabride"
+msgid "Driver on your way!"
+msgstr "Driver on your way!"
+
+msgctxt "cabride"
+msgid "You driver is on your way!"
+msgstr "You driver is on your way!"
+
+msgctxt "cabride"
+msgid "We notified your passenger that you are on his way!"
+msgstr "We notified your passenger that you are on his way!"
+
+msgctxt "cabride"
+msgid "Opening navigation!"
+msgstr "Opening navigation!"
+
+msgctxt "cabride"
+msgid "Your ride is done!"
+msgstr "Your ride is done!"
+
+msgctxt "cabride"
+msgid "Thanks for riding with us, hope to see you again soon!"
+msgstr "Thanks for riding with us, hope to see you again soon!"
+
+#, mobile
+msgctxt "cabride"
+msgid "accepted"
+msgstr "accepted"
+
+#, mobile
+msgctxt "cabride"
+msgid "DRIVE TO"
+msgstr "DRIVE TO"
+
+#, mobile
+msgctxt "cabride"
+msgid "CLIENT"
+msgstr "CLIENT"
+
+#, mobile
+msgctxt "cabride"
+msgid "DESTINATION"
+msgstr "DESTINATION"
+
+#, mobile
+msgctxt "cabride"
+msgid "CALL"
+msgstr "CALL"
+
+#, mobile
+msgctxt "cabride"
+msgid "onway"
+msgstr "onway"
+
+#, mobile
+msgctxt "cabride"
+msgid "MARK AS"
+msgstr "MARK AS"
+
+#, mobile
+msgctxt "cabride"
+msgid "COMPLETED"
+msgstr "COMPLETED"
+
+#, mobile
+msgctxt "cabride"
+msgid "Error"
+msgstr "Error"
+
+#, mobile
+msgctxt "cabride"
+msgid "OK"
+msgstr "OK"
+
+#, mobile
+msgctxt "cabride"
+msgid "CALL DRIVER"
+msgstr "CALL DRIVER"
+
+msgctxt "cabride"
+msgid "Driving fares!"
+msgstr "Driving fares!"
+
+msgctxt "cabride"
+msgid "Invalid address!"
+msgstr "Invalid address!"
+
+msgctxt "cabride"
+msgid "Driver license"
+msgstr "Driver license"
+
+msgctxt "cabride"
+msgid "We are unable to validate your address!"
+msgstr "We are unable to validate your address!"
+
+msgctxt "cabride"
+msgid "You are about to generate a bulk payout file for the following period %s"
+msgstr "You are about to generate a bulk payout file for the following period %s"
+
+msgctxt "cabride"
+msgid "This user is now registered as a Driver."
+msgstr "This user is now registered as a Driver."
+
+msgctxt "cabride"
+msgid "Vehicle license plate"
+msgstr "Vehicle license plate"
+
+msgctxt "cabride"
+msgid "Driver photo"
+msgstr "Driver photo"
+
+msgctxt "cabride"
+msgid "Edit driver"
+msgstr "Edit driver"
+
+msgctxt "cabride"
+msgid "Go back"
+msgstr "Go back"
+
+msgctxt "cabride"
+msgid "Type"
+msgstr "Type"
+
+msgctxt "cabride"
+msgid "The pricing is set by the driver, you can't edit the values."
+msgstr "The pricing is set by the driver, you can't edit the values."
+
+msgctxt "cabride"
+msgid "Distance fare (each km/mi)"
+msgstr "Distance fare (each km/mi)"
+
+msgctxt "cabride"
+msgid "Time fare (every minute)"
+msgstr "Time fare (every minute)"
+
+msgctxt "cabride"
+msgid "Is visible"
+msgstr "Is visible"
+
+msgctxt "cabride"
+msgid "Edit vehicle type"
+msgstr "Edit vehicle type"

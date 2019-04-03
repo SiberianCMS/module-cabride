@@ -172,12 +172,13 @@
 
                 <div class="item item-custom"
                      style="white-space: normal;">
-                    <p>{{ "Commission rates applied by your provider." | translate:"cabride" }}</p><
-                    <br />
-                    <span ng-if="settings.commission_fixed > 0">{{ "Fixed fare" | translate:"cabride" }}: {{ settings.commission_fixed_fmt }}</span>
-                    <span ng-if="settings.commission_type == 'mixed'"
-                          style="margin: 0 15px;">{{ "+" | translate:"cabride" }}</span>
-                    <span ng-if="settings.commission > 0">{{ "Percentage" | translate:"cabride" }}: {{ settings.commission }} %</span>
+                    <p>{{ "Commission rates applied by your provider." | translate:"cabride" }}</p>
+                    <p>
+                        <span ng-if="settings.commission_fixed > 0">{{ "Fixed fare" | translate:"cabride" }}: {{ settings.commission_fixed_fmt }}</span>
+                        <span ng-if="settings.commission_type == 'mixed'"
+                              style="margin: 0 10px; font-size: 16px; font-weight: bold;">{{ "+" | translate:"cabride" }}</span>
+                        <span ng-if="settings.commission > 0">{{ "Percentage" | translate:"cabride" }}: {{ settings.commission }} %</span>
+                    </p>
                 </div>
 
                 <div style="margin-bottom: 20px;"></div>
