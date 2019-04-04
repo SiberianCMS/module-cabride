@@ -1327,3 +1327,8 @@ msgstr "Vous êtes sur le point de générer un paiement par lot pour la périod
 msgctxt "cabride"
 msgid "This user is now registered as a Driver."
 msgstr "Ce passager viens d'être basculé comme Conducteur."
+
+#, mobile
+msgctxt "cabride"
+msgid "You have no accepted request."
+msgstr "Vous n'avez pas de requête acceptée."

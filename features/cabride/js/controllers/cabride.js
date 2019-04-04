@@ -151,11 +151,9 @@ angular.module('starter')
         // Center on user location if default is blank!
         if (Cabride.settings.defaultLat === 0 &&
             Cabride.settings.defaultLng === 0) {
-            google.maps.event.addListenerOnce($scope.crMap, 'tilesloaded', function(){
-                $timeout(function () {
-                    $scope.centerMe();
-                }, 500);
-            });
+            $timeout(function () {
+                $scope.centerMe();
+            }, 500);
         }
 
         var icon = {
@@ -173,7 +171,7 @@ angular.module('starter')
             icon: icon
         });
 
-        google.maps.event.addListener($scope.crMap, 'center_changed', function () {
+        google.maps.event.addListener($scope.crMap, "center_changed", function () {
             // 0.5 seconds after the center of the map has changed,
             // set back the marker position.
             $timeout(function () {
