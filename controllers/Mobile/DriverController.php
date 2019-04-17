@@ -7,13 +7,12 @@ use Cabride\Model\ClientVault;
 use Cabride\Model\Cashreturn;
 use Cabride\Model\Payout;
 use Core\Model\Base;
-use Siberian\Exception;
-use Siberian\Json;
+use Cabride\Controller\Mobile as MobileController;
 
 /**
  * Class Cabride_Mobile_DriverController
  */
-class Cabride_Mobile_DriverController extends Application_Controller_Mobile_Default
+class Cabride_Mobile_DriverController extends MobileController
 {
     /**
      * Client route

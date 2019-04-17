@@ -40,6 +40,12 @@ $schemas['cabride'] = [
         'collation' => 'utf8_unicode_ci',
         'default' => 'USD',
     ],
+    'timezone' => [ // currency
+        'type' => 'varchar(128)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'UTC',
+    ],
     'distance_unit' => [ // km or miles
         'type' => 'varchar(16)',
         'charset' => 'utf8',

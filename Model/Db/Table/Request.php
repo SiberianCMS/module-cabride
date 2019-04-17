@@ -155,7 +155,8 @@ class Request extends Core_Model_Db_Table
                 "cabride",
                 "cabride.value_id = request.value_id",
                 [
-                    "search_timeout"
+                    "search_timeout",
+                    "timezone"
                 ]
             )
             ->where("request.status = ?", "pending")

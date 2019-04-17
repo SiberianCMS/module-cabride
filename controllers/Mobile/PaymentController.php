@@ -7,11 +7,12 @@ use Cabride\Model\Request;
 use Customer_Model_Customer as Customer;
 use Siberian\Exception;
 use Siberian\Json;
+use Cabride\Controller\Mobile as MobileController;
 
 /**
  * Class Cabride_Mobile_PaymentController
  */
-class Cabride_Mobile_PaymentController extends Application_Controller_Mobile_Default
+class Cabride_Mobile_PaymentController extends MobileController
 {
     /**
      * @throws Zend_Exception

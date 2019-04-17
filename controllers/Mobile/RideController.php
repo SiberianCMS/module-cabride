@@ -12,11 +12,12 @@ use Cabride\Model\Stripe\Currency;
 use Core\Model\Base;
 use Siberian\Json;
 use Siberian_Google_Geocoding as Geocoding;
+use Cabride\Controller\Mobile as MobileController;
 
 /**
  * Class Cabride_Mobile_RideController
  */
-class Cabride_Mobile_RideController extends Application_Controller_Mobile_Default
+class Cabride_Mobile_RideController extends MobileController
 {
     /**
      * Client route

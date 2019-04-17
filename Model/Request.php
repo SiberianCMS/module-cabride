@@ -414,11 +414,15 @@ class Request extends Base
      */
     public static function toExpire($cron)
     {
-        $now = time();
         // Fetch all pending requests
         $pendingRequests = (new self())->fetchPending();
         foreach ($pendingRequests as $pendingRequest) {
             $data = $pendingRequest->getData();
+
+            // Set timezone for the current CabRide instance
+            date_default_timezone_set($data["timezone"]);
+            $now = time();
+
             $expireAt = $data["timestamp"] + $data["search_timeout"];
             $id  = $data["request_id"];
 

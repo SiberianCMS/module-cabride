@@ -6,7 +6,7 @@ angular.module('starter')
                                      $ionicSideMenuDelegate, Modal, Cabride, CabrideUtils, Customer,
                                      Loader, ContextualMenu, GoogleMaps, Dialog, Location, SB) {
     angular.extend($scope, {
-        pageTitle: $translate.instant("CabRide", "cabride"),
+        pageTitle: Cabride.settings.pageTitle,
         valueId: Cabride.getValueId(),
         isAlive: Cabride.isAlive,
         isLoggedIn: Customer.isLoggedIn(),
@@ -601,54 +601,42 @@ angular.module('starter')
 
     // On load!
     $scope.init = function () {
-        // Must log-in first.
-        if (!Customer.isLoggedIn()) {
-            Customer.loginModal($scope,
-                /** Login */
-                $scope.init,
-                /** Logout */
-                function () {
-                },
-                /** Register */
-                $scope.init);
-
-            $scope.isLoading = false;
-            return;
-        }
-
         Cabride
         .init()
         .then(function () {
-            Customer
-            .find()
-            .then(function (customer) {
-                $scope.customer = customer;
-                $scope.customer.metadatas = _.isObject($scope.customer.metadatas)
-                    ? $scope.customer.metadatas
-                    : {};
-                $scope.avatarUrl = Customer.getAvatarUrl($scope.customer.id);
+            // If logged-in, do not force login at startup anymore!
+            if (Customer.isLoggedIn()) {
+                Customer
+                .find()
+                .then(function (customer) {
+                    $scope.customer = customer;
+                    $scope.customer.metadatas = _.isObject($scope.customer.metadatas)
+                        ? $scope.customer.metadatas
+                        : {};
+                    $scope.avatarUrl = Customer.getAvatarUrl($scope.customer.id);
 
-                Cabride
-                .fetchUser()
-                .then(function (payload) {
-                    switch (payload.user.type) {
-                        case 'new':
-                            if (!Cabride.settings.driverCanRegister) {
-                                $scope.selectPassenger();
-                            }
-                            break;
-                        case 'driver':
-                            $scope.setIsDriver(false);
-                            $rootScope.$broadcast("cabride.setIsOnline", payload.user.isOnline);
-                            break;
-                        case 'passenger':
-                            $scope.setIsPassenger(false);
-                            break;
-                    }
+                    Cabride
+                    .fetchUser()
+                    .then(function (payload) {
+                        switch (payload.user.type) {
+                            case 'new':
+                                if (!Cabride.settings.driverCanRegister) {
+                                    $scope.selectPassenger();
+                                }
+                                break;
+                            case 'driver':
+                                $scope.setIsDriver(false);
+                                $rootScope.$broadcast("cabride.setIsOnline", payload.user.isOnline);
+                                break;
+                            case 'passenger':
+                                $scope.setIsPassenger(false);
+                                break;
+                        }
 
-                    $scope.isLoading = false;
+                        $scope.isLoading = false;
+                    });
                 });
-            });
+            }
         });
     };
 

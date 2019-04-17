@@ -1,3 +1,11 @@
+# VERSION 1.4.0 - APR. 17 2019
+
+## FIXES
+
+- Adds a new `timezone` setting to fix time shifting/expirations
+
+---
+
 # VERSION 1.3.0 - APR. 3 2019
 
 ## IMPROVEMENTS

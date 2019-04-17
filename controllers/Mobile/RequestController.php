@@ -12,11 +12,12 @@ use Core\Model\Base;
 use Customer_Model_Customer as Customer;
 use Siberian\Exception;
 use Siberian_Google_Geocoding as Geocoding;
+use Cabride\Controller\Mobile as MobileController;
 
 /**
  * Class Cabride_Mobile_RequestController
  */
-class Cabride_Mobile_RequestController extends Application_Controller_Mobile_Default
+class Cabride_Mobile_RequestController extends MobileController
 {
     /**
      *

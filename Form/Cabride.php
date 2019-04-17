@@ -4,6 +4,7 @@ namespace Cabride\Form;
 
 use Siberian_Form_Abstract;
 use Cabride\Model\Stripe\Currency;
+use Cabride\Model\Timezone;
 
 /**
  * Class Cabride
@@ -38,6 +39,11 @@ class Cabride extends Siberian_Form_Abstract
             "currency",
             p__("cabride", "Currency"),
             array_combine(Currency::$supported, Currency::$supported));
+
+        $timezone = $this->addSimpleSelect(
+            "timezone",
+            p__("cabride", "Timezone"),
+            Timezone::getTranslated());
 
         $distance_unit = $this->addSimpleSelect(
             "distance_unit",

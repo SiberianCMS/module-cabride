@@ -7,11 +7,12 @@ use Cabride\Model\Driver;
 use Cabride\Model\Stripe\Currency;
 use Siberian\Exception;
 use Core\Model\Base;
+use Cabride\Controller\Mobile as MobileController;
 
 /**
  * Class Cabride_Mobile_ViewController
  */
-class Cabride_Mobile_ViewController extends Application_Controller_Mobile_Default
+class Cabride_Mobile_ViewController extends MobileController
 {
     /**
      *
