@@ -1,7 +1,7 @@
 {
     "name": "Cabride",
     "code": "cabride",
-    "version": "1.0.0",
+    "version": "1.4.2",
     "category": "contact",
     "model": "Cabride_Model_Cabride",
     "desktop_uri": "cabride/application/",
@@ -68,6 +68,20 @@
             "controller": "CabridePaymentHistory",
             "url": "cabride/mobile_payment_history/index",
             "template": "l1/payment-history.html",
+            "cache": false
+        },
+        {
+            "state": "cabride-signup-passenger",
+            "controller": "CabrideHome",
+            "url": "cabride/mobile_signup_passenger",
+            "template": "l1/home.html",
+            "cache": false
+        },
+        {
+            "state": "cabride-signup-driver",
+            "controller": "CabrideHome",
+            "url": "cabride/mobile_signup_driver",
+            "template": "l1/home.html",
             "cache": false
         }
     ],

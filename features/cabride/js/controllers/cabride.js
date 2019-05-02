@@ -60,6 +60,18 @@ angular.module('starter')
         return Cabride.currencySymbol();
     };
 
+    $scope.getPageTitle = function () {
+        return Cabride.settings.pageTitle;
+    };
+
+    $scope.passengerPicture = function () {
+        return Cabride.settings.passengerPicture;
+    };
+
+    $scope.driverPicture = function () {
+        return Cabride.settings.driverPicture;
+    };
+
     $scope.reconnect = function () {
         Cabride.init();
     };
@@ -619,24 +631,30 @@ angular.module('starter')
                     .fetchUser()
                     .then(function (payload) {
                         switch (payload.user.type) {
-                            case 'new':
-                                if (!Cabride.settings.driverCanRegister) {
-                                    $scope.selectPassenger();
-                                }
-                                break;
-                            case 'driver':
+                            case "driver":
                                 $scope.setIsDriver(false);
                                 $rootScope.$broadcast("cabride.setIsOnline", payload.user.isOnline);
                                 break;
-                            case 'passenger':
+                            case "passenger":
                                 $scope.setIsPassenger(false);
                                 break;
+                            case "new":
+                            default:
+                                if (!Cabride.settings.driverCanRegister) {
+                                    $scope.selectPassenger();
+                                }
                         }
 
                         $scope.isLoading = false;
                     });
                 });
+            } else {
+                $scope.isLoading = false;
             }
+        }, function () {
+            $scope.isLoading = false;
+        }).catch(function () {
+            $scope.isLoading = false;
         });
     };
 
@@ -666,20 +684,16 @@ angular.module('starter')
         $scope.init();
     });
 
-    $window.cabride = {
-        setIsLoading: function (isLoading) {
-            $scope.isLoading = isLoading;
-        },
-        setIsDriver: function (save) {
-            $scope.setIsDriver(save);
-        },
-        setIsPassenger: function (save) {
-            $scope.setIsPassenger(save);
-        },
-        rebuild: function () {
-            $scope.rebuild();
+    // Action on state-name! shortcuts for passenger/driver signup
+    if (!Customer.isLoggedIn()) {
+        var currentState = $state.current.name;
+        if (currentState === "cabride-signup-passenger") {
+            $scope.selectPassenger();
         }
-    };
+        if (currentState === "cabride-signup-driver") {
+            $scope.selectDriver();
+        }
+    }
 });
 
 angular.module('starter')
@@ -1588,11 +1602,15 @@ angular.module('starter')
     angular.extend($scope, {
         isOnline: false,
         customer: null,
+        customer: null,
         information: null,
         isLoggedIn: Customer.isLoggedIn(),
         isPassenger: false,
         isDriver: false,
         cabride: null,
+        taxiHeaderStyle: {
+            backgroundImage: 'url("./features/cabride/assets/templates/images/008-background.png")'
+        }
     });
 
     $scope.cs = function () {
@@ -1728,6 +1746,12 @@ angular.module('starter')
     $rootScope.$on('cabride.aggregateInformation', function (event, data) {
         $timeout(function () {
             $scope.information = data.information;
+        });
+    });
+
+    $rootScope.$on("cabride.setNavBackground", function (event, data) {
+        $timeout(function () {
+            $scope.taxiHeaderStyle.backgroundImage = data.navBackground;
         });
     });
 

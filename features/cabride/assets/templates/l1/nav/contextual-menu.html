@@ -2,7 +2,8 @@
      ng-controller="CabrideContextualMenuController">
     <ion-content class="homepage-custom"
                  scrollbar-y="false">
-        <div class="taxi-header">
+        <div class="taxi-header"
+             ng-style="taxiHeaderStyle">
             <!-- User logged in -->
             <div ng-if="isLoggedIn"
                  class="row">

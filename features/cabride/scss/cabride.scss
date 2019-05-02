@@ -185,10 +185,9 @@
       /** Overlay loader */
       .cr-map-loading {
         position: absolute;
-        top: 10rem;
-        right: 2rem;
-        bottom: 10rem;
-        left: 2rem;
+        left: 50vw;
+        top: 50vh;
+        transform: translate(-50%, -50%);
         text-align: center;
         border: 1px solid lightgrey;
         background-color: #fefefe;
@@ -201,15 +200,14 @@
 
         .cr-map-loader {
           .cr-loader-spinner {
-            margin-top: 1rem;
-
             img {
-              height: 60%;
+              width: 80%;
+              height: auto;
             }
           }
 
           .cr-loader-label {
-            margin-top: 1rem;
+            margin-bottom: .5rem;
           }
         }
       }

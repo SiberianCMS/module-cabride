@@ -101,6 +101,8 @@ class Cabride_Mobile_RequestController extends MobileController
                 }
             }
 
+            sleep(600);
+
             $payload = [
                 "success" => true,
                 "collection" => $collection,

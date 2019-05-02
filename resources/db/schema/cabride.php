@@ -139,6 +139,24 @@ $schemas['cabride'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
+    'passenger_picture' => [
+        'type' => 'varchar(1024)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'driver_picture' => [
+        'type' => 'varchar(1024)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'nav_background' => [
+        'type' => 'varchar(1024)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
     'center_map' => [
         'type' => 'varchar(1024)',
         'null' => true,

@@ -8,7 +8,9 @@ angular.module('starter')
         var factory = {
             value_id: null,
             settings: {
-                avatarProvider: 'identicon'
+                avatarProvider: 'identicon',
+                passengerPicture: "./features/cabride/assets/templates/images/001-passenger.svg",
+                driverPicture: "./features/cabride/assets/templates/images/002-driver.svg",
             },
             isAlive: false,
             socket: null,
@@ -112,6 +114,17 @@ angular.module('starter')
                         factory.lobbyPromise.resolve();
                     }
                     factory.joinedLobby = true;
+                    break;
+                case 'joinlobby-ko':
+                    if (factory.lobbyPromise !== null) {
+                        factory.lobbyPromise.reject();
+
+                        // Re-init the joinLobby promise after a ko!
+                        $timeout(function () {
+                            factory.lobbyPromise = null;
+                        }, 1000);
+                    }
+                    factory.joinedLobby = false;
                     break;
                 // Generally this case won't happen so much, but if it does, we can cleanly closes the connection
                 case 'closing-websocket':
@@ -618,17 +631,33 @@ angular.module('starter')
                 });
         };
 
+        factory.authUser = function () {
+            factory
+            .joinLobby($session.getId(), APP_KEY)
+            .then(function () {
+                factory.initPromise.resolve();
+
+                // Send position updates to the server!
+                factory.startUpdatePosition();
+            }).catch(function (error) {
+                factory.initPromise.reject(error);
+            }).finally(function () {
+                $log.info('cabride joinLobby finally');
+            });
+        };
+
         /**
          * Initializes the cabride connection
          *
          * @return Promise
          */
         factory.init = function () {
-            // Customer must be logged in for Taxi socket to connect!
-            if (!Customer.isLoggedIn()) {
-                return $q.reject();
-            }
             if (factory.isAlive) {
+                if (!factory.joinedLobby) {
+                    factory.authUser();
+                    return factory.initPromise.promise;
+                }
+
                 return $q.resolve();
             }
 
@@ -643,7 +672,26 @@ angular.module('starter')
             factory
                 .fetchSettings()
                 .then(function (response) {
+
                     factory.settings = angular.extend({}, factory.settings, response.settings);
+
+                    if (factory.settings.driverPicture.length > 0) {
+                        factory.settings.driverPicture = IMAGE_URL + factory.settings.driverPicture;
+                    } else {
+                        factory.settings.driverPicture = "./features/cabride/assets/templates/images/002-driver.svg";
+                    }
+
+                    if (factory.settings.passengerPicture.length > 0) {
+                        factory.settings.passengerPicture = IMAGE_URL + factory.settings.passengerPicture;
+                    } else {
+                        factory.settings.passengerPicture = "./features/cabride/assets/templates/images/001-passenger.svg";
+                    }
+
+                    if (response.settings.navBackground.length > 0) {
+                        $rootScope.$broadcast('cabride.setNavBackground',
+                            {navBackground: "url('" + IMAGE_URL + response.settings.navBackground + "')"});
+                    }
+
                     factory.socket = CabrideSocket.connect(
                         response.settings.wssUrl,
                         factory.onMessage,
@@ -660,11 +708,10 @@ angular.module('starter')
                         .then(function (helloResponse) {
                             factory.uuid = helloResponse.uuid;
                             factory.setIsAlive();
-                            factory.joinLobby($session.getId(), APP_KEY)
+                            factory
+                            .joinLobby($session.getId(), APP_KEY)
                             .then(function () {
                                 factory.initPromise.resolve();
-
-                                // Send position updates to the server!
                                 factory.startUpdatePosition();
                             }).catch(function (error) {
                                 factory.initPromise.reject(error);
@@ -672,7 +719,6 @@ angular.module('starter')
                                 $log.info('cabride joinLobby finally');
                             });
                         }).catch(function (error) {
-                            $log.info('cabride helloPromise error', error);
                             factory.initPromise.reject(error);
                         }).finally(function () {
                             $log.info('cabride helloPromise finally');

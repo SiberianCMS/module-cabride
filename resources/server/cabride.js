@@ -431,7 +431,7 @@ let init = function (httpsOptions) {
             user: {
                 id: null,
                 type: null,
-            },
+            }
         };
 
         globals.allConnections[tmpUuid].websocket.on('message', function incoming(message) {

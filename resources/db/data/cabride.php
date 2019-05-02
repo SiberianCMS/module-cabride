@@ -1,10 +1,12 @@
 <?php
 
+use Siberian\Feature;
+
 try {
     $module = (new Installer_Model_Installer_Module())
         ->prepare('Cabride');
 
-    Siberian\Feature::installCronjob(
+    Feature::installCronjob(
         __('Cabride, uws Server.'),
         'CabrideService::serve',
         -1,
@@ -18,7 +20,7 @@ try {
         $module->getId()
     );
 
-    Siberian\Feature::installCronjob(
+    Feature::installCronjob(
         __('Cabride, watcher.'),
         'CabrideService::watch',
         -1,

@@ -37,6 +37,88 @@ class Cabride extends Base
     }
 
     /**
+     * @param $valueId
+     * @return array|bool
+     */
+    public function getInappStates($valueId)
+    {
+        $driver = "[" . p__("cabride", "Driver") . "] ";
+        $passenger = "[" . p__("cabride", "Passenger") . "] ";
+
+        $inAppStates = [
+            [
+                "state" => "cabride-home",
+                "offline" => false,
+                "params" => [],
+                "childrens" => [
+                    [
+                        "label" => $passenger . p__("cabride", "Signup / Login"),
+                        "state" => "cabride-signup-passenger",
+                        "offline" => true,
+                        "params" => [],
+                    ],
+                    [
+                        "label" => $passenger . p__("cabride", "My rides"),
+                        "state" => "cabride-my-rides",
+                        "offline" => true,
+                        "params" => [],
+                    ],
+                    [
+                        "label" => $passenger . p__("cabride", "Payment history"),
+                        "state" => "cabride-payment-history",
+                        "offline" => true,
+                        "params" => [],
+                    ],
+                    [
+                        "label" => $driver . p__("cabride", "Signup / Login"),
+                        "state" => "cabride-signup-driver",
+                        "offline" => true,
+                        "params" => [],
+                    ],
+                    [
+                        "label" => $driver . p__("cabride", "My payments"),
+                        "state" => "cabride-my-payments",
+                        "offline" => true,
+                        "params" => [],
+                    ],
+                    [
+                        "label" => $driver . p__("cabride", "Pending requests"),
+                        "state" => "cabride-pending-requests",
+                        "offline" => true,
+                        "params" => [],
+                    ],
+                    [
+                        "label" => $driver . p__("cabride", "Accepted requests"),
+                        "state" => "cabride-accepted-requests",
+                        "offline" => true,
+                        "params" => [],
+                    ],
+                    [
+                        "label" => $driver . p__("cabride", "Completed rides"),
+                        "state" => "cabride-completed-rides",
+                        "offline" => true,
+                        "params" => [],
+                    ],
+                    [
+                        "label" => $driver . p__("cabride", "Cancelled rides"),
+                        "state" => "cabride-cancelled",
+                        "offline" => true,
+                        "params" => [],
+                    ],
+                    [
+                        "label" => $driver . p__("cabride", "Vechicle information"),
+                        "state" => "cabride-vehicle-information",
+                        "offline" => true,
+                        "params" => [],
+                    ],
+                ],
+            ],
+        ];
+
+        return $inAppStates;
+    }
+
+    /**
      * @return null
      */
     public static function getCurrentValueId()

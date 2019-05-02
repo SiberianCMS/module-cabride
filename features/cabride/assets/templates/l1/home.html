@@ -1,6 +1,6 @@
 <ion-view sb-page-background
           class="cabride cabride-view cabride-home">
-    <ion-nav-title>{{ pageTitle }}</ion-nav-title>
+    <ion-nav-title>{{ getPageTitle() }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
         <button ng-if="canClear()"
@@ -32,14 +32,14 @@
             <div class="cr-user-choice">
                 <div class="cr-passenger"
                      ng-click="selectPassenger();">
-                    <img src="./features/cabride/assets/templates/images/001-passenger.svg" />
+                    <img src="{{ passengerPicture() }}" />
                     <br />
                     {{ "Passenger" | translate:"cabride" }}
                 </div>
                 <div class="cr-driver"
                      ng-show="driverCanRegister()"
                      ng-click="selectDriver();">
-                    <img src="./features/cabride/assets/templates/images/002-driver.svg" />
+                    <img src="{{ driverPicture() }}" />
                     <br />
                     {{ "Driver" | translate:"cabride" }}
                 </div>

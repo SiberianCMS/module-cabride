@@ -5,6 +5,7 @@ use Cabride\Form\Cabride as FormCabride;
 use Cabride\Form\Cabride\Delete as CabrideDelete;
 use Siberian_Google_Geocoding as Geocoding;
 use Siberian\Exception;
+use Siberian\Feature;
 
 /**
  * Class Cabride_ApplicationController
@@ -54,6 +55,7 @@ class Cabride_ApplicationController extends Application_Controller_Default
         try {
             $values = $this->getRequest()->getPost();
             $application = $this->getApplication();
+            $optionValue = $this->getCurrentOptionValue();
 
             $form = new FormCabride();
 
@@ -98,6 +100,11 @@ class Cabride_ApplicationController extends Application_Controller_Default
                         ->setDefaultLat(null)
                         ->setDefaultLng(null);
                 }
+
+                // Pictures
+                Feature::formImageForOption($optionValue, $cabride, $values, "passenger_picture", true);
+                Feature::formImageForOption($optionValue, $cabride, $values, "driver_picture", true);
+                Feature::formImageForOption($optionValue, $cabride, $values, "nav_background", true);
 
                 $cabride->save();
 

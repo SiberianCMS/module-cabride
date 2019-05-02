@@ -14,6 +14,7 @@ class Cabride extends Siberian_Form_Abstract
 {
     /**
      * @throws \Zend_Form_Exception
+     * @throws \Zend_Validate_Exception
      */
     public function init()
     {
@@ -34,6 +35,8 @@ class Cabride extends Siberian_Form_Abstract
         $adminEmails = $this->addSimpleText(
             "admin_emails",
             p__("cabride", "Admin e-mails (coma separated)"));
+
+        $this->groupElements("admin", ["admin_emails"], p__("cabride", "Contact"));
 
         $currency = $this->addSimpleSelect(
             "currency",
@@ -70,6 +73,10 @@ RAW;
 
         $this->addSimpleHtml("center_map_hint", $html);
 
+        $this->groupElements("localization",
+            ["currency", "timezone", "distance_unit", "center_map", "center_map_hint"],
+            p__("cabride", "Localization"));
+
         $search_timeout = $this->addSimpleNumber(
             "search_timeout",
             p__("cabride", "Search timeout (seconds)"),
@@ -87,6 +94,18 @@ RAW;
             true,
             1);
         $search_radius->setRequired(true);
+
+        $course_mode = $this->addSimpleSelect(
+            "course_mode",
+            p__("cabride", "Course mode"),
+            [
+                "immediate" => p__("cabride", "Immediate"),
+                //"all" => p__("cabride", "Immediate & Scheduled"),
+            ]);
+
+        $this->groupElements("rides",
+            ["search_timeout", "search_radius", "course_mode"],
+            p__("cabride", "Rides"));
 
         $accepted_payments = $this->addSimpleSelect(
             "accepted_payments",
@@ -122,14 +141,6 @@ RAW;
         $commission = $this->addSimpleNumber("commission", p__("cabride", "Commission (percentage)"), 0, 100, true);
         $commission->setRequired(true);
 
-        $course_mode = $this->addSimpleSelect(
-            "course_mode",
-            p__("cabride", "Course mode"),
-            [
-                "immediate" => p__("cabride", "Immediate"),
-                //"all" => p__("cabride", "Immediate & Scheduled"),
-            ]);
-
         $pricing_mode = $this->addSimpleSelect(
             "pricing_mode",
             p__("cabride", "Pricing mode"),
@@ -138,7 +149,52 @@ RAW;
                 "driver" => p__("cabride", "Fixed by the drivers"),
             ]);
 
+        $this->groupElements("payments",
+            ["accepted_payments", "payment_provider", "commission_type", "commission_fixed", "commission", "pricing_mode"],
+            p__("cabride", "Payments"));
+
+        // DESIGN!
+        $this->addSimpleImage(
+            "nav_background",
+            p__("cabride", "Menu background"),
+            p__("cabride", "Menu background"),
+            [
+                "width" => 460,
+                "height" => 340,
+            ]
+        );
+
+        $this->addSimpleImage(
+            "passenger_picture",
+            p__("cabride", "Passenger picture"),
+            p__("cabride", "Passenger picture"),
+            [
+                "width" => 512,
+                "height" => 512,
+            ]
+        );
+
+        $this->addSimpleImage(
+            "driver_picture",
+            p__("cabride", "Driver picture"),
+            p__("cabride", "Driver picture"),
+            [
+                "width" => 512,
+                "height" => 512,
+            ]
+        );
+
+        $this->groupElements("design",
+            ["nav_background_button", "passenger_picture_button", "driver_picture_button"],
+            p__("cabride", "Design"));
+
+
+        // MISC
         $driver_can_register = $this->addSimpleCheckbox("driver_can_register", p__("cabride", "Driver can register"));
+
+        $this->groupElements("misc",
+            ["driver_can_register"],
+            p__("cabride", "Misc"));
 
         $save = $this->addSubmit(p__("cabride", "Save"), p__("cabride", "Save"));
         $save->addClass("pull-right");

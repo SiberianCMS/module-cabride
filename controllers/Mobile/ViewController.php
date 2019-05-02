@@ -40,6 +40,19 @@ class Cabride_Mobile_ViewController extends MobileController
 
             $currency = Currency::getCurrency($dbConfig->getCurrency());
 
+            $navBackground = $dbConfig->getNavBackground();
+            if (!empty($navBackground)) {
+                $navBackground = "/images/application{$navBackground}";
+            }
+            $driverPicture = $dbConfig->getDriverPicture();
+            if (!empty($driverPicture)) {
+                $driverPicture = "/images/application{$driverPicture}";
+            }
+            $passengerPicture = $dbConfig->getPassengerPicture();
+            if (!empty($passengerPicture)) {
+                $passengerPicture = "/images/application{$passengerPicture}";
+            }
+
             $payload = [
                 "success" => true,
                 "settings" => [
@@ -63,6 +76,9 @@ class Cabride_Mobile_ViewController extends MobileController
                     "commission_fmt" => Base::_formatPrice($dbConfig->getCommission(), $currency),
                     "commission_fixed" => (float) $dbConfig->getCommissionFixed(),
                     "commission_fixed_fmt" => Base::_formatPrice($dbConfig->getCommissionFixed(), $currency),
+                    "passengerPicture" => $passengerPicture,
+                    "driverPicture" => $driverPicture,
+                    "navBackground" => $navBackground,
                 ]
             ];
 

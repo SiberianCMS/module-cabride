@@ -7,198 +7,22 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-04-16T10:56:51+02:00\n"
-"PO-Revision-Date: 2019-04-16T10:56:51+02:00\n"
+"POT-Creation-Date: 2019-05-02T16:12:08+00:00\n"
+"PO-Revision-Date: 2019-05-02T16:12:08+00:00\n"
 "Language: \n"
 
 msgctxt "cabride"
-msgid "Passenger information"
-msgstr "Passenger information"
+msgid "Vehicle license plate"
+msgstr "Vehicle license plate"
 
 msgctxt "cabride"
-msgid "Mobile"
-msgstr "Mobile"
+msgid "Driving license"
+msgstr "Driving license"
 
 msgctxt "cabride"
-msgid "Address"
-msgstr "Address"
+msgid "Mobile phone number"
+msgstr "Mobile phone number"
 
 msgctxt "cabride"
-msgid "Admin e-mails (coma separated)"
-msgstr "Admin e-mails (coma separated)"
-
-msgctxt "cabride"
-msgid "Currency"
-msgstr "Currency"
-
-msgctxt "cabride"
-msgid "Timezone"
-msgstr "Timezone"
-
-msgctxt "cabride"
-msgid "Distance unit"
-msgstr "Distance unit"
-
-msgctxt "cabride"
-msgid "Center map address"
-msgstr "Center map address"
-
-msgctxt "cabride"
-msgid "Leave blank to center map on user GPS position."
-msgstr "Leave blank to center map on user GPS position."
-
-msgctxt "cabride"
-msgid "Search timeout (seconds)"
-msgstr "Search timeout (seconds)"
-
-msgctxt "cabride"
-msgid "Search radius (km/mi)"
-msgstr "Search radius (km/mi)"
-
-msgctxt "cabride"
-msgid "Accepted payments"
-msgstr "Accepted payments"
-
-msgctxt "cabride"
-msgid "Credit card"
-msgstr "Credit card"
-
-msgctxt "cabride"
-msgid "Cash"
-msgstr "Cash"
-
-msgctxt "cabride"
-msgid "Credit card & Cash"
-msgstr "Credit card & Cash"
-
-msgctxt "cabride"
-msgid "Payment provider"
-msgstr "Payment provider"
-
-msgctxt "cabride"
-msgid "Stripe (Credit card)"
-msgstr "Stripe (Credit card)"
-
-msgctxt "cabride"
-msgid "Commission type"
-msgstr "Commission type"
-
-msgctxt "cabride"
-msgid "Disabled"
-msgstr "Disabled"
-
-msgctxt "cabride"
-msgid "Fixed amount"
-msgstr "Fixed amount"
-
-msgctxt "cabride"
-msgid "Percentage"
-msgstr "Percentage"
-
-msgctxt "cabride"
-msgid "Fixed amount + percentage"
-msgstr "Fixed amount + percentage"
-
-msgctxt "cabride"
-msgid "Commission (fixed)"
-msgstr "Commission (fixed)"
-
-msgctxt "cabride"
-msgid "Commission (percentage)"
-msgstr "Commission (percentage)"
-
-msgctxt "cabride"
-msgid "Course mode"
-msgstr "Course mode"
-
-msgctxt "cabride"
-msgid "Immediate"
-msgstr "Immediate"
-
-msgctxt "cabride"
-msgid "Pricing mode"
-msgstr "Pricing mode"
-
-msgctxt "cabride"
-msgid "Fixed by vehicle type (Admin)"
-msgstr "Fixed by vehicle type (Admin)"
-
-msgctxt "cabride"
-msgid "Fixed by the drivers"
-msgstr "Fixed by the drivers"
-
-msgctxt "cabride"
-msgid "Driver can register"
-msgstr "Driver can register"
-
-msgctxt "cabride"
-msgid "Save"
-msgstr "Save"
-
-msgctxt "cabride"
-msgid "Public key"
-msgstr "Public key"
-
-msgctxt "cabride"
-msgid "Secret key"
-msgstr "Secret key"
-
-msgctxt "cabride"
-msgid "Merchant code"
-msgstr "Merchant code"
-
-msgctxt "cabride"
-msgid "Sandbox mode"
-msgstr "Sandbox mode"
-
-msgctxt "cabride"
-msgid "Merchant ID"
-msgstr "Merchant ID"
-
-msgctxt "cabride"
-msgid "Private key"
-msgstr "Private key"
-
-msgctxt "cabride"
-msgid "CabRide settings"
-msgstr "CabRide settings"
-
-msgctxt "cabride"
-msgid "Payment API credentials"
-msgstr "Payment API credentials"
-
-msgctxt "cabride"
-msgid "Stripe"
-msgstr "Stripe"
-
-msgctxt "cabride"
-msgid "Cab-Ride"
-msgstr "Cab-Ride"
-
-msgctxt "cabride"
-msgid "Dashboard"
-msgstr "Dashboard"
-
-msgctxt "cabride"
-msgid "Accountancy"
-msgstr "Accountancy"
-
-msgctxt "cabride"
-msgid "Rides"
-msgstr "Rides"
-
-msgctxt "cabride"
-msgid "Passengers"
-msgstr "Passengers"
-
-msgctxt "cabride"
-msgid "Drivers"
-msgstr "Drivers"
-
-msgctxt "cabride"
-msgid "Vehicle types"
-msgstr "Vehicle types"
-
-msgctxt "cabride"
-msgid "Settings"
-msgstr "Settings"
+msgid "Incorrect base address"
+msgstr "Incorrect base address"
