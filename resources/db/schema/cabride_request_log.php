@@ -79,6 +79,9 @@ $schemas['cabride_request_log'] = [
             'is_unique' => false,
         ],
     ],
+    'timestamp' => [
+        'type' => 'int(11) unsigned',
+    ],
     'created_at' => [
         'type' => 'datetime',
     ],

@@ -69,6 +69,7 @@ class Cabride_Mobile_RideController extends MobileController
                 // Recast values
                 $data["search_timeout"] = (integer) $data["search_timeout"];
                 $data["timestamp"] = (integer) $data["timestamp"];
+                $data["expires_in"] = (integer) ($data["expires_at"] - $data["requested_at"]);
 
                 $collection[] = $data;
             }
@@ -223,6 +224,7 @@ class Cabride_Mobile_RideController extends MobileController
                 // Recast values
                 $data["search_timeout"] = (integer) $data["search_timeout"];
                 $data["timestamp"] = (integer) $data["timestamp"];
+                $data["expires_in"] = (integer) ($data["expires_at"] - time());
 
                 $collection[] = $data;
             }
@@ -270,6 +272,7 @@ class Cabride_Mobile_RideController extends MobileController
                 // Recast values
                 $data["search_timeout"] = (integer) $data["search_timeout"];
                 $data["timestamp"] = (integer) $data["timestamp"];
+                $data["expires_in"] = (integer) ($data["expires_at"] - time());
 
                 $client = (new Client())->find($ride->getVlientId());
 
@@ -321,6 +324,7 @@ class Cabride_Mobile_RideController extends MobileController
                 // Recast values
                 $data["search_timeout"] = (integer) $data["search_timeout"];
                 $data["timestamp"] = (integer) $data["timestamp"];
+                $data["expires_in"] = (integer) ($data["expires_at"] - time());
 
                 $collection[] = $data;
             }
@@ -368,6 +372,7 @@ class Cabride_Mobile_RideController extends MobileController
                 // Recast values
                 $data["search_timeout"] = (integer) $data["search_timeout"];
                 $data["timestamp"] = (integer) $data["timestamp"];
+                $data["expires_in"] = (integer) ($data["expires_at"] - time());
 
                 $collection[] = $data;
             }

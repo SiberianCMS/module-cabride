@@ -101,8 +101,6 @@ class Cabride_Mobile_RequestController extends MobileController
                 }
             }
 
-            sleep(600);
-
             $payload = [
                 "success" => true,
                 "collection" => $collection,
@@ -135,6 +133,8 @@ class Cabride_Mobile_RequestController extends MobileController
             $cashOrVault = $data["cashOrVault"];
             $gmapsKey = $application->getGooglemapsKey();
 
+            $cabride = (new Cabride)->find($optionValue->getId(), "value_id");
+
             $staticMap = Request::staticMapFromRoute($route, $optionValue, $gmapsKey);
 
             $valueId = $optionValue->getId();
@@ -158,6 +158,14 @@ class Cabride_Mobile_RequestController extends MobileController
             $request = (new Request())->createRideRequest(
                 $client->getId(), $vehicle, $valueId, $drivers, $cashOrVault, $route, $staticMap, "client");
 
+            $now = time();
+            $expires = $now + $cabride->getSearchTimeout();
+
+            $request
+                ->setRequestedAt($now)
+                ->setExpiresAt($expires)
+                ->save();
+
             $sentToDrivers = false;
             foreach ($drivers as $index => $driver) {
                 $driverId = $driver["driver_id"];
@@ -169,6 +177,8 @@ class Cabride_Mobile_RequestController extends MobileController
                         ->setRequestId($request->getId())
                         ->setDriverId($driverId)
                         ->setStatus("pending")
+                        ->setRequestedAt($now)
+                        ->setExpiresAt($expires)
                         ->save();
 
                     $_tmpDriver->notifyNewrequest($request->getId());
@@ -268,13 +278,6 @@ class Cabride_Mobile_RequestController extends MobileController
             $data["logs"] = [];
             foreach($logs as $log) {
                 $dataLog = $log->getData();
-
-                $dateTime = \DateTime::createFromFormat(
-                    "Y-m-d H:i:s",
-                    $dataLog["created_at"]);
-
-                $dataLog["timestamp"] = $dateTime->getTimestamp();
-
                 $data["logs"][] = $dataLog;
             }
 

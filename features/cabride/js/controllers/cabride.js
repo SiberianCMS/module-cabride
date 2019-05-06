@@ -755,8 +755,7 @@ angular.module('starter')
 
     $scope.expiration = function (request) {
         // Ensure values are integers
-        var duration = (parseInt(request.timestamp, 10) + parseInt(request.search_timeout, 10)) * 1000;
-        return moment(duration).fromNow();
+        return moment().add(request.expires_in, "seconds").fromNow();
     };
 
     $scope.eta = function (request) {
@@ -988,8 +987,7 @@ angular.module('starter')
 
     $scope.expiration = function (request) {
         // Ensure values are integers
-        var duration = (parseInt(request.timestamp, 10) + parseInt(request.search_timeout, 10)) * 1000;
-        return moment(duration).fromNow();
+        return moment().add(request.expires_in, "seconds").fromNow();
     };
 
     $scope.refresh = function () {
@@ -1334,8 +1332,7 @@ angular.module('starter')
 
     $scope.expiration = function (request) {
         // Ensure values are integers
-        var duration = (parseInt(request.timestamp, 10) + parseInt(request.search_timeout, 10)) * 1000;
-        return moment(duration).fromNow();
+        return moment().add(request.expires_in, "seconds").fromNow();
     };
 
     $scope.details = function (request) {

@@ -393,6 +393,8 @@ class Request extends Base
      */
     public static function log($request, $statusFrom, $statusTo, $source)
     {
+        $now = time();
+
         $requestLog = new RequestLog();
         $requestLog
             ->setRequestId($request->getId())
@@ -400,11 +402,12 @@ class Request extends Base
             ->setStatusFrom($statusFrom)
             ->setStatusTo($statusTo)
             ->setSource($source)
-            ->setSegmentHour(date("H"))
-            ->setSegmentMinute(date("i"))
-            ->setSegmentDay(date("d"))
-            ->setSegmentMonth(date("m"))
-            ->setSegmentYear(date("Y"))
+            ->setSegmentHour(date("H", $now))
+            ->setSegmentMinute(date("i", $now))
+            ->setSegmentDay(date("d", $now))
+            ->setSegmentMonth(date("m", $now))
+            ->setSegmentYear(date("Y", $now))
+            ->setTimestamp($now)
             ->save();
     }
 
@@ -419,11 +422,8 @@ class Request extends Base
         foreach ($pendingRequests as $pendingRequest) {
             $data = $pendingRequest->getData();
 
-            // Set timezone for the current CabRide instance
-            date_default_timezone_set($data["timezone"]);
             $now = time();
-
-            $expireAt = $data["timestamp"] + $data["search_timeout"];
+            $expireAt = $data["expires_at"];
             $id  = $data["request_id"];
 
             if ($now > $expireAt) {

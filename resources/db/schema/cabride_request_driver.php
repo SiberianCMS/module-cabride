@@ -45,6 +45,12 @@ $schemas['cabride_request_driver'] = [
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'requested_at' => [
+        'type' => 'int(11) unsigned',
+    ],
+    'expires_at' => [
+        'type' => 'int(11) unsigned',
+    ],
     'created_at' => [
         'type' => 'datetime',
     ],

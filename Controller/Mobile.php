@@ -12,21 +12,13 @@ use Cabride\Model\Cabride;
 class Mobile extends Application_Controller_Mobile_Default
 {
     /**
-     * @return $this
+     * @return $this|Application_Controller_Mobile_Default|void
+     * @throws \Siberian\Exception
      * @throws \Zend_Exception
      */
     public function init()
     {
         parent::init();
-
-        $optionValue = $this->getCurrentOptionValue();
-        $valueId = $optionValue->getId();
-
-        $cabride = (new Cabride())
-            ->find($valueId, "value_id");
-
-        // All controllers going through cabride will have it's timezone applied
-        date_default_timezone_set($cabride->getTimezone());
 
         return $this;
     }
