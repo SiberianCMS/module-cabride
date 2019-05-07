@@ -1,8 +1,16 @@
+# VERSION 1.4.2 - APR. 29 2019
+
+## FIXES
+
+- Fixes loading screen not hiding until user logs in.
+
+---
+
 # VERSION 1.4.0 - APR. 17 2019
 
 ## FIXES
 
-- Adds a new `timezone` setting to fix time shifting/expirations
+- Adds a new `timezone` setting to fix time shifting & course expiration.
 
 ---
 

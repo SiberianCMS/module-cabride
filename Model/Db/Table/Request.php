@@ -131,7 +131,7 @@ class Request extends Core_Model_Db_Table
 
         // Only fetch pending/declined if they are not expired too!
         if (in_array($status, ["pending", "declined"])) {
-            $select->having("expires > ?", $now);
+            $select->where("request.expires_at > ?", $now);
         }
 
         return $this->toModelClass($this->_db->fetchAll($select));
@@ -175,7 +175,7 @@ class Request extends Core_Model_Db_Table
             ->from($this->_name)
             ->where("status IN (?)", ["pending", "onway", "inprogress", "accepted"])
             ->where("client_id = ?", $clientId)
-            ->group("request.request_id");
+            ->group("request_id");
 
         return $this->toModelClass($this->_db->fetchAll($select));
     }

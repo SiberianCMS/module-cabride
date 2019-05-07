@@ -79,6 +79,9 @@ class Cabride_Mobile_ViewController extends MobileController
                     "passengerPicture" => $passengerPicture,
                     "driverPicture" => $driverPicture,
                     "navBackground" => $navBackground,
+                    "showPassengerPhoto" => (boolean) $dbConfig->getShowPassengerPhoto(),
+                    "showPassengerName" => (boolean) $dbConfig->getShowPassengerName(),
+                    "showPassengerPhone" => (boolean) $dbConfig->getShowPassengerPhone(),
                 ]
             ];
 
@@ -110,6 +113,7 @@ class Cabride_Mobile_ViewController extends MobileController
             if ($driver->getId()) {
                 $user = [
                     "type" => "driver",
+                    "driverId" => (integer) $driver->getId(),
                     "isOnline" => (boolean) $driver->getIsOnline(),
                 ];
             } else {
@@ -124,10 +128,12 @@ class Cabride_Mobile_ViewController extends MobileController
 
 
                     $user = [
+                        "clientId" => (integer) $passenger->getId(),
                         "type" => "passenger",
                     ];
                 } else {
                     $user = [
+                        "clientId" => (integer) $passenger->getId(),
                         "type" => "new",
                     ];
                 }

@@ -90,6 +90,19 @@ $schemas['cabride_request'] = [
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'driver_rating' => [
+        'type' => 'tinyint(1)',
+        'default' => '-1',
+    ],
+    'course_rating' => [
+        'type' => 'tinyint(1)',
+        'default' => '-1',
+    ],
+    'course_comment' => [
+        'type' => 'text',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'requested_at' => [
         'type' => 'int(11) unsigned',
     ],

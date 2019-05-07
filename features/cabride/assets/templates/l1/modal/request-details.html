@@ -24,13 +24,15 @@
                             <img src="" />
                         </div>
                         <span class="course-status {{ request.status }}">{{ request.status | translate:"cabride" }}</span>
+
                         <span ng-show="filterName != 'archived' && request.status == 'pending'"
-                              class="course-expiration {{ request.status }}">{{ "Expires" }} {{ expiration(request) }}</span>
+                              class="course-expiration {{ request.status }}">{{ "Expires" | translate:"cabride" }} {{ expiration(request) }}</span>
+
                         <div class="row course-details">
                             <div class="col-75">
                                 <span class="vehicle-type">{{ request.type }}</span>
                                 <br />
-                                <span class="course-date">{{ calendar(request.timestamp) }}</span>
+                                <span class="course-date">{{ calendar(request.requested_at) }}</span>
                             </div>
                             <div class="col-25 course-price">
                                 <span ng-if="request.formatted_driver_price">
@@ -44,6 +46,43 @@
                                       ng-class="{'price-stroke': request.formatted_driver_price}"
                                       class="course-cost">{{ request.formatted_price }}</span>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div style="margin-bottom: 20px;"></div>
+
+                <div class="item item-divider item-divider-custom">
+                    <span>{{ "Rating" | translate:"cabride" }}</span>
+                    <span ng-if="request.course_rating > 0"
+                          class="pull-right">
+                        <i class="icon icon-rate-mini {{ getIcon('course', 1) }}"></i>
+                        <i class="icon icon-rate-mini {{ getIcon('course', 2) }}"></i>
+                        <i class="icon icon-rate-mini {{ getIcon('course', 3) }}"></i>
+                        <i class="icon icon-rate-mini {{ getIcon('course', 4) }}"></i>
+                        <i class="icon icon-rate-mini {{ getIcon('course', 5) }}"></i>
+                    </span>
+
+                </div>
+
+                <div ng-if="canRate(request)"
+                     ng-click="rateCourse(request)"
+                     class="item item-custom request-detail-small">
+                    <div class="row">
+                        <div class="col-75 energized"><b>{{ "Rate course" | translate:"cabride" }}</b></div>
+                        <div class="col-25 energized text-right">
+                            <i class="icon ion-android-arrow-forward"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="request.course_comment.length > 0"
+                     class="item item-custom">
+                    <div class="row">
+                        <div class="col-100">
+                            <p>{{ request.course_comment }}</p>
                         </div>
                     </div>
                 </div>
@@ -88,7 +127,7 @@
                 </div>
 
                 <div ng-if="request.cash"
-                     class="item item-custom item-icon-left">
+                     class="item item-custom item-no-border-top item-icon-left">
                     <i class="icon">
                         <img src="./features/cabride/assets/templates/images/010-money.svg"
                              style="height: 60%; margin-right: 15px;" />
@@ -97,7 +136,7 @@
                 </div>
 
                 <div ng-if="request.vault"
-                     class="item item-custom item-icon-left item-icon-right">
+                     class="item item-custom item-no-border-top item-icon-left item-icon-right">
                     <i class="icon">
                         <img src="{{ creditCardBrand(request.vault.brand) }}"
                              style="height: 60%; margin-right: 15px;" />
@@ -117,7 +156,7 @@
                         {{ "Payment card" | translate:"cabride" }}
                     </div>
 
-                    <div class="item item-custom item-icon-left item-icon-right">
+                    <div class="item item-custom item-no-border-top item-icon-left item-icon-right">
                         <i class="icon">
                             <img src="{{ creditCardBrand(request.vault.brand) }}"
                                  style="height: 60%; margin-right: 15px;" />
@@ -137,7 +176,7 @@
                         {{ "Payment method" | translate:"cabride" }}
                     </div>
 
-                    <div class="item item-custom item-icon-left">
+                    <div class="item item-custom item-no-border-top item-icon-left">
                         <i class="icon">
                             <img src="./features/cabride/assets/templates/images/010-money.svg"
                                  style="height: 60%; margin-right: 15px;" />
@@ -154,7 +193,7 @@
                     {{ "Driver" | translate:"cabride" }}
                 </div>
 
-                <div class="item item-custom item-thumbnail-left">
+                <div class="item item-custom item-no-border-top item-thumbnail-left">
                     <img ng-src="{{ customerPhoto(request.driverCustomer.image) }}" />
                     <h2>
                         <b>{{ request.driverCustomer.firstname }} {{ request.driverCustomer.lastname }}</b>
@@ -171,12 +210,14 @@
                     {{ "Client" | translate:"cabride" }}
                 </div>
 
-                <div class="item item-custom item-thumbnail-left">
+                <div class="item item-custom item-no-border-top item-thumbnail-left">
                     <img ng-src="{{ customerPhoto(request.clientCustomer.image) }}" />
                     <h2>
-                        <b>{{ request.clientCustomer.firstname }} {{ request.clientCustomer.lastname }}</b>
+                        <b ng-if="showPassengerName">{{ request.clientCustomer.firstname }} {{ request.clientCustomer.lastname }}</b>
+                        <b ng-if="!showPassengerName">****** ******</b>
                     </h2>
-                    <p>{{ request.client.mobile }}</p>
+                    <p ng-if="showPassengerPhone">{{ request.client.mobile }}</p>
+                    <p ng-if="!showPassengerPhone">** ** ** ** **</p>
                 </div>
             </div>
 
@@ -193,6 +234,25 @@
                         <div class="col-25"><b>{{ source(log.source) }}</b></div>
                         <div class="col-30">{{ status(log.status_to) }}</div>
                         <div class="col-45 text-right">{{ calendar(log.timestamp) }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="canCancel(request)">
+                <div style="margin-bottom: 20px;"></div>
+
+                <div class="item item-divider item-divider-custom">
+                    {{ "Actions" | translate:"cabride" }}
+                </div>
+
+                <div ng-if="canCancel(request)"
+                     ng-click="cancel(request)"
+                     class="item item-custom request-detail-small">
+                    <div class="row">
+                        <div class="col-75 assertive"><b>{{ "Cancel course" | translate:"cabride" }}</b></div>
+                        <div class="col-25 assertive text-right">
+                            <i class="icon ion-android-arrow-forward"></i>
+                        </div>
                     </div>
                 </div>
             </div>

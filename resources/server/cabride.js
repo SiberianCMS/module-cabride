@@ -272,6 +272,7 @@ const functions = {
         updatePosition: function (localConnection, params) {
             switch (params.userType) {
                 case "driver":
+                    localConnection.user.driverId = params.driverId;
                     localConnection.user.id = params.userId;
                     localConnection.user.type = "driver";
 
@@ -302,6 +303,7 @@ const functions = {
 
                     break;
                 case "passenger":
+                    localConnection.user.clientId = params.clientId;
                     localConnection.user.id = params.userId;
                     localConnection.user.type = "passenger";
 
@@ -325,6 +327,26 @@ const functions = {
                     }
 
                     break;
+            }
+        },
+        updateRequest: function (localConnection, params) {
+            var request = params.request;
+
+            try {
+                for (let uuid in globals.passengers) {
+                    var passenger = globals.allConnections[uuid];
+                    if (passenger.user.clientId &&
+                        parseInt(passenger.user.clientId, 10) === parseInt(request.client_id, 10)) {
+                        passenger.websocket.send(toMsg(
+                            {
+                                event: 'update-request',
+                                request: request
+                            }
+                        ));
+                    }
+                }
+            } catch (error) {
+                functions.log('updateRequest error: ', error, 'error');
             }
         },
         /**
@@ -506,6 +528,9 @@ let init = function (httpsOptions) {
                     // No-ACK blink update!
                     functions.updatePosition(globals.allConnections[tmpUuid], payload);
                     break;
+                case 'update-request':
+                    functions.updateRequest(globals.allConnections[tmpUuid], payload);
+                    break;
                 case 'request':
                     // Send request to server
                     functions.sendRequest(globals.allConnections[tmpUuid], payload)
@@ -600,19 +625,19 @@ let init = function (httpsOptions) {
         }
 
         pingInprogress = false;
-    }, 15000);
+    }, 2000);
 
     // Debug connected users
-    if (debug) {
-        setInterval(function () {
-            functions.log('=== allConnections ===');
-            functions.log(globals.allConnections);
-            functions.log('=== IDS ===');
-            for (let uuid in globals.allConnections) {
-                functions.log(uuid);
-            }
-        }, 10000);
-    }
+    //if (debug) {
+    //    setInterval(function () {
+    //        functions.log('=== allConnections ===');
+    //        functions.log(globals.allConnections);
+    //        functions.log('=== IDS ===');
+    //        for (let uuid in globals.allConnections) {
+    //            functions.log(uuid);
+    //        }
+    //    }, 10000);
+    //}
 };
 
 // Init when request is OK!

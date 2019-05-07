@@ -3,6 +3,7 @@
 namespace Cabride\Model;
 
 use Core\Model\Base;
+use Siberian\Hook;
 use Push_Model_Message as Message;
 
 /**
@@ -67,6 +68,50 @@ class PushDevice extends Base
             ->setActionValue($actionValue)
             ->setForceAppRoute(true)
             ->setBase64(false);
+
+        Hook::listen(
+            "push.message.android.parsed",
+            "cabride.alter.android.push",
+            function ($payload) use ($requestId) {
+                /**
+                 * @var $msg \Siberian\Service\Push\CloudMessaging\Message
+                 */
+                $msg = $payload["message"];
+
+                $cabride = [
+                    "cabride" => true,
+                    "requestId" => $requestId
+                ];
+
+                $msg->contentAvailable(true);
+                $msg->addData("additional_payload", $cabride);
+
+                $payload["message"] = $msg;
+
+                return $payload;
+            });
+
+        Hook::listen(
+            "push.message.ios.parsed",
+            "cabride.alter.ios.push",
+            function ($payload) use ($requestId) {
+                /**
+                 * @var $msg \Siberian_Service_Push_Apns_Message
+                 */
+                $msg = $payload["message"];
+
+                $cabride = [
+                    "cabride" => true,
+                    "requestId" => $requestId
+                ];
+
+                $msg->setContentAvailable(true);
+                $msg->setAdditionalPayload($cabride);
+
+                $payload["message"] = $msg;
+
+                return $payload;
+            });
 
         (new Push())->sendPush($device, $message, $appId);
     }

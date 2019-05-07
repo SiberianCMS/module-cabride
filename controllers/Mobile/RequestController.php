@@ -269,8 +269,10 @@ class Cabride_Mobile_RequestController extends MobileController
             }
 
             // Recast values
+            $now = time();
             $data["search_timeout"] = (integer) $data["search_timeout"];
             $data["timestamp"] = (integer) $data["timestamp"];
+            $data["expires_in"] = (integer) ($data["expires_at"] - $now);
 
             // Fetch status history
             $logs = (new RequestLog())->findAll(["request_id = ?" => $requestId], ["created_at DESC"]);

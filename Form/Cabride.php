@@ -188,9 +188,18 @@ RAW;
             ["nav_background_button", "passenger_picture_button", "driver_picture_button"],
             p__("cabride", "Design"));
 
+        // PASSENGER PRIVACY
+        $this->addSimpleCheckbox("show_passenger_photo", p__("cabride", "Show passenger picture"));
+        $this->addSimpleCheckbox("show_passenger_name", p__("cabride", "Show passenger name"));
+        $this->addSimpleCheckbox("show_passenger_phone", p__("cabride", "Show passenger phone"));
+
+        $this->groupElements("privacy",
+            ["show_passenger_photo", "show_passenger_name", "show_passenger_phone"],
+            p__("cabride", "Passenger privacy"));
+
 
         // MISC
-        $driver_can_register = $this->addSimpleCheckbox("driver_can_register", p__("cabride", "Driver can register"));
+        $this->addSimpleCheckbox("driver_can_register", p__("cabride", "Driver can register"));
 
         $this->groupElements("misc",
             ["driver_can_register"],

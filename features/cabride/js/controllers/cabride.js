@@ -44,6 +44,10 @@ angular.module('starter')
         });
     });
 
+    $rootScope.$on("cabride.isOnline", function (event, isOnline) {
+        $scope.isOnline = isOnline;
+    });
+
     $rootScope.$on("cabride.advertDrivers", function (event, payload) {
         // Refresh driver markers
         $scope.drawDrivers(payload.drivers);
@@ -101,7 +105,28 @@ angular.module('starter')
             Customer.loginModal($scope,
                 /** Login */
                 function () {
-                    $scope.setIsPassenger(true);
+                    Loader.show();
+                    // Check if it's a driver first!
+                    Cabride
+                    .fetchUser()
+                    .then(function (payload) {
+                        $rootScope.$broadcast("cabride.updateUser", payload.user);
+                        switch (payload.user.type) {
+                            case "driver":
+                                $scope.setIsDriver(false);
+                                $rootScope.$broadcast("cabride.setIsOnline", payload.user.isOnline);
+                                $rootScope.$broadcast("cabride.isOnline", payload.user.isOnline);
+                                break;
+                            case "passenger":
+                            case "new":
+                            default:
+                                $scope.setIsPassenger(true);
+                        }
+
+                        Loader.hide();
+                    }).catch(function () {
+                        Loader.hide();
+                    });
                 },
                 /** Logout */
                 function () {
@@ -303,6 +328,14 @@ angular.module('starter')
 
     $scope.displayMapPin = function () {
         $scope.showMapPin = true;
+    };
+
+    $scope.pinIcon = function () {
+        if ($scope.isDriver && $scope.isOnline) {
+            return "./features/cabride/assets/templates/images/003-pin-green.svg";
+        }
+
+        return "./features/cabride/assets/templates/images/003-pin.svg";
     };
 
     $scope.pinText = function () {
@@ -630,10 +663,12 @@ angular.module('starter')
                     Cabride
                     .fetchUser()
                     .then(function (payload) {
+                        $rootScope.$broadcast("cabride.updateUser", payload.user);
                         switch (payload.user.type) {
                             case "driver":
                                 $scope.setIsDriver(false);
                                 $rootScope.$broadcast("cabride.setIsOnline", payload.user.isOnline);
+                                $rootScope.$broadcast("cabride.isOnline", payload.user.isOnline);
                                 break;
                             case "passenger":
                                 $scope.setIsPassenger(false);
@@ -674,6 +709,39 @@ angular.module('starter')
 
     $rootScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
         $scope.init();
+        if (Customer.isLoggedIn()) {
+            Customer
+            .find()
+            .then(function (customer) {
+                $scope.customer = customer;
+                $scope.customer.metadatas = _.isObject($scope.customer.metadatas)
+                    ? $scope.customer.metadatas
+                    : {};
+                $scope.avatarUrl = Customer.getAvatarUrl($scope.customer.id);
+
+                Cabride
+                .fetchUser()
+                .then(function (payload) {
+                    $rootScope.$broadcast("cabride.updateUser", payload.user);
+                    switch (payload.user.type) {
+                        case "driver":
+                            $scope.setIsDriver(false);
+                            $rootScope.$broadcast("cabride.setIsOnline", payload.user.isOnline);
+                            break;
+                        case "passenger":
+                            $scope.setIsPassenger(false);
+                            break;
+                        case "new":
+                        default:
+                            if (!Cabride.settings.driverCanRegister) {
+                                $scope.selectPassenger();
+                            }
+                    }
+
+                    $scope.isLoading = false;
+                });
+            });
+        }
     });
 
     $rootScope.$on(SB.EVENTS.AUTH.registerSuccess, function () {
@@ -754,8 +822,7 @@ angular.module('starter')
     };
 
     $scope.expiration = function (request) {
-        // Ensure values are integers
-        return moment().add(request.expires_in, "seconds").fromNow();
+        return moment().add(parseInt(request.expires_in, 10), "seconds").fromNow();
     };
 
     $scope.eta = function (request) {
@@ -784,14 +851,15 @@ angular.module('starter')
                 Cabride
                 .cancelRide(request.request_id)
                 .then(function (payload) {
+                    Cabride.updateRequest(request);
                     Dialog
-                    .alert("Error", payload.message, "OK", 3500)
+                    .alert("Thanks", payload.message, "OK", 3500, "cabride")
                     .then(function () {
                         $scope.refresh();
                     });
                 }, function (error) {
                     Dialog
-                    .alert("Error", error.message, "OK", 3500)
+                    .alert("Sorry", error.message, "OK", 3500, "cabride")
                     .then(function () {
                         $scope.refresh();
                     });
@@ -828,6 +896,10 @@ angular.module('starter')
 
     $scope.$watch("filterName", function () {
         $scope.filtered = $filter("cabrideStatusFilter")($scope.collection, $scope.statuses)
+    });
+
+    $scope.$on('cabride.updateRequest', function (event, request) {
+        $scope.refresh();
     });
 
     $scope.loadPage();
@@ -926,6 +998,10 @@ angular.module('starter')
         $ionicScrollDelegate.scrollTop();
     };
 
+    $scope.$on('cabride.updateRequest', function (event, request) {
+        $scope.refresh();
+    });
+
     $scope.loadPage();
 });
 
@@ -986,8 +1062,7 @@ angular.module('starter')
     };
 
     $scope.expiration = function (request) {
-        // Ensure values are integers
-        return moment().add(request.expires_in, "seconds").fromNow();
+        return moment().add(parseInt(request.expires_in, 10), "seconds").fromNow();
     };
 
     $scope.refresh = function () {
@@ -999,6 +1074,7 @@ angular.module('starter')
         Cabride
         .declineRide(request.request_id)
         .then(function (payload) {
+            Cabride.updateRequest(request);
             Dialog
             .alert("", payload.message, "OK", 2350)
             .then(function () {
@@ -1031,6 +1107,7 @@ angular.module('starter')
             Cabride
             .acceptRide(request.request_id, route)
             .then(function (payload) {
+                Cabride.updateRequest(request);
                 Dialog
                 .alert("", payload.message, "OK", 2350)
                 .then(function () {
@@ -1061,6 +1138,10 @@ angular.module('starter')
         return IMAGE_URL + "images/application" + image;
     };
 
+    $scope.$on('cabride.updateRequest', function (event, request) {
+        $scope.refresh();
+    });
+
     $scope.loadPage();
 });
 
@@ -1071,6 +1152,7 @@ angular.module('starter')
         isLoading: false,
         pageTitle: $translate.instant("Accepted requests", "cabride"),
         valueId: Cabride.getValueId(),
+        showPassengerPhone: Cabride.settings.showPassengerPhone,
         collection: []
     });
 
@@ -1143,6 +1225,7 @@ angular.module('starter')
             Cabride
             .driveToPassenger(request.request_id, route)
             .then(function (payload) {
+                Cabride.updateRequest(request);
                 Dialog
                 .alert("", payload.message, "OK", 2350)
                 .then(function () {
@@ -1167,6 +1250,7 @@ angular.module('starter')
         Cabride
         .driveToDestination(request.request_id)
         .then(function (payload) {
+            Cabride.updateRequest(request);
             Dialog
             .alert("", payload.message, "OK", 2350)
             .then(function () {
@@ -1186,6 +1270,7 @@ angular.module('starter')
         Cabride
         .completeRide(request.request_id)
         .then(function (payload) {
+            Cabride.updateRequest(request);
             Dialog
             .alert("", payload.message, "OK", 2350)
             .then(function () {
@@ -1214,6 +1299,10 @@ angular.module('starter')
         }
         return IMAGE_URL + "images/application" + image;
     };
+
+    $scope.$on('cabride.updateRequest', function (event, request) {
+        $scope.refresh();
+    });
 
     $scope.loadPage();
 });
@@ -1280,6 +1369,10 @@ angular.module('starter')
         return IMAGE_URL + "images/application" + image;
     };
 
+    $scope.$on('cabride.updateRequest', function (event, request) {
+        $scope.refresh();
+    });
+
     $scope.loadPage();
 });
 
@@ -1331,8 +1424,7 @@ angular.module('starter')
     };
 
     $scope.expiration = function (request) {
-        // Ensure values are integers
-        return moment().add(request.expires_in, "seconds").fromNow();
+        return moment().add(parseInt(request.expires_in, 10), "seconds").fromNow();
     };
 
     $scope.details = function (request) {
@@ -1357,6 +1449,7 @@ angular.module('starter')
             Cabride
             .acceptRide(request.request_id, route)
             .then(function (payload) {
+                Cabride.updateRequest(request);
                 Dialog
                 .alert("", payload.message, "OK", 2350)
                 .then(function () {
@@ -1386,6 +1479,10 @@ angular.module('starter')
         }
         return IMAGE_URL + "images/application" + image;
     };
+
+    $scope.$on('cabride.updateRequest', function (event, request) {
+        $scope.refresh();
+    });
 
     $scope.loadPage();
 });
@@ -1595,10 +1692,9 @@ angular.module('starter')
 .controller('CabrideContextualMenuController', function ($scope, $rootScope, $state,
                                                          $ionicSideMenuDelegate,
                                                          $ionicHistory, Customer,
-                                                         SB, $timeout, HomepageLayout) {
+                                                         SB, $timeout, HomepageLayout, Cabride) {
     angular.extend($scope, {
         isOnline: false,
-        customer: null,
         customer: null,
         information: null,
         isLoggedIn: Customer.isLoggedIn(),
@@ -1767,5 +1863,8 @@ angular.module('starter')
         $scope.isDriver = true;
         $scope.rebuildMenu();
     });
+
+    // Set nav background!
+    $scope.taxiHeaderStyle.backgroundImage = "url('" + IMAGE_URL + Cabride.settings.navBackground + "')";
 
 });

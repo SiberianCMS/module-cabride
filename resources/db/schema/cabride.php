@@ -101,6 +101,18 @@ $schemas['cabride'] = [
         'type' => 'tinyint(1)',
         'default' => '1',
     ],
+    'show_passenger_photo' => [
+        'type' => 'tinyint(1)',
+        'default' => '1',
+    ],
+    'show_passenger_name' => [
+        'type' => 'tinyint(1)',
+        'default' => '1',
+    ],
+    'show_passenger_phone' => [
+        'type' => 'tinyint(1)',
+        'default' => '1',
+    ],
     'stripe_public_key' => [
         'type' => 'varchar(256)',
         'charset' => 'utf-8',

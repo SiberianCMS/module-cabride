@@ -67,9 +67,10 @@ class Cabride_Mobile_RideController extends MobileController
                 }
 
                 // Recast values
+                $now = time();
                 $data["search_timeout"] = (integer) $data["search_timeout"];
                 $data["timestamp"] = (integer) $data["timestamp"];
-                $data["expires_in"] = (integer) ($data["expires_at"] - $data["requested_at"]);
+                $data["expires_in"] = (integer) ($data["expires_at"] - $now);
 
                 $collection[] = $data;
             }
@@ -222,9 +223,10 @@ class Cabride_Mobile_RideController extends MobileController
                 $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"], $cabride->getCurrency());
 
                 // Recast values
+                $now = time();
                 $data["search_timeout"] = (integer) $data["search_timeout"];
                 $data["timestamp"] = (integer) $data["timestamp"];
-                $data["expires_in"] = (integer) ($data["expires_at"] - time());
+                $data["expires_in"] = (integer) ($data["expires_at"] - $now);
 
                 $collection[] = $data;
             }
@@ -270,11 +272,12 @@ class Cabride_Mobile_RideController extends MobileController
                 $data["formatted_price"] = Base::_formatPrice($data["cost"], $cabride->getCurrency());
 
                 // Recast values
+                $now = time();
                 $data["search_timeout"] = (integer) $data["search_timeout"];
                 $data["timestamp"] = (integer) $data["timestamp"];
-                $data["expires_in"] = (integer) ($data["expires_at"] - time());
+                $data["expires_in"] = (integer) ($data["expires_at"] - $now);
 
-                $client = (new Client())->find($ride->getVlientId());
+                $client = (new Client())->find($ride->getClientId());
 
                 $data["client_phone"] = $client->getMobile();
 
@@ -322,9 +325,10 @@ class Cabride_Mobile_RideController extends MobileController
                 $data["formatted_price"] = Base::_formatPrice($data["cost"], $cabride->getCurrency());
 
                 // Recast values
+                $now = time();
                 $data["search_timeout"] = (integer) $data["search_timeout"];
                 $data["timestamp"] = (integer) $data["timestamp"];
-                $data["expires_in"] = (integer) ($data["expires_at"] - time());
+                $data["expires_in"] = (integer) ($data["expires_at"] - $now);
 
                 $collection[] = $data;
             }
@@ -370,9 +374,10 @@ class Cabride_Mobile_RideController extends MobileController
                 $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"], $cabride->getCurrency());
 
                 // Recast values
+                $now = time();
                 $data["search_timeout"] = (integer) $data["search_timeout"];
                 $data["timestamp"] = (integer) $data["timestamp"];
-                $data["expires_in"] = (integer) ($data["expires_at"] - time());
+                $data["expires_in"] = (integer) ($data["expires_at"] - $now);
 
                 $collection[] = $data;
             }
@@ -983,6 +988,42 @@ class Cabride_Mobile_RideController extends MobileController
             $payload = [
                 "success" => true,
                 "message" => p__("cabride", "The course is now marked are complete!"),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+                "trace" => $e->getTraceAsString(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Rate the ride
+     */
+    public function rateCourseAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $requestId = $request->getParam("requestId", false);
+            $data = $request->getBodyParams();
+            $ride = (new Request())->find($requestId);
+
+            if (!$requestId || !$ride->getId()) {
+                throw new Exception(p__("cabride",
+                    "Sorry, we are unable to find this ride request!"));
+            }
+
+            $ride
+                ->setCourseRating($data["rating"]["course"])
+                ->setCourseComment($data["rating"]["comment"])
+                ->save();
+
+            $payload = [
+                "success" => true,
+                "message" => p__("cabride", "Thanks!"),
             ];
         } catch (\Exception $e) {
             $payload = [

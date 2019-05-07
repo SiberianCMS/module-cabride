@@ -208,6 +208,7 @@
 
           .cr-loader-label {
             margin-bottom: .5rem;
+            padding: 0 10px;
           }
         }
       }
@@ -504,19 +505,40 @@
     opacity: 0.7 !important;
   }
 
-  .item.item-custom.request-detail-small {
-    padding: 5px 10px 8px;
-    font-size: .9em;
-    border-top: 0;
+  .item {
+    &.item-custom {
+      &.item-no-border-top {
+        border-top: 0;
+      }
 
-    p {
-      padding-left: 32px;
-      white-space: normal;
+      &.request-detail-small {
+        padding: 5px 10px 8px;
+        font-size: .9em;
+        border-top: 0;
+
+        p {
+          padding-left: 32px;
+          white-space: normal;
+        }
+
+        i.icon {
+          font-size: 1.5em;
+          left: 0;
+        }
+      }
+
+      &.rate-course {
+        text-align: center;
+
+        .icon-rate:before {
+          font-size: 12vw;
+          color: #d3bb51;
+        }
+      }
     }
 
-    i.icon {
-      font-size: 1.5em;
-      left: 0;
+    .icon-rate-mini:before {
+      font-size: 6vw;
     }
   }
 }

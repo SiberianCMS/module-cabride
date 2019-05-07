@@ -25,6 +25,7 @@ angular.module('starter')
             publicRooms: [],
             privateRooms: [],
             /** Settings */
+            user: null,
             isPassenger: false,
             isDriver: false,
             isTaxiLayout: false,
@@ -103,6 +104,9 @@ angular.module('starter')
                 case 'aggregate-information':
                     $rootScope.$broadcast('cabride.aggregateInformation', {information: message.information});
                     break;
+                case 'update-request':
+                    $rootScope.$broadcast('cabride.updateRequest', {request: message.request});
+                    break;
                 case 'ping': // Ping!
                     factory.sendEvent('pong');
                     break;
@@ -131,6 +135,12 @@ angular.module('starter')
                     // close from here too!
                     break;
             }
+        };
+
+        factory.updateRequest = function (request) {
+            factory.sendEvent('update-request', {
+                request: request
+            });
         };
 
         factory.getMyRides = function () {
@@ -229,6 +239,16 @@ angular.module('starter')
             });
         };
 
+        factory.cancelRideDriver = function (requestId) {
+            return $pwaRequest.post('/cabride/mobile_ride/cancel-driver', {
+                urlParams: {
+                    value_id: this.value_id,
+                    requestId: requestId
+                },
+                cache: false
+            });
+        };
+
         factory.driveToPassenger = function (requestId, route) {
             return $pwaRequest.post('/cabride/mobile_ride/drive-to-passenger', {
                 urlParams: {
@@ -276,6 +296,19 @@ angular.module('starter')
                 urlParams: {
                     value_id: this.value_id,
                     typeId: typeId
+                },
+                cache: false
+            });
+        };
+
+        factory.rateCourse = function (requestId, rating) {
+            return $pwaRequest.post('/cabride/mobile_ride/rate-course', {
+                urlParams: {
+                    value_id: this.value_id,
+                    requestId: requestId
+                },
+                data: {
+                    rating: rating
                 },
                 cache: false
             });
@@ -393,6 +426,25 @@ angular.module('starter')
             });
         };
 
+        factory.rcModal = null;
+        factory.rateCourseModal = function (request) {
+            Modal
+            .fromTemplateUrl("features/cabride/assets/templates/l1/modal/rate-course.html", {
+                scope: angular.extend($rootScope.$new(true), {
+                    request: request,
+                    close: function () {
+                        factory.rcModal.hide();
+                    }
+                }),
+                animation: 'slide-in-up'
+            }).then(function (modal) {
+                factory.rcModal = modal;
+                factory.rcModal.show();
+
+                return modal;
+            });
+        };
+
         /**
          * Short aliases
          */
@@ -404,14 +456,21 @@ angular.module('starter')
             .getLocation()
             .then(function (position) {
                 factory.lastPosition = position.coords;
-                factory.sendEvent('update-position', {
+                var payload = {
                     userId: Customer.customer.id,
-                    userType: factory.isDriver ? 'driver' : 'passenger',
                     position: {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
                     }
-                });
+                };
+                if (factory.isDriver) {
+                    payload.driverId = factory.user.driverId;
+                    payload.userType = "driver";
+                } else {
+                    payload.clientId = factory.user.clientId;
+                    payload.userType = "passenger";
+                }
+                factory.sendEvent('update-position', payload);
             }, function () {
                 // Skipping this time!
             });
@@ -747,6 +806,10 @@ angular.module('starter')
             factory.stopUpdatePosition();
         });
 
+        $rootScope.$on("cabride.updateUser", function (event, user) {
+            factory.user = user;
+        });
+
         $rootScope.$on("cabride.isTaxiLayout", function () {
             factory.setIsTaxiLayout(true);
         });
@@ -771,6 +834,33 @@ angular.module('starter')
                     $state.go("cabride-vehicle-information");
                 });
             });
+        });
+
+        // We will hook push when App is open to force a local notification
+        $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
+            try {
+                if (cordova.plugins.notification && cordova.plugins.notification.local) {
+                    // Ok it's a cabride payload!
+                    if (data.additionalData &&
+                        data.additionalData.additional_payload &&
+                        data.additionalData.additional_payload.cabride) {
+
+                        // Check if it's a foreground push
+                        if (data.additionalData.foreground) {
+                            var msgPayload = data;
+                            // Process, otherwise, push was already in notification tab.
+                            cordova.plugins.notification.local.schedule({
+                                title: msgPayload.title,
+                                text: msgPayload.message,
+                                smallIcon: "res://icon.png",
+                                icon: IMAGE_URL + "/app/local/modules/Cabride/features/cabride/icons/cabride-push.png"
+                            });
+                        }
+                    }
+                }
+            } catch (e) {
+                // Silently fails! we will have the modal anyway!
+            }
         });
 
         return factory;
