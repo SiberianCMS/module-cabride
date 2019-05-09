@@ -170,6 +170,18 @@ class Driver extends Base
     }
 
     /**
+     * @return Driver
+     */
+    public function fetchRating()
+    {
+        $rating = $this->getTable()->fetchRating($this->getId());
+
+        $this->setAverageRating($rating);
+
+        return $this;
+    }
+
+    /**
      * @param $valueId
      * @param $formula
      * @return Driver[]

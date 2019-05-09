@@ -112,11 +112,24 @@ class Driver extends Core_Model_Db_Table
     public function fetchForValueId($valueId)
     {
         $select = $this->_db->select()
-            ->from(["driver" => $this->_name])
+            ->from(
+                [
+                    "driver" => $this->_name,
+                ],
+                [
+                    "*",
+                ]
+            )
             ->joinInner(
                 "customer",
                 "driver.customer_id = customer.customer_id",
-                ["firstname", "lastname", "nickname", "email", "image"]
+                [
+                    "firstname",
+                    "lastname",
+                    "nickname",
+                    "email",
+                    "image",
+                ]
             )
             ->joinLeft(
                 "cabride_vehicle",
@@ -126,6 +139,27 @@ class Driver extends Core_Model_Db_Table
             ->where("driver.value_id = ?", $valueId);
 
         return $this->toModelClass($this->_db->fetchAll($select));
+    }
+
+    /**
+     * @param $driverId
+     * @return string
+     */
+    public function fetchRating($driverId)
+    {
+        $select = $this->_db->select()
+            ->from(
+                [
+                    "cabride_request",
+                ],
+                [
+                    "average_rating" => new \Zend_Db_Expr("SUM(course_rating) / COUNT(*)")
+                ]
+            )
+            ->where("cabride_request.driver_id = ?", $driverId)
+            ->where("cabride_request.course_rating > 0");
+
+        return $this->_db->fetchOne($select);
     }
 
 }

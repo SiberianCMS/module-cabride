@@ -229,12 +229,13 @@ angular.module('starter')
             });
         };
 
-        factory.cancelRide = function (requestId) {
+        factory.cancelRide = function (requestId, cancel) {
             return $pwaRequest.post('/cabride/mobile_ride/cancel', {
                 urlParams: {
                     value_id: this.value_id,
                     requestId: requestId
                 },
+                data: cancel,
                 cache: false
             });
         };
@@ -440,6 +441,26 @@ angular.module('starter')
             }).then(function (modal) {
                 factory.rcModal = modal;
                 factory.rcModal.show();
+
+                return modal;
+            });
+        };
+
+        factory.clModal = null;
+        factory.cancelModal = function (request, userType) {
+            Modal
+            .fromTemplateUrl("features/cabride/assets/templates/l1/modal/cancel-course.html", {
+                scope: angular.extend($rootScope.$new(true), {
+                    request: request,
+                    userType: userType,
+                    close: function () {
+                        factory.clModal.hide();
+                    }
+                }),
+                animation: 'slide-in-up'
+            }).then(function (modal) {
+                factory.clModal = modal;
+                factory.clModal.show();
 
                 return modal;
             });

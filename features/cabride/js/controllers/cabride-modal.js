@@ -166,7 +166,7 @@ angular.module('starter')
             statuses = ["pending", "accepted", "onway", "inprogress", "aborted"];
         }
 
-        return statuses.indexOf(request.status) > 0;
+        return statuses.indexOf(request.status) >= 0;
     };
 
     $scope.imageCarPath = function (image) {
@@ -203,69 +203,7 @@ angular.module('starter')
     };
 
     $scope.cancel = function (request) {
-        if ($scope.userType === "driver") {
-            $scope.cancelDriver(request);
-        }  else {
-            $scope.cancelPassenger(request);
-        }
-    };
-
-    $scope.cancelDriver = function (request) {
-        Dialog
-        .confirm(
-            "Confirmation",
-            "This ride is already in progress, are you sure you want to cancel it!",
-            ['Yes', 'No'],
-            "text-center")
-        .then(function (result) {
-            if (result) {
-                Cabride
-                .cancelRideDriver(request.request_id)
-                .then(function (payload) {
-                    Cabride.updateRequest(request);
-                    Dialog
-                    .alert("Thanks", payload.message, "OK", 3500, "cabride")
-                    .then(function () {
-                        $scope.refresh();
-                    });
-                }, function (error) {
-                    Dialog
-                    .alert("Sorry", error.message, "OK", 3500, "cabride")
-                    .then(function () {
-                        $scope.refresh();
-                    });
-                });
-            }
-        });
-    };
-
-    $scope.cancelPassenger = function (request) {
-        Dialog
-        .confirm(
-            "Confirmation",
-            "Are you sure you want to cancel this request? cancellation fees may apply!",
-            ['Yes', 'No'],
-            "text-center")
-        .then(function (result) {
-            if (result) {
-                Cabride
-                .cancelRide(request.request_id)
-                .then(function (payload) {
-                    Cabride.updateRequest(request);
-                    Dialog
-                    .alert("Thanks", payload.message, "OK", 3500, "cabride")
-                    .then(function () {
-                        $scope.refresh();
-                    });
-                }, function (error) {
-                    Dialog
-                    .alert("Sorry", error.message, "OK", 3500, "cabride")
-                    .then(function () {
-                        $scope.refresh();
-                    });
-                });
-            }
-        });
+        Cabride.cancelModal(request, $scope.userType);
     };
 
     $scope.getIcon = function(target, value) {
@@ -333,5 +271,46 @@ angular.module('starter')
         } else {
             return ($scope.rating.driver >= value) ? 'ion-android-star' : 'ion-android-star-outline';
         }
+    };
+});
+
+angular.module('starter')
+.controller('RequestCancelController', function ($scope, $rootScope, $translate, Cabride, Dialog) {
+
+    angular.extend($scope, {
+        cancel: {
+            reason: null,
+            message: ""
+        }
+    });
+
+    $scope.submit = function () {
+        if ($scope.cancel.reason === null) {
+            Dialog.alert("Error", "You must select a reason!", "OK", 2350, "cabride");
+            return;
+        }
+
+        if ($scope.cancel.reason === "other" &&
+            $scope.cancel.message.length < 10) {
+            Dialog.alert("Error", "You must leave a message!", "OK", 2350, "cabride");
+            return;
+        }
+
+        Cabride
+        .cancelRide($scope.request.request_id, $scope.cancel)
+        .then(function (payload) {
+            Cabride.updateRequest(request);
+            Dialog
+            .alert("Thanks", payload.message, "OK", 3500, "cabride")
+            .then(function () {
+                $scope.refresh();
+            });
+        }, function (error) {
+            Dialog
+            .alert("Sorry", error.message, "OK", 3500, "cabride")
+            .then(function () {
+                $scope.refresh();
+            });
+        });
     };
 });

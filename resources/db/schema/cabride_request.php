@@ -103,6 +103,16 @@ $schemas['cabride_request'] = [
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'cancel_reason' => [
+        'type' => 'varchar(128)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'cancel_note' => [
+        'type' => 'text',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'requested_at' => [
         'type' => 'int(11) unsigned',
     ],

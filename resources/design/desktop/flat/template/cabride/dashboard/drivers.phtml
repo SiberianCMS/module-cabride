@@ -21,6 +21,10 @@ $distanceUnit = $settings->getDistanceUnit();
 $drivers = (new Driver())
     ->fetchForValueId($valueId);
 
+foreach ($drivers as $driver) {
+    $driver->fetchRating();
+}
+
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -36,6 +40,7 @@ $drivers = (new Driver())
                             <thead>
                             <tr class="border-grey">
                                 <th class="sortable numeric"><?php echo p__("cabride", "ID"); ?></th>
+                                <th class="sortable numeric"><?php echo p__("cabride", "Rating"); ?></th>
                                 <th class="sortable numeric"><?php echo p__("cabride", "Customer ID"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Vehicle type"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Vehicle model"); ?></th>
@@ -52,6 +57,15 @@ $drivers = (new Driver())
                                 <tr class="sb-pager">
                                     <td>
                                         <b>#<?php echo $driver->getId(); ?></b>
+                                    </td>
+                                    <td>
+                                        <?php if ($driver->getAverageRating() > 0): ?>
+                                            <b><?php echo round($driver->getAverageRating(), 2); ?></b>
+                                            <i class="fa fa-star"
+                                               style="color: #d3bb51;"></i>
+                                        <?php else: ?>
+                                            <?php echo p__("cabride", "n.c."); ?>
+                                        <?php endif;  ?>
                                     </td>
                                     <td>
                                         <a class="btn btn-xs btn-info"

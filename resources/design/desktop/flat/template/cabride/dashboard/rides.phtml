@@ -48,6 +48,36 @@ function colorForStatus ($status) {
     }
 }
 
+$averageDistance = 0;
+$averageDuration = 0;
+$averageCost = 0;
+$averageItems = 0;
+
+$sumRating = 0;
+$ratingItems = 0;
+
+foreach ($rides as $ride) {
+    $rating = $ride->getCourseRating();
+    if ($rating > 0) {
+        $ratingItems++;
+        //
+        $sumRating += $rating;
+    }
+
+    if ($ride->getStatus() === "done") {
+        $averageItems++;
+        //
+        $averageDistance += $ride->getDistance() / 1000;
+        $averageDuration += $ride->getDuration() / 60;
+        $averageCost += $ride->getCost();
+    }
+}
+
+$averageDistance = round($averageDistance / $averageItems, 1);
+$averageDuration = ceil($averageDuration / $averageItems);
+$averageCost = Base::_formatPrice($averageCost / $averageItems, $cu);
+$averageRating = round($sumRating / $ratingItems, 2);
+
 ?>
 <div class="row cabride-rides">
     <div class="col-md-12">
@@ -58,6 +88,40 @@ function colorForStatus ($status) {
                     <?php echo p__("cabride", "Ride requests"); ?>
                 </h3>
                 <div class="subcontent content-color">
+
+                    <div class="col-md-3">
+                        <div class="alert alert-info">
+                            <p class="dashboard-income"><?php echo $averageDistance ?> <?php echo $du ?></p>
+                            <p class="income-more">
+                                <?php echo p__("cabride", "AVERAGE DISTANCE"); ?>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="alert alert-warning">
+                            <p class="dashboard-income"><?php echo $averageDuration ?> mn</p>
+                            <p class="income-more">
+                                <?php echo p__("cabride", "AVERAGE DURATION"); ?>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="alert alert-success">
+                            <p class="dashboard-income"><?php echo $averageCost ?></p>
+                            <p class="income-more">
+                                <?php echo p__("cabride", "AVERAGE COST"); ?>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="alert alert-danger">
+                            <p class="dashboard-income"><?php echo $averageRating ?> <i class="fa fa-star"></i></p>
+                            <p class="income-more">
+                                <?php echo p__("cabride", "AVERAGE RATING"); ?>
+                            </p>
+                        </div>
+                    </div>
+
                     <div class="col-md-12">
                         <table class="table content-white-bkg sb-pager margin-top">
                             <thead>
@@ -69,6 +133,7 @@ function colorForStatus ($status) {
                                 <th class="sortable numeric text-right"><?php echo p__("cabride", "Est. cost"); ?></th>
                                 <th class="sortable numeric text-right"><?php echo p__("cabride", "Cost"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Ride"); ?></th>
+                                <th class="sortable"><?php echo p__("cabride", "Rating"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Status"); ?></th>
                                 <th></th>
                             </tr>
@@ -125,8 +190,17 @@ function colorForStatus ($status) {
                                         <?php echo $ride->getToAddress(); ?>
                                     </td>
                                     <td>
+                                        <?php if ($ride->getCourseRating() > 0): ?>
+                                            <?php for ($i = 0; $i < $ride->getCourseRating(); $i++): ?>
+                                            <i class="fa fa-star"></i>
+                                            <?php endfor; ?>
+                                        <?php else: ?>
+                                            <?php echo p__("cabride", "n.c."); ?>
+                                        <?php endif;  ?>
+                                    </td>
+                                    <td>
                                         <span class="label <?php echo colorForStatus($ride->getStatus()) ?>">
-                                                <?php echo p__("cabride", $ride->getStatus()); ?>
+                                            <?php echo p__("cabride", $ride->getStatus()); ?>
                                         </span>
                                     </td>
                                 </tr>
@@ -164,5 +238,41 @@ function colorForStatus ($status) {
         letter-spacing: 2px;
         text-transform: uppercase;
         padding: .2em .4em .2em;
+    }
+
+    @import url("https://fonts.googleapis.com/css?family=Titillium+Web&text=0123456789%C2%A3$%E2%82%AC.,");
+
+    p.dashboard-income {
+        font-family: "Titillium Web", monospace;
+        font-size: 3rem;
+    }
+
+    p.income-hint {
+        font-size: 1.2rem;
+        padding: 0 0 10px;
+        line-height: 1.8rem;
+    }
+
+    p.income-more {
+        margin: -13px;
+        padding: 10px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .alert-info p.income-more {
+        background-color: #48829e;
+    }
+
+    .alert-warning p.income-more {
+        background-color: #966e25;
+    }
+
+    .alert-success p.income-more {
+        background-color: #3c763d;
+    }
+
+    .alert-danger p.income-more {
+        background-color: #823231;
     }
 </style>

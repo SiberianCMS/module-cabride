@@ -772,14 +772,8 @@ angular.module('starter')
         pageTitle: $translate.instant("My rides", "cabride"),
         valueId: Cabride.getValueId(),
         filtered: null,
-        filterName: "in progress",
-        collection: [],
-        statuses: [
-            "pending",
-            "accepted",
-            "onway",
-            "inprogress"
-        ]
+        filterName: "inprogress",
+        collection: []
     });
 
     $scope.cs = function () {
@@ -792,7 +786,7 @@ angular.module('starter')
         .getMyRides()
         .then(function (payload) {
             $scope.collection = payload.collection;
-            $scope.filtered = $filter("cabrideStatusFilter")($scope.collection, $scope.statuses);
+            $scope.filtered = $filter("cabrideStatusFilter")($scope.collection, $scope.filterName);
         }, function (error) {
             Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
@@ -881,21 +875,27 @@ angular.module('starter')
 
     $scope.statusFilter = function (filter) {
         // "pending", "accepted", "declined", "done", "aborted", "expired"
-        switch (filter) {
-            case "inprogress":
-                $scope.filterName = "in progress";
-                $scope.statuses = ["pending", "accepted", "onway", "inprogress"];
-                break;
-            case "archives":
-                $scope.filterName = "archived";
-                $scope.statuses = ["declined", "done", "aborted", "expired"];
-                break;
+        if (filter === "inprogress") {
+            $scope.filterName = "inprogress";
+        } else if (filter === "torate") {
+            $scope.filterName = "torate";
+        } else if (filter === "archived") {
+            $scope.filterName = "archived";
         }
+
         $ionicScrollDelegate.scrollTop();
     };
 
+    $scope.rateCourse = function (request) {
+        Cabride.rateCourseModal(request);
+    };
+
+    $scope.getRatingIcon = function(request, value) {
+        return (request.course_rating >= value) ? 'ion-android-star' : 'ion-android-star-outline';
+    };
+
     $scope.$watch("filterName", function () {
-        $scope.filtered = $filter("cabrideStatusFilter")($scope.collection, $scope.statuses)
+        $scope.filtered = $filter("cabrideStatusFilter")($scope.collection, $scope.filterName);
     });
 
     $scope.$on('cabride.updateRequest', function (event, request) {
@@ -1360,6 +1360,10 @@ angular.module('starter')
 
     $scope.details = function (request) {
         Cabride.requestDetailsModal($scope.$new(true), request.request_id, "driver");
+    };
+
+    $scope.getRatingIcon = function(request, value) {
+        return (request.course_rating >= value) ? 'ion-android-star' : 'ion-android-star-outline';
     };
 
     $scope.imagePath = function (image) {

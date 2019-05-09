@@ -51,13 +51,12 @@
                 </div>
             </div>
 
-            <div>
+            <div ng-if="request.course_rating > 0">
                 <div style="margin-bottom: 20px;"></div>
 
                 <div class="item item-divider item-divider-custom">
                     <span>{{ "Rating" | translate:"cabride" }}</span>
-                    <span ng-if="request.course_rating > 0"
-                          class="pull-right">
+                    <span class="pull-right">
                         <i class="icon icon-rate-mini {{ getIcon('course', 1) }}"></i>
                         <i class="icon icon-rate-mini {{ getIcon('course', 2) }}"></i>
                         <i class="icon icon-rate-mini {{ getIcon('course', 3) }}"></i>
@@ -67,22 +66,11 @@
 
                 </div>
 
-                <div ng-if="canRate(request)"
-                     ng-click="rateCourse(request)"
-                     class="item item-custom request-detail-small">
-                    <div class="row">
-                        <div class="col-75 energized"><b>{{ "Rate course" | translate:"cabride" }}</b></div>
-                        <div class="col-25 energized text-right">
-                            <i class="icon ion-android-arrow-forward"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div ng-if="request.course_comment.length > 0"
-                     class="item item-custom">
+                <div class="item item-custom course-comment">
                     <div class="row">
                         <div class="col-100">
-                            <p>{{ request.course_comment }}</p>
+                            <p ng-if="request.course_comment.length > 0">{{ request.course_comment }}</p>
+                            <p ng-if="request.course_comment.length <= 0">{{ "No message" | translate:"cabride" }}</p>
                         </div>
                     </div>
                 </div>

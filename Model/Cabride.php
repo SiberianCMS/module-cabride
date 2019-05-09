@@ -170,6 +170,7 @@ class Cabride extends Base
     /**
      * @param $editorTree
      * @return mixed
+     * @throws Exception
      */
     public static function dashboardNav($editorTree)
     {

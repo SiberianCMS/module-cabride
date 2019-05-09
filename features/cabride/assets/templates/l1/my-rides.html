@@ -25,7 +25,8 @@
             <div ng-show="filtered.length == 0"
                  class="list">
                 <div class="item item-custom text-center">
-                    <span ng-if="filterName == 'in progress'">{{ "You have no rides in progress" | translate:"cabride" }}</span>
+                    <span ng-if="filterName == 'inprogress'">{{ "You have no rides in progress" | translate:"cabride" }}</span>
+                    <span ng-if="filterName == 'torate'">{{ "You have no rides to rate" | translate:"cabride" }}</span>
                     <span ng-if="filterName == 'archived'">{{ "You have no rides archived" | translate:"cabride" }}</span>
                 </div>
             </div>
@@ -44,11 +45,20 @@
                             </div>
                             <span class="course-status {{ request.status }}">{{ request.status | translate:"cabride" }}</span>
 
-                            <span ng-show="filterName != 'archived' && request.status == 'pending'"
+                            <span ng-show="filterName == 'inprogress' && request.status == 'pending'"
                                   class="course-expiration {{ request.status }}">{{ "Expires" | translate:"cabride" }} {{ expiration(request) }}</span>
 
-                            <span ng-show="filterName != 'archived' && request.status == 'onway'"
+                            <span ng-show="filterName == 'inprogress' && request.status == 'onway'"
                                   class="course-eta {{ request.status }}">{{ "Driver arrival" | translate:"cabride" }} {{ eta(request) }}</span>
+
+                            <span ng-show="filterName == 'archived'"
+                                  class="course-rating {{ request.status }}">
+                                <i class="icon icon-rate-list {{ getRatingIcon(request, 1) }}"></i>
+                                <i class="icon icon-rate-list {{ getRatingIcon(request, 2) }}"></i>
+                                <i class="icon icon-rate-list {{ getRatingIcon(request, 3) }}"></i>
+                                <i class="icon icon-rate-list {{ getRatingIcon(request, 4) }}"></i>
+                                <i class="icon icon-rate-list {{ getRatingIcon(request, 5) }}"></i>
+                            </span>
 
                             <div class="row course-details">
                                 <div class="col-75">
@@ -79,13 +89,19 @@
 
     <div class="tabs tabs-icon-top">
         <a ng-click="statusFilter('inprogress')"
-           ng-class="{'activated': filterName == 'in progress'}"
+           ng-class="{'cr-tab-active': filterName == 'inprogress'}"
            class="tab-item">
             <i class="icon ion-clock"></i>
             {{ "In progress" | translate:"cabride" }}
         </a>
-        <a ng-click="statusFilter('archives')"
-           ng-class="{'activated': filterName == 'archived'}"
+        <a ng-click="statusFilter('torate')"
+           ng-class="{'cr-tab-active': filterName == 'torate'}"
+           class="tab-item">
+            <i class="icon ion-android-star-outline"></i>
+            {{ "To rate" | translate:"cabride" }}
+        </a>
+        <a ng-click="statusFilter('archived')"
+           ng-class="{'cr-tab-active': filterName == 'archived'}"
            class="tab-item">
             <i class="icon ion-archive"></i>
             {{ "Archived" | translate:"cabride" }}
