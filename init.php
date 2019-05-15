@@ -18,6 +18,7 @@ function initApiUser () {
 /**
  * @param $payload
  * @return mixed
+ * @throws \Siberian\Exception
  */
 function dashboardNav ($payload) {
     return Cabride::dashboardNav($payload);

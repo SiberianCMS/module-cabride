@@ -6,6 +6,7 @@ use Core\Model\Base;
 use Siberian_Google_Geocoding as Geocoding;
 use Siberian\Feature;
 use Siberian\Json;
+use Siberian\Exception;
 
 /**
  * Class Request
@@ -118,7 +119,7 @@ class Request extends Base
 
     /**
      * @param $clientId
-     * @param Vehicle $vehicleType
+     * @param $vehicleType
      * @param $valueId
      * @param $drivers
      * @param $cashOrVault
@@ -126,6 +127,8 @@ class Request extends Base
      * @param $staticMap
      * @param $source
      * @return $this
+     * @throws Exception
+     * @throws \Zend_Currency_Exception
      * @throws \Zend_Exception
      */
     public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $cashOrVault, $route, $staticMap, $source)
@@ -134,6 +137,7 @@ class Request extends Base
         $leg = $route["routes"][0]["legs"][0];
         $distanceKm = ceil($leg["distance"]["value"] / 1000);
         $durationMinute = ceil($leg["duration"]["value"] / 60);
+        $cabride = (new Cabride)->find($valueId, "value_id");
 
         $lowestCost = null;
         $highestCost = null;
@@ -186,7 +190,38 @@ class Request extends Base
                 ->setClientVaultId($cashOrVault["vaultId"]);
         }
 
-        $this->save();
+        // Drivers
+        $now = time();
+        $expires = $now + $cabride->getSearchTimeout();
+
+        $this
+            ->setRequestedAt($now)
+            ->setExpiresAt($expires)
+            ->save();
+
+        $sentToDrivers = false;
+        foreach ($drivers as $index => $driver) {
+            $driverId = $driver["driver_id"];
+            $_tmpDriver = (new Driver())->find($driverId);
+            if ($_tmpDriver->getId()) {
+                // Link & notify drivers
+                $requestDriver = new RequestDriver();
+                $requestDriver
+                    ->setRequestId($this->getId())
+                    ->setDriverId($driverId)
+                    ->setStatus("pending")
+                    ->setRequestedAt($now)
+                    ->setExpiresAt($expires)
+                    ->save();
+
+                $sentToDrivers = true;
+            }
+        }
+
+        if (!$sentToDrivers) {
+            throw new Exception(p__("cabride",
+                "We are sorry, but an error occurred while sending your request to the available drivers!"));
+        }
 
         $this->changeStatus("pending", $source);
 
@@ -226,7 +261,7 @@ class Request extends Base
 
         // Trigger notifications!
         try {
-            $this->notify();
+            $this->notify($source);
         } catch (\Exception $e) {
             // Error on notify;
             echo $e->getMessage();
@@ -236,9 +271,10 @@ class Request extends Base
     }
 
     /**
+     * @param null $source
      * @throws \Zend_Exception
      */
-    public function notify ()
+    public function notify ($source = null)
     {
         $valueId = $this->getValueId();
         $cabride = (new \Application_Model_Option_Value())->find($valueId);
@@ -250,7 +286,7 @@ class Request extends Base
 
         $status = $this->getStatus();
         switch ($status) {
-            case "pending";
+            case "pending":
                 // Notify all drivers found!
                 $drivers = (new RequestDriver())->findAll([
                     "request_id" => $requestId,
@@ -277,7 +313,7 @@ class Request extends Base
                 }
 
                 break;
-            case "accepted";
+            case "accepted":
                 // Send push to passenger!
                 $title = p__("cabride",
                     "Ride accepted!");
@@ -295,7 +331,7 @@ class Request extends Base
                         $status, $actionUrl, $valueId, $appId);
                 }
                 break;
-            case "onway";
+            case "onway":
                 // Send push to passenger!
                 $title = p__("cabride",
                     "Driver on your way!");
@@ -315,10 +351,10 @@ class Request extends Base
                 }
 
                 break;
-            case "inprogress";
+            case "inprogress":
 
                 break;
-            case "declined";
+            case "declined":
                 // Inform the user it's over (Request changes to 'decline' only if all drivers declined it)
                 $title = p__("cabride",
                     "No drivers found!");
@@ -338,7 +374,7 @@ class Request extends Base
                 }
 
                 break;
-            case "done";
+            case "done":
                 // Send push to passenger!
                 $title = p__("cabride",
                     "Your ride is done!");
@@ -358,10 +394,48 @@ class Request extends Base
                 }
 
                 break;
-            case "aborted";
+            case "aborted":
+                // Send push to passenger!
+                $title = p__("cabride",
+                    "A ride request was cancelled!");
+                $actionUrl = "/{$appKey}/cabride/mobile_home/index";
+
+                // Client aborted AND a driver already accepted
+                if ($source === Request::SOURCE_CLIENT &&
+                    $this->getDriverId()) {
+
+                    $message = p__("cabride",
+                        "We are sorry, but the passenger cancelled the ride!");
+
+                    $driver = (new Driver())->find($this->getDriverId(), "driver_id");
+                    $customerId = $driver->getCustomerId();
+                    $pushDevice = (new PushDevice())
+                        ->find($customerId, "customer_id");
+
+                    if ($pushDevice->getId()) {
+                        $pushDevice->sendMessage($title, $message, $requestId, "driver",
+                            $status, $actionUrl, $valueId, $appId);
+                    }
+                }
+
+                // Driver aborted
+                if ($source === Request::SOURCE_DRIVER) {
+                    $message = p__("cabride",
+                        "We are sorry, but the driver cancelled the ride!");
+
+                    $client = (new Client())->find($clientId, "client_id");
+                    $customerId = $client->getCustomerId();
+                    $pushDevice = (new PushDevice())
+                        ->find($customerId, "customer_id");
+
+                    if ($pushDevice->getId()) {
+                        $pushDevice->sendMessage($title, $message, $requestId, "passenger",
+                            $status, $actionUrl, $valueId, $appId);
+                    }
+                }
 
                 break;
-            case "expired";
+            case "expired":
                 // Send push to passenger!
                 $title = p__("cabride",
                     "You request expired!");

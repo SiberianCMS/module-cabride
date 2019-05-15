@@ -146,7 +146,7 @@ angular.module('starter')
         factory.getMyRides = function () {
             return $pwaRequest.post('/cabride/mobile_ride/me', {
                 urlParams: {
-                    value_id: this.value_id
+                    value_id: factory.value_id
                 },
                 cache: false
             });
@@ -155,7 +155,7 @@ angular.module('starter')
         factory.getMyPayments = function () {
             return $pwaRequest.post('/cabride/mobile_ride/my-payments', {
                 urlParams: {
-                    value_id: this.value_id
+                    value_id: factory.value_id
                 },
                 cache: false
             });
@@ -164,7 +164,7 @@ angular.module('starter')
         factory.getPaymentHistory = function () {
             return $pwaRequest.post('/cabride/mobile_driver/payment-history', {
                 urlParams: {
-                    value_id: this.value_id
+                    value_id: factory.value_id
                 },
                 cache: false
             });
@@ -173,7 +173,7 @@ angular.module('starter')
         factory.getPendingRides = function () {
             return $pwaRequest.post('/cabride/mobile_ride/pending', {
                 urlParams: {
-                    value_id: this.value_id
+                    value_id: factory.value_id
                 },
                 cache: false
             });
@@ -182,7 +182,7 @@ angular.module('starter')
         factory.getAcceptedRides = function () {
             return $pwaRequest.post('/cabride/mobile_ride/accepted', {
                 urlParams: {
-                    value_id: this.value_id
+                    value_id: factory.value_id
                 },
                 cache: false
             });
@@ -191,7 +191,7 @@ angular.module('starter')
         factory.getCompletedRides = function () {
             return $pwaRequest.post('/cabride/mobile_ride/completed', {
                 urlParams: {
-                    value_id: this.value_id
+                    value_id: factory.value_id
                 },
                 cache: false
             });
@@ -200,7 +200,7 @@ angular.module('starter')
         factory.getCancelledRides = function () {
             return $pwaRequest.post('/cabride/mobile_ride/cancelled', {
                 urlParams: {
-                    value_id: this.value_id
+                    value_id: factory.value_id
                 },
                 cache: false
             });
@@ -209,7 +209,7 @@ angular.module('starter')
         factory.declineRide = function (requestId) {
             return $pwaRequest.post('/cabride/mobile_ride/decline', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                     requestId: requestId
                 },
                 cache: false
@@ -219,7 +219,7 @@ angular.module('starter')
         factory.acceptRide = function (requestId, route) {
             return $pwaRequest.post('/cabride/mobile_ride/accept', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                     requestId: requestId
                 },
                 data: {
@@ -232,7 +232,7 @@ angular.module('starter')
         factory.cancelRide = function (requestId, cancel) {
             return $pwaRequest.post('/cabride/mobile_ride/cancel', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                     requestId: requestId
                 },
                 data: cancel,
@@ -240,12 +240,13 @@ angular.module('starter')
             });
         };
 
-        factory.cancelRideDriver = function (requestId) {
+        factory.cancelRideDriver = function (requestId, cancel) {
             return $pwaRequest.post('/cabride/mobile_ride/cancel-driver', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                     requestId: requestId
                 },
+                data: cancel,
                 cache: false
             });
         };
@@ -253,7 +254,7 @@ angular.module('starter')
         factory.driveToPassenger = function (requestId, route) {
             return $pwaRequest.post('/cabride/mobile_ride/drive-to-passenger', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                     requestId: requestId
                 },
                 data: {
@@ -266,7 +267,7 @@ angular.module('starter')
         factory.driveToDestination = function (requestId) {
             return $pwaRequest.post('/cabride/mobile_ride/drive-to-destination', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                     requestId: requestId
                 },
                 cache: false
@@ -276,7 +277,7 @@ angular.module('starter')
         factory.completeRide = function (requestId) {
             return $pwaRequest.post('/cabride/mobile_ride/complete', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                     requestId: requestId
                 },
                 cache: false
@@ -286,7 +287,7 @@ angular.module('starter')
         factory.getVehicleInformation = function () {
             return $pwaRequest.post('/cabride/mobile_ride/vehicle-information', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                 },
                 cache: false
             });
@@ -295,7 +296,7 @@ angular.module('starter')
         factory.selectVehicleType = function (typeId) {
             return $pwaRequest.post('/cabride/mobile_ride/select-vehicle-type', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                     typeId: typeId
                 },
                 cache: false
@@ -305,7 +306,7 @@ angular.module('starter')
         factory.rateCourse = function (requestId, rating) {
             return $pwaRequest.post('/cabride/mobile_ride/rate-course', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                     requestId: requestId
                 },
                 data: {
@@ -318,7 +319,7 @@ angular.module('starter')
         factory.saveDriver = function (driver) {
             return $pwaRequest.post('/cabride/mobile_ride/save-driver', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                 },
                 data: {
                     driver: driver,
@@ -330,7 +331,7 @@ angular.module('starter')
         factory.saveCard = function (card, type) {
             return $pwaRequest.post('/cabride/mobile_payment/save-card', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                 },
                 data: {
                     card: card,
@@ -343,7 +344,7 @@ angular.module('starter')
         factory.deleteVault = function (vault) {
             return $pwaRequest.post('/cabride/mobile_payment/delete-vault', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                     vaultId: vault.client_vault_id
                 },
                 cache: false
@@ -366,7 +367,7 @@ angular.module('starter')
         factory.requestRide = function (route) {
             return $pwaRequest.post('/cabride/mobile_request/ride', {
                 urlParams: {
-                    value_id: this.value_id
+                    value_id: factory.value_id
                 },
                 data: {
                     route: route
@@ -378,7 +379,7 @@ angular.module('starter')
         factory.validateRequest = function (vehicleType, route, cashOrVault) {
             return $pwaRequest.post('/cabride/mobile_request/validate', {
                 urlParams: {
-                    value_id: this.value_id
+                    value_id: factory.value_id
                 },
                 data: {
                     vehicleType: vehicleType,
@@ -392,7 +393,7 @@ angular.module('starter')
         factory.fetchRequest = function (requestId) {
             return $pwaRequest.get('/cabride/mobile_request/fetch', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                     requestId: requestId
                 },
                 cache: false
@@ -591,7 +592,7 @@ angular.module('starter')
             factory.updateUserPush();
             return $pwaRequest.post('/cabride/mobile_view/fetch-user', {
                 urlParams: {
-                    value_id: this.value_id
+                    value_id: factory.value_id
                 },
                 cache: false
             });
@@ -606,7 +607,7 @@ angular.module('starter')
                 .then(function () {
                     $pwaRequest.post('/cabride/mobile_view/update-user-push', {
                         urlParams: {
-                            value_id: this.value_id,
+                            value_id: factory.value_id,
                             device: Push.device_type,
                             token: Push.device_token
                         },
@@ -623,7 +624,7 @@ angular.module('starter')
         factory.updateUser = function (userType) {
             return $pwaRequest.post('/cabride/mobile_view/update-user', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                     userType: userType
                 },
                 cache: false
@@ -636,7 +637,7 @@ angular.module('starter')
         factory.toggleOnlineStatus = function (isOnline) {
             return $pwaRequest.post('/cabride/mobile_view/toggle-online', {
                 urlParams: {
-                    value_id: this.value_id,
+                    value_id: factory.value_id,
                     isOnline: isOnline
                 },
                 cache: false
@@ -694,7 +695,7 @@ angular.module('starter')
         factory.fetchSettings = function () {
             return $pwaRequest.post('/cabride/mobile_view/fetch-settings', {
                 urlParams: {
-                    value_id: this.value_id
+                    value_id: factory.value_id
                 },
                 cache: false
             });

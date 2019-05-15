@@ -160,15 +160,14 @@ class Cabride_Mobile_RideController extends MobileController
             $valueId = $optionValue->getId();
             $requestId = $request->getParam("requestId", false);
 
-            $cabride = (new Cabride())->find($valueId, "value_id");
+            $cancelReason = $request->getBodyParams();
+
             $ride = (new Request())->find($requestId);
 
             if (!$requestId || !$ride->getId()) {
                 throw new Exception(p__("cabride",
                     "Sorry, we are unable to find this ride request!"));
             }
-
-            $client = (new Client())->find($customerId, "customer_id");
 
             /**
              * @var $requestDrivers RequestDriver[]
@@ -181,7 +180,66 @@ class Cabride_Mobile_RideController extends MobileController
                 $requestDriver->setStatus("aborted")->save();
             }
 
-            $ride->changeStatus("aborted", "client");
+            $ride
+                ->setCancelReason($cancelReason["reason"])
+                ->setCancelNote($cancelReason["message"])
+                ->save();
+
+            $ride->changeStatus("aborted", Request::SOURCE_CLIENT);
+
+            $payload = [
+                "success" => true,
+                "message" => p__("cabride", "Your request is cancelled!"),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Driver route cancel
+     */
+    public function cancelDriverAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
+            $requestId = $request->getParam("requestId", false);
+
+            $cancelReason = $request->getBodyParams();
+
+            $ride = (new Request())->find($requestId);
+
+            if (!$requestId || !$ride->getId()) {
+                throw new Exception(p__("cabride",
+                    "Sorry, we are unable to find this ride request!"));
+            }
+
+            /**
+             * @var $requestDrivers RequestDriver[]
+             */
+            $requestDrivers = (new RequestDriver())->findAll([
+                "request_id" => $requestId,
+            ]);
+
+            foreach ($requestDrivers as $requestDriver) {
+                $requestDriver->setStatus("aborted")->save();
+            }
+
+            $ride
+                ->setCancelReason($cancelReason["reason"])
+                ->setCancelNote($cancelReason["message"])
+                ->save();
+
+            $ride->changeStatus("aborted", Request::SOURCE_DRIVER);
 
             $payload = [
                 "success" => true,

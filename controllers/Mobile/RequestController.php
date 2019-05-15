@@ -133,8 +133,6 @@ class Cabride_Mobile_RequestController extends MobileController
             $cashOrVault = $data["cashOrVault"];
             $gmapsKey = $application->getGooglemapsKey();
 
-            $cabride = (new Cabride)->find($optionValue->getId(), "value_id");
-
             $staticMap = Request::staticMapFromRoute($route, $optionValue, $gmapsKey);
 
             $valueId = $optionValue->getId();
@@ -155,43 +153,8 @@ class Cabride_Mobile_RequestController extends MobileController
             $drivers = $vehicleType["drivers"];
 
             $vehicle = (new Vehicle())->find($vehicleType["id"]);
-            $request = (new Request())->createRideRequest(
-                $client->getId(), $vehicle, $valueId, $drivers, $cashOrVault, $route, $staticMap, "client");
-
-            $now = time();
-            $expires = $now + $cabride->getSearchTimeout();
-
-            $request
-                ->setRequestedAt($now)
-                ->setExpiresAt($expires)
-                ->save();
-
-            $sentToDrivers = false;
-            foreach ($drivers as $index => $driver) {
-                $driverId = $driver["driver_id"];
-                $_tmpDriver = (new Driver())->find($driverId);
-                if ($_tmpDriver->getId()) {
-                    // Link & notify drivers
-                    $requestDriver = new RequestDriver();
-                    $requestDriver
-                        ->setRequestId($request->getId())
-                        ->setDriverId($driverId)
-                        ->setStatus("pending")
-                        ->setRequestedAt($now)
-                        ->setExpiresAt($expires)
-                        ->save();
-
-                    $_tmpDriver->notifyNewrequest($request->getId());
-                    $sentToDrivers = true;
-                }
-            }
-
-            if (!$sentToDrivers) {
-                throw new Exception(p__("cabride",
-                    "We are sorry, but an error occurred while sending your request to the available drivers!"));
-            }
-
-            $request->notify();
+            (new Request())->createRideRequest(
+                $client->getId(), $vehicle, $valueId, $drivers, $cashOrVault, $route, $staticMap, Request::SOURCE_CLIENT);
 
             $payload = [
                 "success" => true,

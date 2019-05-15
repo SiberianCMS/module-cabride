@@ -337,8 +337,7 @@ class Cabride extends Base
 
             // Save Credentials for cabride server
             $serverHost = sprintf(
-                "%s://%s",
-                $_SERVER["REQUEST_SCHEME"],
+                "https://%s",
                 explode(":", $_SERVER["HTTP_HOST"])[0]
             );
 
