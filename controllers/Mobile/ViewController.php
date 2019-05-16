@@ -230,8 +230,9 @@ class Cabride_Mobile_ViewController extends MobileController
                 throw new Siberian\Exception(__("A value is missing."));
             }
 
+            // Clear token if user switched between passenger & driver.
             $pushDevice = (new PushDevice())
-                ->find($customerId, "customer_id");
+                ->find($token, "token");
 
             $pushDevice
                 ->setCustomerId($customerId)

@@ -51,6 +51,18 @@ $schemas['cabride_payment'] = [
     'amount_charged' => [
         'type' => 'float',
     ],
+    'brand' => [
+        'type' => 'varchar(32)',
+        'null' => true,
+    ],
+    'exp' => [
+        'type' => 'varchar(10)',
+        'null' => true,
+    ],
+    'last' => [
+        'type' => 'varchar(4)',
+        'null' => true,
+    ],
     'currency' => [
         'type' => 'varchar(16)',
         'charset' => 'utf-8',

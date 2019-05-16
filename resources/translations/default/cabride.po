@@ -7,290 +7,1599 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-05-09T13:41:50+00:00\n"
-"PO-Revision-Date: 2019-05-09T13:41:50+00:00\n"
+"POT-Creation-Date: 2019-04-01T11:00:10+02:00\n"
+"PO-Revision-Date: 2019-04-01T11:00:10+02:00\n"
 "Language: \n"
 
-msgctxt "cabride"
-msgid "Passenger information"
-msgstr "Passenger information"
-
-msgctxt "cabride"
-msgid "Mobile"
-msgstr "Mobile"
-
-msgctxt "cabride"
-msgid "Address"
-msgstr "Address"
-
-msgctxt "cabride"
-msgid "Driver information"
-msgstr "Driver information"
-
-msgctxt "cabride"
-msgid "Driving license"
-msgstr "Driving license"
-
-msgctxt "cabride"
-msgid "Mobile number"
-msgstr "Mobile number"
-
-msgctxt "cabride"
-msgid "Base address"
-msgstr "Base address"
-
-msgctxt "cabride"
-msgid "Pickup radius"
-msgstr "Pickup radius"
-
-msgctxt "cabride"
-msgid "Ride requests"
-msgstr "Ride requests"
-
-msgctxt "cabride"
-msgid "ID"
-msgstr "ID"
-
-msgctxt "cabride"
-msgid "Client"
-msgstr "Client"
-
-msgctxt "cabride"
-msgid "Driver"
-msgstr "Driver"
-
-msgctxt "cabride"
-msgid "Dist. / Dur."
-msgstr "Dist. / Dur."
-
-msgctxt "cabride"
-msgid "Est. cost"
-msgstr "Est. cost"
-
-msgctxt "cabride"
-msgid "Cost"
-msgstr "Cost"
-
-msgctxt "cabride"
-msgid "Ride"
-msgstr "Ride"
-
-msgctxt "cabride"
-msgid "Rating"
-msgstr "Rating"
-
-msgctxt "cabride"
-msgid "Status"
-msgstr "Status"
-
-msgctxt "cabride"
-msgid "n.c."
-msgstr "n.c."
-
-msgctxt "cabride"
-msgid "accepted"
-msgstr "accepted"
-
-msgctxt "cabride"
-msgid "done"
-msgstr "done"
-
-msgctxt "cabride"
-msgid "aborted"
-msgstr "aborted"
-
-msgctxt "cabride"
-msgid "expired"
-msgstr "expired"
-
-msgctxt "cabride"
-msgid "declined"
-msgstr "declined"
-
-msgctxt "cabride"
-msgid "No results for your search."
-msgstr "No results for your search."
-
-msgctxt "cabride"
-msgid "Cab-Ride"
-msgstr "Cab-Ride"
-
+# GMT 1558015600.5026
 msgctxt "cabride"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-msgctxt "cabride"
-msgid "Accountancy"
-msgstr "Accountancy"
-
-msgctxt "cabride"
-msgid "Rides"
-msgstr "Rides"
-
-msgctxt "cabride"
-msgid "Passengers"
-msgstr "Passengers"
-
-msgctxt "cabride"
-msgid "Drivers"
-msgstr "Drivers"
-
-msgctxt "cabride"
-msgid "Vehicle types"
-msgstr "Vehicle types"
-
-msgctxt "cabride"
-msgid "Settings"
-msgstr "Settings"
-
-msgctxt "cabride"
-msgid "Customer ID"
-msgstr "Customer ID"
-
-msgctxt "cabride"
-msgid "Vehicle type"
-msgstr "Vehicle type"
-
-msgctxt "cabride"
-msgid "Vehicle model"
-msgstr "Vehicle model"
-
-msgctxt "cabride"
-msgid "License plate"
-msgstr "License plate"
-
-msgctxt "cabride"
-msgid "Photo"
-msgstr "Photo"
-
-msgctxt "cabride"
-msgid "EDIT"
-msgstr "EDIT"
-
-msgctxt "cabride"
-msgid "DELETE"
-msgstr "DELETE"
-
-msgctxt "cabride"
-msgid "no vehicle type"
-msgstr "no vehicle type"
-
-msgctxt "cabride"
-msgid "Search ..."
-msgstr "Search ..."
-
-msgctxt "cabride"
-msgid "Delete driver"
-msgstr "Delete driver"
-
-msgctxt "cabride"
-msgid "Are you sure?"
-msgstr "Are you sure?"
-
-msgctxt "cabride"
-msgid "Yes, Delete"
-msgstr "Yes, Delete"
-
-msgctxt "cabride"
-msgid "No, go back!"
-msgstr "No, go back!"
-
-msgctxt "cabride"
-msgid "CabRide vehicle types"
-msgstr "CabRide vehicle types"
-
-msgctxt "cabride"
-msgid "Add a vehicle type"
-msgstr "Add a vehicle type"
-
-msgctxt "cabride"
-msgid "Icon"
-msgstr "Icon"
-
-msgctxt "cabride"
-msgid "Base fare"
-msgstr "Base fare"
-
-msgctxt "cabride"
-msgid "Distance fare"
-msgstr "Distance fare"
-
-msgctxt "cabride"
-msgid "Time fare"
-msgstr "Time fare"
-
-msgctxt "cabride"
-msgid "Is visible?"
-msgstr "Is visible?"
-
-msgctxt "cabride"
-msgid "YES"
-msgstr "YES"
-
+# GMT 1558015600.5049
 msgctxt "cabride"
 msgid "Commissions"
 msgstr "Commissions"
 
+# GMT 1558015600.5058
 msgctxt "cabride"
 msgid "TOTAL REVENUE TODAY"
 msgstr "TOTAL REVENUE TODAY"
 
+# GMT 1558015600.5076
 msgctxt "cabride"
 msgid "TOTAL REVENUE OF LAST 7 DAYS"
 msgstr "TOTAL REVENUE OF LAST 7 DAYS"
 
+# GMT 1558015600.5094
 msgctxt "cabride"
 msgid "TOTAL REVENUE OF LAST 30 DAYS"
 msgstr "TOTAL REVENUE OF LAST 30 DAYS"
 
+# GMT 1558015600.5111
 msgctxt "cabride"
 msgid "TOTAL REVENUE OF LAST 365 DAYS"
 msgstr "TOTAL REVENUE OF LAST 365 DAYS"
 
+# GMT 1558015600.5115
 msgctxt "cabride"
 msgid "Only the 100 latest payments are shown"
 msgstr "Only the 100 latest payments are shown"
 
+# GMT 1558015600.5116
+msgctxt "cabride"
+msgid "ID"
+msgstr "ID"
+
+# GMT 1558015600.5117
 msgctxt "cabride"
 msgid "Method"
 msgstr "Method"
 
+# GMT 1558015600.5118
 msgctxt "cabride"
 msgid "Amount"
 msgstr "Amount"
 
+# GMT 1558015600.5185
+#, mobile
 msgctxt "cabride"
 msgid "Commission"
 msgstr "Commission"
 
+# GMT 1558015600.5187
 msgctxt "cabride"
 msgid "Date"
 msgstr "Date"
 
-msgctxt "cabride"
-msgid "Credit card"
-msgstr "Credit card"
-
+# GMT 1558015600.519
+#, mobile
 msgctxt "cabride"
 msgid "Cash"
 msgstr "Cash"
 
+# GMT 1558015600.5219
+#, mobile
+msgctxt "cabride"
+msgid "Credit card"
+msgstr "Credit card"
+
+# GMT 1558015600.5764
+msgctxt "cabride"
+msgid "No results for your search."
+msgstr "No results for your search."
+
+# GMT 1558015600.6032
+msgctxt "cabride"
+msgid "Cab-Ride"
+msgstr "Cab-Ride"
+
+# GMT 1558015600.6038
+msgctxt "cabride"
+msgid "Accountancy"
+msgstr "Accountancy"
+
+# GMT 1558015600.6041
+msgctxt "cabride"
+msgid "Rides"
+msgstr "Rides"
+
+# GMT 1558015600.6048
+msgctxt "cabride"
+msgid "Passengers"
+msgstr "Passengers"
+
+# GMT 1558015600.605
+msgctxt "cabride"
+msgid "Drivers"
+msgstr "Drivers"
+
+# GMT 1558015600.6053
+msgctxt "cabride"
+msgid "Vehicle types"
+msgstr "Vehicle types"
+
+# GMT 1558015600.6055
+msgctxt "cabride"
+msgid "Settings"
+msgstr "Settings"
+
+# GMT 1558015614.9487
+msgctxt "cabride"
+msgid "Cash return requests"
+msgstr "Cash return requests"
+
+# GMT 1558015614.9492
+msgctxt "cabride"
+msgid "The cash return lines are aggregated by drivers, you can filter them by period to split the requests by week, or month for example."
+msgstr "The cash return lines are aggregated by drivers, you can filter them by period to split the requests by week, or month for example."
+
+# GMT 1558015614.9494
+msgctxt "cabride"
+msgid "FROM"
+msgstr "FROM"
+
+# GMT 1558015614.9499
+msgctxt "cabride"
+msgid "TO"
+msgstr "TO"
+
+# GMT 1558015614.952
+msgctxt "cabride"
+msgid "FILTER"
+msgstr "FILTER"
+
+# GMT 1558015614.957
+msgctxt "cabride"
+msgid "CLEAR"
+msgstr "CLEAR"
+
+# GMT 1558015614.9601
+#, mobile
+msgctxt "cabride"
+msgid "Driver"
+msgstr "Driver"
+
+# GMT 1558015614.9602
+msgctxt "cabride"
+msgid "E-mail"
+msgstr "E-mail"
+
+# GMT 1558015614.9607
+msgctxt "cabride"
+msgid "Period"
+msgstr "Period"
+
+# GMT 1558015614.961
+#, mobile
+msgctxt "cabride"
+msgid "Payments"
+msgstr "Payments"
+
+# GMT 1558015614.9612
+msgctxt "cabride"
+msgid "Total amount"
+msgstr "Total amount"
+
+# GMT 1558015614.967
+msgctxt "cabride"
+msgid "REQUEST CASH RETURN"
+msgstr "REQUEST CASH RETURN"
+
+# GMT 1558015614.9681
+msgctxt "cabride"
+msgid "Archived requests"
+msgstr "Archived requests"
+
+# GMT 1558015614.9694
+msgctxt "cabride"
+msgid "Status"
+msgstr "Status"
+
+# GMT 1558015614.9724
+msgctxt "cabride"
+msgid "requested"
+msgstr "requested"
+
+# GMT 1558015614.9726
+msgctxt "cabride"
+msgid "MARK AS RETURNED"
+msgstr "MARK AS RETURNED"
+
+# GMT 1558015614.9763
+#, mobile
+msgctxt "cabride"
+msgid "returned"
+msgstr "returned"
+
+# GMT 1558015614.977
+msgctxt "cabride"
+msgid "RETURNED ON %s"
+msgstr "RETURNED ON %s"
+
+# GMT 1558015614.9848
+msgctxt "cabride"
+msgid "Pay-out"
+msgstr "Pay-out"
+
+# GMT 1558015614.9852
+msgctxt "cabride"
+msgid "The commissions payout lines are aggregated by drivers, you can filter them by period to split payouts by week, or month for example."
+msgstr "The commissions payout lines are aggregated by drivers, you can filter them by period to split payouts by week, or month for example."
+
+# GMT 1558015614.9879
+msgctxt "cabride"
+msgid "GENERATE BULK PAYOUT"
+msgstr "GENERATE BULK PAYOUT"
+
+# GMT 1558015614.9938
+msgctxt "cabride"
+msgid "Archived pay-out"
+msgstr "Archived pay-out"
+
+# GMT 1558015615.0027
+msgctxt "cabride"
+msgid "inprogress"
+msgstr "inprogress"
+
+# GMT 1558015615.0034
+msgctxt "cabride"
+msgid "MARK AS PAID"
+msgstr "MARK AS PAID"
+
+# GMT 1558015615.0056
+msgctxt "cabride"
+msgid "paid"
+msgstr "paid"
+
+# GMT 1558015615.0065
+msgctxt "cabride"
+msgid "PAID ON %s"
+msgstr "PAID ON %s"
+
+# GMT 1558015615.0188
+msgctxt "cabride"
+msgid "Bulk CSV exports"
+msgstr "Bulk CSV exports"
+
+# GMT 1558015615.0201
+msgctxt "cabride"
+msgid "Driver IDs"
+msgstr "Driver IDs"
+
+# GMT 1558015615.0205
+msgctxt "cabride"
+msgid "Payment IDs"
+msgstr "Payment IDs"
+
+# GMT 1558015615.0218
+msgctxt "cabride"
+msgid "Payout IDs"
+msgstr "Payout IDs"
+
+# GMT 1558015615.0221
+msgctxt "cabride"
+msgid "Total"
+msgstr "Total"
+
+# GMT 1558015615.0307
+msgctxt "cabride"
+msgid "DOWNLOAD CSV"
+msgstr "DOWNLOAD CSV"
+
+# GMT 1558015615.041
+msgctxt "cabride"
+msgid "Search, filter ..."
+msgstr "Search, filter ..."
+
+# GMT 1558015615.0457
+msgctxt "cabride"
+msgid "Request a cash return"
+msgstr "Request a cash return"
+
+# GMT 1558015615.0461
+msgctxt "cabride"
+msgid "Are you sure?"
+msgstr "Are you sure?"
+
+# GMT 1558015615.0463
+msgctxt "cabride"
+msgid "Yes, send cash request"
+msgstr "Yes, send cash request"
+
+# GMT 1558015615.0467
+msgctxt "cabride"
+msgid "No, go back!"
+msgstr "No, go back!"
+
+# GMT 1558015615.0472
+msgctxt "cabride"
+msgid "Mark as returned"
+msgstr "Mark as returned"
+
+# GMT 1558015615.0483
+msgctxt "cabride"
+msgid "Yes, mark as returned"
+msgstr "Yes, mark as returned"
+
+# GMT 1558015615.049
+msgctxt "cabride"
+msgid "Mark for payout"
+msgstr "Mark for payout"
+
+# GMT 1558015615.0497
+msgctxt "cabride"
+msgid "Yes, mark for payout"
+msgstr "Yes, mark for payout"
+
+# GMT 1558015615.0503
+msgctxt "cabride"
+msgid "Mark as paid"
+msgstr "Mark as paid"
+
+# GMT 1558015615.0509
+msgctxt "cabride"
+msgid "Yes, mark as paid"
+msgstr "Yes, mark as paid"
+
+# GMT 1558015615.0521
+msgctxt "cabride"
+msgid "Bulk payout"
+msgstr "Bulk payout"
+
+# GMT 1558015615.0525
+msgctxt "cabride"
+msgid "You are about to generate a bulk payout file for all unpaid rides."
+msgstr "You are about to generate a bulk payout file for all unpaid rides."
+
+# GMT 1558015615.0529
+msgctxt "cabride"
+msgid "Yes, generate bulk report"
+msgstr "Yes, generate bulk report"
+
+# GMT 1558015637.2737
+msgctxt "cabride"
+msgid "You have a new cash return request, please check inside the application for more details."
+msgstr "You have a new cash return request, please check inside the application for more details."
+
+# GMT 1558015637.275
+msgctxt "cabride"
+msgid "The total amount to be returned is %s"
+msgstr "The total amount to be returned is %s"
+
+# GMT 1558015637.2976
+msgctxt "cabride"
+msgid "You have a new cash return request"
+msgstr "You have a new cash return request"
+
+# GMT 1558015720.2008
+msgctxt "cabride"
+msgid "Ride requests"
+msgstr "Ride requests"
+
+# GMT 1558015720.2011
 msgctxt "cabride"
 msgid "AVERAGE DISTANCE"
 msgstr "AVERAGE DISTANCE"
 
+# GMT 1558015720.2022
 msgctxt "cabride"
 msgid "AVERAGE DURATION"
 msgstr "AVERAGE DURATION"
 
+# GMT 1558015720.2032
+msgctxt "cabride"
+msgid "AVERAGE FARE"
+msgstr "AVERAGE FARE"
+
+# GMT 1558015720.2073
+msgctxt "cabride"
+msgid "AVERAGE RATING"
+msgstr "AVERAGE RATING"
+
+# GMT 1558015720.2081
+#, mobile
+msgctxt "cabride"
+msgid "Client"
+msgstr "Client"
+
+# GMT 1558015720.209
+msgctxt "cabride"
+msgid "Dist. / Dur."
+msgstr "Dist. / Dur."
+
+# GMT 1558015720.2094
+msgctxt "cabride"
+msgid "Est. cost"
+msgstr "Est. cost"
+
+# GMT 1558015720.2097
+msgctxt "cabride"
+msgid "Cost"
+msgstr "Cost"
+
+# GMT 1558015720.21
+msgctxt "cabride"
+msgid "Ride"
+msgstr "Ride"
+
+# GMT 1558015720.2105
+#, mobile
+msgctxt "cabride"
+msgid "Rating"
+msgstr "Rating"
+
+# GMT 1558015720.215
+msgctxt "cabride"
+msgid "n.c."
+msgstr "n.c."
+
+# GMT 1558015720.2155
+#, mobile
+msgctxt "cabride"
+msgid "aborted"
+msgstr "aborted"
+
+# GMT 1558015720.2206
+#, mobile
+msgctxt "cabride"
+msgid "done"
+msgstr "done"
+
+# GMT 1558015720.27
+msgctxt "cabride"
+msgid "expired"
+msgstr "expired"
+
+# GMT 1558015720.5878
+msgctxt "cabride"
+msgid "declined"
+msgstr "declined"
+
+# GMT 1558015728.2244
+msgctxt "cabride"
+msgid "Customer ID"
+msgstr "Customer ID"
+
+# GMT 1558015728.2248
+msgctxt "cabride"
+msgid "Firstname"
+msgstr "Firstname"
+
+# GMT 1558015728.2251
+msgctxt "cabride"
+msgid "Lastname"
+msgstr "Lastname"
+
+# GMT 1558015728.2255
+msgctxt "cabride"
+msgid "Email"
+msgstr "Email"
+
+# GMT 1558015728.2279
+msgctxt "cabride"
+msgid "SET AS DRIVER"
+msgstr "SET AS DRIVER"
+
+# GMT 1558015728.229
+msgctxt "cabride"
+msgid "EDIT"
+msgstr "EDIT"
+
+# GMT 1558015728.2358
+msgctxt "cabride"
+msgid "Search ..."
+msgstr "Search ..."
+
+# GMT 1558015728.2361
+msgctxt "cabride"
+msgid "Delete passenger"
+msgstr "Delete passenger"
+
+# GMT 1558015728.2371
+msgctxt "cabride"
+msgid "Yes, Delete"
+msgstr "Yes, Delete"
+
+# GMT 1558015728.2378
+msgctxt "cabride"
+msgid "This user will be granted as a driver."
+msgstr "This user will be granted as a driver."
+
+# GMT 1558015728.2386
+msgctxt "cabride"
+msgid "Yes, Set as driver"
+msgstr "Yes, Set as driver"
+
+# GMT 1558015748.2959
+msgctxt "cabride"
+msgid "This user is now registered as a Driver."
+msgstr "This user is now registered as a Driver."
+
+# GMT 1558015753.667
+msgctxt "cabride"
+msgid "Vehicle type"
+msgstr "Vehicle type"
+
+# GMT 1558015753.6679
+msgctxt "cabride"
+msgid "Vehicle model"
+msgstr "Vehicle model"
+
+# GMT 1558015753.6688
+#, mobile
+msgctxt "cabride"
+msgid "License plate"
+msgstr "License plate"
+
+# GMT 1558015753.6696
+#, mobile
+msgctxt "cabride"
+msgid "Driving license"
+msgstr "Driving license"
+
+# GMT 1558015753.6701
+msgctxt "cabride"
+msgid "Photo"
+msgstr "Photo"
+
+# GMT 1558015753.6706
+#, mobile
+msgctxt "cabride"
+msgid "Base address"
+msgstr "Base address"
+
+# GMT 1558015753.6711
+#, mobile
+msgctxt "cabride"
+msgid "Pickup radius"
+msgstr "Pickup radius"
+
+# GMT 1558015753.6727
+msgctxt "cabride"
+msgid "DELETE"
+msgstr "DELETE"
+
+# GMT 1558015753.6845
+msgctxt "cabride"
+msgid "no vehicle type"
+msgstr "no vehicle type"
+
+# GMT 1558015753.6976
+msgctxt "cabride"
+msgid "Delete driver"
+msgstr "Delete driver"
+
+# GMT 1558015765.184
+msgctxt "cabride"
+msgid "Vehicle license plate"
+msgstr "Vehicle license plate"
+
+# GMT 1558015765.1874
+msgctxt "cabride"
+msgid "Driver license"
+msgstr "Driver license"
+
+# GMT 1558015765.1887
+msgctxt "cabride"
+msgid "Driver photo"
+msgstr "Driver photo"
+
+# GMT 1558015765.2028
+msgctxt "cabride"
+msgid "Edit driver"
+msgstr "Edit driver"
+
+# GMT 1558015765.2044
+msgctxt "cabride"
+msgid "Go back"
+msgstr "Go back"
+
+# GMT 1558015777.1286
+msgctxt "cabride"
+msgid "CabRide vehicle types"
+msgstr "CabRide vehicle types"
+
+# GMT 1558015777.1293
+msgctxt "cabride"
+msgid "Add a vehicle type"
+msgstr "Add a vehicle type"
+
+# GMT 1558015777.1312
+msgctxt "cabride"
+msgid "Icon"
+msgstr "Icon"
+
+# GMT 1558015777.1355
+msgctxt "cabride"
+msgid "Base fare"
+msgstr "Base fare"
+
+# GMT 1558015777.1361
+msgctxt "cabride"
+msgid "Distance fare"
+msgstr "Distance fare"
+
+# GMT 1558015777.1366
+msgctxt "cabride"
+msgid "Time fare"
+msgstr "Time fare"
+
+# GMT 1558015777.1375
+msgctxt "cabride"
+msgid "Is visible?"
+msgstr "Is visible?"
+
+# GMT 1558015777.1402
+msgctxt "cabride"
+msgid "YES"
+msgstr "YES"
+
+# GMT 1558015781.1116
+msgctxt "cabride"
+msgid "Type"
+msgstr "Type"
+
+# GMT 1558015781.1258
+msgctxt "cabride"
+msgid "The pricing is set by the driver, you can't edit the values."
+msgstr "The pricing is set by the driver, you can't edit the values."
+
+# GMT 1558015781.1328
+msgctxt "cabride"
+msgid "Distance fare (each km/mi)"
+msgstr "Distance fare (each km/mi)"
+
+# GMT 1558015781.1376
+msgctxt "cabride"
+msgid "Time fare (every minute)"
+msgstr "Time fare (every minute)"
+
+# GMT 1558015781.1433
+msgctxt "cabride"
+msgid "Is visible"
+msgstr "Is visible"
+
+# GMT 1558015781.1447
+#, mobile
+msgctxt "cabride"
+msgid "Save"
+msgstr "Save"
+
+# GMT 1558015781.1521
+msgctxt "cabride"
+msgid "Create vehicle type"
+msgstr "Create vehicle type"
+
+# GMT 1558015796.1596
+msgctxt "cabride"
+msgid "Admin e-mails (coma separated)"
+msgstr "Admin e-mails (coma separated)"
+
+# GMT 1558015796.1607
+msgctxt "cabride"
+msgid "Contact"
+msgstr "Contact"
+
+# GMT 1558015796.1616
+msgctxt "cabride"
+msgid "Currency"
+msgstr "Currency"
+
+# GMT 1558015796.1626
+msgctxt "cabride"
+msgid "Timezone"
+msgstr "Timezone"
+
+# GMT 1558015797.3075
+msgctxt "cabride"
+msgid "Distance unit"
+msgstr "Distance unit"
+
+# GMT 1558015797.314
+msgctxt "cabride"
+msgid "Center map address"
+msgstr "Center map address"
+
+# GMT 1558015797.3153
+msgctxt "cabride"
+msgid "Leave blank to center map on user GPS position."
+msgstr "Leave blank to center map on user GPS position."
+
+# GMT 1558015797.3192
+msgctxt "cabride"
+msgid "Localization"
+msgstr "Localization"
+
+# GMT 1558015797.32
+msgctxt "cabride"
+msgid "Search timeout (seconds)"
+msgstr "Search timeout (seconds)"
+
+# GMT 1558015797.3243
+msgctxt "cabride"
+msgid "Search radius (km/mi)"
+msgstr "Search radius (km/mi)"
+
+# GMT 1558015797.3271
+msgctxt "cabride"
+msgid "Course mode"
+msgstr "Course mode"
+
+# GMT 1558015797.3298
+msgctxt "cabride"
+msgid "Immediate"
+msgstr "Immediate"
+
+# GMT 1558015797.3319
+msgctxt "cabride"
+msgid "Accepted payments"
+msgstr "Accepted payments"
+
+# GMT 1558015797.3391
+msgctxt "cabride"
+msgid "Credit card & Cash"
+msgstr "Credit card & Cash"
+
+# GMT 1558015797.3434
+msgctxt "cabride"
+msgid "Payment provider"
+msgstr "Payment provider"
+
+# GMT 1558015797.3445
+msgctxt "cabride"
+msgid "Stripe (Credit card)"
+msgstr "Stripe (Credit card)"
+
+# GMT 1558015797.3488
+msgctxt "cabride"
+msgid "Commission type"
+msgstr "Commission type"
+
+# GMT 1558015797.3515
+msgctxt "cabride"
+msgid "Disabled"
+msgstr "Disabled"
+
+# GMT 1558015797.3544
+msgctxt "cabride"
+msgid "Fixed amount"
+msgstr "Fixed amount"
+
+# GMT 1558015797.3553
+#, mobile
+msgctxt "cabride"
+msgid "Percentage"
+msgstr "Percentage"
+
+# GMT 1558015797.356
+msgctxt "cabride"
+msgid "Fixed amount + percentage"
+msgstr "Fixed amount + percentage"
+
+# GMT 1558015797.3569
+msgctxt "cabride"
+msgid "Commission (fixed)"
+msgstr "Commission (fixed)"
+
+# GMT 1558015797.3578
+msgctxt "cabride"
+msgid "Commission (percentage)"
+msgstr "Commission (percentage)"
+
+# GMT 1558015797.3588
+msgctxt "cabride"
+msgid "Pricing mode"
+msgstr "Pricing mode"
+
+# GMT 1558015797.3598
+msgctxt "cabride"
+msgid "Fixed by vehicle type (Admin)"
+msgstr "Fixed by vehicle type (Admin)"
+
+# GMT 1558015797.3607
+msgctxt "cabride"
+msgid "Fixed by the drivers"
+msgstr "Fixed by the drivers"
+
+# GMT 1558015797.3688
+msgctxt "cabride"
+msgid "Menu background"
+msgstr "Menu background"
+
+# GMT 1558015797.3779
+msgctxt "cabride"
+msgid "Passenger picture"
+msgstr "Passenger picture"
+
+# GMT 1558015797.3835
+msgctxt "cabride"
+msgid "Driver picture"
+msgstr "Driver picture"
+
+# GMT 1558015797.3881
+msgctxt "cabride"
+msgid "Design"
+msgstr "Design"
+
+# GMT 1558015797.3891
+msgctxt "cabride"
+msgid "Show passenger picture"
+msgstr "Show passenger picture"
+
+# GMT 1558015797.3936
+msgctxt "cabride"
+msgid "Show passenger name"
+msgstr "Show passenger name"
+
+# GMT 1558015797.3982
+msgctxt "cabride"
+msgid "Show passenger phone"
+msgstr "Show passenger phone"
+
+# GMT 1558015797.3999
+msgctxt "cabride"
+msgid "Passenger privacy"
+msgstr "Passenger privacy"
+
+# GMT 1558015797.4042
+msgctxt "cabride"
+msgid "Driver can register"
+msgstr "Driver can register"
+
+# GMT 1558015797.4084
+msgctxt "cabride"
+msgid "Misc"
+msgstr "Misc"
+
+# GMT 1558015797.4193
+msgctxt "cabride"
+msgid "Public key"
+msgstr "Public key"
+
+# GMT 1558015797.4204
+msgctxt "cabride"
+msgid "Secret key"
+msgstr "Secret key"
+
+# GMT 1558015797.4275
+msgctxt "cabride"
+msgid "Merchant code"
+msgstr "Merchant code"
+
+# GMT 1558015797.4311
+msgctxt "cabride"
+msgid "Sandbox mode"
+msgstr "Sandbox mode"
+
+# GMT 1558015797.4384
+msgctxt "cabride"
+msgid "Merchant ID"
+msgstr "Merchant ID"
+
+# GMT 1558015797.4412
+msgctxt "cabride"
+msgid "Private key"
+msgstr "Private key"
+
+# GMT 1558015797.4568
+msgctxt "cabride"
+msgid "CabRide settings"
+msgstr "CabRide settings"
+
+# GMT 1558015797.4713
+msgctxt "cabride"
+msgid "Payment API credentials"
+msgstr "Payment API credentials"
+
+# GMT 1558015797.474
+msgctxt "cabride"
+msgid "Stripe"
+msgstr "Stripe"
+
+# GMT 1558015897.8269
+msgctxt "cabride"
+msgid "Passenger information"
+msgstr "Passenger information"
+
+# GMT 1558015897.8276
+msgctxt "cabride"
+msgid "Mobile"
+msgstr "Mobile"
+
+# GMT 1558015897.8299
+msgctxt "cabride"
+msgid "Address"
+msgstr "Address"
+
+# GMT 1558016260.3187
+msgctxt "cabride"
+msgid "Ride request!"
+msgstr "Ride request!"
+
+# GMT 1558016260.3201
+msgctxt "cabride"
+msgid "You have a new ride request!"
+msgstr "You have a new ride request!"
+
+# GMT 1558016290.8758
+msgctxt "cabride"
+msgid "Thanks!"
+msgstr "Thanks!"
+
+# GMT 1558016330.7478
+msgctxt "cabride"
+msgid "This card is now deleted!"
+msgstr "This card is now deleted!"
+
+# GMT 1558016420.5876
+msgctxt "cabride"
+msgid "A ride request was cancelled!"
+msgstr "A ride request was cancelled!"
+
+# GMT 1558016420.6031
+msgctxt "cabride"
+msgid "Your request is cancelled!"
+msgstr "Your request is cancelled!"
+
+# GMT 1558016895.438
+#, mobile
+msgctxt "cabride"
+msgid "Set pick-up location"
+msgstr "Set pick-up location"
+
+# GMT 1558016895.4788
+#, mobile
+msgctxt "cabride"
+msgid "Location"
+msgstr "Location"
+
+# GMT 1558016895.4801
+#, mobile
+msgctxt "cabride"
+msgid "Your position doesn't resolve to a valid address."
+msgstr "Your position doesn't resolve to a valid address."
+
+# GMT 1558016895.4816
+#, mobile
+msgctxt "cabride"
+msgid "OK"
+msgstr "OK"
+
+# GMT 1558016895.6009
+#, mobile
+msgctxt "cabride"
+msgid "Set drop-off location"
+msgstr "Set drop-off location"
+
+# GMT 1558016895.7264
+#, mobile
+msgctxt "cabride"
+msgid "Request a driver"
+msgstr "Request a driver"
+
+# GMT 1558016895.743
+#, mobile
+msgctxt "cabride"
+msgid "Distance"
+msgstr "Distance"
+
+# GMT 1558016895.7443
+#, mobile
+msgctxt "cabride"
+msgid "Est. duration"
+msgstr "Est. duration"
+
+# GMT 1558016895.7689
+#, mobile
+msgctxt "cabride"
+msgid "Looking for drivers"
+msgstr "Looking for drivers"
+
+# GMT 1558016895.8221
+#, mobile
+msgctxt "cabride"
+msgid "Select a vehicle type"
+msgstr "Select a vehicle type"
+
+# GMT 1558016895.8227
+#, mobile
+msgctxt "cabride"
+msgid "Est."
+msgstr "Est."
+
+# GMT 1558016895.8652
+#, mobile
+msgctxt "cabride"
+msgid "Select a payment method"
+msgstr "Select a payment method"
+
+# GMT 1558016895.8658
+#, mobile
+msgctxt "cabride"
+msgid "Credit card information"
+msgstr "Credit card information"
+
+# GMT 1558016895.8671
+#, mobile
+msgctxt "cabride"
+msgid "Saved cards"
+msgstr "Saved cards"
+
+# GMT 1558016895.8678
+#, mobile
+msgctxt "cabride"
+msgid "Add a credit card"
+msgstr "Add a credit card"
+
+# GMT 1558016895.8685
+#, mobile
+msgctxt "cabride"
+msgid "Pay with cash"
+msgstr "Pay with cash"
+
+# GMT 1558016896.0452
+#, mobile
+msgctxt "cabride"
+msgid "My rides"
+msgstr "My rides"
+
+# GMT 1558016896.0556
+#, mobile
+msgctxt "cabride"
+msgid "In progress"
+msgstr "In progress"
+
+# GMT 1558016896.0574
+#, mobile
+msgctxt "cabride"
+msgid "To rate"
+msgstr "To rate"
+
+# GMT 1558016896.0593
+#, mobile
+msgctxt "cabride"
+msgid "Archived"
+msgstr "Archived"
+
+# GMT 1558016896.1682
+#, mobile
+msgctxt "cabride"
+msgid "You have no rides in progress"
+msgstr "You have no rides in progress"
+
+# GMT 1558016896.1697
+#, mobile
+msgctxt "cabride"
+msgid "pending"
+msgstr "pending"
+
+# GMT 1558016896.1713
+#, mobile
+msgctxt "cabride"
+msgid "Expires"
+msgstr "Expires"
+
+# GMT 1558016896.1731
+#, mobile
+msgctxt "cabride"
+msgid "Driver arrival"
+msgstr "Driver arrival"
+
+# GMT 1558016896.1764
+#, mobile
+msgctxt "cabride"
+msgid "CANCEL"
+msgstr "CANCEL"
+
+# GMT 1558016971.8253
+#, mobile
+msgctxt "cabride"
+msgid "Course details"
+msgstr "Course details"
+
+# GMT 1558016971.8291
+#, mobile
+msgctxt "cabride"
+msgid "Origin & destination"
+msgstr "Origin & destination"
+
+# GMT 1558016971.8307
+#, mobile
+msgctxt "cabride"
+msgid "mn"
+msgstr "mn"
+
+# GMT 1558016971.8333
+#, mobile
+msgctxt "cabride"
+msgid "Payment method"
+msgstr "Payment method"
+
+# GMT 1558016971.8359
+#, mobile
+msgctxt "cabride"
+msgid "History"
+msgstr "History"
+
+# GMT 1558016971.8371
+#, mobile
+msgctxt "cabride"
+msgid "You"
+msgstr "You"
+
+# GMT 1558016971.8385
+#, mobile
+msgctxt "cabride"
+msgid "Created"
+msgstr "Created"
+
+# GMT 1558016971.8394
+#, mobile
+msgctxt "cabride"
+msgid "Actions"
+msgstr "Actions"
+
+# GMT 1558016971.8402
+#, mobile
+msgctxt "cabride"
+msgid "Cancel course"
+msgstr "Cancel course"
+
+# GMT 1558016971.8555
+#, mobile
+msgctxt "cabride"
+msgid "Your note ..."
+msgstr "Your note ..."
+
+# GMT 1558016971.8576
+#, mobile
+msgctxt "cabride"
+msgid "Cancel course!"
+msgstr "Cancel course!"
+
+# GMT 1558016971.8583
+#, mobile
+msgctxt "cabride"
+msgid "Select a reason"
+msgstr "Select a reason"
+
+# GMT 1558016971.8591
+#, mobile
+msgctxt "cabride"
+msgid "Leave us a note"
+msgstr "Leave us a note"
+
+# GMT 1558016971.8605
+#, mobile
+msgctxt "cabride"
+msgid "Submit"
+msgstr "Submit"
+
+# GMT 1558016971.8612
+#, mobile
+msgctxt "cabride"
+msgid "My pickup location was incorrect"
+msgstr "My pickup location was incorrect"
+
+# GMT 1558016971.8621
+#, mobile
+msgctxt "cabride"
+msgid "My driver cancelled"
+msgstr "My driver cancelled"
+
+# GMT 1558016971.8636
+#, mobile
+msgctxt "cabride"
+msgid "The ETA was too long"
+msgstr "The ETA was too long"
+
+# GMT 1558016971.8917
+#, mobile
+msgctxt "cabride"
+msgid "Error"
+msgstr "Error"
+
+# GMT 1558016971.8926
+#, mobile
+msgctxt "cabride"
+msgid "You must select a reason!"
+msgstr "You must select a reason!"
+
+# GMT 1558016971.9564
+#, mobile
+msgctxt "cabride"
+msgid "You must leave a message!"
+msgstr "You must leave a message!"
+
+# GMT 1558016972.0612
+#, mobile
+msgctxt "cabride"
+msgid "Thanks"
+msgstr "Thanks"
+
+# GMT 1558016972.0852
+#, mobile
+msgctxt "cabride"
+msgid "Aborted"
+msgstr "Aborted"
+
+# GMT 1558016972.2052
+#, mobile
+msgctxt "cabride"
+msgid "You have no rides to rate"
+msgstr "You have no rides to rate"
+
+# GMT 1558016972.2563
+#, mobile
+msgctxt "cabride"
+msgid "DETAILS"
+msgstr "DETAILS"
+
+# GMT 1558016972.2572
+#, mobile
+msgctxt "cabride"
+msgid "RATE COURSE"
+msgstr "RATE COURSE"
+
+# GMT 1558016972.3067
+#, mobile
+msgctxt "cabride"
+msgid "Your comment ..."
+msgstr "Your comment ..."
+
+# GMT 1558016972.3114
+#, mobile
+msgctxt "cabride"
+msgid "How was your course?"
+msgstr "How was your course?"
+
+# GMT 1558016972.3131
+#, mobile
+msgctxt "cabride"
+msgid "Leave a comment"
+msgstr "Leave a comment"
+
+# GMT 1558016972.3688
+#, mobile
+msgctxt "cabride"
+msgid "You must rate the course before submitting!"
+msgstr "You must rate the course before submitting!"
+
+# GMT 1558016972.9916
+#, mobile
+msgctxt "cabride"
+msgid "Payment card"
+msgstr "Payment card"
+
+# GMT 1558016972.996
+#, mobile
+msgctxt "cabride"
+msgid "Course done"
+msgstr "Course done"
+
+# GMT 1558016973.0052
+#, mobile
+msgctxt "cabride"
+msgid "Course in progress"
+msgstr "Course in progress"
+
+# GMT 1558016973.0102
+#, mobile
+msgctxt "cabride"
+msgid "Driver on way"
+msgstr "Driver on way"
+
+# GMT 1558016973.0123
+#, mobile
+msgctxt "cabride"
+msgid "Accepted"
+msgstr "Accepted"
+
+# GMT 1558016973.4819
+#, mobile
+msgctxt "cabride"
+msgid "You have no rides archived"
+msgstr "You have no rides archived"
+
+# GMT 1558017009.3452
+#, mobile
+msgctxt "cabride"
+msgid "Pick-up location"
+msgstr "Pick-up location"
+
+# GMT 1558017009.3471
+#, mobile
+msgctxt "cabride"
+msgid "Drop-off location"
+msgstr "Drop-off location"
+
+# GMT 1558017009.3953
+#, mobile
+msgctxt "cabride"
+msgid "Loading ..."
+msgstr "Loading ..."
+
+# GMT 1558017009.9277
+#, mobile
+msgctxt "cabride"
+msgid "My payments"
+msgstr "My payments"
+
+# GMT 1558017010.042
+#, mobile
+msgctxt "cabride"
+msgid "Success"
+msgstr "Success"
+
+# GMT 1558022199.4499
+msgctxt "cabride"
+msgid "Driver information"
+msgstr "Driver information"
+
+# GMT 1558022199.4546
+#, mobile
+msgctxt "cabride"
+msgid "Mobile number"
+msgstr "Mobile number"
+
+# GMT 1558022231.5976
+#, mobile
+msgctxt "cabride"
+msgid "Cette carte est maintenant supprimé!"
+msgstr "Cette carte est maintenant supprimé!"
+
+# GMT 1558022231.6061
+#, mobile
+msgctxt "cabride"
+msgid "You have no card saved"
+msgstr "You have no card saved"
+
+# GMT 1558022231.6445
+#, mobile
+msgctxt "cabride"
+msgid "Who are you?"
+msgstr "Who are you?"
+
+# GMT 1558022231.6583
+#, mobile
+msgctxt "cabride"
+msgid "Passenger"
+msgstr "Passenger"
+
+# GMT 1558022231.686
+#, mobile
+msgctxt "cabride"
+msgid "SIGNUP"
+msgstr "SIGNUP"
+
+# GMT 1558022231.7009
+#, mobile
+msgctxt "cabride"
+msgid "OR"
+msgstr "OR"
+
+# GMT 1558022231.7077
+#, mobile
+msgctxt "cabride"
+msgid "LOGIN"
+msgstr "LOGIN"
+
+# GMT 1558022264.484
 msgctxt "cabride"
 msgid "You finally accepted the request!"
 msgstr "You finally accepted the request!"
 
+# GMT 1558022268.6682
 msgctxt "cabride"
-msgid "AVERAGE COST"
-msgstr "AVERAGE COST"
+msgid "You vehicle information are saved!"
+msgstr "You vehicle information are saved!"
 
+# GMT 1558022275.1596
 msgctxt "cabride"
-msgid "AVERAGE RATING"
-msgstr "AVERAGE RATING"
+msgid "Success!"
+msgstr "Success!"
+
+# GMT 1558022293.4307
+#, mobile
+msgctxt "cabride"
+msgid "Pending requests"
+msgstr "Pending requests"
+
+# GMT 1558022293.4316
+#, mobile
+msgctxt "cabride"
+msgid "You have no pending requests"
+msgstr "You have no pending requests"
+
+# GMT 1558022293.4334
+#, mobile
+msgctxt "cabride"
+msgid "Accepted requests"
+msgstr "Accepted requests"
+
+# GMT 1558022293.4345
+#, mobile
+msgctxt "cabride"
+msgid "You have no accepted request."
+msgstr "You have no accepted request."
+
+# GMT 1558022293.4367
+#, mobile
+msgctxt "cabride"
+msgid "Completed requests"
+msgstr "Completed requests"
+
+# GMT 1558022293.4377
+#, mobile
+msgctxt "cabride"
+msgid "You have no completed requests"
+msgstr "You have no completed requests"
+
+# GMT 1558022293.8775
+#, mobile
+msgctxt "cabride"
+msgid "Declined requests"
+msgstr "Declined requests"
+
+# GMT 1558022294.0684
+#, mobile
+msgctxt "cabride"
+msgid "You have no cancelled requests"
+msgstr "You have no cancelled requests"
+
+# GMT 1558022294.072
+#, mobile
+msgctxt "cabride"
+msgid "Vehicle information"
+msgstr "Vehicle information"
+
+# GMT 1558022294.0755
+#, mobile
+msgctxt "cabride"
+msgid "Model"
+msgstr "Model"
+
+# GMT 1558022294.1012
+#, mobile
+msgctxt "cabride"
+msgid "Change type"
+msgstr "Change type"
+
+# GMT 1558022294.1041
+#, mobile
+msgctxt "cabride"
+msgid "Commission fares"
+msgstr "Commission fares"
+
+# GMT 1558022294.1073
+#, mobile
+msgctxt "cabride"
+msgid "Commission rates applied by your provider."
+msgstr "Commission rates applied by your provider."
+
+# GMT 1558022294.1104
+#, mobile
+msgctxt "cabride"
+msgid "Your ride fares"
+msgstr "Your ride fares"
+
+# GMT 1558022294.1127
+#, mobile
+msgctxt "cabride"
+msgid "Base"
+msgstr "Base"
+
+# GMT 1558022294.1177
+#, mobile
+msgctxt "cabride"
+msgid "Distance (every km/mi)"
+msgstr "Distance (every km/mi)"
+
+# GMT 1558022294.1215
+#, mobile
+msgctxt "cabride"
+msgid "Time (every minute)"
+msgstr "Time (every minute)"
+
+# GMT 1558022294.124
+#, mobile
+msgctxt "cabride"
+msgid "Fixed fare"
+msgstr "Fixed fare"
+
+# GMT 1558022294.1313
+#, mobile
+msgctxt "cabride"
+msgid "+"
+msgstr "+"
+
+# GMT 1558022294.1514
+#, mobile
+msgctxt "cabride"
+msgid "Saved!"
+msgstr "Saved!"
+
+# GMT 1558022294.1527
+#, mobile
+msgctxt "cabride"
+msgid "Les informations de votre véhicule sont enregistrées"
+msgstr "Les informations de votre véhicule sont enregistrées"
+
+# GMT 1558022294.1712
+#, mobile
+msgctxt "cabride"
+msgid "Please select a vehicle type"
+msgstr "Please select a vehicle type"
+
+# GMT 1558022294.189
+#, mobile
+msgctxt "cabride"
+msgid "Cancel"
+msgstr "Cancel"
+
+# GMT 1558022294.3939
+#, mobile
+msgctxt "cabride"
+msgid "Payment history"
+msgstr "Payment history"
+
+# GMT 1558022294.4034
+#, mobile
+msgctxt "cabride"
+msgid "Pending payout"
+msgstr "Pending payout"
+
+# GMT 1558022294.4063
+#, mobile
+msgctxt "cabride"
+msgid "Pending cash return"
+msgstr "Pending cash return"
+
+# GMT 1558022294.4099
+#, mobile
+msgctxt "cabride"
+msgid "Payments list (last 100)"
+msgstr "Payments list (last 100)"
+
+# GMT 1558022294.4148
+#, mobile
+msgctxt "cabride"
+msgid "You have no payment."
+msgstr "You have no payment."
+
+# GMT 1558022294.4192
+#, mobile
+msgctxt "cabride"
+msgid "You have no pending payout."
+msgstr "You have no pending payout."
+
+# GMT 1558022294.423
+#, mobile
+msgctxt "cabride"
+msgid "unpaid"
+msgstr "unpaid"
+
+# GMT 1558022294.4265
+#, mobile
+msgctxt "cabride"
+msgid "Payout"
+msgstr "Payout"
+
+# GMT 1558022294.4514
+#, mobile
+msgctxt "cabride"
+msgid "Cash to return"
+msgstr "Cash to return"
+
+# GMT 1558022294.4578
+#, mobile
+msgctxt "cabride"
+msgid "For you"
+msgstr "For you"
+
+# GMT 1558022294.4632
+#, mobile
+msgctxt "cabride"
+msgid "You have no cash return requests."
+msgstr "You have no cash return requests."

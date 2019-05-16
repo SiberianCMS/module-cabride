@@ -1024,6 +1024,9 @@ class Cabride_Mobile_RideController extends MobileController
                 }
 
                 $payment
+                    ->setBrand($vault->getBrand())
+                    ->setExp($vault->getExp())
+                    ->setLast($vault->getLast())
                     ->setStripeToken($charge["id"])
                     ->setProvider("stripe");
             }

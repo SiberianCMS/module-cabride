@@ -111,7 +111,7 @@
         "js/controllers/cabride-pending-requests.js",
         "js/controllers/cabride-vehicle-information.js",
         "js/controllers/request-cancel-controller.js",
-        "js/controllers/request-detail-controller.js",
+        "js/controllers/request-details-controller.js",
         "js/controllers/request-rate-controller.js",
         "scss/cabride.scss"
     ],

@@ -122,6 +122,9 @@ angular.module('starter')
     };
 
     $scope.creditCardBrand = function (brand) {
+        if (!brand) {
+            return "./features/cabride/assets/templates/images/014-cc.svg";
+        }
         switch (brand.toLowerCase()) {
             case "visa":
                 return "./features/cabride/assets/templates/images/011-cc-visa.svg";

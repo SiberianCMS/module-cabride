@@ -285,10 +285,11 @@ class Request extends Base
         $requestId = $this->getRequestId();
 
         $status = $this->getStatus();
+
         switch ($status) {
             case "pending":
                 // Notify all drivers found!
-                $drivers = (new RequestDriver())->findAll([
+                $requestDrivers = (new RequestDriver())->findAll([
                     "request_id" => $requestId,
                     "status" => "pending"
                 ]);
@@ -300,8 +301,9 @@ class Request extends Base
                     "You have a new ride request!");
                 $actionUrl = "/{$appKey}/cabride/mobile_pending_requests/index";
 
-                foreach ($drivers as $driver) {
-                    $driver = (new Driver())->find($driver->getId(), "driver_id");
+                foreach ($requestDrivers as $requestDriver) {
+
+                    $driver = (new Driver())->find($requestDriver->getDriverId(), "driver_id");
                     $customerId = $driver->getCustomerId();
                     $pushDevice = (new PushDevice())
                         ->find($customerId, "customer_id");
