@@ -1591,3 +1591,23 @@ msgstr "For you"
 msgctxt "cabride"
 msgid "You have no cash return requests."
 msgstr "You have no cash return requests."
+
+# GMT 1558082566.1146
+msgctxt "cabride"
+msgid "Signup / Login"
+msgstr "Signup / Login"
+
+# GMT 1558082566.1337
+msgctxt "cabride"
+msgid "Completed rides"
+msgstr "Completed rides"
+
+# GMT 1558082566.1365
+msgctxt "cabride"
+msgid "Cancelled rides"
+msgstr "Cancelled rides"
+
+# GMT 1558082566.1392
+msgctxt "cabride"
+msgid "Vechicle information"
+msgstr "Vechicle information"
