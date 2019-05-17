@@ -1343,12 +1343,6 @@ msgctxt "cabride"
 msgid "Mobile number"
 msgstr "Mobile number"
 
-# GMT 1558022231.5976
-#, mobile
-msgctxt "cabride"
-msgid "Cette carte est maintenant supprim�!"
-msgstr "Cette carte est maintenant supprim�!"
-
 # GMT 1558022231.6061
 #, mobile
 msgctxt "cabride"
@@ -1519,12 +1513,6 @@ msgstr "+"
 msgctxt "cabride"
 msgid "Saved!"
 msgstr "Saved!"
-
-# GMT 1558022294.1527
-#, mobile
-msgctxt "cabride"
-msgid "Les informations de votre v�hicule sont enregistr�es"
-msgstr "Les informations de votre v�hicule sont enregistr�es"
 
 # GMT 1558022294.1712
 #, mobile
