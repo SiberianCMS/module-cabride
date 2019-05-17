@@ -1346,8 +1346,8 @@ msgstr "Mobile number"
 # GMT 1558022231.5976
 #, mobile
 msgctxt "cabride"
-msgid "Cette carte est maintenant supprimé!"
-msgstr "Cette carte est maintenant supprimé!"
+msgid "Cette carte est maintenant supprimï¿½!"
+msgstr "Cette carte est maintenant supprimï¿½!"
 
 # GMT 1558022231.6061
 #, mobile
@@ -1523,8 +1523,8 @@ msgstr "Saved!"
 # GMT 1558022294.1527
 #, mobile
 msgctxt "cabride"
-msgid "Les informations de votre véhicule sont enregistrées"
-msgstr "Les informations de votre véhicule sont enregistrées"
+msgid "Les informations de votre vï¿½hicule sont enregistrï¿½es"
+msgstr "Les informations de votre vï¿½hicule sont enregistrï¿½es"
 
 # GMT 1558022294.1712
 #, mobile
