@@ -1379,8 +1379,8 @@ msgstr "Merci"
 # GMT 1558096200.2722
 #, mobile
 msgctxt "cabride"
-msgid "Thanks for riding with us, hope to see you again soon!"
-msgstr "Merci d'avoir utilisé nos services, nous espérons vous revoir bientôt!"
+msgid "Thanks for riding with us, hope to see you again soon!<br />Feel free to leave us a feedback in the rating section!"
+msgstr "Merci d'avoir utilisé nos services, nous espérons vous revoir bientôt!<br />N'oubliez pas de laisser un avis sur votre course!"
 
 # GMT 1558016290.8758
 msgctxt "cabride"
