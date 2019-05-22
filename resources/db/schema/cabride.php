@@ -40,7 +40,7 @@ $schemas['cabride'] = [
         'collation' => 'utf8_unicode_ci',
         'default' => 'USD',
     ],
-    'timezone' => [ // currency
+    'timezone' => [ // timezone
         'type' => 'varchar(128)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',

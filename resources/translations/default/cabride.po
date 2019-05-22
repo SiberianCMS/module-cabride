@@ -450,11 +450,13 @@ msgid "Address"
 msgstr "Address"
 
 # GMT 1558016260.3187
+#, mobile
 msgctxt "cabride"
 msgid "Ride request!"
 msgstr "Ride request!"
 
 # GMT 1558016260.3201
+#, mobile
 msgctxt "cabride"
 msgid "You have a new ride request!"
 msgstr "You have a new ride request!"
@@ -470,9 +472,34 @@ msgid "This card is now deleted!"
 msgstr "This card is now deleted!"
 
 # GMT 1558016420.5876
+#, mobile
 msgctxt "cabride"
 msgid "A ride request was cancelled!"
 msgstr "A ride request was cancelled!"
+
+# GMT 1558016420.5877
+#, mobile
+msgctxt "cabride"
+msgid "We are sorry, but the passenger cancelled the ride!"
+msgstr "We are sorry, but the passenger cancelled the ride!"
+
+# GMT 1558016420.5878
+#, mobile
+msgctxt "cabride"
+msgid "We are sorry, but the driver cancelled the ride!"
+msgstr "We are sorry, but the driver cancelled the ride!"
+
+# GMT 1558016420.5879
+#, mobile
+msgctxt "cabride"
+msgid "You request expired!"
+msgstr "You request expired!"
+
+# GMT 1558016420.5880
+#, mobile
+msgctxt "cabride"
+msgid "Sorry there was no driver available to drive you, please try again!"
+msgstr "Sorry there was no driver available to drive you, please try again!"
 
 # GMT 1558016420.6031
 msgctxt "cabride"
@@ -746,8 +773,8 @@ msgstr "You must select a reason!"
 # GMT 1558016971.9564
 #, mobile
 msgctxt "cabride"
-msgid "You must leave a message!"
-msgstr "You must leave a message!"
+msgid "You must leave a message, at least 15 characters long!"
+msgstr "You must leave a message, at least 15 characters long!"
 
 # GMT 1558016972.0612
 #, mobile
@@ -1485,41 +1512,61 @@ msgid "Payment API credentials"
 msgstr "Payment API credentials"
 
 # GMT 1558096160.1002
+#, mobile
 msgctxt "cabride"
 msgid "Ride accepted!"
 msgstr "Ride accepted!"
 
 # GMT 1558096160.1016
+#, mobile
 msgctxt "cabride"
 msgid "A driver accepted your request, he will be on your way soon!"
 msgstr "A driver accepted your request, he will be on your way soon!"
 
 # GMT 1558096190.2906
+#, mobile
 msgctxt "cabride"
 msgid "Driver on your way!"
 msgstr "Driver on your way!"
 
+# GMT 1558096190.2907
+#, mobile
+msgctxt "cabride"
+msgid "No drivers found!"
+msgstr "No drivers found!"
+
+# GMT 1558096190.2908
+#, mobile
+msgctxt "cabride"
+msgid "Sorry, there was no driver able to take your ride, please try again!"
+msgstr "Sorry, there was no driver able to take your ride, please try again!"
+
 # GMT 1558096190.2931
+#, mobile
 msgctxt "cabride"
 msgid "You driver is on your way!"
 msgstr "You driver is on your way!"
 
 # GMT 1558096190.2981
+#, mobile
 msgctxt "cabride"
 msgid "We notified your passenger that you are on his way!"
 msgstr "We notified your passenger that you are on his way!"
 
 # GMT 1558096195.9214
+#, mobile
 msgctxt "cabride"
 msgid "Opening navigation!"
 msgstr "Opening navigation!"
 
 # GMT 1558096200.2692
+#, mobile
 msgctxt "cabride"
 msgid "Your ride is done!"
 msgstr "Your ride is done!"
 
 # GMT 1558096200.2722
+#, mobile
 msgctxt "cabride"
 msgid "Thanks for riding with us, hope to see you again soon!"
 msgstr "Thanks for riding with us, hope to see you again soon!"
@@ -1543,3 +1590,18 @@ msgstr "aborted"
 msgctxt "cabride"
 msgid "done"
 msgstr "done"
+
+# GMT 1558360749.2311
+msgctxt "cabride"
+msgid "CabRide management & configuration is done through the extended Dashboard / Menu"
+msgstr "CabRide management & configuration is done through the extended Dashboard / Menu"
+
+# GMT 1558360749.2321
+msgctxt "cabride"
+msgid "Go to"
+msgstr "Go to"
+
+# GMT 1558360749.234
+msgctxt "cabride"
+msgid "or"
+msgstr "or"

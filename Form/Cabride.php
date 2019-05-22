@@ -43,10 +43,10 @@ class Cabride extends Siberian_Form_Abstract
             p__("cabride", "Currency"),
             array_combine(Currency::$supported, Currency::$supported));
 
-        $timezone = $this->addSimpleSelect(
-            "timezone",
-            p__("cabride", "Timezone"),
-            Timezone::getTranslated());
+        //$timezone = $this->addSimpleSelect(
+        //    "timezone",
+        //    p__("cabride", "Timezone"),
+        //    Timezone::getTranslated());
 
         $distance_unit = $this->addSimpleSelect(
             "distance_unit",
@@ -74,7 +74,7 @@ RAW;
         $this->addSimpleHtml("center_map_hint", $html);
 
         $this->groupElements("localization",
-            ["currency", "timezone", "distance_unit", "center_map", "center_map_hint"],
+            ["currency", "distance_unit", "center_map", "center_map_hint"],
             p__("cabride", "Localization"));
 
         $search_timeout = $this->addSimpleNumber(
@@ -188,14 +188,16 @@ RAW;
             ["nav_background_button", "passenger_picture_button", "driver_picture_button"],
             p__("cabride", "Design"));
 
-        // PASSENGER PRIVACY
-        $this->addSimpleCheckbox("show_passenger_photo", p__("cabride", "Show passenger picture"));
-        $this->addSimpleCheckbox("show_passenger_name", p__("cabride", "Show passenger name"));
-        $this->addSimpleCheckbox("show_passenger_phone", p__("cabride", "Show passenger phone"));
 
-        $this->groupElements("privacy",
-            ["show_passenger_photo", "show_passenger_name", "show_passenger_phone"],
-            p__("cabride", "Passenger privacy"));
+        // @todo work in progress
+        // PASSENGER PRIVACY
+        //$this->addSimpleCheckbox("show_passenger_photo", p__("cabride", "Show passenger picture"));
+        //$this->addSimpleCheckbox("show_passenger_name", p__("cabride", "Show passenger name"));
+        //$this->addSimpleCheckbox("show_passenger_phone", p__("cabride", "Show passenger phone"));
+//
+        //$this->groupElements("privacy",
+        //    ["show_passenger_photo", "show_passenger_name", "show_passenger_phone"],
+        //    p__("cabride", "Passenger privacy"));
 
 
         // MISC

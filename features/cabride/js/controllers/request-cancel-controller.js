@@ -15,8 +15,8 @@ angular.module('starter')
         }
 
         if ($scope.cancel.reason === "other" &&
-            $scope.cancel.message.length < 10) {
-            Dialog.alert("Error", "You must leave a message!", "OK", 2350, "cabride");
+            $scope.cancel.message.length < 15) {
+            Dialog.alert("Error", "You must leave a message, at least 15 characters long!", "OK", 2350, "cabride");
             return;
         }
 

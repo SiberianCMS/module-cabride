@@ -381,7 +381,7 @@ class Request extends Base
                 $title = p__("cabride",
                     "Your ride is done!");
                 $message = p__("cabride",
-                    "Thanks for riding with us, hope to see you again soon!");
+                    "Thanks for riding with us, hope to see you again soon!<br />Don't forget to rate your ride!");
 
                 $actionUrl = "/{$appKey}/cabride/mobile_home/index";
 
