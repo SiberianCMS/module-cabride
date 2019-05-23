@@ -73,9 +73,14 @@ foreach ($rides as $ride) {
     }
 }
 
+$avgCost = $averageCost / $averageItems;
+if (!is_numeric($avgCost) || is_nan($avgCost)) {
+    $avgCost = 0;
+}
+
 $averageDistance = round($averageDistance / $averageItems, 1);
 $averageDuration = ceil($averageDuration / $averageItems);
-$averageCost = Base::_formatPrice($averageCost / $averageItems, $cu);
+$averageCost = Base::_formatPrice($avgCost, $cu);
 $averageRating = round($sumRating / $ratingItems, 2);
 
 ?>
