@@ -99,4 +99,33 @@ class Cabride_Backoffice_ViewController extends Backoffice_Controller_Default
 
         $this->_sendJson($payload);
     }
+
+    public function liveLogAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $offset = $request->getParam("offset", 0);
+            $logPath = path("var/log/modules/cabride.log");
+
+            if (!is_file($logPath)) {
+                throw new Exception(p__("cabride", "Log file var/log/modules/cabride.log doesn't exists, seems your cabride server is not running."));
+            }
+
+            $logFile = fopen($logPath, "r");
+            $txtContent = stream_get_contents($logFile, -1, $offset);
+
+            $payload = [
+                "success" => true,
+                "txtContent" => $txtContent,
+                "offset" => strlen($txtContent) + $offset,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
 }

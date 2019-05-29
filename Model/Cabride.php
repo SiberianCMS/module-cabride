@@ -119,11 +119,13 @@ class Cabride extends Base
     }
 
     /**
-     * @return null
+     * @return int|null
+     * @throws Exception
+     * @throws \Zend_Exception
      */
     public static function getCurrentValueId()
     {
-        $app = self::getApplication();
+        $app = (new self())->getApplication();
         if ($app) {
             $options = $app->getOptions();
             foreach ($options as $option) {
@@ -136,11 +138,13 @@ class Cabride extends Base
     }
 
     /**
-     * @return null
+     * @return \Application_Model_Option_Value|null
+     * @throws Exception
+     * @throws \Zend_Exception
      */
     public static function getCurrent()
     {
-        $app = self::getApplication();
+        $app = (new self())->getApplication();
         if ($app) {
             $options = $app->getOptions();
             foreach ($options as $option) {
@@ -174,7 +178,7 @@ class Cabride extends Base
      */
     public static function dashboardNav($editorTree)
     {
-        $app = self::getApplication();
+        $app = (new self())->getApplication();
         $options = $app->getOptions();
 
         $useCabRide = false;
@@ -338,12 +342,12 @@ class Cabride extends Base
             // Save Credentials for cabride server
             $serverHost = sprintf(
                 "https://%s",
-                explode(":", $_SERVER["HTTP_HOST"])[0]
+                explode(":", __get("main_domain"))
             );
 
             $wssHost = sprintf(
                 "wss://%s",
-                explode(":", $_SERVER["HTTP_HOST"])[0]
+                explode(":", __get("main_domain"))
             );
 
             $configFile = path("/app/local/modules/Cabride/resources/server/config.json");

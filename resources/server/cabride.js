@@ -23,7 +23,7 @@ let config = require('./config.json'),
     options = {
         path: '/cabride'
     },
-    debug = true,
+    debug = false,
     defaultUrl = config.apiUrl + '/#APP_KEY#/cabride/api_message',
     apiUrl = null,
     requestDefaultHeaders = {},
@@ -64,10 +64,6 @@ const functions = {
          * Log function with debug toggler
          */
         log: function () {
-            if (!debug) {
-                return;
-            }
-
             let args = arguments,
                 level = 'info',
                 log = Function.prototype.bind.call(console.log, console);
@@ -161,7 +157,7 @@ const functions = {
                     headers: requestDefaultHeaders,
                     responseType: 'json'
                 }, function (error, payload, response) {
-                    functions.log('requestApi', error, payload, response);
+                    functions.log('requestApi', payload);
                     if (error || response.statusCode === 400) {
                         promise.reject({
                             'error': true,
@@ -627,17 +623,6 @@ let init = function (httpsOptions) {
         pingInprogress = false;
     }, 2000);
 
-    // Debug connected users
-    //if (debug) {
-    //    setInterval(function () {
-    //        functions.log('=== allConnections ===');
-    //        functions.log(globals.allConnections);
-    //        functions.log('=== IDS ===');
-    //        for (let uuid in globals.allConnections) {
-    //            functions.log(uuid);
-    //        }
-    //    }, 10000);
-    //}
 };
 
 // Init when request is OK!
@@ -665,10 +650,7 @@ axios.get(defaultUrl.replace('#APP_KEY#/', '') + '/settings', {
     functions.log('Something went wrong: ', error, 'error');
 });
 
-// Debug features purpose, we will avoid all possible breakouts & memory leaks
-if (debug) {
-    // Listen out unhandeld promises
-    process.on('unhandledRejection', (reason, p) => {
-        console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
-    });
-}
+// Listen out unhandeld promises
+process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+});

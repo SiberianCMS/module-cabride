@@ -2,7 +2,7 @@
  * CabrideSocket service websocket
  */
 angular.module('starter')
-    .service('CabrideSocket', function ($log, $rootScope) {
+    .service('CabrideSocket', function ($injector, $log, $rootScope, $session) {
         var service = {
             hello: {
                 event: 'hello'
@@ -18,47 +18,88 @@ angular.module('starter')
             return JSON.stringify(object);
         };
 
+        service.sayHello = function () {
+            service.sendMsg(service.hello);
+        };
+
         /**
          * Simple alias to send raw objects
          * @param object
          */
         service.sendMsg = function (object) {
-            service.socket.send(service.toMsg(object));
+            switch (service.socket.readyState) {
+                default:
+                case 0:
+                case 2:
+                    // Do nothing
+                    break;
+                case 3:
+                    // Tries to reconnect!
+                    var factory = $injector.get("Cabride");
+                    factory.resetPromises();
+
+                    service.initSocket(factory);
+                    break;
+                case 1:
+                    // Ok send message
+                    service.socket.send(service.toMsg(object));
+                    break;
+            }
+        };
+
+        service.onError = function (event) {
+            $log.error('cabride socket onError', event);
+        };
+
+        service.onClose = function (event) {
+            $log.error('cabride socket onClose', event);
         };
 
         /**
          * Connection handler/init
-         * @param socketUri
-         * @param onMessageCallback
-         * @param onErrorCallback
+         * @param factory
          */
-        service.connect = function (socketUri, onMessageCallback, onErrorCallback) {
-            if (typeof onMessageCallback !== 'function') {
-                $log.error('onMessageCallback is required and must be a function!');
+        service.initSocket = function (factory) {
+            if (typeof factory.onMessage !== 'function') {
+                $log.error('onMessage is required and must be a function!');
                 return;
             }
 
-            service.socket = new WebSocket(socketUri);
+            service.socket = new WebSocket(factory.settings.wssUrl);
+
+            factory.socket = service.socket;
 
             service.socket.onopen = function (event) {
                 // Sends Hello to identify as active and protocol is working!
-                service.socket.sendMsg(service.hello);
-                $rootScope.$broadcast('cabride.isAlive');
+                service.sayHello();
+
+                factory
+                .helloPromise.promise
+                .then(function (helloResponse) {
+                    factory.uuid = helloResponse.uuid;
+                    factory.setIsAlive();
+                    factory
+                    .joinLobby($session.getId(), APP_KEY)
+                    .then(function () {
+                        factory.initPromise.resolve();
+                        factory.startUpdatePosition();
+                    }).catch(function (error) {
+                        factory.initPromise.reject(error);
+                    }).finally(function () {
+                        $log.info('cabride joinLobby finally');
+                    });
+                }).catch(function (error) {
+                    factory.initPromise.reject(error);
+                }).finally(function () {
+                    $log.info('cabride helloPromise finally');
+                });
             };
 
-            service.socket.onerror = function (error) {
-                $log.error('CabrideSocket Error ' + error);
-
-                // Transfer the error to callback only if defined!
-                if (typeof onErrorCallback !== 'function') {
-                    onErrorCallback(error);
-                }
-            };
-
+            service.socket.onclose = service.onClose;
+            service.socket.onerror = service.onError;
             service.socket.onmessage = function (event) {
-                // Transfer data to the callback handler!
-                onMessageCallback(JSON.parse(event.data));
-            };
+                factory.onMessage(JSON.parse(event.data));
+            }
         };
 
         return service;

@@ -18,6 +18,18 @@ App.factory("Cabride", function ($http, Url) {
 
     /**
      *
+     * @returns {*}
+     */
+    factory.liveLog = function (offset) {
+        return $http({
+            method: "GET",
+            url: Url.get("cabride/backoffice_view/live-log", {offset: offset}),
+            cache: false
+        });
+    };
+
+    /**
+     *
      * @param settings
      * @returns {*}
      */

@@ -82,3 +82,30 @@
     </form>
 
 </sb-section>
+
+<sb-section title="'<?php echo p__js("cabride", "Live log", "'"); ?>'">
+
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+                <?php echo __("WebSocket server log.") ?>
+            </div>
+
+            <div ng-if="logError"
+                 class="alert alert-danger">
+                {{ logErrorMessage }}
+            </div>
+        </div>
+
+        <div ng-if="!logError"
+             class="col-md-12">
+            <textarea style="width: 100%; font-family: monospace; font-weight: 11px;"
+                      readonly="readonly"
+                      rows="20">{{ logContent }}</textarea>
+            <div class="clear"></div>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+
+</sb-section>

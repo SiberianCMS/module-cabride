@@ -137,6 +137,12 @@ angular.module('starter')
             }
         };
 
+        factory.resetPromises = function () {
+            factory.helloPromise = $q.defer();
+            factory.lobbyPromise = null;
+            factory.joinedLobby = false;
+        };
+
         factory.updateRequest = function (request) {
             factory.sendEvent('update-request', {
                 request: request
@@ -351,10 +357,6 @@ angular.module('starter')
             });
         };
 
-        factory.onError = function (message) {
-            $log.error('cabride socket onerror', message);
-        };
-
         factory.sendEvent = function (eventType, payload) {
             var localPayload = angular.extend({
                 event: eventType,
@@ -474,6 +476,12 @@ angular.module('starter')
             if (factory.joinedLobby === false) {
                 return;
             }
+
+            // Wait until we have an identified user!
+            if (!factory.user) {
+                return;
+            }
+
             Location
             .getLocation()
             .then(function (position) {
@@ -701,17 +709,6 @@ angular.module('starter')
             });
         };
 
-        /**
-         * Reconnects & Join back rooms
-         */
-        factory.reconnect = function () {
-            factory
-                .init()
-                .then(function () {
-                    // @todo join driver/passenger rooms
-                });
-        };
-
         factory.authUser = function () {
             factory
             .joinLobby($session.getId(), APP_KEY)
@@ -773,38 +770,9 @@ angular.module('starter')
                             {navBackground: "url('" + IMAGE_URL + response.settings.navBackground + "')"});
                     }
 
-                    factory.socket = CabrideSocket.connect(
-                        response.settings.wssUrl,
-                        factory.onMessage,
-                        factory.onError);
+                    // Init socket connection!
+                    CabrideSocket.initSocket(factory);
 
-                    factory.socket = CabrideSocket.socket;
-
-                    factory.socket.onclose = function (event) {
-                        factory.setIsGone();
-                    };
-
-                    factory.socket.onopen = function (event) {
-                        factory.helloPromise.promise
-                        .then(function (helloResponse) {
-                            factory.uuid = helloResponse.uuid;
-                            factory.setIsAlive();
-                            factory
-                            .joinLobby($session.getId(), APP_KEY)
-                            .then(function () {
-                                factory.initPromise.resolve();
-                                factory.startUpdatePosition();
-                            }).catch(function (error) {
-                                factory.initPromise.reject(error);
-                            }).finally(function () {
-                                $log.info('cabride joinLobby finally');
-                            });
-                        }).catch(function (error) {
-                            factory.initPromise.reject(error);
-                        }).finally(function () {
-                            $log.info('cabride helloPromise finally');
-                        });
-                    };
                 }).catch(function (error) {
                     factory.initPromise.reject(error);
                 });
