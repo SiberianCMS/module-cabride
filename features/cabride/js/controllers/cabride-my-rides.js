@@ -6,6 +6,7 @@ angular.module('starter')
         pageTitle: $translate.instant("My rides", "cabride"),
         valueId: Cabride.getValueId(),
         filtered: null,
+        toRate: null,
         filterName: "inprogress",
         collection: []
     });
@@ -21,6 +22,7 @@ angular.module('starter')
         .then(function (payload) {
             $scope.collection = payload.collection;
             $scope.filtered = $filter("cabrideStatusFilter")($scope.collection, $scope.filterName);
+            $scope.toRate = $filter("cabrideStatusFilter")($scope.collection, "torate");
         }, function (error) {
             Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
@@ -109,6 +111,7 @@ angular.module('starter')
 
     $scope.$watch("filterName", function () {
         $scope.filtered = $filter("cabrideStatusFilter")($scope.collection, $scope.filterName);
+        $scope.toRate = $filter("cabrideStatusFilter")($scope.collection, "torate");
     });
 
     $scope.$on('cabride.updateRequest', function (event, request) {

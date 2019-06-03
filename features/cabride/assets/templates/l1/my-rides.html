@@ -99,6 +99,8 @@
            class="tab-item">
             <i class="icon ion-android-star-outline"></i>
             {{ "To rate" | translate:"cabride" }}
+            <span ng-if="toRate.length > 0"
+                  class="badge badge-positive badge-positive-custom">{{ toRate.length }}</span>
         </a>
         <a ng-click="statusFilter('archived')"
            ng-class="{'cr-tab-active': filterName == 'archived'}"
