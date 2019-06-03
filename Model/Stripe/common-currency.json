@@ -80,6 +80,15 @@
         "code": "AUD",
         "name_plural": "Australian dollars"
     },
+    "AWG": {
+        "symbol": "Afl.",
+        "name": "Aruban Florin",
+        "symbol_native": "ƒ",
+        "decimal_digits": 2,
+        "rounding": 0,
+        "code": "AWG",
+        "name_plural": "Aruban Florin"
+    },
     "AZN": {
         "symbol": "man.",
         "name": "Azerbaijani Manat",
