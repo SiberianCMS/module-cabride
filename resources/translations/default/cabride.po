@@ -1605,3 +1605,9 @@ msgstr "Go to"
 msgctxt "cabride"
 msgid "or"
 msgstr "or"
+
+# GMT 1559656845.6903
+#, mobile
+msgctxt "cabride"
+msgid "Sorry we are unable to locate you, please check your GPS settings & authorization."
+msgstr "Sorry we are unable to locate you, please check your GPS settings & authorization."
