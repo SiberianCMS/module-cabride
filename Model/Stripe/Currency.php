@@ -179,6 +179,27 @@ class Currency
     public static $jsonSource = null;
 
     /**
+     * @return bool
+     */
+    public static function getAllCurrencies ()
+    {
+        if (self::$jsonSource === null) {
+            $contents = file_get_contents(path("/app/local/modules/Cabride/Model/Stripe/common-currency.json"));
+            self::$jsonSource = Json::decode($contents);
+        }
+
+        $common = array_keys(self::$jsonSource);
+        $commonCurrencies = array_combine($common, $common);
+        foreach (self::$supported as $stripeSupported) {
+            $commonCurrencies[$stripeSupported] = "{$stripeSupported} (Stripe)";
+        }
+
+        ksort($commonCurrencies);
+
+        return $commonCurrencies;
+    }
+
+    /**
      * @param $code
      * @return mixed
      * @throws Exception

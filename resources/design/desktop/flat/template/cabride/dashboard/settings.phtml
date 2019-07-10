@@ -160,6 +160,33 @@ $(document).ready(function () {
     };
 
     updatePaymentProvider();
+
+    // Currency
+    let currency = $("#currency");
+    let acceptedPayments = $("#accepted_payments");
+    let lineProvider = $("#control-group_payment_provider");
+
+    currency.off("change");
+    currency.on("change", function () {
+        updateCurrency();
+    });
+
+    let updateCurrency = function () {
+        let value = currency.val();
+        let text = currency.find("[value='" + value + "']").text();
+        if (text.indexOf("Stripe") >= 0) {
+            lineProvider.show();
+            acceptedPayments.find("[value='credit-card']").show();
+            acceptedPayments.find("[value='all']").show();
+        } else {
+            lineProvider.hide();
+            acceptedPayments.find("[value='credit-card']").hide();
+            acceptedPayments.find("[value='all']").hide();
+            acceptedPayments.val("cash");
+        }
+    };
+
+    updateCurrency();
 });
 </script>
 <style type="text/css">

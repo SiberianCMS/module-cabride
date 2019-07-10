@@ -38,10 +38,11 @@ class Cabride extends Siberian_Form_Abstract
 
         $this->groupElements("admin", ["admin_emails"], p__("cabride", "Contact"));
 
+        // All currencies
         $currency = $this->addSimpleSelect(
             "currency",
             p__("cabride", "Currency"),
-            array_combine(Currency::$supported, Currency::$supported));
+            Currency::getAllCurrencies());
 
         //$timezone = $this->addSimpleSelect(
         //    "timezone",
