@@ -660,7 +660,7 @@ angular.module('starter')
             factory.isTaxiLayout = isTaxiLayout;
 
             // Clear ContextualMenu
-            ContextualMenu.clear("./features/cabride/assets/templates/l1/nav/contextual-menu.html");
+            ContextualMenu.clear();
         };
 
         /**
