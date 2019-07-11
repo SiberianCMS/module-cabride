@@ -22,8 +22,9 @@ class Payment extends Core_Model_Db_Table
 
     /**
      * @param $valueId
-     * @param $params
+     * @param null $params
      * @return mixed
+     * @throws \Zend_Exception
      */
     public function aggregateCashReturn ($valueId, $params = null)
     {
@@ -141,8 +142,9 @@ class Payment extends Core_Model_Db_Table
 
     /**
      * @param $valueId
-     * @param $params
+     * @param null $params
      * @return mixed
+     * @throws \Zend_Exception
      */
     public function aggregatePayout ($valueId, $params = null)
     {

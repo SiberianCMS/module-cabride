@@ -58,6 +58,9 @@ class Cabride_Backoffice_ViewController extends Backoffice_Controller_Default
 
             Cabride::initApiUser($settings["cabride_server_auth"], $settings["cabride_server_port"]);
 
+            $logPath = path("var/log/modules/cabride.log");
+            file_put_contents($logPath, "-- RESTART -- \n");
+
             // Call for a restart!
             exec("pkill -9 node_64 2&>1");
 
@@ -70,30 +73,6 @@ class Cabride_Backoffice_ViewController extends Backoffice_Controller_Default
             $payload = [
                 "error" => true,
                 "message" => $e->getMessage()
-            ];
-        }
-
-        $this->_sendJson($payload);
-    }
-
-    /**
-     *
-     */
-    public function restartSocketAction()
-    {
-        try {
-            exec("pkill -9 node_64 2&>1");
-
-            $payload = [
-                "success" => true,
-                "message" => p__("cabride", "WebSocket is restarting.")
-            ];
-        } catch (Exception $e) {
-            $payload = [
-                "error" => true,
-                "message" =>
-                    p__("cabride", "Something went wrong while restarting the WebSocket.") . "<br />" .
-                    $e->getMessage()
             ];
         }
 

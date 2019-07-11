@@ -110,7 +110,7 @@ class Cabride_Mobile_RideController extends MobileController
             $cards = (new ClientVault())->findAll([
                 "client_id = ?" => $client->getId(),
                 "payment_provider = ?" => $cabride->getPaymentProvider(),
-                "is_deleted = ?" => 0,
+                "is_removed = ?" => 0,
             ]);
 
             $paymentData = [];

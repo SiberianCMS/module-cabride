@@ -27,3 +27,16 @@ try {
 } catch (\Exception $e) {
     // Silently fails!
 }
+
+// Patching is_deleted > is_removed
+$isRemovedPatch = __get("carbide_is_removed_fix");
+if ($isRemovedPatch !== "done") {
+    $query = "UPDATE cabride_client_vault SET is_removed = is_deleted WHERE 1;";
+    try {
+        $this->query($query);
+    } catch (\Exception $e) {
+        // Silently fails!
+    }
+
+    __set("carbide_is_removed_fix", "done");
+}

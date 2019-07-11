@@ -23,6 +23,7 @@ class Cashreturn extends Core_Model_Db_Table
     /**
      * @param $valueId
      * @return mixed
+     * @throws \Zend_Exception
      */
     public function fetchArchives ($valueId)
     {

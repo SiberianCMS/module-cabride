@@ -21,16 +21,16 @@ class Cabride_ApplicationController extends Application_Controller_Default
     {
         $cabride_id = $this->getRequest()->getParam("cabride_id");
 
-        $Cabride = new Cabride();
-        $Cabride->find($cabride_id);
-        if ($Cabride->getId()) {
+        $cabride = new Cabride();
+        $cabride->find($cabride_id);
+        if ($cabride->getId()) {
             $form = new FormCabride();
 
-            $form->populate($Cabride->getData());
+            $form->populate($cabride->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
             $form->removeNav("nav-cabride");
             $form->addNav("edit-nav-cabride", "Save", false);
-            $form->setCabrideId($Cabride->getId());
+            $form->setCabrideId($cabride->getId());
 
             $payload = [
                 'success' => true,
@@ -137,31 +137,34 @@ class Cabride_ApplicationController extends Application_Controller_Default
     }
 
     /**
-     * @throws Zend_Exception
-     * @throws Zend_Form_Exception
+     *
      */
     public function deletepostAction()
     {
-        $values = $this->getRequest()->getPost();
+        try {
+            $values = $this->getRequest()->getPost();
 
-        $form = new CabrideDelete();
-        if ($form->isValid($values)) {
-            $Cabride = new Cabride();
-            $Cabride->find($values["cabride_id"]);
-            $Cabride->delete();
+            $form = new CabrideDelete();
+            if ($form->isValid($values)) {
+                $Cabride = new Cabride();
+                $Cabride->find($values["cabride_id"]);
+                $Cabride->delete();
 
+                $payload = [
+                    "success" => true,
+                    "message" => p__("cabride", "Cabride successfully deleted."),
+                ];
+            } else {
+                $payload = [
+                    "error" => true,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true),
+                ];
+            }
+        } catch (\Exception $e) {
             $payload = [
-                'success' => true,
-                'success_message' => __('Cabride successfully deleted.'),
-                'message_loader' => 0,
-                'message_button' => 0,
-                'message_timeout' => 2
-            ];
-        } else {
-            $payload = [
-                'error' => 1,
-                'message' => $form->getTextErrors(),
-                'errors' => $form->getTextErrors(true),
+                "error" => true,
+                "message" => $e->getMessage(),
             ];
         }
 
