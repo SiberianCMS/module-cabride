@@ -342,12 +342,12 @@ class Cabride extends Base
             // Save Credentials for cabride server
             $serverHost = sprintf(
                 "https://%s",
-                explode(":", __get("main_domain"))
+                __get("main_domain")
             );
 
             $wssHost = sprintf(
                 "wss://%s",
-                explode(":", __get("main_domain"))
+                __get("main_domain")
             );
 
             $configFile = path("/app/local/modules/Cabride/resources/server/config.json");
