@@ -56,9 +56,9 @@
                 <div class="col-100 text-center"
                      ng-click="loginOrSignup()">
                     <span class="taxi-signup">
-                        <span class="taxi-signup-text">{{ "SIGNUP" | translate:"cabride" }}</span>
-                        <span class="taxi-or-text">{{ "OR" | translate:"cabride" }}</span>
-                        <span class="taxi-login-text">{{ "LOGIN" | translate:"cabride" }}</span>
+                        <span class="taxi-signup-text">{{ ::"SIGNUP" | translate:"cabride" }}</span>
+                        <span class="taxi-or-text">{{ ::"OR" | translate:"cabride" }}</span>
+                        <span class="taxi-login-text">{{ ::"LOGIN" | translate:"cabride" }}</span>
                     </span>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-timer"></i>
                     <span class="line-title">
-                        {{ "Pending requests" | translate:"cabride" }}
+                        {{ ::"Pending requests" | translate:"cabride" }}
                     </span>
                     <span ng-if="information && information.counters.pending > 0"
                           class="badge badge-positive badge-positive-custom">{{ information.counters.pending }}</span>
@@ -94,7 +94,7 @@
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-timer-full"></i>
                     <span class="line-title">
-                        {{ "Accepted requests" | translate:"cabride" }}
+                        {{ ::"Accepted requests" | translate:"cabride" }}
                     </span>
                     <span ng-if="information && information.counters.accepted > 0"
                           class="badge badge-positive badge-positive-custom">{{ information.counters.accepted }}</span>
@@ -107,7 +107,7 @@
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-thumb-up"></i>
                     <span class="line-title">
-                        {{ "Completed rides" | translate:"cabride" }}
+                        {{ ::"Completed rides" | translate:"cabride" }}
                     </span>
                     <span ng-if="information && information.counters.completed > 0"
                           class="badge badge-positive badge-positive-custom">{{ information.counters.completed }}</span>
@@ -120,7 +120,7 @@
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-cancel"></i>
                     <span class="line-title">
-                        {{ "Declined" | translate:"cabride" }}
+                        {{ ::"Declined" | translate:"cabride" }}
                     </span>
                     <span ng-if="information && information.counters.declined > 0"
                           class="badge badge-positive badge-positive-custom">{{ information.counters.declined }}</span>
@@ -133,7 +133,7 @@
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-car"></i>
                     <span class="line-title">
-                        {{ "Vehicle information" | translate:"cabride" }}
+                        {{ ::"Vehicle information" | translate:"cabride" }}
                     </span>
                     <i ng-if="information && information.vehicleWarning"
                        class="icon ion-alert-circled vehicle-warning"></i>
@@ -145,7 +145,7 @@
                 ng-click="loadPage('payment-history')">
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-credit-card"></i>
-                    <span class="line-title">{{ "Payment history" | translate:"cabride" }}</span>
+                    <span class="line-title">{{ ::"Payment history" | translate:"cabride" }}</span>
                     <span ng-if="information && information.counters.paymentHistory > 0"
                           class="badge badge-positive badge-positive-custom">{{ information.counters.paymentHistory }}</span>
                 </div>
@@ -156,7 +156,7 @@
                 ng-click="loadPage('my-rides')">
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-thumb-up"></i>
-                    <span class="line-title">{{ "My rides" | translate:"cabride" }}</span>
+                    <span class="line-title">{{ ::"My rides" | translate:"cabride" }}</span>
                     <span ng-if="information && information.counters.rides > 0"
                           class="badge badge-positive badge-positive-custom">{{ information.counters.rides }}</span>
                 </div>
@@ -167,7 +167,7 @@
                 ng-click="loadPage('my-payments')">
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-credit-card"></i>
-                    <span class="line-title">{{ "My payments" | translate:"cabride" }}</span>
+                    <span class="line-title">{{ ::"My payments" | translate:"cabride" }}</span>
                 </div>
             </li>
 
