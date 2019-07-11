@@ -9,7 +9,7 @@
         </button>
 
         <button ng-if="!isTaxiLayout()"
-                ng-click="toggleRightMenu()"
+                ng-click="openMenu()"
                 class="button button-clear header-item cabride toggle-taxi-menu">
             <i class="icon ion-sb-more"></i>
         </button>
@@ -29,7 +29,7 @@
                 <div ng-if="payments.length == 0"
                      class="list">
                     <div class="item item-custom text-center">
-                        <span>{{ "You have no payments" | translate:"cabride" }}</span>
+                        <span>{{ ::"You have no payments" | translate:"cabride" }}</span>
                     </div>
                 </div>
 
@@ -88,7 +88,7 @@
                 <div ng-if="cards.length == 0"
                      class="list">
                     <div class="item item-custom text-center">
-                        <span>{{ "You have no card saved" | translate:"cabride" }}</span>
+                        <span>{{ ::"You have no card saved" | translate:"cabride" }}</span>
                     </div>
                 </div>
 
@@ -119,12 +119,12 @@
         <a ng-click="statusFilter('payments')"
            class="tab-item">
             <i class="icon ion-clock"></i>
-            {{ "Payments" | translate:"cabride" }}
+            {{ ::"Payments" | translate:"cabride" }}
         </a>
         <a ng-click="statusFilter('cards')"
            class="tab-item">
             <i class="icon ion-archive"></i>
-            {{ "Saved cards" | translate:"cabride" }}
+            {{ ::"Saved cards" | translate:"cabride" }}
         </a>
     </div>
 </ion-view>

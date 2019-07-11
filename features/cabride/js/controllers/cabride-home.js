@@ -4,7 +4,7 @@
 angular.module('starter')
 .controller('CabrideHome', function ($window, $state, $scope, $rootScope, $timeout, $translate,
                                      $ionicSideMenuDelegate, Modal, Cabride, CabrideUtils, Customer,
-                                     Loader, ContextualMenu, GoogleMaps, Dialog, Location, SB) {
+                                     Loader, GoogleMaps, Dialog, Location, SB) {
     angular.extend($scope, {
         pageTitle: Cabride.settings.pageTitle,
         valueId: Cabride.getValueId(),
@@ -56,7 +56,8 @@ angular.module('starter')
     $scope.$on('$ionicView.enter', function () {
         $ionicSideMenuDelegate.canDragContent(false);
     });
-    $scope.$on('$ionicView.leave', function () {
+
+    $scope.$on('$ionicView.afterLeave', function () {
         $ionicSideMenuDelegate.canDragContent(true);
     });
 
@@ -84,18 +85,8 @@ angular.module('starter')
         return Cabride.isTaxiLayout;
     };
 
-    $scope.toggleRightMenu = function () {
-        // Toggling nav
-        ContextualMenu.toggle();
-    };
-
-    $scope.buildContextualMenu = function () {
-        $scope.removeSideMenu = ContextualMenu.set(
-            "./features/cabride/assets/templates/l1/nav/contextual-menu.html",
-            "275",
-            function () {
-                return true;
-            });
+    $scope.openMenu = function () {
+        CabrideUtils.openMenu();
     };
 
     // Passenger / Driver choice!
@@ -694,8 +685,6 @@ angular.module('starter')
     };
 
     $scope.init();
-
-    $scope.buildContextualMenu();
 
     // Asking for the current layout!
     $rootScope.$broadcast("cabride.isTaxiLayoutActive");

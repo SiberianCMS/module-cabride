@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('CabridePendingRequests', function ($scope, $translate, $state, Cabride, CabrideUtils, Dialog, Loader, ContextualMenu) {
+.controller('CabridePendingRequests', function ($scope, $translate, $state, Cabride, CabrideUtils, Dialog, Loader) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Pending requests", "cabride"),
@@ -41,9 +41,8 @@ angular.module('starter')
         return Cabride.isTaxiLayout;
     };
 
-    $scope.toggleRightMenu = function () {
-        // Toggling nav
-        ContextualMenu.toggle();
+    $scope.openMenu = function () {
+        CabrideUtils.openMenu();
     };
 
     $scope.duration = function (request) {

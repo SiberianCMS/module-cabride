@@ -9,7 +9,7 @@
         </button>
 
         <button ng-if="!isTaxiLayout()"
-                ng-click="toggleRightMenu()"
+                ng-click="openMenu()"
                 class="button button-clear header-item cabride toggle-taxi-menu">
             <i class="icon ion-sb-more"></i>
         </button>
@@ -24,7 +24,7 @@
         <div ng-if="!isLoading">
             <div ng-show="collection.length == 0"
                  class="list">
-                <div class="item item-custom text-center">{{ "You have no pending requests" | translate:"cabride" }}</div>
+                <div class="item item-custom text-center">{{ ::"You have no pending requests" | translate:"cabride" }}</div>
             </div>
 
             <div ng-if="collection.length > 0"
@@ -37,7 +37,7 @@
                         </div>
                         <div>
                             <span class="course-status {{ request.driver_status }}">{{ request.driver_status | translate:"cabride" }}</span>
-                            <span class="course-expiration {{ request.driver_status }}">{{ "Expires" }} {{ expiration(request) }}</span>
+                            <span class="course-expiration {{ request.driver_status }}">{{ ::"Expires" }} {{ expiration(request) }}</span>
                             <div class="row course-details">
                                 <div class="col-75">
                                     <span class="vehicle-type">{{ request.from_address }}</span>

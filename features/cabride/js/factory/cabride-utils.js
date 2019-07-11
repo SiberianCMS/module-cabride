@@ -2,7 +2,7 @@
  * CabrideUtils factory
  */
 angular.module('starter')
-    .factory('CabrideUtils', function (Cabride, $q) {
+    .factory('CabrideUtils', function (Cabride, ContextualMenu, $q) {
         var factory = {
             directionsService: null,
         };
@@ -29,6 +29,23 @@ angular.module('starter')
 
             return GoogleMaps.calculateRoute(pickup, dropoff, params, true);
         };*/
+
+        factory.rebuildContextualMenu = function () {
+            ContextualMenu.init(
+                "./features/cabride/assets/templates/l1/nav/contextual-menu.html",
+                275,
+                "right");
+        };
+
+        factory.openMenu = function () {
+            // Rebuild menu only on purpose!
+            if (!Cabride.isTaxiLayout) {
+                if (ContextualMenu.settings.templateUrl !== "./features/cabride/assets/templates/l1/nav/contextual-menu.html") {
+                    factory.rebuildContextualMenu();
+                }
+            }
+            ContextualMenu.open();
+        };
 
         factory.toHHMM = function (seconds) {
             var sec_num = parseInt(seconds, 10); // don't forget the second param

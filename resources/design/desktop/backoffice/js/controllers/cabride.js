@@ -57,6 +57,8 @@ App.config(function ($routeProvider) {
             .setText(payload.message)
             .isError(false)
             .show();
+
+            $scope.offset = 0;
         }).error(function (payload){
             $scope.message
             .setText(payload.message)

@@ -1,15 +1,15 @@
 angular.module('starter')
 .controller('CabrideContextualMenuController', function ($scope, $rootScope, $state,
                                                          $ionicSideMenuDelegate,
-                                                         $ionicHistory, Customer,
+                                                         $ionicHistory, Customer, Pages,
                                                          SB, $timeout, HomepageLayout, Cabride) {
     angular.extend($scope, {
         isOnline: false,
         customer: null,
         information: null,
         isLoggedIn: Customer.isLoggedIn(),
-        isPassenger: false,
-        isDriver: false,
+        isPassenger: Cabride.isPassenger,
+        isDriver: Cabride.isDriver,
         cabride: null,
         taxiHeaderStyle: {
             backgroundImage: 'url("./features/cabride/assets/templates/images/008-background.png")'
@@ -24,12 +24,8 @@ angular.module('starter')
      * @param identifier
      */
     $scope.loadPage = function (identifier) {
-        if ($ionicSideMenuDelegate.isOpenLeft()) {
-            $ionicSideMenuDelegate.toggleLeft();
-        }
-        if ($ionicSideMenuDelegate.isOpenRight()) {
-            $ionicSideMenuDelegate.toggleRight();
-        }
+        $rootScope.$broadcast("sideMenu.close");
+
         switch (identifier) {
             case "my-rides":
                 $state.go("cabride-my-rides");
@@ -98,12 +94,8 @@ angular.module('starter')
         return customer;
     });
 
-    HomepageLayout
-    .getFeatures()
-    .then(function (features) {
-        $scope.cabride = _.find(features.options, function (option) {
-            return option.code === "cabride";
-        });
+    $scope.cabride = _.find(Pages.getActivePages(), function (option) {
+        return option.code === "cabride";
     });
 
     /**

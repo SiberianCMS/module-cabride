@@ -1,6 +1,6 @@
 angular.module('starter')
 .controller('CabrideAcceptedRequests', function ($scope, $translate, $state, Cabride, CabrideUtils, Dialog, Loader,
-                                                 ContextualMenu, $window) {
+                                                 $window) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Accepted requests", "cabride"),
@@ -30,9 +30,8 @@ angular.module('starter')
         return Cabride.isTaxiLayout;
     };
 
-    $scope.toggleRightMenu = function () {
-        // Toggling nav
-        ContextualMenu.toggle();
+    $scope.openMenu = function () {
+        CabrideUtils.openMenu();
     };
 
     $scope.distance = function (request) {

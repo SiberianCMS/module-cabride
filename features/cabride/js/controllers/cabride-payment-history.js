@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('CabridePaymentHistory', function ($scope, $translate, $ionicScrollDelegate, Cabride, ContextualMenu,
+.controller('CabridePaymentHistory', function ($scope, $translate, $ionicScrollDelegate, Cabride,
                                                Dialog) {
 
     angular.extend($scope, {
@@ -42,9 +42,8 @@ angular.module('starter')
         return Cabride.isTaxiLayout;
     };
 
-    $scope.toggleRightMenu = function () {
-        // Toggling nav
-        ContextualMenu.toggle();
+    $scope.openMenu = function () {
+        CabrideUtils.openMenu();
     };
 
     $scope.calendar = function (timestampSeconds) {

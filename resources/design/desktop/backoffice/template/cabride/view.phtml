@@ -1,4 +1,4 @@
-<sb-section title="'<?php echo p__js("cabride", "Settings", "'"); ?>'">
+<sb-section title="'<?php echo p__js("cabride", "Settings & maintenance", "'"); ?>'">
 
     <form ng-submit="save()">
         <div class="form-group">
@@ -37,7 +37,7 @@
             <div class="form-group">
                 <div class="col-md-12">
                     <button type="submit"
-                            class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                            class="btn btn-primary right"><?php echo p__("cabride", "Save & restart"); ?></button>
                     <sb-loader is_visible="form_loader_is_visible"
                                type="'inner_content'"
                                size="'small'"
@@ -50,35 +50,6 @@
             <div class="clear"></div>
 
         </div>
-    </form>
-
-</sb-section>
-
-<sb-section title="'<?php echo p__js("cabride", "Maintenance", "'"); ?>'">
-
-    <form ng-submit="restartSocket()">
-        <div class="form-group">
-            <div class="col-md-12">
-                <div class="alert alert-warning">
-                    <?php echo __("You can force the WebSocket server instance to restart below.") ?>
-                </div>
-            </div>
-
-            <div class="col-md-12">
-                <button type="submit"
-                        class="btn btn-primary right">
-                    <i class="fa fa-play"></i> <?php echo __("Restart the WebSocket"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible"
-                           type="'inner_content'"
-                           size="'small'"
-                           animation="'no'"
-                           class="form_loader"></sb-loader>
-                <div class="clear"></div>
-            </div>
-
-            <div class="clear"></div>
-        </div>
-
     </form>
 
 </sb-section>
@@ -99,7 +70,7 @@
 
         <div ng-if="!logError"
              class="col-md-12">
-            <textarea style="width: 100%; font-family: monospace; font-weight: 11px;"
+            <textarea style="width: 100%; font-family: monospace; font-size: 11px;"
                       readonly="readonly"
                       rows="20">{{ logContent }}</textarea>
             <div class="clear"></div>

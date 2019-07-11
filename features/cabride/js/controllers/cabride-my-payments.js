@@ -1,6 +1,6 @@
 angular.module('starter')
 .controller('CabrideMyPayments', function ($scope, $filter, $translate, $ionicScrollDelegate,
-                                           Cabride, CabrideUtils, Dialog, ContextualMenu) {
+                                           Cabride, CabrideUtils, Dialog) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("My payments", "cabride"),
@@ -65,9 +65,8 @@ angular.module('starter')
         return Cabride.isTaxiLayout;
     };
 
-    $scope.toggleRightMenu = function () {
-        // Toggling nav
-        ContextualMenu.toggle();
+    $scope.openMenu = function () {
+        CabrideUtils.openMenu();
     };
 
     $scope.calendar = function (timestampSeconds) {

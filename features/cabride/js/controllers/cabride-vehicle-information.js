@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('CabrideVehicleInformation', function ($scope, $translate, Cabride, Dialog, Loader, ContextualMenu) {
+.controller('CabrideVehicleInformation', function ($scope, $translate, Cabride, Dialog, Loader) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Vehicle information", "cabride"),
@@ -48,9 +48,8 @@ angular.module('starter')
         return Cabride.isTaxiLayout;
     };
 
-    $scope.toggleRightMenu = function () {
-        // Toggling nav
-        ContextualMenu.toggle();
+    $scope.openMenu = function () {
+        CabrideUtils.openMenu();
     };
 
     $scope.changeType = function () {
