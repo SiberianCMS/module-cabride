@@ -418,7 +418,7 @@ angular.module('starter')
                         request: payload.request,
                         userType: userType
                     }),
-                    animation: 'slide-in-up'
+                    animation: "slide-in-right-left"
                 }).then(function (modal) {
                     factory.rdModal = modal;
                     factory.rdModal.show();
@@ -440,7 +440,7 @@ angular.module('starter')
                         factory.rcModal.hide();
                     }
                 }),
-                animation: 'slide-in-up'
+                animation: "slide-in-right-left"
             }).then(function (modal) {
                 factory.rcModal = modal;
                 factory.rcModal.show();
@@ -460,7 +460,7 @@ angular.module('starter')
                         factory.clModal.hide();
                     }
                 }),
-                animation: 'slide-in-up'
+                animation: "slide-in-right-left"
             }).then(function (modal) {
                 factory.clModal = modal;
                 factory.clModal.show();

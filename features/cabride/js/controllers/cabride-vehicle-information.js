@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('CabrideVehicleInformation', function ($scope, $translate, Cabride, Dialog, Loader) {
+.controller('CabrideVehicleInformation', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Vehicle information", "cabride"),

@@ -463,7 +463,7 @@ angular.module('starter')
                 },
                 vehicles: vehicles
             }),
-            animation: 'slide-in-up'
+            animation: "slide-in-right-left"
         }).then(function (modal) {
             $scope.vtModal = modal;
             $scope.vtModal.show();
@@ -488,7 +488,7 @@ angular.module('starter')
                 paymentTypes: paymentTypes,
                 vaults: $scope.vaults
             }),
-            animation: 'slide-in-up'
+            animation: "slide-in-right-left"
         }).then(function (modal) {
             $scope.ptModal = modal;
             $scope.ptModal.show();

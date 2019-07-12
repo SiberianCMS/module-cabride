@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('CabrideCompletedRides', function ($scope, $translate, Cabride, Dialog) {
+.controller('CabrideCompletedRides', function ($scope, $translate, Cabride, CabrideUtils, Dialog) {
     angular.extend($scope, {
         isLoading: false,
         pageTitle: $translate.instant("Completed requests", "cabride"),
