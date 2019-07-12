@@ -2,9 +2,9 @@
  * Cabride factory
  */
 angular.module('starter')
-    .factory('Cabride', function (CabrideSocket, CabridePayment, Customer, Application, Pages, Modal, Location, SB,
+    .factory('Cabride', function ($ocLazyLoad, $injector, CabrideSocket, CabridePayment, Customer, Application, Pages, Modal, Location, SB,
                                   $q, $session, $rootScope, $interval, $timeout, $log, $ionicPlatform, ContextualMenu,
-                                  $pwaRequest, PushService, Push, Dialog, Loader, $state, $ionicSideMenuDelegate) {
+                                  $pwaRequest, Dialog, Loader, $state, $ionicSideMenuDelegate) {
         var factory = {
             value_id: null,
             settings: {
@@ -610,19 +610,25 @@ angular.module('starter')
          * Ensure user is registered for pushes!
          */
         factory.updateUserPush = function () {
-            PushService
-                .isReadyPromise
+            $ocLazyLoad
+                .load("./features/push_notification/push_notification.js")
                 .then(function () {
-                    $pwaRequest.post('/cabride/mobile_view/update-user-push', {
-                        urlParams: {
-                            value_id: factory.value_id,
-                            device: Push.device_type,
-                            token: Push.device_token
-                        },
-                        cache: false
-                    });
-                }, function () {
-                    $log.info("[Ride] not registering user device for push.");
+                    var PushService = $injector.get("PushService");
+                    var Push = $injector.get("Push");
+                    PushService
+                        .isReadyPromise
+                        .then(function () {
+                            $pwaRequest.post('/cabride/mobile_view/update-user-push', {
+                                urlParams: {
+                                    value_id: factory.value_id,
+                                    device: Push.device_type,
+                                    token: Push.device_token
+                                },
+                                cache: false
+                            });
+                        }, function () {
+                            $log.info("[Ride] not registering user device for push.");
+                        });
                 });
         };
 
