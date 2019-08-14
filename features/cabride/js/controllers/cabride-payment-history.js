@@ -1,6 +1,6 @@
 angular.module('starter')
 .controller('CabridePaymentHistory', function ($scope, $translate, $ionicScrollDelegate, Cabride,
-                                               Dialog) {
+                                               CabrideUtils, Dialog) {
 
     angular.extend($scope, {
         isLoading: false,
