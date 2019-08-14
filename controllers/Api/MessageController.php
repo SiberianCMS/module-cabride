@@ -52,7 +52,7 @@ class Cabride_Api_MessageController extends Base
         } catch (\Exception $e) {
             $payload = [
                 "error" => true,
-                "message" => __("An unknown error occurred, please try again later.")
+                "message" => $e->getMessage()
             ];
         }
 
