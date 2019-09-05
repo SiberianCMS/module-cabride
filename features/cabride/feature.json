@@ -95,7 +95,6 @@
     ],
     "files": [
         "js/services/cabride-socket.js",
-        "js/services/cabride-payment.js",
         "js/factory/cabride.js",
         "js/factory/cabride-utils.js",
         "js/filters/cabride-status-filter.js",

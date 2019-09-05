@@ -5,6 +5,7 @@ namespace Cabride\Model;
 use Core\Model\Base;
 use Siberian\Account;
 use Siberian\Exception;
+use Siberian\File;
 use Siberian\Json;
 use Siberian\Api;
 use Siberian_Google_Geocoding as Geocoding;
@@ -360,7 +361,7 @@ class Cabride extends Base
                 "auth" => $serverAuth, // Defaults to basic
                 "bearer" => $cabrideUser->getBearerToken()
             ];
-            file_put_contents($configFile, Json::encode($config));
+            File::putContents($configFile, Json::encode($config));
 
         } else {
             // Update ACL to full access after any updates, in case there is new API Endpoints

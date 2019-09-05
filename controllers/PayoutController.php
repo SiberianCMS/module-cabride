@@ -7,6 +7,7 @@ use Cabride\Model\Payout;
 use Cabride\Model\PayoutBulk;
 use Core\Model\Base;
 use Siberian\Exception;
+use Siberian\File;
 use Siberian\Json;
 use Siberian\Mail;
 
@@ -298,7 +299,7 @@ class Cabride_PayoutController extends Application_Controller_Default
 
             // uniqid
             $csvPath = rpath("/var/tmp/" . uniqid() . ".csv");
-            file_put_contents($csvPath, $csvText);
+            File::putContents($csvPath, $csvText);
 
             $payload = [
                 "success" => true,
@@ -340,7 +341,7 @@ class Cabride_PayoutController extends Application_Controller_Default
 
             // tmp file to download!
             $csvPath = path("/var/tmp/" . uniqid() . ".csv");
-            file_put_contents($csvPath, $csvText);
+            File::putContents($csvPath, $csvText);
 
             $this->_download($csvPath, "payout-bulk-{$bulkId}.csv");
 

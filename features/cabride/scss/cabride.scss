@@ -782,3 +782,13 @@
 .pac-container {
   pointer-events: auto !important;
 }
+
+/** CSS Fix for layouts */
+.has-footer-fixed {
+  .cabride {
+    .tabs-icon-top {
+      bottom: calc(constant(safe-area-inset-bottom) + 55px);
+      bottom: calc(env(safe-area-inset-bottom) + 55px);
+    }
+  }
+}
