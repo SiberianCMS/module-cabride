@@ -119,6 +119,23 @@ class Cabride extends Base
     }
 
     /**
+     * GET Feature url for app init
+     *
+     * @param $optionValue
+     * @return array
+     */
+    public function getAppInitUris ($optionValue)
+    {
+        $featureUrl = __url("/cabride/mobile_home/index");
+        $featurePath = __path("/cabride/mobile_home/index");
+
+        return [
+            "featureUrl" => $featureUrl,
+            "featurePath" => $featurePath,
+        ];
+    }
+
+    /**
      * @return int|null
      * @throws Exception
      * @throws \Zend_Exception

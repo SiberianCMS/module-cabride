@@ -51,7 +51,7 @@ angular.module('starter')
             Application.loaded.then(function () {
                 // App runtime!
                 var cabride = _.find(Pages.getActivePages(), {
-                    code: 'cabride'
+                    code: "cabride"
                 });
 
                 // Module is not in the App!
