@@ -45,10 +45,16 @@ $schemas['cabride_payment'] = [
         'type' => 'int(11) unsigned',
         'null' => true,
     ],
-    'amount' => [
+    'amount_authorized' => [
         'type' => 'float',
     ],
-    'amount_charged' => [
+    'amount_authorized_intent' => [
+        'type' => 'float',
+    ],
+    'amount_captured' => [
+        'type' => 'float',
+    ],
+    'amount_captured_intent' => [
         'type' => 'float',
     ],
     'brand' => [
@@ -70,6 +76,12 @@ $schemas['cabride_payment'] = [
         'null' => true,
     ],
     'stripe_token' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'stripe_payment_intent' => [
         'type' => 'varchar(256)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',

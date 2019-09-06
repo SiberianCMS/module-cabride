@@ -1,22 +1,26 @@
 angular.module('starter')
-.controller('CabridePaymentType', function ($scope, Dialog, CabridePayment, Loader) {
+.controller('CabridePaymentType', function ($scope, Cabride, Dialog, PaymentStripe, Loader) {
     angular.extend($scope, {
         hasPaymentType: false,
         addEditCard: false,
-        paymentProvider: false
+        paymentProvider: false,
+        cardActions: []
     });
 
     $scope.select = function (paymentType) {
         switch (paymentType) {
+            case "stripe":
             case "credit-card":
                 Loader.show();
 
-                CabridePayment
-                .addEditCard()
+                PaymentStripe
+                .setPublishableKey(Cabride.settings.stripePublicKey);
+
+                PaymentStripe
+                .cardForm($scope.saveCardSuccess, $scope.saveCardError)
                 .then(function () {
+                    $scope.paymentProvider = Cabride.settings.paymentProvider;
                     $scope.addEditCard = true;
-                    $scope.paymentProvider = CabridePayment.settings.paymentProvider;
-                }).then(function () {
                     Loader.hide();
                 });
 
@@ -30,6 +34,10 @@ angular.module('starter')
                 });
                 break;
         }
+    };
+
+    $scope.getSetupIntentEndpoint = function () {
+        return "/cabride/mobile_payment/get-setup-intent/value_id/" + Cabride.value_id;
     };
 
     $scope.selectVault = function (vault) {
@@ -48,12 +56,14 @@ angular.module('starter')
         return "./features/cabride/assets/templates/images/014-cc.svg";
     };
 
-    $scope.saveCard = function () {
+    $scope.saveCardSuccess = function (tokenResult) {
         Loader.show();
 
-        CabridePayment
-        .saveCard()
+        Cabride
+        .saveCard(tokenResult, "stripe")
         .then(function (payload) {
+            PaymentStripe.clearForm();
+
             $scope.vaults = payload.vaults;
             $scope.addEditCard = false;
         }, function (errorMessage) {
@@ -62,4 +72,15 @@ angular.module('starter')
             Loader.hide();
         });
     };
+
+    $scope.saveCardError = function (error) {
+        Dialog.alert("Error", error, "OK", 5000, "cabride");
+    };
+
+    $scope.cardActions = [
+        {
+            callback: $scope.selectVault,
+            icon: "icon ion-android-arrow-forward"
+        }
+    ];
 });

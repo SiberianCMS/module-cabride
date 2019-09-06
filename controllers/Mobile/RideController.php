@@ -947,7 +947,6 @@ class Cabride_Mobile_RideController extends MobileController
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
             $requestId = $request->getParam("requestId", false);
-            $route = $request->getParam("route", false);
 
             $cabride = (new Cabride())->find($valueId, "value_id");
             $ride = (new Request())->find($requestId);
@@ -959,7 +958,6 @@ class Cabride_Mobile_RideController extends MobileController
 
             $clientId = $ride->getClientId();
             $client = (new Client())->find($clientId);
-            $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($customerId, "customer_id");
 
             $requestDriver = (new RequestDriver())->find([
@@ -999,6 +997,7 @@ class Cabride_Mobile_RideController extends MobileController
             // Create the payment
             $payment = new Payment();
 
+            // We will now just capture the "real amount" (we authorized up to the max of range)
             if ($ride->getPaymentType() === "credit-card") {
                 $vaultId = $ride->getClientVaultId();
 

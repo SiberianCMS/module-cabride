@@ -1,5 +1,6 @@
 <?php
 
+use Siberian\File;
 use Siberian\Json;
 use Siberian\Exception;
 use Cabride\Model\Cabride;
@@ -59,7 +60,7 @@ class Cabride_Backoffice_ViewController extends Backoffice_Controller_Default
             Cabride::initApiUser($settings["cabride_server_auth"], $settings["cabride_server_port"]);
 
             $logPath = path("var/log/modules/cabride.log");
-            file_put_contents($logPath, "-- RESTART -- \n");
+            File::putContents($logPath, "-- RESTART -- \n");
 
             // Call for a restart!
             exec("pkill -9 node_64 2&>1");

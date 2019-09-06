@@ -65,6 +65,10 @@ $schemas['cabride_client_vault'] = [
         'type' => 'varchar(1024)',
         'null' => true,
     ],
+    'payment_method' => [
+        'type' => 'varchar(1024)',
+        'null' => true,
+    ],
     'is_removed' => [
         'type' => 'tinyint(1)',
         'default' => '0',

@@ -2,7 +2,7 @@
  * Cabride factory
  */
 angular.module('starter')
-    .factory('Cabride', function (CabrideSocket, CabridePayment, Customer, Application, Pages, Modal, Location, SB,
+    .factory('Cabride', function (CabrideSocket, Customer, Application, Pages, Modal, Location, SB,
                                   $q, $session, $rootScope, $interval, $timeout, $log, $ionicPlatform, ContextualMenu,
                                   $pwaRequest, PushService, Push, Dialog, Loader, $state, $ionicSideMenuDelegate) {
         var factory = {
@@ -744,8 +744,6 @@ angular.module('starter')
             } else {
                 return factory.initPromise.promise;
             }
-
-            CabridePayment.init();
 
             factory
                 .fetchSettings()
