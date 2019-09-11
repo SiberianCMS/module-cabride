@@ -9,6 +9,7 @@ angular.module('starter')
         filterName: "payments",
         payments: [],
         cards: [],
+        cardActions: []
     });
 
     $scope.cs = function () {
@@ -89,6 +90,13 @@ angular.module('starter')
         }
         $ionicScrollDelegate.scrollTop();
     };
+
+    $scope.cardActions = [
+        {
+            callback: $scope.deleteVault,
+            icon: "icon ion-trash-a"
+        }
+    ];
 
     $scope.$on('cabride.updateRequest', function (event, request) {
         $scope.refresh();

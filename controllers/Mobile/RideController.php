@@ -14,6 +14,9 @@ use Siberian\Json;
 use Siberian_Google_Geocoding as Geocoding;
 use Cabride\Controller\Mobile as MobileController;
 
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
+
 /**
  * Class Cabride_Mobile_RideController
  */
@@ -124,6 +127,11 @@ class Cabride_Mobile_RideController extends MobileController
 
             $cardData = [];
             foreach ($cards as $card) {
+                // Just in case, we skip "card_xxx" old vaults!
+                if (!empty($card->getCardToken())) {
+                    continue;
+                }
+
                 $data = $card->getData();
 
                 unset($data["raw_payload"]);
@@ -185,6 +193,7 @@ class Cabride_Mobile_RideController extends MobileController
                 ->setCancelNote($cancelReason["message"])
                 ->save();
 
+            $ride->cancelAuthorization();
             $ride->changeStatus("aborted", Request::SOURCE_CLIENT);
 
             $payload = [
@@ -239,6 +248,7 @@ class Cabride_Mobile_RideController extends MobileController
                 ->setCancelNote($cancelReason["message"])
                 ->save();
 
+            $ride->cancelAuthorization();
             $ride->changeStatus("aborted", Request::SOURCE_DRIVER);
 
             $payload = [
@@ -994,40 +1004,23 @@ class Cabride_Mobile_RideController extends MobileController
                 $stripeCost = round($ride->getCost() * 100);
             }
 
-            // Create the payment
-            $payment = new Payment();
+            // Fetch the payment
+            $payment = (new Payment())->find($ride>getId(), "request_id");
 
             // We will now just capture the "real amount" (we authorized up to the max of range)
             if ($ride->getPaymentType() === "credit-card") {
-                $vaultId = $ride->getClientVaultId();
+                Stripe::setApiKey($cabride->getStripeSecretKey());
 
-                $vault = (new ClientVault())->find($vaultId);
-
-                \Stripe\Stripe::setApiKey($cabride->getStripeSecretKey());
-                $charge = \Stripe\Charge::create([
-                    "amount" => $stripeCost,
-                    "currency" => $cabride->getCurrency(),
-                    "source" => $vault->getCardToken(),
-                    "customer" => $client->getStripeCustomerToken(),
-                    "description" => "[CabRide] client_id {$clientId}",
-                    "metadata" => [
-                        "request_id" => $ride->getId(),
-                        "client_id" => $clientId,
-                        "value_id" => $valueId,
-                        "app_id" => $application->getId(),
-                    ]
+                $intent = PaymentIntent::retrieve($payment->getStripePaymentIntent());
+                $intent->capture([
+                    "amount_to_capture" => $stripeCost
                 ]);
 
-                if (!$charge["paid"]) {
+                if ($intent["status"] === "succeeded") {
+                    $status = "paid";
+                } else {
                     $status = "unpaid";
                 }
-
-                $payment
-                    ->setBrand($vault->getBrand())
-                    ->setExp($vault->getExp())
-                    ->setLast($vault->getLast())
-                    ->setStripeToken($charge["id"])
-                    ->setProvider("stripe");
             }
 
             $payment
@@ -1036,10 +1029,9 @@ class Cabride_Mobile_RideController extends MobileController
                 ->setDriverId($driver->getId())
                 ->setClientId($client->getId())
                 ->setClientVaultId($ride->getClientVaultId())
-                ->setAmountCharged($stripeCost)
                 ->setAmount($ride->getCost())
-                ->setCurrency($cabride->getCurrency())
-                ->setMethod($ride->getPaymentType())
+                ->setAmountCaptured($ride->getCost())
+                ->setAmountCapturedIntent($stripeCost)
                 ->setStatus($status)
                 ->save();
 

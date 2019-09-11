@@ -69,4 +69,8 @@ $schemas['cabride_client'] = [
         'type' => 'text',
         'null' => true,
     ],
+    'token_archive' => [
+        'type' => 'longtext',
+        'null' => true,
+    ],
 ];

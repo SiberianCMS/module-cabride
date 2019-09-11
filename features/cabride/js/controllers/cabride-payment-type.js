@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('CabridePaymentType', function ($scope, Cabride, Dialog, PaymentStripe, Loader) {
+.controller('CabridePaymentType', function ($scope, $timeout, Cabride, Dialog, PaymentStripe, Loader) {
     angular.extend($scope, {
         hasPaymentType: false,
         addEditCard: false,
@@ -14,14 +14,17 @@ angular.module('starter')
                 Loader.show();
 
                 PaymentStripe
-                .setPublishableKey(Cabride.settings.stripePublicKey);
-
-                PaymentStripe
-                .cardForm($scope.saveCardSuccess, $scope.saveCardError)
+                .setPublishableKey(Cabride.settings.stripePublicKey)
                 .then(function () {
-                    $scope.paymentProvider = Cabride.settings.paymentProvider;
-                    $scope.addEditCard = true;
-                    Loader.hide();
+                    PaymentStripe
+                    .cardForm($scope.saveCardSuccess, $scope.saveCardError)
+                    .then(function () {
+                        $scope.paymentProvider = Cabride.settings.paymentProvider;
+                        $scope.addEditCard = true;
+                        Loader.hide();
+                    });
+                }, function (error) {
+                    Dialog.alert("Error", error, "OK", -1, "payment_stripe");
                 });
 
                 break;
@@ -64,7 +67,10 @@ angular.module('starter')
         .then(function (payload) {
             PaymentStripe.clearForm();
 
-            $scope.vaults = payload.vaults;
+            $timeout(function () {
+                $scope.vaults = angular.copy(payload.vaults);
+            });
+
             $scope.addEditCard = false;
         }, function (errorMessage) {
             Dialog.alert("Error", errorMessage, "OK", 5000, "cabride");

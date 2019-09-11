@@ -94,6 +94,11 @@ class Cabride_Mobile_RequestController extends MobileController
             $clientVaults = (new ClientVault())->fetchForClientId($client->getId());
             $vaults = [];
             foreach ($clientVaults as $clientVault) {
+                // Just in case, we skip "card_xxx" old vaults!
+                if (!empty($clientVault->getCardToken())) {
+                    continue;
+                }
+
                 // Filter vaults by type!
                 if ($clientVault->getPaymentProvider() === $type) {
                     $data = $clientVault->toJson();
@@ -153,7 +158,7 @@ class Cabride_Mobile_RequestController extends MobileController
             $drivers = $vehicleType["drivers"];
 
             $vehicle = (new Vehicle())->find($vehicleType["id"]);
-            (new Request())->createRideRequest(
+            $request = (new Request())->createRideRequest(
                 $client->getId(), $vehicle, $valueId, $drivers, $cashOrVault, $route, $staticMap, Request::SOURCE_CLIENT);
 
             $payload = [

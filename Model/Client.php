@@ -3,6 +3,7 @@
 namespace Cabride\Model;
 
 use Core\Model\Base;
+use Siberian\Json;
 
 /**
  * Class Client
@@ -44,5 +45,39 @@ class Client extends Base
             return true;
         }
         return false;
+    }
+
+    /**
+     * @return $this
+     * @throws \Zend_Exception
+     */
+    public function archiveStripCustomerToken()
+    {
+        $token = $this->getStripeCustomerToken();
+        $archivedTokens = Json::decode($this->getTokenArchive());
+        $archivedTokens[] = [
+            "stripe_customer_token" => $token,
+            "timestamp" => time()
+        ];
+
+        $this
+            ->setTokenArchive(Json::encode($archivedTokens))
+            ->save();
+
+        // We also must archive old card vaults associated with this user!
+        /**
+         * @var $clientVaults ClientVault[]
+         */
+        $clientVaults = (new ClientVault())->findAll([
+            "client_id = ?" => $this->getId()
+        ]);
+
+        foreach ($clientVaults as $clientVault) {
+            $clientVault
+                ->setIsRemoved(1)
+                ->save();
+        }
+
+        return $this;
     }
 }

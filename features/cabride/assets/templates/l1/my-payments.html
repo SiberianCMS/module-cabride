@@ -94,20 +94,8 @@
 
                 <div ng-if="cards.length > 0"
                      class="list">
-                    <div ng-repeat="card in cards"
-                         class="item item-custom item-icon-left item-icon-right">
-                        <i class="icon">
-                            <img src="{{ creditCardBrand(card.brand) }}"
-                                 style="height: 60%; margin-right: 15px;" />
-                        </i>
-                        <span class="saved-card">
-                            <span class="last-star">**** **** **** </span>
-                            <span class="last-four">{{ card.last }}</span>
-                            <span class="exp"> - {{ card.exp }}</span>
-                        </span>
-                        <i ng-click="deleteVault(card)"
-                           class="icon ion-trash-a"></i>
-                    </div>
+                    <payment-stripe-cards cards="cards"
+                                          actions="cardActions"></payment-stripe-cards>
                 </div>
             </div>
 

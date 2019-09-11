@@ -360,6 +360,7 @@ angular.module('starter')
         }
         return {
             action: "none",
+            class: "ng-hide",
             text: ""
         };
     };
@@ -450,7 +451,7 @@ angular.module('starter')
         .fromTemplateUrl("features/cabride/assets/templates/l1/modal/vehicle-type.html", {
             scope: angular.extend($scope.$new(true), {
                 close: function () {
-                    $scope.vtModal.hide();
+                    $scope.vtModal.remove();
                 },
                 select: function (vehicleType) {
                     $scope.selectVehicle(vehicleType);
@@ -479,14 +480,14 @@ angular.module('starter')
         .fromTemplateUrl("features/cabride/assets/templates/l1/modal/payment-type.html", {
             scope: angular.extend($scope.$new(true), {
                 close: function () {
-                    $scope.ptModal.hide();
+                    $scope.ptModal.remove();
                 },
                 validateRequest: function (cashOrVault) {
                     $scope.validateRequest(cashOrVault);
                 },
                 settings: Cabride.settings,
                 paymentTypes: paymentTypes,
-                vaults: $scope.vaults
+                vaults: angular.copy($scope.vaults)
             }),
             animation: "slide-in-right-left"
         }).then(function (modal) {
@@ -512,21 +513,15 @@ angular.module('starter')
             Dialog
             .alert("Request sent", "Please now wait for a driver!", "OK", 2350)
             .then(function () {
-                $scope.ptModal.hide();
-                $scope.vtModal.hide();
+                $scope.ptModal.remove();
+                $scope.vtModal.remove();
                 $state.go("cabride-my-rides");
             });
             // Clear ride
             $scope.clearSearch();
         }, function (error) {
             Loader.hide();
-            Dialog
-            .alert("Sorry!", error.message, "OK")
-            .then(function () {
-                $scope.ptModal.hide();
-                $scope.vtModal.hide();
-                $state.go("cabride-my-rides");
-            });
+            Dialog.alert("Sorry!", error.message, "OK");
         });
     };
 

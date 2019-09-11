@@ -131,8 +131,8 @@ class Cabride extends Base
         $featurePath = __path("/cabride/mobile_home/index");
 
         return [
-            "featureUrl" => $featureUrl,
-            "featurePath" => $featurePath,
+            "featureUrl" => $featureUrl . "/index",
+            "featurePath" => $featurePath . "/index",
         ];
     }
 
