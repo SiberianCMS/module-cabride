@@ -3,8 +3,8 @@
 namespace Cabride\Form;
 
 use Siberian_Form_Abstract;
-use Cabride\Model\Stripe\Currency;
-use Cabride\Model\Timezone;
+use PaymentStripe\Model\Currency;
+use PaymentStripe\Model\Application as StripeApplication;
 
 /**
  * Class Cabride
@@ -19,6 +19,8 @@ class Cabride extends Siberian_Form_Abstract
     public function init()
     {
         parent::init();
+
+        $stripeIsAvailable = StripeApplication::isAvailable();
 
         $this
             ->setAction(__path("/cabride/application/editpost"))
@@ -108,23 +110,33 @@ RAW;
             ["search_timeout", "search_radius", "course_mode"],
             p__("cabride", "Rides"));
 
-        $accepted_payments = $this->addSimpleSelect(
-            "accepted_payments",
-            p__("cabride", "Accepted payments"),
-            [
+
+
+        $acceptedPaymentMethods = [
+            "cash" => p__("cabride", "Cash"),
+        ];
+
+        if ($stripeIsAvailable) {
+            $acceptedPaymentMethods = [
                 "credit-card" => p__("cabride", "Credit card"),
                 "cash" => p__("cabride", "Cash"),
                 "all" => p__("cabride", "Credit card & Cash"),
-            ]);
+            ];
+        }
 
-        $paymentProvider = $this->addSimpleSelect(
-            "payment_provider",
-            p__("cabride", "Payment provider"),
-            [
-                "stripe" => p__("cabride", "Stripe (Credit card)"),
-                //"twocheckout" => p__("cabride", "2 Checkout (Credit card)"),
-                //"braintree" => p__("cabride", "BrainTree (Credit card & PayPal)"),
-            ]);
+        $accepted_payments = $this->addSimpleSelect(
+            "accepted_payments",
+            p__("cabride", "Accepted payments"),
+            $acceptedPaymentMethods);
+
+        if ($stripeIsAvailable) {
+            $paymentProvider = $this->addSimpleSelect(
+                "payment_provider",
+                p__("cabride", "Payment provider"),
+                [
+                    "stripe" => p__("cabride", "Stripe (Credit card)"),
+                ]);
+        }
 
         $commissionType = $this->addSimpleSelect(
             "commission_type",

@@ -22,22 +22,10 @@ if (!$settings->getId()) {
     $settings->reload();
 }
 
-$formStripe = new FormStripe();
-$formStripe->setValueId($valueId);
-
-$formTwocheckout = new FormTwocheckout();
-$formTwocheckout->setValueId($valueId);
-
-$formBraintree = new FormBraintree();
-$formBraintree->setValueId($valueId);
-
 if ($settings->getId()) {
     $settingsData = $settings->getData();
 
     $formSettings->populate($settingsData);
-    $formStripe->populate($settingsData);
-    $formTwocheckout->populate($settingsData);
-    $formBraintree->populate($settingsData);
 }
 
 ?>
@@ -56,64 +44,12 @@ if ($settings->getId()) {
                     </div>
                 </div>
             </div>
-
-            <div id="apis_content"
-                 class="content solo-page sb-tour">
-
-                <h3 class="title-editor border-blue text-center">
-                    <?php echo p__("cabride", "Payment API credentials"); ?>
-                </h3>
-                <div class="subcontent content-color">
-                    <div class="col-md-12">
-                        <div class="form-payment"
-                             rel="stripe">
-                            <h4 class="title-editor no-border-radius title-feature-indent">
-                                <?php echo p__("cabride", "Stripe") ?>
-                            </h4>
-                            <div class="container-fluid content-feature">
-                                <br />
-                                <?php echo $formStripe ?>
-                            </div>
-
-                            <br />
-                        </div>
-
-                        <div class="form-payment"
-                             rel="twocheckout">
-                            <h4 class="title-editor no-border-radius title-feature-indent">
-                                <?php /**echo p__("cabride", "2Checkout")*/ ?>
-                            </h4>
-                            <div class="container-fluid content-feature">
-                                <br />
-                                <?php echo $formTwocheckout ?>
-                            </div>
-
-                            <br />
-                        </div>
-
-                        <div class="form-payment"
-                             rel="braintree">
-                            <h4 class="title-editor no-border-radius title-feature-indent">
-                                <?php /**echo p__("cabride", "BrainTree")*/ ?>
-                            </h4>
-                            <div class="container-fluid content-feature">
-                                <br />
-                                <?php echo $formBraintree ?>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-
-            </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
 $(document).ready(function () {
     bindForms("#settings_content");
-    bindForms("#apis_content");
 
     let commissionType = $("#commission_type");
 
@@ -145,48 +81,6 @@ $(document).ready(function () {
     };
 
     updateCommission();
-
-    let paymentProvider = $("#payment_provider");
-
-    paymentProvider.off("change");
-    paymentProvider.on("change", function () {
-        updatePaymentProvider();
-    });
-
-    let updatePaymentProvider = function () {
-        $(".form-payment").hide();
-        let value = paymentProvider.val();
-        $(".form-payment[rel='" + value + "']").show();
-    };
-
-    updatePaymentProvider();
-
-    // Currency
-    let currency = $("#currency");
-    let acceptedPayments = $("#accepted_payments");
-    let lineProvider = $("#control-group_payment_provider");
-
-    currency.off("change");
-    currency.on("change", function () {
-        updateCurrency();
-    });
-
-    let updateCurrency = function () {
-        let value = currency.val();
-        let text = currency.find("[value='" + value + "']").text();
-        if (text.indexOf("Stripe") >= 0) {
-            lineProvider.show();
-            acceptedPayments.find("[value='credit-card']").show();
-            acceptedPayments.find("[value='all']").show();
-        } else {
-            lineProvider.hide();
-            acceptedPayments.find("[value='credit-card']").hide();
-            acceptedPayments.find("[value='all']").hide();
-            acceptedPayments.val("cash");
-        }
-    };
-
-    updateCurrency();
 });
 </script>
 <style type="text/css">

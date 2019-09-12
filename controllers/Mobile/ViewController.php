@@ -4,7 +4,7 @@ use Cabride\Model\PushDevice;
 use Cabride\Model\Cabride;
 use Cabride\Model\Client;
 use Cabride\Model\Driver;
-use Cabride\Model\Stripe\Currency;
+use PaymentStripe\Model\Currency;
 use Siberian\Exception;
 use Core\Model\Base;
 use Cabride\Controller\Mobile as MobileController;
