@@ -3,7 +3,7 @@
 namespace Cabride\Form;
 
 use Siberian_Form_Abstract;
-use PaymentStripe\Model\Currency;
+use Application_Model_Application as Application;
 use PaymentStripe\Model\Application as StripeApplication;
 
 /**
@@ -21,6 +21,7 @@ class Cabride extends Siberian_Form_Abstract
         parent::init();
 
         $stripeIsAvailable = StripeApplication::isAvailable();
+        $application = Application::getApplication();
 
         $this
             ->setAction(__path("/cabride/application/editpost"))
@@ -41,17 +42,15 @@ class Cabride extends Siberian_Form_Abstract
         $this->groupElements("admin", ["admin_emails"], p__("cabride", "Contact"));
 
         // All currencies
-        $currency = $this->addSimpleSelect(
-            "currency",
-            p__("cabride", "Currency"),
-            Currency::getAllCurrencies());
+        $currency = $this->addSimpleText(
+            "readonly_currency",
+            p__("cabride", "Currency (app settings)"));
 
-        //$timezone = $this->addSimpleSelect(
-        //    "timezone",
-        //    p__("cabride", "Timezone"),
-        //    Timezone::getTranslated());
+        $currency
+            ->setAttrib("readonly", "readonly")
+            ->setValue($application->getCurrency());
 
-        $distance_unit = $this->addSimpleSelect(
+        $distanceUnit = $this->addSimpleSelect(
             "distance_unit",
             p__("cabride", "Distance unit"),
             [
@@ -77,7 +76,7 @@ RAW;
         $this->addSimpleHtml("center_map_hint", $html);
 
         $this->groupElements("localization",
-            ["currency", "distance_unit", "center_map", "center_map_hint"],
+            ["readonly_currency", "distance_unit", "center_map", "center_map_hint"],
             p__("cabride", "Localization"));
 
         $search_timeout = $this->addSimpleNumber(

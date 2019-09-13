@@ -38,6 +38,20 @@ class Cabride extends Base
     }
 
     /**
+     * @return string
+     */
+    public function getCurrency()
+    {
+        try {
+            $currency = $this->getApplication()->getCurrency();
+        } catch (\Exception $e) {
+            // Fallback on USD if we don't have the application context!
+            $currency = "USD";
+        }
+        return $currency;
+    }
+
+    /**
      * @param $valueId
      * @return array|bool
      */

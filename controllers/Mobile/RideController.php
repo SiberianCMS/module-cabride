@@ -8,7 +8,7 @@ use Cabride\Model\Payment;
 use Cabride\Model\Cabride;
 use Cabride\Model\RequestDriver;
 use Cabride\Model\ClientVault;
-use PaymentStripe\Model\Currency;
+use Siberian\Currency;
 use Core\Model\Base;
 use Siberian\Json;
 use Siberian_Google_Geocoding as Geocoding;

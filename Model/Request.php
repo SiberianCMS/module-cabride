@@ -2,7 +2,7 @@
 
 namespace Cabride\Model;
 
-use PaymentStripe\Model\Currency;
+use Siberian\Currency;
 use Core\Model\Base;
 use Customer_Model_Customer as Customer;
 use Siberian_Google_Geocoding as Geocoding;

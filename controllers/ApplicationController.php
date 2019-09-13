@@ -3,7 +3,7 @@
 use Cabride\Model\Cabride as Cabride;
 use Cabride\Form\Cabride as FormCabride;
 use Cabride\Form\Cabride\Delete as CabrideDelete;
-use PaymentStripe\Model\Currency;
+use Siberian\Currency;
 use Siberian_Google_Geocoding as Geocoding;
 use Siberian\Exception;
 use Siberian\Feature;
