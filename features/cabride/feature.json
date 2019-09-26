@@ -106,7 +106,6 @@
         "js/controllers/cabride-my-payments.js",
         "js/controllers/cabride-my-rides.js",
         "js/controllers/cabride-payment-history.js",
-        "js/controllers/cabride-payment-type.js",
         "js/controllers/cabride-pending-requests.js",
         "js/controllers/cabride-vehicle-information.js",
         "js/controllers/request-cancel-controller.js",

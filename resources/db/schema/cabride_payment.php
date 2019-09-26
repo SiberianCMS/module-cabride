@@ -33,10 +33,6 @@ $schemas['cabride_payment'] = [
         'type' => 'int(11) unsigned',
         'null' => true,
     ],
-    'client_vault_id' => [
-        'type' => 'int(11) unsigned',
-        'null' => true,
-    ],
     'request_id' => [
         'type' => 'int(11) unsigned',
         'null' => true,
@@ -71,12 +67,6 @@ $schemas['cabride_payment'] = [
     ],
     'currency' => [
         'type' => 'varchar(16)',
-        'charset' => 'utf-8',
-        'collation' => 'utf8_unicode_ci',
-        'null' => true,
-    ],
-    'stripe_token' => [
-        'type' => 'varchar(256)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
         'null' => true,

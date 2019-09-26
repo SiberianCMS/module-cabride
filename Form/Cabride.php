@@ -4,7 +4,8 @@ namespace Cabride\Form;
 
 use Siberian_Form_Abstract;
 use Application_Model_Application as Application;
-use PaymentStripe\Model\Application as StripeApplication;
+use Siberian\Currency;
+use PaymentMethod\Model\Gateway;
 
 /**
  * Class Cabride
@@ -20,7 +21,9 @@ class Cabride extends Siberian_Form_Abstract
     {
         parent::init();
 
-        $stripeIsAvailable = StripeApplication::isAvailable();
+        // Check if stripe is available
+        $stripeIsAvailable = Gateway::has("stripe");
+
         $application = Application::getApplication();
 
         $this
@@ -46,9 +49,32 @@ class Cabride extends Siberian_Form_Abstract
             "readonly_currency",
             p__("cabride", "Currency (app settings)"));
 
+        $appCurrency = $application->getCurrency();
+
         $currency
-            ->setAttrib("readonly", "readonly")
-            ->setValue($application->getCurrency());
+            ->setAttrib("readonly", "readonly");
+
+        if (!empty($appCurrency)) {
+            $currency->setValue($appCurrency . " " . Currency::getCurrency($appCurrency)["symbol"]);
+        } else {
+            $currency->setValue("-");
+        }
+
+
+        $currencyHelper = p__("payment_stripe", "Currency is set globally in <a style=\"font-weight: bold; text-decoration: underline;\" href=\"/application/customization_design_style/edit\">Editor > Design</a>");
+        $currencyHelperHtml = <<<RAW
+<div class="form-group sb-form-line">
+    <label class="col-sm-3">&nbsp;</label>
+    <div class="col-sm-7" 
+         style="margin: 0 9px 0 7px;">
+        <div class="alert alert-warning">
+            $currencyHelper
+        </div>
+    </div>
+</div>
+RAW;
+
+        $this->addSimpleHtml("currency_helper", $currencyHelperHtml);
 
         $distanceUnit = $this->addSimpleSelect(
             "distance_unit",
@@ -76,7 +102,7 @@ RAW;
         $this->addSimpleHtml("center_map_hint", $html);
 
         $this->groupElements("localization",
-            ["readonly_currency", "distance_unit", "center_map", "center_map_hint"],
+            ["readonly_currency", "currency_helper", "distance_unit", "center_map", "center_map_hint"],
             p__("cabride", "Localization"));
 
         $search_timeout = $this->addSimpleNumber(

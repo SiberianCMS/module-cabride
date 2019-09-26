@@ -3,9 +3,7 @@
 use Cabride\Model\Cabride;
 use Cabride\Model\Driver;
 use Cabride\Model\Client;
-use Cabride\Model\ClientVault;
 use Cabride\Model\Request;
-use Cabride\Model\RequestDriver;
 use Cabride\Model\RequestLog;
 use Cabride\Model\Vehicle;
 use Core\Model\Base;
@@ -90,26 +88,9 @@ class Cabride_Mobile_RequestController extends MobileController
                 $collection[$vehicleId]["drivers"][] = $_tmpDriver->getFilteredData();
             }
 
-            $type = $cabride->getPaymentProvider();
-            $clientVaults = (new ClientVault())->fetchForClientId($client->getId());
-            $vaults = [];
-            foreach ($clientVaults as $clientVault) {
-                // Just in case, we skip "card_xxx" old vaults!
-                if (!empty($clientVault->getCardToken())) {
-                    continue;
-                }
-
-                // Filter vaults by type!
-                if ($clientVault->getPaymentProvider() === $type) {
-                    $data = $clientVault->toJson();
-                    $vaults[] = $data;
-                }
-            }
-
             $payload = [
                 "success" => true,
                 "collection" => $collection,
-                "vaults" => $vaults,
             ];
         } catch (\Exception $e) {
             $payload = [

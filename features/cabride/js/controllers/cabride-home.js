@@ -4,7 +4,7 @@
 angular.module('starter')
 .controller('CabrideHome', function ($window, $state, $scope, $rootScope, $timeout, $translate,
                                      $ionicSideMenuDelegate, Modal, Cabride, CabrideUtils, Customer,
-                                     Loader, GoogleMaps, Dialog, Location, SB) {
+                                     Loader, GoogleMaps, Dialog, Location, SB, PaymentMethod) {
     angular.extend($scope, {
         pageTitle: Cabride.settings.pageTitle,
         valueId: Cabride.getValueId(),
@@ -476,26 +476,30 @@ angular.module('starter')
     $scope.ptModal = null;
     $scope.addEditCard = false;
     $scope.paymentTypeModal = function (paymentTypes) {
-        Modal
-        .fromTemplateUrl("features/cabride/assets/templates/l1/modal/payment-type.html", {
-            scope: angular.extend($scope.$new(true), {
-                close: function () {
-                    $scope.ptModal.remove();
-                },
-                validateRequest: function (cashOrVault) {
-                    $scope.validateRequest(cashOrVault);
-                },
-                settings: Cabride.settings,
-                paymentTypes: paymentTypes,
-                vaults: angular.copy($scope.vaults)
-            }),
-            animation: "slide-in-right-left"
-        }).then(function (modal) {
-            $scope.ptModal = modal;
-            $scope.ptModal.show();
-
-            return modal;
+        PaymentMethod.openModal($scope, {
+            title: "Super method",
+            methods: ["credit-card", "cash"]
         });
+        //Modal
+        //.fromTemplateUrl("features/cabride/assets/templates/l1/modal/payment-type.html", {
+        //    scope: angular.extend($scope.$new(true), {
+        //        close: function () {
+        //            $scope.ptModal.remove();
+        //        },
+        //        validateRequest: function (cashOrVault) {
+        //            $scope.validateRequest(cashOrVault);
+        //        },
+        //        settings: Cabride.settings,
+        //        paymentTypes: paymentTypes,
+        //        vaults: angular.copy($scope.vaults)
+        //    }),
+        //    animation: "slide-in-right-left"
+        //}).then(function (modal) {
+        //    $scope.ptModal = modal;
+        //    $scope.ptModal.show();
+//
+        //    return modal;
+        //});
     };
 
     $scope.selectVehicle = function (vehicleType) {
