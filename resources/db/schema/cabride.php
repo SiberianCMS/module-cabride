@@ -60,6 +60,11 @@ $schemas['cabride'] = [
         'type' => 'float',
         'default' => '10'
     ],
+    'payment_methods' => [ // Tied to PaymentMethod abstract layer!
+        'type' => 'text',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'accepted_payments' => [ // CB, Cash, All
         'type' => 'text',
         'charset' => 'utf-8',

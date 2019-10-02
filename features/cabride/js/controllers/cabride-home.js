@@ -477,8 +477,8 @@ angular.module('starter')
     $scope.addEditCard = false;
     $scope.paymentTypeModal = function (paymentTypes) {
         PaymentMethod.openModal($scope, {
-            title: "Super method",
-            methods: ["credit-card", "cash"]
+            title: "Select a payment type",
+            methods: Cabride.settings.paymentMethods
         });
         //Modal
         //.fromTemplateUrl("features/cabride/assets/templates/l1/modal/payment-type.html", {

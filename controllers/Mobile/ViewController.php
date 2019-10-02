@@ -6,6 +6,8 @@ use Cabride\Model\Client;
 use Cabride\Model\Driver;
 use Siberian\Currency;
 use Siberian\Exception;
+use Siberian\Json;
+use Siberian\File;
 use Core\Model\Base;
 use Cabride\Controller\Mobile as MobileController;
 
@@ -21,15 +23,13 @@ class Cabride_Mobile_ViewController extends MobileController
     {
         try {
             // Fetch installation config file!
-            $configFile = Core_Model_Directory::getBasePathTo(
-                "/app/local/modules/Cabride/resources/server/config.json"
-            );
+            $configFile = path("/app/local/modules/Cabride/resources/server/config.json");
 
             if (!file_exists($configFile)) {
                 throw new \Siberian\Exception(__("The configuration files is missing!"));
             }
 
-            $config = \Siberian_Json::decode(file_get_contents($configFile));
+            $config = Json::decode(file_get_contents($configFile));
             $wssUrl = $config["wssHost"] . ":" . $config["port"] . "/cabride";
 
             // DB Config!
@@ -62,6 +62,7 @@ class Cabride_Mobile_ViewController extends MobileController
                     "searchTimeout" => (integer) $dbConfig->getSearchTimeout(),
                     "searchRadius" => (integer) $dbConfig->getSearchRadius(),
                     "acceptedPayments" => (string) $dbConfig->getAcceptedPayments(),
+                    "paymentMethods" => $dbConfig->getPaymentMethods(),
                     "courseMode" => (string) $dbConfig->getCourseMode(),
                     "pricingMode" => (string) $dbConfig->getPricingMode(),
                     "paymentProvider" => (string) $dbConfig->getPaymentProvider(),

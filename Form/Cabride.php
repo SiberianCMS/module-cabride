@@ -6,6 +6,7 @@ use Siberian_Form_Abstract;
 use Application_Model_Application as Application;
 use Siberian\Currency;
 use PaymentMethod\Model\Gateway;
+use PaymentMethod\Form\Element\Method;
 
 /**
  * Class Cabride
@@ -136,32 +137,15 @@ RAW;
             p__("cabride", "Rides"));
 
 
+        $paymentMethods = Method::getMethodsFor(["cash", "credit-card"]);
 
-        $acceptedPaymentMethods = [
-            "cash" => p__("cabride", "Cash"),
-        ];
-
-        if ($stripeIsAvailable) {
-            $acceptedPaymentMethods = [
-                "credit-card" => p__("cabride", "Credit card"),
-                "cash" => p__("cabride", "Cash"),
-                "all" => p__("cabride", "Credit card & Cash"),
-            ];
-        }
-
-        $accepted_payments = $this->addSimpleSelect(
-            "accepted_payments",
+        $methods = $this->addSimpleMultiCheckbox(
+            "payment_methods",
             p__("cabride", "Accepted payments"),
-            $acceptedPaymentMethods);
+            $paymentMethods
+        );
 
-        if ($stripeIsAvailable) {
-            $paymentProvider = $this->addSimpleSelect(
-                "payment_provider",
-                p__("cabride", "Payment provider"),
-                [
-                    "stripe" => p__("cabride", "Stripe (Credit card)"),
-                ]);
-        }
+        $methods->setRequired(true);
 
         $commissionType = $this->addSimpleSelect(
             "commission_type",
@@ -188,7 +172,7 @@ RAW;
             ]);
 
         $this->groupElements("payments",
-            ["accepted_payments", "payment_provider", "commission_type", "commission_fixed", "commission", "pricing_mode"],
+            ["payment_methods", "payment_provider", "commission_type", "commission_fixed", "commission", "pricing_mode"],
             p__("cabride", "Payments"));
 
         // DESIGN!

@@ -3,10 +3,10 @@
 use Cabride\Model\Cabride as Cabride;
 use Cabride\Form\Cabride as FormCabride;
 use Cabride\Form\Cabride\Delete as CabrideDelete;
-use Siberian\Currency;
 use Siberian_Google_Geocoding as Geocoding;
 use Siberian\Exception;
 use Siberian\Feature;
+use Siberian\Json;
 
 /**
  * Class Cabride_ApplicationController
@@ -77,14 +77,11 @@ class Cabride_ApplicationController extends Application_Controller_Default
                     break;
             }
 
-            // Validate currency, enforcing cash if not supported
-            if (!in_array($values["currency"], Currency::$supported)) {
-                $values["accepted_payments"] = "cash";
-            }
-
             if ($form->isValid($values)) {
                 $cabride = new Cabride();
+
                 $cabride->addData($values);
+                $cabride->setPaymentMethods($values["payment_methods"]);
 
                 // Validating center map address
                 if (!empty($values["center_map"])) {
