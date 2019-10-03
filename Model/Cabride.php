@@ -134,6 +134,28 @@ class Cabride extends Base
     }
 
     /**
+     * @param $methods
+     * @return Cabride
+     */
+    public function setPaymentMethods($methods)
+    {
+        $paymentMethods = base64_encode(join(";", $methods));
+
+        return $this->setData("payment_methods", $paymentMethods);
+    }
+
+    /**
+     * @return array
+     */
+    public function getPaymentMethods()
+    {
+        $paymentMethods = $this->getData("payment_methods");
+        $methods = explode(";", base64_decode($paymentMethods));
+
+        return $methods;
+    }
+
+    /**
      * GET Feature url for app init
      *
      * @param $optionValue

@@ -473,33 +473,16 @@ angular.module('starter')
         });
     };
 
-    $scope.ptModal = null;
-    $scope.addEditCard = false;
-    $scope.paymentTypeModal = function (paymentTypes) {
+    $scope.paymentTypeModal = function () {
         PaymentMethod.openModal($scope, {
             title: "Select a payment type",
-            methods: Cabride.settings.paymentMethods
+            methods: Cabride.settings.paymentMethods,
+            paymentType: PaymentMethod.AUTHORIZATION,
+            enableVaults: true,
+            onSelect: function (payment) {
+                $scope.validateRequest(payment);
+            }
         });
-        //Modal
-        //.fromTemplateUrl("features/cabride/assets/templates/l1/modal/payment-type.html", {
-        //    scope: angular.extend($scope.$new(true), {
-        //        close: function () {
-        //            $scope.ptModal.remove();
-        //        },
-        //        validateRequest: function (cashOrVault) {
-        //            $scope.validateRequest(cashOrVault);
-        //        },
-        //        settings: Cabride.settings,
-        //        paymentTypes: paymentTypes,
-        //        vaults: angular.copy($scope.vaults)
-        //    }),
-        //    animation: "slide-in-right-left"
-        //}).then(function (modal) {
-        //    $scope.ptModal = modal;
-        //    $scope.ptModal.show();
-//
-        //    return modal;
-        //});
     };
 
     $scope.selectVehicle = function (vehicleType) {
@@ -508,16 +491,15 @@ angular.module('starter')
         $scope.paymentTypeModal();
     };
 
-    $scope.validateRequest = function (cashOrVault) {
+    $scope.validateRequest = function (payment) {
         Loader.show("Sending request ...");
         Cabride
-        .validateRequest($scope.vehicleType, $scope.currentRoute, cashOrVault)
+        .validateRequest($scope.vehicleType, $scope.currentRoute, payment)
         .then(function (response) {
             Loader.hide();
             Dialog
             .alert("Request sent", "Please now wait for a driver!", "OK", 2350)
             .then(function () {
-                $scope.ptModal.remove();
                 $scope.vtModal.remove();
                 $state.go("cabride-my-rides");
             });
