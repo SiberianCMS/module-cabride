@@ -347,7 +347,7 @@ angular.module('starter')
         if ($scope.ride.isSearching) {
             return {
                 action: "loading",
-                class: "",
+                class: "ng-hide",
                 text: ""
             };
         }
@@ -473,28 +473,31 @@ angular.module('starter')
         });
     };
 
-    $scope.paymentTypeModal = function () {
-        PaymentMethod.openModal($scope, {
-            title: "Select a payment type",
-            methods: Cabride.settings.paymentMethods,
-            paymentType: PaymentMethod.AUTHORIZATION,
-            enableVaults: true,
-            onSelect: function (payment) {
-                $scope.validateRequest(payment);
-            }
-        });
-    };
-
     $scope.selectVehicle = function (vehicleType) {
         // Payment modal
         $scope.vehicleType = vehicleType;
         $scope.paymentTypeModal();
     };
 
-    $scope.validateRequest = function (payment) {
+    $scope.paymentTypeModal = function () {
+        PaymentMethod.openModal($scope, {
+            title: "Select a payment type",
+            methods: Cabride.settings.paymentMethods,
+            paymentType: PaymentMethod.AUTHORIZATION,
+            enableVaults: true,
+            onSelect: function (paymentMethod) {
+                $scope.validateRequest(paymentMethod);
+            }
+        });
+    };
+
+    $scope.validateRequest = function (paymentMethod) {
+
+        console.log("$scope.validateRequest", paymentMethod);
+
         Loader.show("Sending request ...");
         Cabride
-        .validateRequest($scope.vehicleType, $scope.currentRoute, payment)
+        .validateRequest($scope.vehicleType, $scope.currentRoute, paymentMethod)
         .then(function (response) {
             Loader.hide();
             Dialog

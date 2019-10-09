@@ -23,7 +23,7 @@ if (!$settings->getId()) {
 if ($settings->getId()) {
     $settingsData = $settings->getData();
 
-    $settingsData["payment_methods"] = Json::decode($settingsData["payment_methods"]);
+    $settingsData["payment_methods"] = $settings->getPaymentMethods();
 
     $formSettings->populate($settingsData);
 }
