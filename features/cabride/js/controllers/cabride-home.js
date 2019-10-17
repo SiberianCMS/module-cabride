@@ -492,9 +492,6 @@ angular.module('starter')
     };
 
     $scope.validateRequest = function (paymentMethod) {
-
-        console.log("$scope.validateRequest", paymentMethod);
-
         Loader.show("Sending request ...");
         Cabride
         .validateRequest($scope.vehicleType, $scope.currentRoute, paymentMethod)

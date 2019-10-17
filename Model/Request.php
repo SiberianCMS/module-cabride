@@ -2,6 +2,7 @@
 
 namespace Cabride\Model;
 
+use PaymentStripe\Model\PaymentMethod;
 use Siberian\Currency;
 use Core\Model\Base;
 use Customer_Model_Customer as Customer;
@@ -129,7 +130,7 @@ class Request extends Base
      * @param $vehicleType
      * @param $valueId
      * @param $drivers
-     * @param $cashOrVault
+     * @param $paymentMethod
      * @param $route
      * @param $staticMap
      * @param $source
@@ -138,7 +139,7 @@ class Request extends Base
      * @throws \Zend_Currency_Exception
      * @throws \Zend_Exception
      */
-    public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $cashOrVault, $route, $staticMap, $source)
+    public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $paymentMethod, $route, $staticMap, $source)
     {
         $travel = $route["request"];
         $leg = $route["routes"][0]["legs"][0];
@@ -191,7 +192,11 @@ class Request extends Base
             ->setRequestMode("immediate")
             ->setRawRoute(Json::encode($route));
 
-        // Create the payment
+        // Creates the paymentMethod reference
+        $paymentMethod = new PaymentMethod();
+        $paymentMethod->createFromModal($paymentMethod);
+
+        // Create the cabride payment reference
         $payment = new Payment();
 
         if ($cashOrVault === "cash") {
@@ -201,7 +206,6 @@ class Request extends Base
                 ->setValueId($valueId)
                 ->setRequestId($this->getId())
                 ->setClientId($client->getId())
-                ->setClientVaultId($this->getClientVaultId())
                 ->setCurrency($cabride->getCurrency())
                 ->setMethod($this->getPaymentType())
                 ->setStatus("unpaid");

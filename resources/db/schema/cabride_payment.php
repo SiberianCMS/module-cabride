@@ -90,6 +90,10 @@ $schemas['cabride_payment'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
+    'payment_method_id' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
     'method' => [
         'type' => 'varchar(128)',
         'charset' => 'utf-8',
