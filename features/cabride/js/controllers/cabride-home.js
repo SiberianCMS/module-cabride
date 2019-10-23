@@ -496,10 +496,17 @@ angular.module('starter')
         Cabride
         .validateRequest($scope.vehicleType, $scope.currentRoute, paymentMethod)
         .then(function (response) {
+            if (response.next_action &&
+                response.next_action === "requires_action") {
+
+
+            }
+
             Loader.hide();
             Dialog
             .alert("Request sent", "Please now wait for a driver!", "OK", 2350)
             .then(function () {
+                PaymentMethod.closeModal();
                 $scope.vtModal.remove();
                 $state.go("cabride-my-rides");
             });

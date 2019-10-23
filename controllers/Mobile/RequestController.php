@@ -145,6 +145,7 @@ class Cabride_Mobile_RequestController extends MobileController
             $payload = [
                 "success" => true,
                 "message" => __("Success"),
+                "requires_action" => __("Success"),
             ];
         } catch (\Exception $e) {
             $payload = [

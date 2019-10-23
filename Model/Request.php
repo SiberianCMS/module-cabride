@@ -2,6 +2,10 @@
 
 namespace Cabride\Model;
 
+use PaymentMethod\Model\Payment as PaymentMethodPayment;
+use PaymentMethod\Model\GatewayAbstract;
+use PaymentStripe\Model\Application as PaymentStripeApplication;
+use PaymentStripe\Model\Customer as PaymentStripeCustomer;
 use PaymentStripe\Model\PaymentMethod;
 use Siberian\Currency;
 use Core\Model\Base;
@@ -15,6 +19,7 @@ use Stripe\Stripe;
 use Stripe\Customer as StripeCustomer;
 use Stripe\PaymentIntent;
 use Stripe\Error\InvalidRequest;
+use PaymentStripe\Model\Currency as StripeCurrency;
 
 /**
  * Class Request
@@ -136,8 +141,10 @@ class Request extends Base
      * @param $source
      * @return $this
      * @throws Exception
+     * @throws InvalidRequest
      * @throws \Zend_Currency_Exception
      * @throws \Zend_Exception
+     * @throws \Zend_Session_Exception
      */
     public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $paymentMethod, $route, $staticMap, $source)
     {
@@ -146,6 +153,9 @@ class Request extends Base
         $distanceKm = ceil($leg["distance"]["value"] / 1000);
         $durationMinute = ceil($leg["duration"]["value"] / 60);
         $cabride = (new Cabride)->find($valueId, "value_id");
+        $application = $this->getApplication();
+        $session = $this->getSession();
+        $customer = $session->getCustomer();
 
         $lowestCost = null;
         $highestCost = null;
@@ -193,108 +203,86 @@ class Request extends Base
             ->setRawRoute(Json::encode($route));
 
         // Creates the paymentMethod reference
-        $paymentMethod = new PaymentMethod();
-        $paymentMethod->createFromModal($paymentMethod);
+        $paymentReference = PaymentMethodPayment::createFromModal($paymentMethod);
 
         // Create the cabride payment reference
         $payment = new Payment();
+        $methodClass = $paymentReference->getMethodClass();
 
-        if ($cashOrVault === "cash") {
-            $this->setPaymentType("cash");
+        switch ($methodClass) {
+            // Cash payment!
+            case "\\PaymentCash\\Model\\Cash":
+                /**
+                 * @var \PaymentCash\Model\Cash $cashInstance
+                 */
+                $cashInstance = new $methodClass();
+                $this->setPaymentType($cashInstance::$paymentMethod);
 
-            $payment
-                ->setValueId($valueId)
-                ->setRequestId($this->getId())
-                ->setClientId($client->getId())
-                ->setCurrency($cabride->getCurrency())
-                ->setMethod($this->getPaymentType())
-                ->setStatus("unpaid");
+                $payment
+                    ->setValueId($valueId)
+                    ->setProvider($cashInstance::$shortName)
+                    ->setRequestId($this->getId())
+                    ->setClientId($client->getId())
+                    ->setCurrency($cabride->getCurrency())
+                    ->setMethod($this->getPaymentType())
+                    ->setPaymentMethodId($paymentReference->getId())
+                    ->setStatus("unpaid");
 
-        } else {
-            $this
-                ->setPaymentType("credit-card")
-                ->setClientVaultId($cashOrVault["vaultId"]);
+                break;
+            // Stripe payment!
+            case "\\PaymentStripe\\Model\\Stripe":
+                /**
+                 * @var \PaymentStripe\Model\Stripe $stripeInstance
+                 */
+                $stripeInstance = new $methodClass();
+                $this->setPaymentType($stripeInstance::$paymentMethod);
 
-            // We need to authorize this payment
+                // We need to authorize this payment
+                $stripeCost = round($this->getEstimatedCost());
 
-            $stripeCost = round($this->getEstimatedCost());
-
-            // zero-decimals stripe currencies ....
-            if (!in_array($cabride->getCurrency(), Currency::$zeroDecimals)) {
-                $stripeCost = round($this->getEstimatedCost() * 100);
-            }
-
-            $vaultId = $cashOrVault["vaultId"];
-            $vault = (new ClientVault())->find($vaultId);
-
-            $customer = (new Customer())->find($client->getCustomerId());
-
-            Stripe::setApiKey($cabride->getStripeSecretKey());
-
-            try {
-                $stripeCustomer = StripeCustomer::retrieve($client->getStripeCustomerToken());
-            } catch (InvalidRequest $e) {
-                // Seems the customer doesn't exists anymore, or the Stripe account changed!
-                if ($e->getStripeCode() === "resource_missing") {
-                    // Creates the Stripe customer first!
-                    $stripeCustomer = StripeCustomer::create([
-                        "email" => $customer->getEmail(),
-                        "metadata" => [
-                            "customer_id" => $customer->getId(),
-                            "client_id" => $client->getId(),
-                            "value_id" => $this->getValueId(),
-                        ],
-                    ]);
-
-                    $client
-                        ->archiveStripCustomerToken()
-                        ->setStripeCustomerToken($customer["id"])
-                        ->save();
-                } else {
-                    throw $e;
+                // zero-decimals stripe currencies ....
+                if (!in_array($cabride->getCurrency(), StripeCurrency::$zeroDecimals)) {
+                    $stripeCost = round($this->getEstimatedCost() * 100);
                 }
-            }
 
-            $paymentIntent = PaymentIntent::create([
-                "amount" => $stripeCost,
-                "currency" => $cabride->getCurrency(),
-                "confirm" => true,
-                "capture_method" => "manual",
-                "customer" => $stripeCustomer["id"],
-                "payment_method" => $vault->getPaymentMethod(),
-                "metadata" => [
-                    "request_id" => $this->getId(),
-                    "client_id" => $clientId,
-                    "value_id" => $valueId,
-                ]
-            ]);
+                PaymentStripeApplication::init($application->getId());
+                $stripeCustomer = PaymentStripeCustomer::getForCustomerId($customer->getId());
 
-            $payment
-                ->setBrand($vault->getBrand())
-                ->setExp($vault->getExp())
-                ->setLast($vault->getLast())
-                ->setProvider("stripe")
-                ->setValueId($valueId)
-                ->setRequestId($this->getId())
-                ->setClientId($client->getId())
-                ->setClientVaultId($this->getClientVaultId())
-                ->setAmountAuthorized($this->getEstimatedCost())
-                ->setAmountAuthorizedIntent($stripeCost)
-                ->setCurrency($cabride->getCurrency())
-                ->setMethod($this->getPaymentType())
-                ->setStatus($paymentIntent["status"])
-                ->setStripePaymentIntent($paymentIntent["id"]);
+                $paymentMethodInstance = (new PaymentMethod())->find($paymentMethod["id"]);
 
-            if ($paymentIntent["status"] !== "requires_capture") {
-                // Saving a failed paymentIntent for record!
-                $payment->save();
+                $paymentIntent = $stripeInstance->authorize($stripeCustomer, [
+                    "amount" => $stripeCost,
+                    "currency" => $cabride->getCurrency(),
+                    "confirm" => true,
+                    "capture_method" => "manual",
+                    "customer" => $stripeCustomer->getToken(),
+                    "payment_method" => $paymentMethodInstance->getToken(),
+                    "metadata" => [
+                        "request_id" => $this->getId(),
+                        "client_id" => $clientId,
+                        "value_id" => $valueId,
+                    ]
+                ]);
 
-                throw new Exception(p__("cabride",
-                    "The payment authorization was declined, '%s'",
-                    $paymentIntent["status"]));
-            }
-            // We need to authorize this payment
+                // We duplicate some values for easy reference!
+                $payment
+                    ->setBrand($paymentMethodInstance->getBrand())
+                    ->setExp($paymentMethodInstance->getExp())
+                    ->setLast($paymentMethodInstance->getLast())
+                    ->setProvider($stripeInstance::$shortName)
+                    ->setValueId($valueId)
+                    ->setRequestId($this->getId())
+                    ->setClientId($client->getId())
+                    ->setAmountAuthorized($this->getEstimatedCost())
+                    ->setAmountAuthorizedIntent($stripeCost)
+                    ->setCurrency($cabride->getCurrency())
+                    ->setMethod($this->getPaymentType())
+                    ->setPaymentMethodId($paymentIntent->getId());
+
+                // We need to authorize this payment
+                break;
         }
+
 
         // Drivers
         $now = time();
