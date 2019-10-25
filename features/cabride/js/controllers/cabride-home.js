@@ -485,6 +485,11 @@ angular.module('starter')
             methods: Cabride.settings.paymentMethods,
             paymentType: PaymentMethod.AUTHORIZATION,
             enableVaults: true,
+            displayAmount: true,
+            payment: {
+                displayAmount: $scope.vehicleType.pricing,
+                amount: $scope.vehicleType.pricingValue
+            },
             onSelect: function (paymentMethod) {
                 $scope.validateRequest(paymentMethod);
             }
