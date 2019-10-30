@@ -116,7 +116,7 @@ class Cabride_Mobile_RequestController extends MobileController
             $optionValue = $this->getCurrentOptionValue();
             $customerId = $session->getCustomerId();
             $route = $data["route"];
-            $paymentMethod = $data["paymentMethod"];
+            $paymentId = $data["paymentId"];
             $gmapsKey = $application->getGooglemapsKey();
 
             $staticMap = Request::staticMapFromRoute($route, $optionValue, $gmapsKey);
@@ -140,7 +140,7 @@ class Cabride_Mobile_RequestController extends MobileController
 
             $vehicle = (new Vehicle())->find($vehicleType["id"]);
             $request = (new Request())->createRideRequest(
-                $client->getId(), $vehicle, $valueId, $drivers, $paymentMethod, $route, $staticMap, Request::SOURCE_CLIENT);
+                $client->getId(), $vehicle, $valueId, $drivers, $paymentId, $route, $staticMap, Request::SOURCE_CLIENT);
 
             $payload = [
                 "success" => true,

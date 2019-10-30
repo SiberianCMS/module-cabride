@@ -135,7 +135,7 @@ class Request extends Base
      * @param $vehicleType
      * @param $valueId
      * @param $drivers
-     * @param $paymentMethod
+     * @param $paymentId
      * @param $route
      * @param $staticMap
      * @param $source
@@ -146,7 +146,7 @@ class Request extends Base
      * @throws \Zend_Exception
      * @throws \Zend_Session_Exception
      */
-    public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $paymentMethod, $route, $staticMap, $source)
+    public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $paymentId, $route, $staticMap, $source)
     {
         $travel = $route["request"];
         $leg = $route["routes"][0]["legs"][0];
@@ -154,8 +154,6 @@ class Request extends Base
         $durationMinute = ceil($leg["duration"]["value"] / 60);
         $cabride = (new Cabride)->find($valueId, "value_id");
         $application = $this->getApplication();
-        $session = $this->getSession();
-        $customer = $session->getCustomer();
 
         $lowestCost = null;
         $highestCost = null;
@@ -203,7 +201,7 @@ class Request extends Base
             ->setRawRoute(Json::encode($route));
 
         // Creates the paymentMethod reference
-        $paymentReference = PaymentMethodPayment::createFromModal($paymentMethod);
+        $paymentReference = PaymentMethodPayment::createFromModal($paymentId);
 
         // Create the cabride payment reference
         $payment = new Payment();
@@ -246,29 +244,16 @@ class Request extends Base
                 }
 
                 PaymentStripeApplication::init($application->getId());
-                $stripeCustomer = PaymentStripeCustomer::getForCustomerId($customer->getId());
 
-                $paymentMethodInstance = (new PaymentMethod())->find($paymentMethod["id"]);
-
-                $paymentIntent = $stripeInstance->authorize($stripeCustomer, [
-                    "amount" => $stripeCost,
-                    "currency" => $cabride->getCurrency(),
-                    "confirm" => true,
-                    "capture_method" => "manual",
-                    "customer" => $stripeCustomer->getToken(),
-                    "payment_method" => $paymentMethodInstance->getToken(),
-                    "metadata" => [
-                        "request_id" => $this->getId(),
-                        "client_id" => $clientId,
-                        "value_id" => $valueId,
-                    ]
-                ]);
+                // Needs to duplicate brand, exp, last for easy retrieval
+                $paymentIntent = $paymentReference->retrieve();
+                //$paymentMethodInstance = (new PaymentMethod())->find($paymentId);
 
                 // We duplicate some values for easy reference!
                 $payment
-                    ->setBrand($paymentMethodInstance->getBrand())
-                    ->setExp($paymentMethodInstance->getExp())
-                    ->setLast($paymentMethodInstance->getLast())
+                    //->setBrand($paymentMethodInstance->getBrand())
+                    //->setExp($paymentMethodInstance->getExp())
+                    //->setLast($paymentMethodInstance->getLast())
                     ->setProvider($stripeInstance::$shortName)
                     ->setValueId($valueId)
                     ->setRequestId($this->getId())
@@ -277,7 +262,8 @@ class Request extends Base
                     ->setAmountAuthorizedIntent($stripeCost)
                     ->setCurrency($cabride->getCurrency())
                     ->setMethod($this->getPaymentType())
-                    ->setPaymentMethodId($paymentIntent->getId());
+                    ->setPaymentMethodId($paymentReference->getId())
+                    ->setStatus($paymentIntent->getStatus());
 
                 // We need to authorize this payment
                 break;

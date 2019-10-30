@@ -485,28 +485,25 @@ angular.module('starter')
             methods: Cabride.settings.paymentMethods,
             paymentType: PaymentMethod.AUTHORIZATION,
             enableVaults: true,
-            displayAmount: true,
+            displayAmount: false,
             payment: {
                 displayAmount: $scope.vehicleType.pricing,
                 amount: $scope.vehicleType.pricingValue
             },
-            onSelect: function (paymentMethod) {
-                $scope.validateRequest(paymentMethod);
+            actions: [
+                PaymentMethod.ACTION_AUTHORIZE
+            ],
+            onSelect: function (paymentId) {
+                $scope.validateRequest(paymentId);
             }
         });
     };
 
-    $scope.validateRequest = function (paymentMethod) {
+    $scope.validateRequest = function (paymentId) {
         Loader.show("Sending request ...");
         Cabride
-        .validateRequest($scope.vehicleType, $scope.currentRoute, paymentMethod)
+        .validateRequest($scope.vehicleType, $scope.currentRoute, paymentId)
         .then(function (response) {
-            if (response.next_action &&
-                response.next_action === "requires_action") {
-
-
-            }
-
             Loader.hide();
             Dialog
             .alert("Request sent", "Please now wait for a driver!", "OK", 2350)

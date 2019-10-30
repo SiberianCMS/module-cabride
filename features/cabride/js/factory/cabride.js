@@ -378,14 +378,14 @@ angular.module('starter')
             });
         };
 
-        factory.validateRequest = function (vehicleType, route, paymentMethod) {
+        factory.validateRequest = function (vehicleType, route, paymentId) {
             return $pwaRequest.post('/cabride/mobile_request/validate', {
                 urlParams: {
                     value_id: factory.value_id
                 },
                 data: {
+                    paymentId: paymentId,
                     vehicleType: vehicleType,
-                    paymentMethod: paymentMethod,
                     route: route
                 },
                 cache: false
