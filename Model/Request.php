@@ -364,24 +364,27 @@ class Request extends Base
     {
         $requestId = $this->getId();
         try {
-            $payment = (new Payment())->find($requestId, "request_id");
-            if ($payment->getId() &&
-                ($payment->getProvider() === "stripe")) {
+            $cabridePayment = (new Payment())->find($requestId, "request_id");
+            if ($cabridePayment->getId()) {
 
-                $cabride = (new Cabride)->find($this->getValueId(), "value_id");
-                Stripe::setApiKey($cabride->getStripeSecretKey());
+                $payment = PaymentMethodPayment::createFromModal($cabridePayment->getPaymentMethodId())
+                    ->retrieve();
+                $payment->cancel($this, "abandoned", $cron);
 
-                $stripePaymentIntent = $payment->getStripePaymentIntent();
-                $intent = PaymentIntent::retrieve($stripePaymentIntent);
-                $intent->cancel();
+                //$cabride = (new Cabride)->find($this->getValueId(), "value_id");
+                //Stripe::setApiKey($cabride->getStripeSecretKey());
+//
+                //$stripePaymentIntent = $payment->getStripePaymentIntent();
+                //$intent = PaymentIntent::retrieve($stripePaymentIntent);
+                //$intent->cancel();
+                //if ($cron !== null) {
+                //    $cron->log("[Cabride] stripe payment authorization cancelled '%s'.", $stripePaymentIntent);
+                //}
 
-                $payment
+
+                $cabridePayment
                     ->setStatus("cancelled")
                     ->save();
-
-                if ($cron !== null) {
-                    $cron->log("[Cabride] stripe payment authorization cancelled '%s'.", $stripePaymentIntent);
-                }
             }
         } catch (\Exception $e) {
             if ($cron !== null) {
