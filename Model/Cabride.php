@@ -251,6 +251,7 @@ class Cabride extends Base
         $currentUrl = str_replace(self::getBaseUrl(), "", self::getCurrentUrl());
         $editorAccess = [
             "cabride_dashboard",
+            "cabride_form",
             "cabride_users",
             "cabride_drivers",
             "cabride_rides",
@@ -321,6 +322,14 @@ class Cabride extends Base
                         "/cabride/dashboard/vehicle-types",
                         "/cabride/vehicle/edit",
                     ]),
+                ],
+                "form" => [
+                    "hasChilds" => false,
+                    "isVisible" => self::_canAccess("cabride_form"),
+                    "label" => p__("cabride", "Form"),
+                    "icon" => "fa fa-list",
+                    "url" => self::_getUrl("cabride/dashboard/form"),
+                    "is_current" => ("/cabride/dashboard/form" === $currentUrl),
                 ],
                 "settings" => [
                     "hasChilds" => false,

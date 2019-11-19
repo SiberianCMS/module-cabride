@@ -16,6 +16,14 @@ class Cabride_DashboardController extends Application_Controller_Default
     /**
      *
      */
+    public function formAction()
+    {
+        $this->loadPartials();
+    }
+
+    /**
+     *
+     */
     public function usersAction()
     {
         $this->loadPartials();

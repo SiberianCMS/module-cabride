@@ -225,8 +225,10 @@ RAW;
         // MISC
         $this->addSimpleCheckbox("driver_can_register", p__("cabride", "Driver can register"));
 
+        $this->addSimpleCheckbox("enable_custom_form", p__("cabride", "Enable custom form"));
+
         $this->groupElements("misc",
-            ["driver_can_register"],
+            ["driver_can_register", "enable_custom_form"],
             p__("cabride", "Misc"));
 
         $save = $this->addSubmit(p__("cabride", "Save"), p__("cabride", "Save"));

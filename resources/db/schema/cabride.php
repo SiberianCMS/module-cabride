@@ -106,6 +106,10 @@ $schemas['cabride'] = [
         'type' => 'tinyint(1)',
         'default' => '1',
     ],
+    'enable_custom_form' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'show_passenger_photo' => [
         'type' => 'tinyint(1)',
         'default' => '1',
