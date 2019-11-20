@@ -4,10 +4,10 @@ use Cabride\Model\PushDevice;
 use Cabride\Model\Cabride;
 use Cabride\Model\Client;
 use Cabride\Model\Driver;
+use Cabride\Model\Field;
 use Siberian\Currency;
 use Siberian\Exception;
 use Siberian\Json;
-use Siberian\File;
 use Core\Model\Base;
 use Cabride\Controller\Mobile as MobileController;
 
@@ -53,6 +53,35 @@ class Cabride_Mobile_ViewController extends MobileController
                 $passengerPicture = "/images/application{$passengerPicture}";
             }
 
+            // Custom form fields!
+            $enableCustomForm = (boolean) $dbConfig->getEnableCustomForm();
+            $customFormFields = [];
+            if ($enableCustomForm) {
+                // Fetching custom form fields
+                $fields = (new Field())->findAll(
+                    [
+                        "value_id = ?" => $valueId
+                    ],
+                    [
+                        "position ASC"
+                    ]
+                );
+                foreach ($fields as $field) {
+                    $customField = [
+                        "field_id" => (integer) $field->getFieldId(),
+                        "label" => (string) $field->getLabel(),
+                        "type" => (string) $field->getFieldType(),
+                        "min" => (float) $field->getNumberMin(),
+                        "max" => (float) $field->getNumberMax(),
+                        "step" => (float) $field->getNumberStep(),
+                        "date_format" => (string) $field->getDateFormat(),
+                        "datetime_format" => (string) $field->getDatetimeFormat(),
+                        "is_required" => (boolean) $field->getIsRequired(),
+                    ];
+                    $customFormFields[] = $customField;
+                }
+            }
+
             $payload = [
                 "success" => true,
                 "settings" => [
@@ -69,6 +98,8 @@ class Cabride_Mobile_ViewController extends MobileController
                     "stripePublicKey" => (string) $dbConfig->getStripePublicKey(),
                     "stripeIsSandbox" => (boolean) $dbConfig->getStripeIsSandbox(),
                     "driverCanRegister" => (boolean) $dbConfig->getDriverCanRegister(),
+                    "enableCustomForm" => (boolean) $enableCustomForm,
+                    "customFormFields" => $customFormFields,
                     "defaultLat" => (float) $dbConfig->getDefaultLat(),
                     "defaultLng" => (float) $dbConfig->getDefaultLng(),
                     "currency" => $currency,

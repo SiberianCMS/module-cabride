@@ -468,6 +468,22 @@
 
   }
 
+  .tab-item {
+    .icon {
+      margin: 4px auto 0;
+      height: 30px;
+      font-size: 28px;
+    }
+  }
+
+  .validate-button {
+    position: fixed;
+    bottom: 0;
+    padding-bottom: var(--safe-area-inset-bottom);
+    z-index: 100;
+    margin: 0 !important;
+  }
+
   .vehicle-type.item.item-custom {
     .vehicle-type-title {
       font-weight: bold;
@@ -790,5 +806,12 @@
       bottom: calc(constant(safe-area-inset-bottom) + 55px);
       bottom: calc(env(safe-area-inset-bottom) + 55px);
     }
+  }
+}
+
+/** CSS Fix for datetime picker */
+.modal-open {
+  .picker-open {
+    pointer-events: auto !important;
   }
 }

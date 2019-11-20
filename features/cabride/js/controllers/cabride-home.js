@@ -453,14 +453,8 @@ angular.module('starter')
                 close: function () {
                     $scope.vtModal.remove();
                 },
-                select: function (vehicleType) {
+                selectVehicle: function (vehicleType) {
                     $scope.selectVehicle(vehicleType);
-                },
-                imagePath: function (image) {
-                    if (image === "") {
-                        return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/car-icon.png";
-                    }
-                    return IMAGE_URL + "images/application" + image;
                 },
                 vehicles: vehicles
             }),
@@ -502,7 +496,7 @@ angular.module('starter')
     $scope.validateRequest = function (paymentId) {
         Loader.show("Sending request ...");
         Cabride
-        .validateRequest($scope.vehicleType, $scope.currentRoute, paymentId)
+        .validateRequest($scope.vehicleType, $scope.currentRoute, Cabride.settings.customFormFields, paymentId)
         .then(function (response) {
             Loader.hide();
             Dialog

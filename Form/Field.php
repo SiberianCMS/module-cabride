@@ -57,6 +57,7 @@ class Field extends FormAbstract
             ->setAttrib("id", "form-edit-field");
 
         self::addClass("create", $this);
+        self::addClass("callback", $this);
 
         $this->addSimpleHidden("field_id");
         $this->addSimpleHidden("value_id");
@@ -112,6 +113,12 @@ class Field extends FormAbstract
 $(document).ready(function () {
     window.binderFormField("{$formId}");
     window.toggleGroups("{$formId}", "{$type}");
+    
+    $("#{$formId}").data("callback", function () { 
+        setTimeout(function () {
+            location.reload();
+        }, 2700); 
+    });
 });
 </script>
 JS;

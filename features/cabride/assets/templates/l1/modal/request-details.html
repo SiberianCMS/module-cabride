@@ -9,7 +9,7 @@
                 <i class="icon ion-android-arrow-back"></i>
             </button>
         </div>
-        <h1 class="title">{{ "Course details" | translate:"cabride" }}</h1>
+        <h1 class="title">{{ ::"Course details" | translate:"cabride" }}</h1>
     </ion-header-bar>
 
     <ion-content>
@@ -26,7 +26,7 @@
                         <span class="course-status {{ request.status }}">{{ request.status | translate:"cabride" }}</span>
 
                         <span ng-show="filterName != 'archived' && request.status == 'pending'"
-                              class="course-expiration {{ request.status }}">{{ "Expires" | translate:"cabride" }} {{ expiration(request) }}</span>
+                              class="course-expiration {{ request.status }}">{{ ::"Expires" | translate:"cabride" }} {{ expiration(request) }}</span>
 
                         <div class="row course-details">
                             <div class="col-75">
@@ -41,7 +41,7 @@
                                 </span>
                                 <span ng-if="userType == 'client' && request.formatted_price != request.formatted_lowest_price"
                                       ng-class="{'price-stroke': request.formatted_driver_price}"
-                                      class="course-cost">{{ "Est." | translate:"cabride" }} {{ request.formatted_lowest_price }} - {{ request.formatted_price }}</span>
+                                      class="course-cost">{{ ::"Est." | translate:"cabride" }} {{ request.formatted_lowest_price }} - {{ request.formatted_price }}</span>
                                 <span ng-if="userType == 'client' && request.formatted_price == request.formatted_lowest_price"
                                       ng-class="{'price-stroke': request.formatted_driver_price}"
                                       class="course-cost">{{ request.formatted_price }}</span>
@@ -55,7 +55,7 @@
                 <div style="margin-bottom: 20px;"></div>
 
                 <div class="item item-divider item-divider-custom">
-                    <span>{{ "Rating" | translate:"cabride" }}</span>
+                    <span>{{ ::"Rating" | translate:"cabride" }}</span>
                     <span class="pull-right">
                         <i class="icon icon-rate-mini {{ getIcon('course', 1) }}"></i>
                         <i class="icon icon-rate-mini {{ getIcon('course', 2) }}"></i>
@@ -70,7 +70,7 @@
                     <div class="row">
                         <div class="col-100">
                             <p ng-if="request.course_comment.length > 0">{{ request.course_comment }}</p>
-                            <p ng-if="request.course_comment.length <= 0">{{ "No message" | translate:"cabride" }}</p>
+                            <p ng-if="request.course_comment.length <= 0">{{ ::"No message" | translate:"cabride" }}</p>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
             <div style="margin-bottom: 20px;"></div>
 
             <div class="item item-divider item-divider-custom">
-                {{ "Origin & destination" | translate:"cabride" }}
+                {{ ::"Origin & destination" | translate:"cabride" }}
             </div>
 
             <div class="item item-custom request-detail-small item-icon-left">
@@ -103,15 +103,23 @@
             <div class="item item-custom request-detail-small item-icon-left">
                 <i class="icon ion-clock"></i>
                 <p>
-                    {{ duration(request) }} {{ "mn" | translate:"cabride" }}
+                    {{ duration(request) }} {{ ::"mn" | translate:"cabride" }}
                 </p>
+            </div>
+
+            <div ng-if="enableCustomForm">
+                <div style="margin-bottom: 20px;"></div>
+
+                <div ng-include="'./features/cabride/assets/templates/l1/form/display.html'"></div>
+
+                <div style="margin-bottom: 20px;"></div>
             </div>
 
             <div ng-if="userType == 'driver'">
                 <div style="margin-bottom: 20px;"></div>
 
                 <div class="item item-divider item-divider-custom">
-                    {{ "Payment method" | translate:"cabride" }}
+                    {{ ::"Payment method" | translate:"cabride" }}
                 </div>
 
                 <div ng-if="request.cash"
@@ -120,7 +128,7 @@
                         <img src="./features/cabride/assets/templates/images/010-money.svg"
                              style="height: 60%; margin-right: 15px;" />
                     </i>
-                    <b>{{ "Cash" | translate:"cabride" }}</b>
+                    <b>{{ ::"Cash" | translate:"cabride" }}</b>
                 </div>
 
                 <div ng-if="request.vault"
@@ -141,7 +149,7 @@
                     <div style="margin-bottom: 20px;"></div>
 
                     <div class="item item-divider item-divider-custom">
-                        {{ "Payment card" | translate:"cabride" }}
+                        {{ ::"Payment card" | translate:"cabride" }}
                     </div>
 
                     <div class="item item-custom item-no-border-top item-icon-left item-icon-right">
@@ -161,7 +169,7 @@
                     <div style="margin-bottom: 20px;"></div>
 
                     <div class="item item-divider item-divider-custom">
-                        {{ "Payment method" | translate:"cabride" }}
+                        {{ ::"Payment method" | translate:"cabride" }}
                     </div>
 
                     <div class="item item-custom item-no-border-top item-icon-left">
@@ -169,7 +177,7 @@
                             <img src="./features/cabride/assets/templates/images/010-money.svg"
                                  style="height: 60%; margin-right: 15px;" />
                         </i>
-                        <b>{{ "Cash" | translate:"cabride" }}</b>
+                        <b>{{ ::"Cash" | translate:"cabride" }}</b>
                     </div>
                 </div>
             </div>
@@ -178,7 +186,7 @@
                 <div style="margin-bottom: 20px;"></div>
 
                 <div class="item item-divider item-divider-custom">
-                    {{ "Driver" | translate:"cabride" }}
+                    {{ ::"Driver" | translate:"cabride" }}
                 </div>
 
                 <div class="item item-custom item-no-border-top item-thumbnail-left">
@@ -195,7 +203,7 @@
                 <div style="margin-bottom: 20px;"></div>
 
                 <div class="item item-divider item-divider-custom">
-                    {{ "Client" | translate:"cabride" }}
+                    {{ ::"Client" | translate:"cabride" }}
                 </div>
 
                 <div class="item item-custom item-no-border-top item-thumbnail-left">
@@ -213,7 +221,7 @@
                 <div style="margin-bottom: 20px;"></div>
 
                 <div class="item item-divider item-divider-custom">
-                    {{ "History" | translate:"cabride" }}
+                    {{ ::"History" | translate:"cabride" }}
                 </div>
 
                 <div class="item item-custom request-detail-small"
@@ -230,14 +238,14 @@
                 <div style="margin-bottom: 20px;"></div>
 
                 <div class="item item-divider item-divider-custom">
-                    {{ "Actions" | translate:"cabride" }}
+                    {{ ::"Actions" | translate:"cabride" }}
                 </div>
 
                 <div ng-if="canCancel(request)"
                      ng-click="cancel(request)"
                      class="item item-custom request-detail-small">
                     <div class="row">
-                        <div class="col-75 assertive"><b>{{ "Cancel course" | translate:"cabride" }}</b></div>
+                        <div class="col-75 assertive"><b>{{ ::"Cancel course" | translate:"cabride" }}</b></div>
                         <div class="col-25 assertive text-right">
                             <i class="icon ion-android-arrow-forward"></i>
                         </div>

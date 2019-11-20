@@ -11,6 +11,7 @@ use Customer_Model_Customer as Customer;
 use Siberian\Exception;
 use Siberian_Google_Geocoding as Geocoding;
 use Cabride\Controller\Mobile as MobileController;
+use Siberian\Json;
 
 /**
  * Class Cabride_Mobile_RequestController
@@ -118,6 +119,7 @@ class Cabride_Mobile_RequestController extends MobileController
             $route = $data["route"];
             $paymentId = $data["paymentId"];
             $gmapsKey = $application->getGooglemapsKey();
+            $customFormFields = $data["customFormFields"];
 
             $staticMap = Request::staticMapFromRoute($route, $optionValue, $gmapsKey);
 
@@ -140,7 +142,7 @@ class Cabride_Mobile_RequestController extends MobileController
 
             $vehicle = (new Vehicle())->find($vehicleType["id"]);
             $request = (new Request())->createRideRequest(
-                $client->getId(), $vehicle, $valueId, $drivers, $paymentId, $route, $staticMap, Request::SOURCE_CLIENT);
+                $client->getId(), $vehicle, $valueId, $drivers, $paymentId, $route, $staticMap, $customFormFields, Request::SOURCE_CLIENT);
 
             $payload = [
                 "success" => true,
@@ -164,7 +166,6 @@ class Cabride_Mobile_RequestController extends MobileController
     {
         try {
             $request = $this->getRequest();
-            $session = $this->getSession();
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
             $requestId = $request->getParam("requestId", null);
@@ -223,6 +224,7 @@ class Cabride_Mobile_RequestController extends MobileController
             $data["search_timeout"] = (integer) $data["search_timeout"];
             $data["timestamp"] = (integer) $data["timestamp"];
             $data["expires_in"] = (integer) ($data["expires_at"] - $now);
+            $data["customFormFields"] = Json::decode(base64_decode($request["custom_form_fields"]));
 
             // Fetch status history
             $logs = (new RequestLog())->findAll(["request_id = ?" => $requestId], ["created_at DESC"]);

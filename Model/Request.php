@@ -138,15 +138,15 @@ class Request extends Base
      * @param $paymentId
      * @param $route
      * @param $staticMap
+     * @param $customFormFields
      * @param $source
      * @return $this
      * @throws Exception
-     * @throws InvalidRequest
      * @throws \Zend_Currency_Exception
      * @throws \Zend_Exception
-     * @throws \Zend_Session_Exception
      */
-    public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $paymentId, $route, $staticMap, $source)
+    public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $paymentId, $route,
+                                      $staticMap, $customFormFields, $source)
     {
         $travel = $route["request"];
         $leg = $route["routes"][0]["legs"][0];
@@ -198,6 +198,7 @@ class Request extends Base
             ->setToLat($travel["destination"]["location"]["lat"])
             ->setToLng($travel["destination"]["location"]["lng"])
             ->setRequestMode("immediate")
+            ->setCustomFormFields($customFormFields)
             ->setRawRoute(Json::encode($route));
 
         // Creates the paymentMethod reference
@@ -247,13 +248,9 @@ class Request extends Base
 
                 // Needs to duplicate brand, exp, last for easy retrieval
                 $paymentIntent = $paymentReference->retrieve();
-                //$paymentMethodInstance = (new PaymentMethod())->find($paymentId);
 
                 // We duplicate some values for easy reference!
                 $payment
-                    //->setBrand($paymentMethodInstance->getBrand())
-                    //->setExp($paymentMethodInstance->getExp())
-                    //->setLast($paymentMethodInstance->getLast())
                     ->setProvider($stripeInstance::$shortName)
                     ->setValueId($valueId)
                     ->setRequestId($this->getId())
@@ -606,6 +603,30 @@ class Request extends Base
 
                 break;
         }
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function getCustomFormFields()
+    {
+        $_tmp = $this->getData("custom_form_fields");
+        try {
+            $customFormFields = Json::decode(base64_decode($_tmp));
+        } catch (\Exception $e) {
+            $customFormFields = [];
+        }
+        return $customFormFields;
+    }
+
+    /**
+     * @param $customFormFields
+     * @return Request
+     */
+    public function setCustomFormFields($customFormFields)
+    {
+        $_tmp = base64_encode(Json::encode($customFormFields));
+        return $this->setData("custom_form_fields", $_tmp);
     }
 
     /**
