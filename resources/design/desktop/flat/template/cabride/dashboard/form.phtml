@@ -8,7 +8,7 @@ use Cabride\Form\Field\Delete as DeleteFormField;
 $application = $this->getApplication();
 $request = $this->getRequest();
 $valueId = Cabride::getCurrentValueId();
-$cabride = Cabride::getCurrent();
+$cabride = Cabride::getCurrent()->getObject();
 
 $formField = (new FormField())
     ->setValueId($valueId);
@@ -25,7 +25,7 @@ $fields = (new Field())->findAll(
 $deleteFieldForm = (new DeleteFormField())
     ->setValueId($valueId);
 
-$formIsEnabled = (boolean) $cabride->getEnableCustomForm() == "1";
+$formIsEnabled = (boolean) $cabride->getEnableCustomForm();
 
 ?>
 
@@ -40,11 +40,13 @@ $formIsEnabled = (boolean) $cabride->getEnableCustomForm() == "1";
                 </h3>
                 <div class="subcontent content-color">
 
+                    <?php if (!$formIsEnabled): ?>
                     <div class="col-md-12">
                         <div class="alert alert-warning">
                             <?php echo p__("cabride", "The custom form is disabled in your settings, and will not be visible inside the application.") ?>
                         </div>
                     </div>
+                    <?php endif; ?>
 
                     <div class="col-md-12">
                         <h3 class="title-editor no-border-radius title-feature-indent">
@@ -234,6 +236,12 @@ $formIsEnabled = (boolean) $cabride->getEnableCustomForm() == "1";
         };
 
         window.binderFormField("form-edit-field");
+
+        $("#form-edit-field").data("callback", function () {
+            setTimeout(function () {
+                location.reload();
+            }, 1900);
+        });
     });
 </script>
 

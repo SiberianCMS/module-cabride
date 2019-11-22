@@ -117,7 +117,7 @@ $(document).ready(function () {
     $("#{$formId}").data("callback", function () { 
         setTimeout(function () {
             location.reload();
-        }, 2700); 
+        }, 1900); 
     });
 });
 </script>
