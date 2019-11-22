@@ -1611,3 +1611,158 @@ msgstr "or"
 msgctxt "cabride"
 msgid "Sorry we are unable to locate you, please check your GPS settings & authorization."
 msgstr "Sorry we are unable to locate you, please check your GPS settings & authorization."
+
+# GMT 1574430023.6879
+msgctxt "cabride"
+msgid "Form"
+msgstr "Form"
+
+# GMT 1574430029.318
+msgctxt "cabride"
+msgid "Currency (app settings)"
+msgstr "Currency (app settings)"
+
+# GMT 1574430029.3185
+msgctxt "cabride"
+msgid "Enable custom form"
+msgstr "Enable custom form"
+
+# GMT 1574430032.2572
+msgctxt "cabride"
+msgid "Label"
+msgstr "Label"
+
+# GMT 1574430032.2575
+msgctxt "cabride"
+msgid "Divider (title)"
+msgstr "Divider (title)"
+
+# GMT 1574430032.2578
+msgctxt "cabride"
+msgid "Spacer (white space)"
+msgstr "Spacer (white space)"
+
+# GMT 1574430032.2581
+msgctxt "cabride"
+msgid "Number"
+msgstr "Number"
+
+# GMT 1574430032.2584
+msgctxt "cabride"
+msgid "Checkbox"
+msgstr "Checkbox"
+
+# GMT 1574430032.2587
+msgctxt "cabride"
+msgid "Password"
+msgstr "Password"
+
+# GMT 1574430032.2589
+msgctxt "cabride"
+msgid "Text"
+msgstr "Text"
+
+# GMT 1574430032.2592
+msgctxt "cabride"
+msgid "Textarea"
+msgstr "Textarea"
+
+# GMT 1574430032.2596
+msgctxt "cabride"
+msgid "Date & time"
+msgstr "Date & time"
+
+# GMT 1574430032.2599
+msgctxt "cabride"
+msgid "Min. value"
+msgstr "Min. value"
+
+# GMT 1574430032.2602
+msgctxt "cabride"
+msgid "Max. value"
+msgstr "Max. value"
+
+# GMT 1574430032.2604
+msgctxt "cabride"
+msgid "Step"
+msgstr "Step"
+
+# GMT 1574430032.2607
+msgctxt "cabride"
+msgid "Number options"
+msgstr "Number options"
+
+# GMT 1574430032.261
+msgctxt "cabride"
+msgid "Date format"
+msgstr "Date format"
+
+# GMT 1574430032.2613
+msgctxt "cabride"
+msgid "Date options"
+msgstr "Date options"
+
+# GMT 1574430032.2615
+msgctxt "cabride"
+msgid "Date & time format"
+msgstr "Date & time format"
+
+# GMT 1574430032.2618
+msgctxt "cabride"
+msgid "Date & time options"
+msgstr "Date & time options"
+
+# GMT 1574430032.262
+msgctxt "cabride"
+msgid "Default value"
+msgstr "Default value"
+
+# GMT 1574430032.2623
+msgctxt "cabride"
+msgid "Required?"
+msgstr "Required?"
+
+# GMT 1574430032.2626
+msgctxt "cabride"
+msgid "Form configuration"
+msgstr "Form configuration"
+
+# GMT 1574430032.2629
+msgctxt "cabride"
+msgid "Add a field"
+msgstr "Add a field"
+
+# GMT 1574430032.2631
+msgctxt "cabride"
+msgid "Manage fields"
+msgstr "Manage fields"
+
+# GMT 1574430032.2632
+msgctxt "cabride"
+msgid "Default"
+msgstr "Default"
+
+# GMT 1574430032.2634
+msgctxt "cabride"
+msgid "Required"
+msgstr "Required"
+
+# GMT 1574430032.2637
+msgctxt "cabride"
+msgid "Position"
+msgstr "Position"
+
+# GMT 1574430032.264
+msgctxt "cabride"
+msgid "NO"
+msgstr "NO"
+
+# GMT 1574430032.2643
+msgctxt "cabride"
+msgid "Close"
+msgstr "Close"
+
+# GMT 1574430032.2646
+msgctxt "cabride"
+msgid "YES"
+msgstr "YES"
