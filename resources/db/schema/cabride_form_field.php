@@ -48,6 +48,11 @@ $schemas["cabride_form_field"] = [
     "number_step" => [
         "type" => "double",
     ],
+    "field_options" => [
+        "type" => "text",
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+    ],
     "date_format" => [
         "type" => "varchar(32)",
         "charset" => "utf8",

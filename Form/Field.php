@@ -17,7 +17,7 @@ class Field extends FormAbstract
         "divider" => "Divider (title)",
         "spacer" => "Spacer (white space)",
         "number" => "Number",
-        //"select" => "Select",
+        "select" => "Select",
         "checkbox" => "Checkbox",
         "password" => "Password",
         "text" => "Text",
@@ -63,9 +63,6 @@ class Field extends FormAbstract
         $this->addSimpleHidden("value_id");
         $this->addSimpleHidden("position");
 
-        $label = $this->addSimpleText("label", p__("cabride", "Label"));
-        $label->setRequired(true);
-
         $fieldTypes = [];
         foreach (self::$types as $key => $label) {
             $fieldTypes[$key] = p__("cabride", $label);
@@ -74,12 +71,19 @@ class Field extends FormAbstract
         $type = $this->addSimpleSelect("field_type", p__("cabride", "Type"), $fieldTypes);
         $type->setRequired(true);
 
+        $label = $this->addSimpleText("label", p__("cabride", "Label"));
+        $label->setRequired(true);
+
         // Number
         $this->addSimpleNumber("number_min", p__("cabride", "Min. value"));
         $this->addSimpleNumber("number_max", p__("cabride", "Max. value"));
         $this->addSimpleNumber("number_step", p__("cabride", "Step"));
 
         $this->groupElements("group_number", ["number_min", "number_max", "number_step"], p__("cabride", "Number options"));
+
+        // Date
+        $this->addSimpleHidden("select_hidden");
+        $this->groupElements("group_select", ["select_hidden"], p__("cabride", "Select options"));
 
         // Date
         $this->addSimpleSelect("date_format", p__("cabride", "Date format"), self::$dateFormats);

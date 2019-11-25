@@ -195,6 +195,9 @@ $formIsEnabled = (boolean) $cabride->getEnableCustomForm();
             $("#" + formId + " dd[id^='group_']").hide();
 
             switch (type) {
+                case "select":
+                    $("#" + formId + " #group_select-element").show();
+                    break;
                 case "number":
                     $("#" + formId + " #group_number-element").show();
                     break;
@@ -208,6 +211,7 @@ $formIsEnabled = (boolean) $cabride->getEnableCustomForm();
             }
 
             $("#" + formId + " [name='is_required']").parents(".sb-form-line").hide();
+            $("#" + formId + " [name='default_value']").parents(".sb-form-line").show();
 
             switch (type) {
                 case "text":
@@ -216,13 +220,23 @@ $formIsEnabled = (boolean) $cabride->getEnableCustomForm();
                 case "date":
                 case "number":
                 case "password":
+                case "select":
                     $("#" + formId + " [name='is_required']").parents(".sb-form-line").show();
+                    break;
+                default:
+            }
+
+            switch (type) {
+                case "password":
+                case "divider":
+                case "spacer":
+                    $("#" + formId + " [name='default_value']").parents(".sb-form-line").hide();
                     break;
                 default:
             }
         };
 
-        window.toggleGroups("form-edit-field", "custom");
+        window.toggleGroups("form-edit-field", "divider");
 
         window.binderFormField = function (formId) {
             let typeFields = $("#" + formId + " [name='field_type']");
