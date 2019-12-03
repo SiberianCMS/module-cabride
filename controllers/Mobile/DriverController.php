@@ -28,24 +28,24 @@ class Cabride_Mobile_DriverController extends MobileController
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
 
-            $cabride = (new Cabride())->find($valueId, "value_id");
+            $cabride = (new Cabride())->find($valueId, 'value_id');
             if (!$cabride || !$cabride->getId()) {
-                throw new Exception(p__("cabride", "This instance doesn't exists."));
+                throw new Exception(p__('cabride', "This instance doesn't exists."));
             }
 
-            $driver = (new Driver())->find($customerId, "customer_id");
+            $driver = (new Driver())->find($customerId, 'customer_id');
             if (!$driver || !$driver->getId()) {
-                throw new Exception(p__("cabride", "This driver doesn't exists."));
+                throw new Exception(p__('cabride', "This driver doesn't exists."));
             }
 
             $payments = (new Payment())->findAll(
                 [
-                    "driver_id = ?" => $driver->getId(),
-                    "status = ?" => "paid",
+                    'driver_id = ?' => $driver->getId(),
+                    'status = ?' => 'paid',
                 ],
-                "payment_id DESC",
+                'payment_id DESC',
                 [
-                    "limit" => 100
+                    'limit' => 100
                 ]
             );
 

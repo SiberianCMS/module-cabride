@@ -7,10 +7,10 @@ use Cabride\Model\Vehicle;
 use Cabride\Model\Payment;
 use Cabride\Model\Cabride;
 use Cabride\Model\RequestDriver;
-use Cabride\Model\ClientVault;
 use Siberian\Currency;
 use Core\Model\Base;
 use Siberian\Json;
+use Siberian\Exception;
 use Siberian_Google_Geocoding as Geocoding;
 use Cabride\Controller\Mobile as MobileController;
 
@@ -28,14 +28,17 @@ class Cabride_Mobile_RideController extends MobileController
     public function meAction()
     {
         try {
-            $request = $this->getRequest();
             $session = $this->getSession();
             $customerId = $session->getCustomerId();
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
 
-            $cabride = (new Cabride())->find($valueId, "value_id");
-            $client = (new Client())->find($customerId, "customer_id");
+            $cabride = (new Cabride())->find($valueId, 'value_id');
+            $client = (new Client())->find($customerId, 'customer_id');
+            if (!$client || !$client->getId()) {
+                throw new Exception(p__('cabride',
+                    'Sorry, we are unable to find this account!'));
+            }
             $rides = (new Request())->findExtended($valueId, $client->getId());
 
             $collection = [];
@@ -43,50 +46,54 @@ class Cabride_Mobile_RideController extends MobileController
                 $data = $ride->getData();
 
                 // Makes payload lighter!
-                unset($data["raw_route"]);
+                unset($data['raw_route']);
 
-                $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"], $cabride->getCurrency());
-                $data["formatted_lowest_price"] = Base::_formatPrice($data["estimated_lowest_cost"], $cabride->getCurrency());
+                $data['formatted_price'] = Base::_formatPrice($data['estimated_cost'], $cabride->getCurrency());
+                $data['formatted_lowest_price'] = Base::_formatPrice($data['estimated_lowest_cost'], $cabride->getCurrency());
 
-                $data["formatted_driver_price"] = false;
-                if (!empty($data["driver_id"])) {
-                    $driver = (new Driver())->find($data["driver_id"]);
+                $data['formatted_driver_price'] = false;
+                if (!empty($data['driver_id'])) {
+                    $driver = (new Driver())->find($data['driver_id']);
+                    if (!$driver || !$driver->getId()) {
+                        throw new Exception(p__('cabride',
+                            'Sorry, we are unable to find this driver!'));
+                    }
                     $distanceKm = ceil($ride->getDistance() / 1000);
                     $durationMinute = ceil($ride->getDuration() / 60);
                     $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
 
-                    $data["formatted_driver_price"] = Base::_formatPrice($driverPrice, $cabride->getCurrency());
-                    $data["driver_phone"] = $driver->getDriverPhone();
+                    $data['formatted_driver_price'] = Base::_formatPrice($driverPrice, $cabride->getCurrency());
+                    $data['driver_phone'] = $driver->getDriverPhone();
 
                     // Driver request!
                     $driverRequest = (new RequestDriver())->find([
-                        "driver_id" => $driver->getId(),
-                        "request_id" => $ride->getId(),
+                        'driver_id' => $driver->getId(),
+                        'request_id' => $ride->getId(),
                     ]);
 
-                    if ($driverRequest->getId()) {
-                        $data["eta_driver"] = (integer) $driverRequest->getEtaToClient();
+                    if ($driverRequest && $driverRequest->getId()) {
+                        $data['eta_driver'] = (integer) $driverRequest->getEtaToClient();
                     }
                 }
 
                 // Recast values
                 $now = time();
-                $data["search_timeout"] = (integer) $data["search_timeout"];
-                $data["timestamp"] = (integer) $data["timestamp"];
-                $data["expires_in"] = (integer) ($data["expires_at"] - $now);
+                $data['search_timeout'] = (integer) $data['search_timeout'];
+                $data['timestamp'] = (integer) $data['timestamp'];
+                $data['expires_in'] = (integer) ($data['expires_at'] - $now);
 
                 $collection[] = $data;
             }
 
             $payload = [
-                "success" => true,
-                "collection" => $collection,
+                'success' => true,
+                'collection' => $collection,
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => __("An unknown error occurred, please try again later."),
-                "except" => $e->getMessage()
+                'error' => true,
+                'message' => __('An unknown error occurred, please try again later.'),
+                'except' => $e->getMessage()
             ];
         }
 
@@ -99,56 +106,37 @@ class Cabride_Mobile_RideController extends MobileController
     public function myPaymentsAction()
     {
         try {
-            $request = $this->getRequest();
             $session = $this->getSession();
             $customerId = $session->getCustomerId();
-            $optionValue = $this->getCurrentOptionValue();
-            $valueId = $optionValue->getId();
 
-            $cabride = (new Cabride())->find($valueId, "value_id");
-            $client = (new Client())->find($customerId, "customer_id");
+            $client = (new Client())->find($customerId, 'customer_id');
+
+            if (!$client || !$client->getId()) {
+                throw new Exception(p__('cabride',
+                    'Sorry, we are unable to find this ride request!'));
+            }
 
             $payments = (new Payment())->fetchForClientId($client->getId());
-
-            $cards = (new ClientVault())->findAll([
-                "client_id = ?" => $client->getId(),
-                "payment_provider = ?" => $cabride->getPaymentProvider(),
-                "is_removed = ?" => 0,
-            ]);
 
             $paymentData = [];
             foreach ($payments as $payment) {
                 $data = $payment->getData();
 
-                $data["formatted_amount"] = Base::_formatPrice($data["amount"], $data["currency"]);
+                $data['formatted_amount'] = Base::_formatPrice($data['amount'], $data['currency']);
 
                 $paymentData[] = $data;
             }
 
-            $cardData = [];
-            foreach ($cards as $card) {
-                // Just in case, we skip "card_xxx" old vaults!
-                if (!empty($card->getCardToken())) {
-                    continue;
-                }
-
-                $data = $card->getData();
-
-                unset($data["raw_payload"]);
-
-                $cardData[] = $data;
-            }
-
             $payload = [
-                "success" => true,
-                "payments" => $paymentData,
-                "cards" => $cardData,
+                'success' => true,
+                'payments' => $paymentData,
+                'cards' => [],
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => __("An unknown error occurred, please try again later."),
-                "except" => $e->getMessage()
+                'error' => true,
+                'message' => __('An unknown error occurred, please try again later.'),
+                'except' => $e->getMessage()
             ];
         }
 
@@ -162,48 +150,44 @@ class Cabride_Mobile_RideController extends MobileController
     {
         try {
             $request = $this->getRequest();
-            $session = $this->getSession();
-            $customerId = $session->getCustomerId();
-            $optionValue = $this->getCurrentOptionValue();
-            $valueId = $optionValue->getId();
-            $requestId = $request->getParam("requestId", false);
+            $requestId = $request->getParam('requestId', false);
 
             $cancelReason = $request->getBodyParams();
 
             $ride = (new Request())->find($requestId);
 
-            if (!$requestId || !$ride->getId()) {
-                throw new Exception(p__("cabride",
-                    "Sorry, we are unable to find this ride request!"));
+            if (!$ride || !$ride->getId()) {
+                throw new Exception(p__('cabride',
+                    'Sorry, we are unable to find this ride request!'));
             }
 
             /**
              * @var $requestDrivers RequestDriver[]
              */
             $requestDrivers = (new RequestDriver())->findAll([
-                "request_id" => $requestId,
+                'request_id' => $requestId,
             ]);
 
             foreach ($requestDrivers as $requestDriver) {
-                $requestDriver->setStatus("aborted")->save();
+                $requestDriver->setStatus('aborted')->save();
             }
 
             $ride
-                ->setCancelReason($cancelReason["reason"])
-                ->setCancelNote($cancelReason["message"])
+                ->setCancelReason($cancelReason['reason'])
+                ->setCancelNote($cancelReason['message'])
                 ->save();
 
             $ride->cancelAuthorization();
-            $ride->changeStatus("aborted", Request::SOURCE_CLIENT);
+            $ride->changeStatus('aborted', Request::SOURCE_CLIENT);
 
             $payload = [
-                "success" => true,
-                "message" => p__("cabride", "Your request is cancelled!"),
+                'success' => true,
+                'message' => p__('cabride', 'Your request is cancelled!'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -217,48 +201,44 @@ class Cabride_Mobile_RideController extends MobileController
     {
         try {
             $request = $this->getRequest();
-            $session = $this->getSession();
-            $customerId = $session->getCustomerId();
-            $optionValue = $this->getCurrentOptionValue();
-            $valueId = $optionValue->getId();
-            $requestId = $request->getParam("requestId", false);
+            $requestId = $request->getParam('requestId', false);
 
             $cancelReason = $request->getBodyParams();
 
             $ride = (new Request())->find($requestId);
 
-            if (!$requestId || !$ride->getId()) {
-                throw new Exception(p__("cabride",
-                    "Sorry, we are unable to find this ride request!"));
+            if (!$ride || !$ride->getId()) {
+                throw new Exception(p__('cabride',
+                    'Sorry, we are unable to find this ride request!'));
             }
 
             /**
              * @var $requestDrivers RequestDriver[]
              */
             $requestDrivers = (new RequestDriver())->findAll([
-                "request_id" => $requestId,
+                'request_id' => $requestId,
             ]);
 
             foreach ($requestDrivers as $requestDriver) {
-                $requestDriver->setStatus("aborted")->save();
+                $requestDriver->setStatus('aborted')->save();
             }
 
             $ride
-                ->setCancelReason($cancelReason["reason"])
-                ->setCancelNote($cancelReason["message"])
+                ->setCancelReason($cancelReason['reason'])
+                ->setCancelNote($cancelReason['message'])
                 ->save();
 
             $ride->cancelAuthorization();
-            $ride->changeStatus("aborted", Request::SOURCE_DRIVER);
+            $ride->changeStatus('aborted', Request::SOURCE_DRIVER);
 
             $payload = [
-                "success" => true,
-                "message" => p__("cabride", "Your request is cancelled!"),
+                'success' => true,
+                'message' => p__('cabride', 'Your request is cancelled!'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -271,43 +251,46 @@ class Cabride_Mobile_RideController extends MobileController
     public function pendingAction ()
     {
         try {
-            $request = $this->getRequest();
             $session = $this->getSession();
             $customerId = $session->getCustomerId();
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
 
-            $cabride = (new Cabride())->find($valueId, "value_id");
-            $driver = (new Driver())->find($customerId, "customer_id");
-            $rides = (new Request())->findForDriver($valueId, $driver->getId(), "pending");
+            $cabride = (new Cabride())->find($valueId, 'value_id');
+            $driver = (new Driver())->find($customerId, 'customer_id');
+            if (!$driver || !$driver->getId()) {
+                throw new Exception(p__('cabride',
+                    'Sorry, we are unable to find this driver!'));
+            }
+            $rides = (new Request())->findForDriver($valueId, $driver->getId(), 'pending');
 
             $collection = [];
             foreach ($rides as $ride) {
                 $data = $ride->getData();
 
                 // Makes payload lighter!
-                unset($data["raw_route"]);
+                unset($data['raw_route']);
 
-                $data["formatted_price"] = Base::_formatPrice($data["estimated_cost"], $cabride->getCurrency());
+                $data['formatted_price'] = Base::_formatPrice($data['estimated_cost'], $cabride->getCurrency());
 
                 // Recast values
                 $now = time();
-                $data["search_timeout"] = (integer) $data["search_timeout"];
-                $data["timestamp"] = (integer) $data["timestamp"];
-                $data["expires_in"] = (integer) ($data["expires_at"] - $now);
+                $data['search_timeout'] = (integer) $data['search_timeout'];
+                $data['timestamp'] = (integer) $data['timestamp'];
+                $data['expires_in'] = (integer) ($data['expires_at'] - $now);
 
                 $collection[] = $data;
             }
 
             $payload = [
-                "success" => true,
-                "collection" => $collection,
+                'success' => true,
+                'collection' => $collection,
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => __("An unknown error occurred, please try again later."),
-                "except" => $e->getMessage()
+                'error' => true,
+                'message' => __('An unknown error occurred, please try again later.'),
+                'except' => $e->getMessage()
             ];
         }
 
@@ -326,41 +309,45 @@ class Cabride_Mobile_RideController extends MobileController
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
 
-            $cabride = (new Cabride())->find($valueId, "value_id");
-            $driver = (new Driver())->find($customerId, "customer_id");
-            $rides = (new Request())->findForDriver($valueId, $driver->getId(), ["accepted", "onway", "inprogress"]);
+            $cabride = (new Cabride())->find($valueId, 'value_id');
+            $driver = (new Driver())->find($customerId, 'customer_id');
+            if (!$driver || !$driver->getId()) {
+                throw new Exception(p__('cabride',
+                    'Sorry, we are unable to find this driver!'));
+            }
+            $rides = (new Request())->findForDriver($valueId, $driver->getId(), ['accepted', 'onway', 'inprogress']);
 
             $collection = [];
             foreach ($rides as $ride) {
                 $data = $ride->getData();
 
                 // Makes payload lighter!
-                unset($data["raw_route"]);
+                unset($data['raw_route']);
 
-                $data["formatted_price"] = Base::_formatPrice($data["cost"], $cabride->getCurrency());
+                $data['formatted_price'] = Base::_formatPrice($data['cost'], $cabride->getCurrency());
 
                 // Recast values
                 $now = time();
-                $data["search_timeout"] = (integer) $data["search_timeout"];
-                $data["timestamp"] = (integer) $data["timestamp"];
-                $data["expires_in"] = (integer) ($data["expires_at"] - $now);
+                $data['search_timeout'] = (integer) $data['search_timeout'];
+                $data['timestamp'] = (integer) $data['timestamp'];
+                $data['expires_in'] = (integer) ($data['expires_at'] - $now);
 
                 $client = (new Client())->find($ride->getClientId());
 
-                $data["client_phone"] = $client->getMobile();
+                $data['client_phone'] = $client->getMobile();
 
                 $collection[] = $data;
             }
 
             $payload = [
-                "success" => true,
-                "collection" => $collection,
+                'success' => true,
+                'collection' => $collection,
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => __("An unknown error occurred, please try again later."),
-                "except" => $e->getMessage()
+                'error' => true,
+                'message' => __('An unknown error occurred, please try again later.'),
+                'except' => $e->getMessage()
             ];
         }
 
