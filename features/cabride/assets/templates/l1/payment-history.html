@@ -21,13 +21,15 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div ng-if="!isLoading">
+        <div ng-if="!isLoading"
+             class="list">
             <div class="item item-divider item-divider-custom">
-                <span ng-show="filterName == 'card'">{{ ::"Pending payout" | translate:"cabride" }}</span>
+                <span ng-show="filterName == 'credit-card'">{{ ::"Pending payout" | translate:"cabride" }}</span>
                 <span ng-show="filterName == 'cash'">{{ ::"Pending cash return" | translate:"cabride" }}</span>
             </div>
 
-            <div ng-if="filterName == 'card'">
+            <div ng-if="filterName == 'credit-card'"
+                 class="list">
                 <div ng-if="pendingPayouts.length > 0"
                      ng-repeat="pendingPayout in pendingPayouts"
                      class="item item-custom"
@@ -75,11 +77,11 @@
                         </div>
                     </div>
                     <div class="row"
-                         style="font-size: .85em;">
-                        <div class="col-60">
+                         style="font-size: .75em;">
+                        <div class="col-40">
                             {{ ::"Period" | translate:"cabride" }}
                         </div>
-                        <div class="col-40 text-right">
+                        <div class="col-60 text-right">
                             {{ dateFormat(cashReturn.period_from_timestamp) }} - {{ dateFormat(cashReturn.period_to_timestamp) }}
                         </div>
                     </div>
@@ -99,7 +101,7 @@
                 {{ ::"Payments list (last 100)" | translate:"cabride" }}
             </div>
 
-            <div ng-show="filtered.length == 0"
+            <div ng-if="filtered.length == 0"
                  class="list">
                 <div class="item item-custom text-center">
                     {{ ::"You have no payment." | translate:"cabride" }}
@@ -109,7 +111,7 @@
             <div ng-if="filtered.length > 0"
                  class="list">
 
-                <div ng-repeat="payment in filtered"
+                <div ng-repeat="payment in filtered track by $index"
                      class="item item-custom item-icon-left"
                      style="padding-top: 5px; padding-bottom: 5px;">
                     <div ng-if="filterName == 'cash'">
@@ -134,7 +136,7 @@
                         </div>
                     </div>
 
-                    <div ng-if="filterName == 'card'">
+                    <div ng-if="filterName == 'credit-card'">
                         <i class="icon">
                             <img src="{{ creditCardBrand(payment.vault.brand) }}"
                                  style="height: 60%;" />
@@ -162,8 +164,8 @@
     </ion-content>
 
     <div class="tabs tabs-icon-top">
-        <a ng-click="statusFilter('card')"
-           ng-class="{'activated': filterName == 'card'}"
+        <a ng-click="statusFilter('credit-card')"
+           ng-class="{'activated': filterName == 'credit-card'}"
            class="tab-item">
             <i class="icon ion-card"></i>
             {{ ::"Credit card" | translate:"cabride" }}

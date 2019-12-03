@@ -11,9 +11,11 @@ use Application_Controller_Mobile_Default;
 class Mobile extends Application_Controller_Mobile_Default
 {
     /**
-     * @return $this|void
+     * @return $this|Application_Controller_Mobile_Default|\Core_Controller_Default|void
+     * @throws \Siberian\Exception
+     * @throws \Zend_Exception
      */
-    public function init()
+    public function init(): self
     {
         parent::init();
 

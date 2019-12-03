@@ -136,17 +136,26 @@ $formIsEnabled = (boolean) $cabride->getEnableCustomForm();
                     </div>
                     <?php endif; ?>
                 </div>
-
-
-
-
-
             </div>
         </div>
     </div>
 </div>
 
+
+
 <script type="text/javascript">
+    var optionAction = `
+<div class="select_actions form-group sb-form-line">
+    <div class="col-sm-10">
+        <button class="add_option btn btn-sm color-blue">
+            <i class="icon ion-plus"></i>
+            <?php echo p__("cabride", "Add an option") ?>
+        </button>
+    </div>
+    <div class="sb-cb"></div>
+</div>`;
+    var selectTemplate = `<?php echo FormField::getSelectTemplate() ?>`;
+
     $(document).ready(function () {
         bindForms("#fields");
 
@@ -256,11 +265,118 @@ $formIsEnabled = (boolean) $cabride->getEnableCustomForm();
                 location.reload();
             }, 1900);
         });
+
+        window.reIndex = function (formId) {
+            var options = $("#" + formId + " .select_option_index");
+            options.each(function (index) {
+                var _index = index + 1;
+                var el = $(this);
+                el.attr("rel", _index);
+                var fields = el.find("[name^=select_options]");
+                $(fields.get(0)).attr("name", "select_options[" + _index + "][label]");
+                $(fields.get(1)).attr("name", "select_options[" + _index + "][value]");
+                el.find("button.remove_option").attr("rel", _index);
+                el.find("span.option_index").text(_index);
+            });
+        };
+
+        window.bindSelectSortable = function (formId) {
+            // Sections
+            $('#' + formId + ' #fieldset-group_select').sortable({
+                handle: '.select-handle',
+                axis: 'y',
+                items: '.select-container',
+                opacity: 0.85,
+                stop: function() {
+                    window.reIndex(formId);
+                }
+            });
+        };
+
+        window.bindRemove = function () {
+            var removeOptionButtons = $(".remove_option");
+
+            removeOptionButtons.off("click");
+            removeOptionButtons.on("click", function (e) {
+                var elButton = $(this);
+                var formId = elButton.parents("form").attr("id");
+                e.preventDefault();
+                var button = $(this);
+                window.removeOption(formId, button.attr("rel"));
+            });
+        };
+
+        window.removeOption = function (formId, index) {
+            var klass = "#" + formId + " .select_option_index[rel='" + index + "']";
+            var el = $(klass);
+            el.remove();
+            window.reIndex(formId);
+        };
+
+        window.addOption = function (formId, index, value, label) {
+            var _index = index === undefined ?
+                $("#" + formId + " .select_option_index").length + 1 : index;
+            var _value = value === undefined ? "" : value;
+            var _label = label === undefined ? "" : label;
+
+            var newOption = selectTemplate
+                .replace(/#INDEX#/g, _index)
+                .replace(/#VALUE#/g, _value)
+                .replace(/#LABEL#/g, _label);
+
+            $("#" + formId + " .select_actions").before(newOption);
+
+            window.reIndex(formId);
+            window.bindRemove();
+        };
+
+        window.bindAddOption = function (formId) {
+            var buttonAddOption = $("#" + formId + " .add_option");
+            buttonAddOption.off("click");
+            buttonAddOption.on("click", function (e) {
+                e.preventDefault();
+                window.addOption(formId);
+            });
+        };
+
+        window.initSelect = function (formId) {
+            $("#" + formId + " #fieldset-group_select").append(optionAction);
+            window.bindSelectSortable(formId);
+        };
+
+        window.initSelect("form-edit-field");
+
+        window.addOption("form-edit-field");
+        window.addOption("form-edit-field");
+        window.addOption("form-edit-field");
+        window.reIndex("form-edit-field");
+        window.bindAddOption("form-edit-field");
+
+        window.bindRemove();
     });
 </script>
 
 <style type="text/css">
     #design .change_layout_handler img {
         max-height: 210px;
+    }
+
+    button.remove_option {
+        margin-top: 2px;
+        font-size: 20px;
+        padding: 0 9px;
+        float: right;
+    }
+
+    button.add_option {
+        margin-top: 2px;
+        padding: 5px 9px;
+        float: right;
+        font-size: 14px;
+    }
+
+    label.select_option {
+        text-indent: 6px;
+        font-style: italic;
     }
 </style>

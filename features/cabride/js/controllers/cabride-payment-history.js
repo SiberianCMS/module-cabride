@@ -7,11 +7,11 @@ angular.module('starter')
         pageTitle: $translate.instant("Payment history", "cabride"),
         valueId: Cabride.getValueId(),
         filtered: null,
-        filterName: "card",
-        keyName: "cardPayments",
+        filterName: "credit-card",
         pendingPayouts: [],
         cashReturns: [],
         collections: [],
+        allPayments: [],
     });
 
     $scope.cs = function () {
@@ -24,9 +24,10 @@ angular.module('starter')
         .getPaymentHistory()
         .then(function (payload) {
             $scope.collections = payload.collections;
+            $scope.allPayments = payload.collections.allPayments;
             $scope.cashReturns = payload.cashReturns;
             $scope.pendingPayouts = payload.pendingPayouts;
-            $scope.filtered = $scope.collections[$scope.keyName];
+            $scope.filtered = $scope.allPayments[$scope.filterName];
         }, function (error) {
             Dialog.alert("Error", error.message, "OK", -1, "cabride");
         }).then(function () {
@@ -66,7 +67,8 @@ angular.module('starter')
     };
 
     $scope.creditCardBrand = function (brand) {
-        switch (brand.toLowerCase()) {
+        var _brand = (brand === undefined) ? "" : brand.toLowerCase();
+        switch (_brand) {
             case "visa":
                 return "./features/cabride/assets/templates/images/011-cc-visa.svg";
             case "mastercard":
@@ -79,16 +81,14 @@ angular.module('starter')
 
     $scope.statusFilter = function (filter) {
         switch (filter) {
-            case "card":
-                $scope.filterName = "card";
-                $scope.keyName = "cardPayments";
+            case "credit-card":
+                $scope.filterName = "credit-card";
                 break;
             case "cash":
                 $scope.filterName = "cash";
-                $scope.keyName = "cashPayments";
                 break;
         }
-        $scope.filtered = $scope.collections[$scope.keyName];
+        $scope.filtered = $scope.allPayments[$scope.filterName];
         $ionicScrollDelegate.scrollTop();
     };
 

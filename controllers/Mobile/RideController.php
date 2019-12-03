@@ -624,9 +624,6 @@ class Cabride_Mobile_RideController extends MobileController
             foreach ($vehicleTypes as $vehicleType) {
                 $data = $vehicleType->getData();
 
-                dbg($data);
-                dbg($driverData["vehicle_id"]);
-
                 $data["id"] = $data["vehicle_id"];
                 $data["label"] = $data["type"];
                 $data["baseFare"] = Base::_formatPrice($data["base_fare"], $cabride->getCurrency());

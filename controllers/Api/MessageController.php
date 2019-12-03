@@ -19,10 +19,10 @@ class Cabride_Api_MessageController extends Base
      * @var array
      */
     public $secured_actions = [
-        "settings",
-        "join-lobby",
-        "send-request",
-        "aggregate-information",
+        'settings',
+        'join-lobby',
+        'send-request',
+        'aggregate-information',
     ];
 
     /**
@@ -36,23 +36,23 @@ class Cabride_Api_MessageController extends Base
              */
             $sslCertificate = (new System_Model_SslCertificates())
                 ->find([
-                    "hostname" => $this->getRequest()->getHttpHost()
+                    'hostname' => $this->getRequest()->getHttpHost()
                 ]);
             if (!$sslCertificate->getId()) {
-                throw new Exception(__("Unable to find a corresponding SSL Certificate!"));
+                throw new Exception(__('Unable to find a corresponding SSL Certificate!'));
             }
 
             $payload = [
-                "success" => true,
-                "privateKey" => file_get_contents($sslCertificate->getPrivate()),
-                "chain" => file_get_contents($sslCertificate->getChain()),
-                "certificate" => file_get_contents($sslCertificate->getCertificate())
+                'success' => true,
+                'privateKey' => file_get_contents($sslCertificate->getPrivate()),
+                'chain' => file_get_contents($sslCertificate->getChain()),
+                'certificate' => file_get_contents($sslCertificate->getCertificate())
             ];
 
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage()
+                'error' => true,
+                'message' => $e->getMessage()
             ];
         }
 
@@ -93,11 +93,11 @@ class Cabride_Api_MessageController extends Base
             $request = $this->getRequest();
             $data = $request->getBodyParams();
 
-            $driver = (new Driver)->find($this->userId, "customer_id");
-            if ($driver->getId()) {
+            $driver = (new Driver)->find($this->userId, 'customer_id');
+            if ($driver && $driver->getId()) {
                 $driver
-                    ->setLatitude($data["position"]["latitude"])
-                    ->setLongitude($data["position"]["longitude"])
+                    ->setLatitude($data['position']['latitude'])
+                    ->setLongitude($data['position']['longitude'])
                     ->save();
             }
 
@@ -126,28 +126,28 @@ class Cabride_Api_MessageController extends Base
             $mustFillVehicle = false;
 
             $data = [
-                "counters" => [
-                    "pending" => 0,
-                    "accepted" => 0,
-                    "declined" => 0,
-                    "done" => 0,
-                    "rides" => 0,
-                    "paymentHistory" => 0,
+                'counters' => [
+                    'pending' => 0,
+                    'accepted' => 0,
+                    'declined' => 0,
+                    'done' => 0,
+                    'rides' => 0,
+                    'paymentHistory' => 0,
                 ]
             ];
 
-            $driver = (new Driver)->find($this->userId, "customer_id");
-            if ($driver->getId()) {
+            $driver = (new Driver)->find($this->userId, 'customer_id');
+            if ($driver && $driver->getId()) {
                 $isDriver = true;
 
                 // Find ride requests
                 $statuses = [
-                    "pending",
-                    "accepted",
-                    "onway",
-                    "inprogress",
-                    "declined",
-                    "done",
+                    'pending',
+                    'accepted',
+                    'onway',
+                    'inprogress',
+                    'declined',
+                    'done',
                 ];
                 $rideRequests = (new RequestDriver())
                     ->fetchForDriver($driver->getId(), $statuses);
@@ -155,19 +155,19 @@ class Cabride_Api_MessageController extends Base
                 foreach ($rideRequests as $rideRequest) {
                     $status = $rideRequest->getStatus();
                     switch ($status) {
-                        case "pending":
-                            $data["counters"]["pending"]++;
+                        case 'pending':
+                            $data['counters']['pending']++;
                             break;
-                        case "accepted":
-                        case "onway":
-                        case "inprogress":
-                            $data["counters"]["accepted"]++;
+                        case 'accepted':
+                        case 'onway':
+                        case 'inprogress':
+                            $data['counters']['accepted']++;
                             break;
-                        case "declined":
-                            $data["counters"]["declined"]++;
+                        case 'declined':
+                            $data['counters']['declined']++;
                             break;
-                        case "done":
-                            $data["counters"]["done"]++;
+                        case 'done':
+                            $data['counters']['done']++;
                             break;
                     }
                 }
@@ -177,35 +177,35 @@ class Cabride_Api_MessageController extends Base
                 // Cash return pending
                 $cashReturns = (new Cashreturn())->findAll(
                     [
-                        "driver_id = ?" => $driver->getId(),
-                        "status = ?" => "requested",
+                        'driver_id = ?' => $driver->getId(),
+                        'status = ?' => 'requested',
                     ]
                 );
 
-                $data["counters"]["paymentHistory"] += $cashReturns->count();
+                $data['counters']['paymentHistory'] += $cashReturns->count();
             }
 
-            $client = (new Client)->find($this->userId, "customer_id");
-            if ($client->getId()) {
+            $client = (new Client)->find($this->userId, 'customer_id');
+            if ($client && $client->getId()) {
                 $isPassenger = true;
 
                 $rides = (new Request())->fetchPendingForClient($client->getId());
 
-                $data["counters"]["rides"] = $rides->count();
+                $data['counters']['rides'] = $rides->count();
             }
 
-            $data["vehicleWarning"] = $mustFillVehicle;
-            $data["userType"] = $isDriver ? "driver" : "passenger";
+            $data['vehicleWarning'] = $mustFillVehicle;
+            $data['userType'] = $isDriver ? 'driver' : 'passenger';
 
             $payload = [
-                "success" => true,
-                "message" => __("Success"),
-                "data" => $data,
+                'success' => true,
+                'message' => __('Success'),
+                'data' => $data,
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -222,7 +222,7 @@ class Cabride_Api_MessageController extends Base
 
             $payload = [
                 'success' => true,
-                'message' => __("ACK OK send-request")
+                'message' => __('ACK OK send-request')
             ];
 
         } catch (\Exception $e) {

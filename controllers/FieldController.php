@@ -40,6 +40,9 @@ class Cabride_FieldController extends Application_Controller_Default
             }
 
             $form = new FormField();
+
+            $selectOptions = $field->getFieldOptions();
+
             $form->populate($field->getData());
             $form->removeNav("nav-fields");
             $submit = $form->addSubmit(p__("cabride", "Save"));
@@ -47,7 +50,7 @@ class Cabride_FieldController extends Application_Controller_Default
 
             $formId = "form-field-edit-{$fieldId}";
 
-            $form->binderField($formId);
+            $form->binderField($formId, $selectOptions);
             $form->setAttrib("id", $formId);
 
             $payload = [
@@ -164,7 +167,8 @@ class Cabride_FieldController extends Application_Controller_Default
 
                 $field
                     ->setData($params)
-                ->setFieldType($form->getValue("field_type"));
+                    ->setFieldOptions($params["select_options"])
+                    ->setFieldType($form->getValue("field_type"));
 
                 if (!$field->getId()) {
                     // Set the position + 1

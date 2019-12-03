@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('CabrideVehicleType', function ($scope, Cabride, Dialog) {
+.controller('CabrideVehicleType', function ($scope, $translate, Cabride, Dialog) {
     angular.extend($scope, {
         isLoading: false,
         enableCustomForm: Cabride.settings.enableCustomForm,
@@ -44,6 +44,11 @@ angular.module('starter')
                 }
             }
         });
+
+        if (!$scope.currentVehicleType) {
+            invalidFields.push("&nbsp;-&nbsp;" + $translate.instant("Vehicle type", "cabride"));
+            isValid = false;
+        }
 
         if (!isValid) {
             Dialog.alert("Required fields", invalidFields.join("<br />"), "OK", -1);

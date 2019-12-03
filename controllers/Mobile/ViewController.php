@@ -58,6 +58,9 @@ class Cabride_Mobile_ViewController extends MobileController
             $customFormFields = [];
             if ($enableCustomForm) {
                 // Fetching custom form fields
+                /**
+                 * @var $fields Field[]
+                 */
                 $fields = (new Field())->findAll(
                     [
                         "value_id = ?" => $valueId
@@ -71,6 +74,7 @@ class Cabride_Mobile_ViewController extends MobileController
                         "field_id" => (integer) $field->getFieldId(),
                         "label" => (string) $field->getLabel(),
                         "type" => (string) $field->getFieldType(),
+                        "options" => (array) array_values($field->getFieldOptions()),
                         "min" => (float) $field->getNumberMin(),
                         "max" => (float) $field->getNumberMax(),
                         "step" => (float) $field->getNumberStep(),
@@ -78,6 +82,10 @@ class Cabride_Mobile_ViewController extends MobileController
                         "datetime_format" => (string) $field->getDatetimeFormat(),
                         "is_required" => (boolean) $field->getIsRequired(),
                     ];
+                    $defaultValue = (string) $field->getDefaultValue();
+                    if (!empty($defaultValue)) {
+                        $customField["value"] = $defaultValue;
+                    }
                     $customFormFields[] = $customField;
                 }
             }

@@ -1,6 +1,10 @@
 <label class="item item-input item-custom">
-    <select ng-model="field.value">
-        <option ng-repeat="option in field.options"
-                value="{{ option.value }}">{{ option.label }}</option>
-    </select>
+    <div class="input-label">
+        {{ field.label | translate }}
+    </div>
+    <input class="text-right"
+           type="text"
+           placeholder="{{ field.label | translate }}"
+           ng-model="field.value"
+           readonly="readonly" />
 </label>
