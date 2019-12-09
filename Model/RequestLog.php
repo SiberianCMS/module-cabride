@@ -8,6 +8,7 @@ use Core\Model\Base;
  * Class RequestLog
  * @package Cabride\Model
  *
+ * @method integer getId()
  */
 class RequestLog extends Base
 {
@@ -19,7 +20,6 @@ class RequestLog extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride\Model\Db\Table\RequestLog';
-        return $this;
+        $this->_db_table = Db\Table\RequestLog::class;
     }
 }

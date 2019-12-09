@@ -92,8 +92,7 @@ class Cabride_Mobile_RideController extends MobileController
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => __('An unknown error occurred, please try again later.'),
-                'except' => $e->getMessage()
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -135,8 +134,7 @@ class Cabride_Mobile_RideController extends MobileController
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => __('An unknown error occurred, please try again later.'),
-                'except' => $e->getMessage()
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -289,8 +287,7 @@ class Cabride_Mobile_RideController extends MobileController
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => __('An unknown error occurred, please try again later.'),
-                'except' => $e->getMessage()
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -346,8 +343,7 @@ class Cabride_Mobile_RideController extends MobileController
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => __('An unknown error occurred, please try again later.'),
-                'except' => $e->getMessage()
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -360,7 +356,6 @@ class Cabride_Mobile_RideController extends MobileController
     public function completedAction ()
     {
         try {
-            $request = $this->getRequest();
             $session = $this->getSession();
             $customerId = $session->getCustomerId();
             $optionValue = $this->getCurrentOptionValue();
@@ -395,8 +390,7 @@ class Cabride_Mobile_RideController extends MobileController
         } catch (\Exception $e) {
             $payload = [
                 "error" => true,
-                "message" => __("An unknown error occurred, please try again later."),
-                "except" => $e->getMessage()
+                "message" => $e->getMessage()
             ];
         }
 
@@ -444,8 +438,7 @@ class Cabride_Mobile_RideController extends MobileController
         } catch (\Exception $e) {
             $payload = [
                 "error" => true,
-                "message" => __("An unknown error occurred, please try again later."),
-                "except" => $e->getMessage()
+                "message" => $e->getMessage()
             ];
         }
 
@@ -461,40 +454,41 @@ class Cabride_Mobile_RideController extends MobileController
             $request = $this->getRequest();
             $session = $this->getSession();
             $customerId = $session->getCustomerId();
-            $optionValue = $this->getCurrentOptionValue();
-            $valueId = $optionValue->getId();
-            $requestId = $request->getParam("requestId", false);
+            $requestId = $request->getParam('requestId', false);
 
-            $cabride = (new Cabride())->find($valueId, "value_id");
             $ride = (new Request())->find($requestId);
-
-            if (!$requestId || !$ride->getId()) {
-                throw new Exception(p__("cabride",
-                    "Sorry, we are unable to find this ride request!"));
+            if (!$ride || !$ride->getId()) {
+                throw new Exception(p__('cabride',
+                    'Sorry, we are unable to find this ride request!'));
             }
 
-            $driver = (new Driver())->find($customerId, "customer_id");
+            $driver = (new Driver())->find($customerId, 'customer_id');
+
+            if (!$driver || !$driver->getId()) {
+                throw new Exception(p__('cabride',
+                    'Sorry, we are unable to find this driver!'));
+            }
 
             $requestDriver = (new RequestDriver())->find([
-                "request_id" => $requestId,
-                "driver_id" => $driver->getId(),
-                "status" => "pending"
+                'request_id' => $requestId,
+                'driver_id' => $driver->getId(),
+                'status' => 'pending'
             ]);
 
-            if ($requestDriver->getId()) {
+            if ($requestDriver && $requestDriver->getId()) {
                 $requestDriver
-                    ->setStatus("declined")
+                    ->setStatus('declined')
                     ->save();
             }
 
             $payload = [
-                "success" => true,
-                "message" => p__("cabride", "You declined the request!"),
+                'success' => true,
+                'message' => p__('cabride', 'You declined the request!'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -510,36 +504,41 @@ class Cabride_Mobile_RideController extends MobileController
             $request = $this->getRequest();
             $session = $this->getSession();
             $customerId = $session->getCustomerId();
-            $optionValue = $this->getCurrentOptionValue();
-            $valueId = $optionValue->getId();
-            $requestId = $request->getParam("requestId", false);
+            $requestId = $request->getParam('requestId', false);
             $data = $request->getBodyParams();
-            $route = $data["route"];
+            $route = $data['route'];
 
-            $cabride = (new Cabride())->find($valueId, "value_id");
             $ride = (new Request())->find($requestId);
 
-            if (!$requestId || !$ride->getId()) {
-                throw new Exception(p__("cabride",
-                    "Sorry, we are unable to find this ride request!"));
+            if (!$ride || !$ride->getId()) {
+                throw new Exception(p__('cabride',
+                    'Sorry, we are unable to find this ride request!'));
             }
 
-            $driver = (new Driver())->find($customerId, "customer_id");
+            $driver = (new Driver())->find($customerId, 'customer_id');
+
+            if (!$driver || !$driver->getId()) {
+                throw new Exception(p__('cabride',
+                    'Sorry, we are unable to find this driver!'));
+            }
 
             $requestDriver = (new RequestDriver())->find([
-                "request_id" => $requestId,
-                "driver_id" => $driver->getId(),
-                "status" => ["pending", "declined"]
+                'request_id' => $requestId,
+                'driver_id' => $driver->getId(),
+                'status' => [
+                    'pending',
+                    'declined'
+                ]
             ]);
 
-            if (!$requestDriver->getId()) {
-                throw new Exception(p__("cabride",
-                    "Sorry, we are unable to find this ride request!"));
+            if (!$requestDriver || !$requestDriver->getId()) {
+                throw new Exception(p__('cabride',
+                    'Sorry, we are unable to find this ride request!'));
             }
 
             $requestDriver
                 ->setRawRoute(Json::encode($route))
-                ->setStatus("accepted")
+                ->setStatus('accepted')
                 ->save();
 
             $distanceKm = ceil($ride->getDistance() / 1000);
@@ -547,7 +546,7 @@ class Cabride_Mobile_RideController extends MobileController
             $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
             $ride->setCost($driverPrice);
 
-            $ride->changeStatus("accepted", Request::SOURCE_DRIVER);
+            $ride->changeStatus('accepted', Request::SOURCE_DRIVER);
 
             $ride
                 ->setDriverId($driver->getId())
@@ -555,21 +554,26 @@ class Cabride_Mobile_RideController extends MobileController
 
             // So also expires all other drivers!
             $requestDrivers = (new RequestDriver())
-                ->findAll(["request_id = ?" => $requestId, "driver_id != ?" => $driver->getId()]);
+                ->findAll(
+                    [
+                        'request_id = ?' => $requestId,
+                        'driver_id != ?' => $driver->getId()
+                    ]
+                );
             foreach ($requestDrivers as $requestDriver) {
                 $requestDriver
-                    ->setStatus("accepted_other")
+                    ->setStatus('accepted_other')
                     ->save();
             }
 
             $payload = [
-                "success" => true,
-                "message" => p__("cabride", "You finally accepted the request!"),
+                'success' => true,
+                'message' => p__('cabride', 'You finally accepted the request!'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 

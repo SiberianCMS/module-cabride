@@ -8,6 +8,7 @@ use Core\Model\Base;
  * Class RequestDriver
  * @package Cabride\Model
  *
+ * @method integer getId()
  * @method Db\Table\RequestDriver getTable()
  */
 class RequestDriver extends Base
@@ -20,8 +21,7 @@ class RequestDriver extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride\Model\Db\Table\RequestDriver';
-        return $this;
+        $this->_db_table = Db\Table\RequestDriver::class;
     }
 
     /**

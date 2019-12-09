@@ -9,6 +9,7 @@ use Siberian\Json;
  * Class Client
  * @package Cabride\Model
  *
+ * @method integer getId()
  * @method Db\Table\Client getTable()
  */
 class Client extends Base
@@ -21,8 +22,7 @@ class Client extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride\Model\Db\Table\Client';
-        return $this;
+        $this->_db_table = Db\Table\Client::class;
     }
 
     /**
@@ -41,10 +41,7 @@ class Client extends Base
     {
         $result = $this->getTable()->hasInProgressRequest($this->getClientId());
 
-        if (array_key_exists("total", $result) && $result["total"] > 0) {
-            return true;
-        }
-        return false;
+        return (array_key_exists('total', $result) && $result['total'] > 0);
     }
 
     /**
@@ -56,8 +53,8 @@ class Client extends Base
         $token = $this->getStripeCustomerToken();
         $archivedTokens = Json::decode($this->getTokenArchive());
         $archivedTokens[] = [
-            "stripe_customer_token" => $token,
-            "timestamp" => time()
+            'stripe_customer_token' => $token,
+            'timestamp' => time()
         ];
 
         $this
@@ -69,7 +66,7 @@ class Client extends Base
          * @var $clientVaults ClientVault[]
          */
         $clientVaults = (new ClientVault())->findAll([
-            "client_id = ?" => $this->getId()
+            'client_id = ?' => $this->getId()
         ]);
 
         foreach ($clientVaults as $clientVault) {

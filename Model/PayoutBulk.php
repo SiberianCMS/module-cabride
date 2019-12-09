@@ -7,6 +7,8 @@ use Core\Model\Base;
 /**
  * Class PayoutBulk
  * @package Cabride\Model
+ *
+ * @method integer getId()
  */
 class PayoutBulk extends Base
 {
@@ -18,8 +20,7 @@ class PayoutBulk extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride\Model\Db\Table\PayoutBulk';
-        return $this;
+        $this->_db_table = Db\Table\PayoutBulk::class;
     }
 
     /**

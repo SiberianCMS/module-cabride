@@ -14,10 +14,10 @@ class Field extends FormAbstract
      * @var array
      */
     public static $types = [
-        'divider' => 'Divider (title)',
-        'spacer' => 'Spacer (white space)',
+        'divider' => 'Title (divider)',
+        'spacer' => 'White space (spacer)',
         'number' => 'Number',
-        'select' => 'Select',
+        'select' => 'Dropdown select',
         'checkbox' => 'Checkbox',
         'password' => 'Password',
         'text' => 'Text',

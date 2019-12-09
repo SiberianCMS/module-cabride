@@ -84,6 +84,16 @@ class Cabride_Mobile_ViewController extends MobileController
                     ];
                     $defaultValue = (string) $field->getDefaultValue();
                     if (!empty($defaultValue)) {
+                        switch ($field->getFieldType()) {
+                            case 'number':
+                                $defaultValue = (float) $defaultValue;
+                                break;
+                            case 'checkbox':
+                                $defaultValue = (boolean) $defaultValue;
+                                break;
+                            default:
+                                $defaultValue = (string) $defaultValue;
+                        }
                         $customField['value'] = $defaultValue;
                     }
                     $customFormFields[] = $customField;
@@ -319,7 +329,7 @@ class Cabride_Mobile_ViewController extends MobileController
             $profileErrors = $driver->getProfileErrors();
             if ($isOnline && count($profileErrors) > 0) {
                 foreach ($profileErrors as &$profileError) {
-                    $profileError = '- {$profileError}';
+                    $profileError = "- {$profileError}";
                 }
                 throw new Exception(p__('cabride', implode('<br />', $profileErrors)));
             }

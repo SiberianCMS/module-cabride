@@ -14,6 +14,7 @@ use Siberian_Google_Geocoding as Geocoding;
  * Class Cabride
  * @package Cabride\Model
  *
+ * @method integer getId()
  * @method $this find($id, $field = null)
  * @method string getDistanceUnit()
  * @method integer getSearchRadius()
@@ -26,15 +27,14 @@ class Cabride extends Base
     public static $acl = null;
 
     /**
-     * Cabride constructor.
+     * Cabride constructor.s
      * @param array $params
      * @throws \Zend_Exception
      */
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride\Model\Db\Table\Cabride';
-        return $this;
+        $this->_db_table = Db\Table\Cabride::class;
     }
 
     /**

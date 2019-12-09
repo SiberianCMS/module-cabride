@@ -25,6 +25,7 @@ use PaymentStripe\Model\Currency as StripeCurrency;
  * Class Request
  * @package Cabride\Model
  *
+ * @method integer getId()
  * @method Db\Table\Request getTable()
  * @method $this setValueId(integer $valueId)
  * @method $this setVehicleId(integer $vehicleId)
@@ -59,8 +60,7 @@ class Request extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride\Model\Db\Table\Request';
-        return $this;
+        $this->_db_table = Db\Table\Request::class;
     }
 
     /**

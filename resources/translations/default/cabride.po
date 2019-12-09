@@ -1771,3 +1771,38 @@ msgstr "YES"
 msgctxt "cabride"
 msgid "number options"
 msgstr "number options"
+
+# GMT 1575897197.3548
+msgctxt "cabride"
+msgid "Title (divider)"
+msgstr "Title (divider)"
+
+# GMT 1575897197.3552
+msgctxt "cabride"
+msgid "White space (spacer)"
+msgstr "White space (spacer)"
+
+# GMT 1575897197.3556
+msgctxt "cabride"
+msgid "Dropdown select"
+msgstr "Dropdown select"
+
+# GMT 1575897197.356
+msgctxt "cabride"
+msgid "Select options"
+msgstr "Select options"
+
+# GMT 1575897197.3564
+msgctxt "cabride"
+msgid "Add an option"
+msgstr "Add an option"
+
+# GMT 1575897197.3568
+msgctxt "cabride"
+msgid "Option"
+msgstr "Option"
+
+# GMT 1575897197.3571
+msgctxt "cabride"
+msgid "Value"
+msgstr "Value"
