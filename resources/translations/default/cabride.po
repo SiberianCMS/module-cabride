@@ -1806,3 +1806,123 @@ msgstr "Option"
 msgctxt "cabride"
 msgid "Value"
 msgstr "Value"
+
+# GMT 1575899412.5982
+msgctxt "cabride"
+msgid "Customer ID"
+msgstr "Customer ID"
+
+# GMT 1575899412.5985
+msgctxt "cabride"
+msgid "Vehicle model"
+msgstr "Vehicle model"
+
+# GMT 1575899412.5989
+msgctxt "cabride"
+msgid "License plate"
+msgstr "License plate"
+
+# GMT 1575899412.5992
+msgctxt "cabride"
+msgid "Photo"
+msgstr "Photo"
+
+# GMT 1575899412.5996
+msgctxt "cabride"
+msgid "EDIT"
+msgstr "EDIT"
+
+# GMT 1575899412.6
+msgctxt "cabride"
+msgid "DELETE"
+msgstr "DELETE"
+
+# GMT 1575899412.6004
+msgctxt "cabride"
+msgid "no vehicle type"
+msgstr "no vehicle type"
+
+# GMT 1575899412.6008
+msgctxt "cabride"
+msgid "Search ..."
+msgstr "Search ..."
+
+# GMT 1575899412.6011
+msgctxt "cabride"
+msgid "Delete driver"
+msgstr "Delete driver"
+
+# GMT 1575899412.6015
+msgctxt "cabride"
+msgid "Yes, Delete"
+msgstr "Yes, Delete"
+
+# GMT 1575899618.1472
+msgctxt "cabride"
+msgid "Firstname"
+msgstr "Firstname"
+
+# GMT 1575899618.1475
+msgctxt "cabride"
+msgid "Lastname"
+msgstr "Lastname"
+
+# GMT 1575899618.1478
+msgctxt "cabride"
+msgid "Email"
+msgstr "Email"
+
+# GMT 1575899618.1482
+msgctxt "cabride"
+msgid "SET AS DRIVER"
+msgstr "SET AS DRIVER"
+
+# GMT 1575899618.1485
+msgctxt "cabride"
+msgid "Delete passenger"
+msgstr "Delete passenger"
+
+# GMT 1575899618.1487
+msgctxt "cabride"
+msgid "This user will be granted as a driver."
+msgstr "This user will be granted as a driver."
+
+# GMT 1575899618.1491
+msgctxt "cabride"
+msgid "Yes, Set as driver"
+msgstr "Yes, Set as driver"
+
+# GMT 1575899794.3568
+msgctxt "cabride"
+msgid "expired"
+msgstr "expired"
+
+# GMT 1575899794.3576
+msgctxt "cabride"
+msgid "declined"
+msgstr "declined"
+
+# GMT 1575900064.7572
+msgctxt "cabride"
+msgid "-"
+msgstr "-"
+
+# GMT 1575909282.4696
+msgctxt "cabride"
+msgid "Edit vehicle type"
+msgstr "Edit vehicle type"
+
+# GMT 1575909290.3099
+msgctxt "cabride"
+msgid "Driver license"
+msgstr "Driver license"
+
+# GMT 1575909290.3102
+msgctxt "cabride"
+msgid "Driver photo"
+msgstr "Driver photo"
+
+# GMT 1575909290.3106
+msgctxt "cabride"
+msgid "Edit driver"
+msgstr "Edit driver"
