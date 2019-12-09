@@ -7,10 +7,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-05-16T15:55:07+00:00\n"
-"PO-Revision-Date: 2019-05-16T15:55:07+00:00\n"
+"POT-Creation-Date: 2019-12-09T16:46:37+00:00\n"
+"PO-Revision-Date: 2019-12-09T16:46:37+00:00\n"
 "Language: \n"
 
+# GMT 1558022294.1313
 #, mobile
 msgctxt "cabride"
 msgid "+"
@@ -1519,11 +1520,6 @@ msgctxt "cabride"
 msgid "Who are you?"
 msgstr "Qui êtes-vous?"
 
-# GMT 1558015777.1402
-msgctxt "cabride"
-msgid "YES"
-msgstr "YES"
-
 # GMT 1558015728.2371
 msgctxt "cabride"
 msgid "Yes, Delete"
@@ -1822,3 +1818,393 @@ msgstr "demandé"
 msgctxt "cabride"
 msgid "returned"
 msgstr "retourné"
+
+# GMT 1575900064.7572
+msgctxt "cabride"
+msgid "-"
+msgstr "-"
+
+# GMT 1558016971.8394
+#, mobile
+msgctxt "cabride"
+msgid "Actions"
+msgstr "Actions"
+
+# GMT 1574430032.2629
+msgctxt "cabride"
+msgid "Add a field"
+msgstr "Ajouter un champ"
+
+# GMT 1575897197.3564
+msgctxt "cabride"
+msgid "Add an option"
+msgstr "Ajouter une option"
+
+msgctxt "cabride"
+msgid "App"
+msgstr "App"
+
+# GMT 1558022294.1127
+#, mobile
+msgctxt "cabride"
+msgid "Base"
+msgstr "Base"
+
+#, mobile
+msgctxt "cabride"
+msgid "CLIENT"
+msgstr "Client"
+
+#, mobile
+msgctxt "cabride"
+msgid "CabRide"
+msgstr "CabRide"
+
+# GMT 1558360749.2311
+msgctxt "cabride"
+msgid "CabRide management & configuration is done through the extended Dashboard / Menu"
+msgstr "La gestion et la configuration du module se font par le biais du menu de gauche Cab-Ride"
+
+# GMT 1558082566.1365
+msgctxt "cabride"
+msgid "Cancelled rides"
+msgstr "Courses annulées"
+
+# GMT 1574430032.2584
+msgctxt "cabride"
+msgid "Checkbox"
+msgstr "Case à cocher"
+
+# GMT 1558015720.2081
+#, mobile
+msgctxt "cabride"
+msgid "Client"
+msgstr "Client"
+
+# GMT 1574430032.2643
+msgctxt "cabride"
+msgid "Close"
+msgstr "Fermer"
+
+# GMT 1558015600.5185
+#, mobile
+msgctxt "cabride"
+msgid "Commission"
+msgstr "Commission"
+
+msgctxt "cabride"
+msgid "Confirmation"
+msgstr "Confirmation"
+
+# GMT 1558095858.7502
+# GMT 1558015796.1607
+msgctxt "cabride"
+msgid "Contact"
+msgstr "Contact"
+
+# GMT 1574430029.318
+msgctxt "cabride"
+msgid "Currency (app settings)"
+msgstr "Devise (paramètres de l'application)"
+
+#, mobile
+msgctxt "cabride"
+msgid "DESTINATION"
+msgstr "DESTINATION"
+
+# GMT 1558016972.2563
+#, mobile
+msgctxt "cabride"
+msgid "DETAILS"
+msgstr "DETAILS"
+
+# GMT 1558015600.5187
+msgctxt "cabride"
+msgid "Date"
+msgstr "Date"
+
+# GMT 1574430032.2596
+msgctxt "cabride"
+msgid "Date & time"
+msgstr "Date et heure"
+
+# GMT 1574430032.2615
+msgctxt "cabride"
+msgid "Date & time format"
+msgstr "Format de la date"
+
+# GMT 1574430032.2618
+msgctxt "cabride"
+msgid "Date & time options"
+msgstr "Options"
+
+# GMT 1574430032.261
+msgctxt "cabride"
+msgid "Date format"
+msgstr "Format de la date"
+
+# GMT 1574430032.2613
+msgctxt "cabride"
+msgid "Date options"
+msgstr "Options"
+
+# GMT 1574430032.2632
+msgctxt "cabride"
+msgid "Default"
+msgstr "Défaut"
+
+# GMT 1574430032.262
+msgctxt "cabride"
+msgid "Default value"
+msgstr "Valeur par défaut"
+
+# GMT 1558015720.209
+msgctxt "cabride"
+msgid "Dist. / Dur."
+msgstr "Dist. / Dur."
+
+# GMT 1558016895.743
+#, mobile
+msgctxt "cabride"
+msgid "Distance"
+msgstr "Distance"
+
+# GMT 1574430032.2575
+msgctxt "cabride"
+msgid "Divider (title)"
+msgstr "Titre"
+
+# GMT 1575897197.3556
+msgctxt "cabride"
+msgid "Dropdown select"
+msgstr "Menu déroulant"
+
+# GMT 1558015614.9602
+msgctxt "cabride"
+msgid "E-mail"
+msgstr "E-mail"
+
+# GMT 1574430029.3185
+msgctxt "cabride"
+msgid "Enable custom form"
+msgstr "Activer le formulaire personnalisé"
+
+# GMT 1558016895.8227
+#, mobile
+msgctxt "cabride"
+msgid "Est."
+msgstr "Est."
+
+# GMT 1574430023.6879
+msgctxt "cabride"
+msgid "Form"
+msgstr "Formulaire"
+
+# GMT 1574430032.2626
+msgctxt "cabride"
+msgid "Form configuration"
+msgstr "Formulaire"
+
+# GMT 1558360749.2321
+msgctxt "cabride"
+msgid "Go to"
+msgstr "Se rendre"
+
+# GMT 1558015600.5116
+msgctxt "cabride"
+msgid "ID"
+msgstr "ID"
+
+# GMT 1558095771.6701
+msgctxt "cabride"
+msgid "Incorrect base address"
+msgstr "Addresse incorrecte"
+
+# GMT 1574430032.2572
+msgctxt "cabride"
+msgid "Label"
+msgstr "Titre"
+
+# GMT 1575899618.1475
+# GMT 1558015728.2251
+msgctxt "cabride"
+msgid "Lastname"
+msgstr "Nom"
+
+# GMT 1574430032.2631
+msgctxt "cabride"
+msgid "Manage fields"
+msgstr "Gérer les champs"
+
+# GMT 1574430032.2602
+msgctxt "cabride"
+msgid "Max. value"
+msgstr "Max. valeur"
+
+# GMT 1574430032.2599
+msgctxt "cabride"
+msgid "Min. value"
+msgstr "Min. valeur"
+
+# GMT 1574430032.264
+msgctxt "cabride"
+msgid "NO"
+msgstr "NON"
+
+# GMT 1574430032.2581
+msgctxt "cabride"
+msgid "Number"
+msgstr "Nombre"
+
+# GMT 1574430032.2607
+msgctxt "cabride"
+msgid "Number options"
+msgstr "Options"
+
+# GMT 1558016895.4816
+#, mobile
+msgctxt "cabride"
+msgid "OK"
+msgstr "OK"
+
+# GMT 1575897197.3568
+msgctxt "cabride"
+msgid "Option"
+msgstr "Option"
+
+# GMT 1574430032.2587
+msgctxt "cabride"
+msgid "Password"
+msgstr "Mot de passe"
+
+# GMT 1575899412.5992
+# GMT 1558015753.6701
+msgctxt "cabride"
+msgid "Photo"
+msgstr "Photo"
+
+# GMT 1574430032.2637
+msgctxt "cabride"
+msgid "Position"
+msgstr "Position"
+
+# GMT 1574430032.2634
+msgctxt "cabride"
+msgid "Required"
+msgstr "Obligatoire"
+
+# GMT 1574430032.2623
+msgctxt "cabride"
+msgid "Required?"
+msgstr "Champ obligatoire?"
+
+# GMT 1575897197.356
+msgctxt "cabride"
+msgid "Select options"
+msgstr "Options"
+
+# GMT 1558082566.1146
+msgctxt "cabride"
+msgid "Signup / Login"
+msgstr "Inscription / Connexion"
+
+# GMT 1574430032.2578
+msgctxt "cabride"
+msgid "Spacer (white space)"
+msgstr "Espace"
+
+# GMT 1574430032.2604
+msgctxt "cabride"
+msgid "Step"
+msgstr "Incrément"
+
+# GMT 1558015720.215
+# GMT 1558015797.474
+msgctxt "cabride"
+msgid "Stripe"
+msgstr "Stripe"
+
+# GMT 1558022275.1596
+msgctxt "cabride"
+msgid "Success!"
+msgstr "Succès!"
+
+# GMT 1574430032.2589
+msgctxt "cabride"
+msgid "Text"
+msgstr "Texte (une ligne)"
+
+# GMT 1574430032.2592
+msgctxt "cabride"
+msgid "Textarea"
+msgstr "Zone de texte"
+
+# GMT 1558096200.2962
+msgctxt "cabride"
+msgid "The course is now marked are complete!"
+msgstr "La courses est marquée comme complète!"
+
+# GMT 1575897197.3548
+msgctxt "cabride"
+msgid "Title (divider)"
+msgstr "Titre"
+
+# GMT 1558015615.0221
+msgctxt "cabride"
+msgid "Total"
+msgstr "Total"
+
+# GMT 1558095808.5582
+# GMT 1558015781.1116
+msgctxt "cabride"
+msgid "Type"
+msgstr "Type"
+
+# GMT 1575897197.3571
+msgctxt "cabride"
+msgid "Value"
+msgstr "Valeur"
+
+# GMT 1558082566.1392
+msgctxt "cabride"
+msgid "Vechicle information"
+msgstr "Informations du véhicule"
+
+# GMT 1575897197.3552
+msgctxt "cabride"
+msgid "White space (spacer)"
+msgstr "Espace"
+
+# GMT 1574430032.2646
+# GMT 1558015777.1402
+msgctxt "cabride"
+msgid "YES"
+msgstr "OUI"
+
+# GMT 1558016971.8307
+#, mobile
+msgctxt "cabride"
+msgid "mn"
+msgstr "mn"
+
+# GMT 1558101564.976
+# GMT 1558015720.215
+msgctxt "cabride"
+msgid "n.c."
+msgstr "n.c."
+
+# GMT 1574434705.7617
+msgctxt "cabride"
+msgid "number options"
+msgstr "Options"
+
+# GMT 1558360749.234
+msgctxt "cabride"
+msgid "or"
+msgstr "ou"
+
+# GMT 1558022294.423
+#, mobile
+msgctxt "cabride"
+msgid "unpaid"
+msgstr "à payer"

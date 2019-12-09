@@ -91,14 +91,14 @@ $formIsEnabled = (boolean) $cabride->getEnableCustomForm();
                                             <h5 style="font-weight: bold;"><?php echo $field->getLabel() ?></h5>
                                         </td>
                                         <td>
-                                            <?php echo $field->getFieldType() ?>
+                                            <?php echo p__('cabride', FormField::$types[$field->getFieldType()]) ?>
                                         </td>
                                         <td><?php echo $field->getDefaultValue() ?></td>
                                         <td>
                                             <?php if ($field->getIsRequired()): ?>
-                                                <p class="label label-success"><?php echo p__("cabride", "YES") ?></p>
+                                                <p class="label label-success"><?php echo p__('cabride', 'YES') ?></p>
                                             <?php else: ?>
-                                                <p class="label label-danger"><?php echo p__("cabride", "NO") ?></p>
+                                                <p class="label label-danger"><?php echo p__('cabride', 'NO') ?></p>
                                             <?php endif; ?>
                                         </td>
                                         <td class="field-position"><?php echo $field->getPosition() ?></td>
