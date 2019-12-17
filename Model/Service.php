@@ -21,6 +21,11 @@ class Service extends Base
      */
     public static function serve($cron, $task)
     {
+        if (!self::selfServe()) {
+            $cron->log('CabRide service is running outside cron.');
+            return;
+        }
+
         if (self::serviceStatus()) {
             $cron->log('CabRide server already running.');
             return;
@@ -78,7 +83,7 @@ class Service extends Base
     /**
      * @return bool
      */
-    public static function serviceStatus()
+    public static function serviceStatus(): bool
     {
         $base_node = path('app/local/modules/Cabride/resources/server');
         $bin_path = __get('cabride_node_path');
@@ -92,6 +97,16 @@ class Service extends Base
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public static function selfServe(): bool
+    {
+        $selfServe = __get('cabride_self_serve');
+
+        return $selfServe === 'true';
     }
 
     /**

@@ -22,26 +22,26 @@
             <div class="cr-home-loader-spinner text-center">
                 <img src="./features/cabride/assets/templates/images/007-loader.svg" />
                 <br />
-                {{ ::"Loading ..." | translate:"cabride" }}
+                {{ ::'Loading ...' | translate:'cabride' }}
             </div>
         </div>
 
         <div ng-if="!isDriver && !isPassenger && !isLoading">
-            <h3 class="cr-home-title">{{ ::"Who are you?" | translate:"cabride" }}</h3>
+            <h3 class="cr-home-title">{{ ::'Who are you?' | translate:'cabride' }}</h3>
 
             <div class="cr-user-choice">
                 <div class="cr-passenger"
                      ng-click="selectPassenger();">
                     <img ng-src="{{ passengerPicture() }}" />
                     <br />
-                    {{ ::"Passenger" | translate:"cabride" }}
+                    {{ ::'Passenger' | translate:'cabride' }}
                 </div>
                 <div class="cr-driver"
                      ng-show="driverCanRegister()"
                      ng-click="selectDriver();">
                     <img ng-src="{{ driverPicture() }}" />
                     <br />
-                    {{ ::"Driver" | translate:"cabride" }}
+                    {{ ::'Driver' | translate:'cabride' }}
                 </div>
             </div>
         </div>
@@ -117,11 +117,11 @@
                     <div ng-if="isPassenger && pinText().action === 'search'"
                          class="cr-map-request">
                         <div class="cr-map-distance">
-                            <span class="cr-request-label">{{ ::"Distance" | translate:"cabride" }}</span>
+                            <span class="cr-request-label">{{ ::'Distance' | translate:'cabride' }}</span>
                             <span class="pull-right">{{ ride.distance }}</span>
                         </div>
                         <div class="cr-map-duration">
-                            <span class="cr-request-label">{{ ::"Est. duration" | translate:"cabride" }}</span>
+                            <span class="cr-request-label">{{ ::'Est. duration' | translate:'cabride' }}</span>
                             <span class="pull-right">{{ ride.duration }}</span>
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                             <div class="cr-loader-spinner">
                                 <img src="./features/cabride/assets/templates/images/007-loader.svg" />
                             </div>
-                            <div class="cr-loader-label">{{ ::"Looking for drivers" | translate:"cabride" }}</div>
+                            <div class="cr-loader-label">{{ ::'Looking for drivers' | translate:'cabride' }}</div>
                         </div>
                     </div>
 

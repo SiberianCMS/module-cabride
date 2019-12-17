@@ -21,6 +21,7 @@ class Cabride_Backoffice_ViewController extends Backoffice_Controller_Default
             'settings' => [
                 'cabride_server_auth' => __get('cabride_server_auth'),
                 'cabride_server_port' => (integer) __get('cabride_server_port'),
+                'cabride_self_serve' => __get('cabride_self_serve'),
             ],
         ];
 
@@ -47,6 +48,7 @@ class Cabride_Backoffice_ViewController extends Backoffice_Controller_Default
 
             __set('cabride_server_auth', $settings['cabride_server_auth']);
             __set('cabride_server_port', $settings['cabride_server_port']);
+            __set('cabride_self_serve', $settings['cabride_self_serve']);
 
             // Rebuild config
             $cabrideUser = (new \Api_Model_User())

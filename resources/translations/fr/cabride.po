@@ -2208,3 +2208,9 @@ msgstr "ou"
 msgctxt "cabride"
 msgid "unpaid"
 msgstr "à payer"
+
+# GMT 1576575209.6805
+#, mobile
+msgctxt "cabride"
+msgid "My reason isn't listed"
+msgstr "Autre motif"

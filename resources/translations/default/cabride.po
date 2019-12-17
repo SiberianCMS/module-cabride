@@ -1926,3 +1926,84 @@ msgstr "Driver photo"
 msgctxt "cabride"
 msgid "Edit driver"
 msgstr "Edit driver"
+
+# GMT 1576575209.6026
+msgctxt "cabride"
+msgid "Settings & maintenance"
+msgstr "Settings & maintenance"
+
+# GMT 1576575209.6029
+msgctxt "cabride"
+msgid "Auth type"
+msgstr "Auth type"
+
+# GMT 1576575209.6033
+msgctxt "cabride"
+msgid "HTTP Basic"
+msgstr "HTTP Basic"
+
+# GMT 1576575209.6037
+msgctxt "cabride"
+msgid "Bearer token"
+msgstr "Bearer token"
+
+# GMT 1576575209.604
+msgctxt "cabride"
+msgid "With some admin panels, HTTP Basic is not available, you can switch to Bearer token if this is your case."
+msgstr "With some admin panels, HTTP Basic is not available, you can switch to Bearer token if this is your case."
+
+# GMT 1576575209.6044
+msgctxt "cabride"
+msgid "WebSocket port"
+msgstr "WebSocket port"
+
+# GMT 1576575209.6048
+msgctxt "cabride"
+msgid "Port 37000 is the default."
+msgstr "Port 37000 is the default."
+
+# GMT 1576575209.6051
+msgctxt "cabride"
+msgid "Save & restart"
+msgstr "Save & restart"
+
+# GMT 1576575209.6055
+msgctxt "cabride"
+msgid "Live log"
+msgstr "Live log"
+
+# GMT 1576575209.6804
+msgctxt "cabride"
+msgid "Cabride"
+msgstr "Cabride"
+
+# GMT 1576575209.6805
+#, mobile
+msgctxt "cabride"
+msgid "My reason isn't listed"
+msgstr "My reason isn't listed"
+
+# GMT 1576578546.1919
+msgctxt "cabride"
+msgid "Enable service"
+msgstr "Enable service"
+
+# GMT 1576578546.1922
+msgctxt "cabride"
+msgid "Yes"
+msgstr "Yes"
+
+# GMT 1576578546.1924
+msgctxt "cabride"
+msgid "No"
+msgstr "No"
+
+# GMT 1576578546.1925
+msgctxt "cabride"
+msgid "WebSocket server log."
+msgstr "WebSocket server log."
+
+# GMT 1576578891.0133
+msgctxt "cabride"
+msgid "Settings saved, WebSocket is restarting."
+msgstr "Settings saved, WebSocket is restarting."

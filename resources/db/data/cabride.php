@@ -68,10 +68,15 @@ $config
     ->setData($data)
     ->insertOrUpdate(['code']);
 
-
 // 1.3.0 commission patch!
-$commissionPatch = __get("cabride_commission_patch");
-if ($commissionPatch != "done") {
+$commissionPatch = __get('cabride_commission_patch');
+if ($commissionPatch !== 'done') {
     $this->query("UPDATE cabride SET commission_fixed = commission WHERE 1;");
-    __set("cabride_commission_patch", "done");
+    __set('cabride_commission_patch', 'done');
+}
+
+// Defaults to enable!
+$enableService = __get('cabride_self_serve');
+if (empty($enableService)) {
+    __set('cabride_self_serve', 'true');
 }

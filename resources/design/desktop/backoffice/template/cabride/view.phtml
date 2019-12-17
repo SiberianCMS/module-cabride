@@ -3,23 +3,36 @@
     <form ng-submit="save()">
         <div class="form-group">
 
+            <div class="col-md-6"
+                 style="margin-bottom: 15px;">
+                <label for="cabride_self_serve"><?php echo p__('cabride', 'Enable service') ?></label>
+                <select id="cabride_self_serve"
+                        class="form-control"
+                        ng-model="settings.cabride_self_serve">
+                    <option value="true"><?php echo p__('cabride', 'Yes'); ?></option>
+                    <option value="false"><?php echo p__('cabride', 'No'); ?></option>
+                </select>
+            </div>
+
+            <div class="clear"></div>
+
             <div class="col-md-6">
-                <label for="cabride_server_auth"><?php echo p__("cabride", "Auth type") ?></label>
+                <label for="cabride_server_auth"><?php echo p__('cabride', 'Auth type') ?></label>
                 <select id="cabride_server_auth"
                         class="form-control"
                         ng-model="settings.cabride_server_auth">
-                    <option value="basic"><?php echo p__("cabride","HTTP Basic"); ?></option>
-                    <option value="bearer"><?php echo p__("cabride","Bearer token"); ?></option>
+                    <option value="basic"><?php echo p__('cabride', 'HTTP Basic'); ?></option>
+                    <option value="bearer"><?php echo p__('cabride', 'Bearer token'); ?></option>
                 </select>
 
                 <div class="alert alert-info"
                      style="margin-top: 15px;">
-                    <?php echo p__("cabride", "With some admin panels, HTTP Basic is not available, you can switch to Bearer token if this is your case.") ?>
+                    <?php echo p__('cabride', 'With some admin panels, HTTP Basic is not available, you can switch to Bearer token if this is your case.') ?>
                 </div>
             </div>
 
             <div class="col-md-6">
-                <label for="cabride_server_port"><?php echo p__("cabride", "WebSocket port") ?></label>
+                <label for="cabride_server_port"><?php echo p__('cabride', 'WebSocket port') ?></label>
                 <input id="cabride_server_port"
                        class="form-control"
                        type="number"
@@ -30,14 +43,14 @@
 
                 <div class="alert alert-info"
                      style="margin-top: 15px;">
-                    <?php echo p__("cabride", "Port 37000 is the default.") ?>
+                    <?php echo p__('cabride', 'Port 37000 is the default.') ?>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-12">
                     <button type="submit"
-                            class="btn btn-primary right"><?php echo p__("cabride", "Save & restart"); ?></button>
+                            class="btn btn-primary right"><?php echo p__('cabride', 'Save & restart'); ?></button>
                     <sb-loader is_visible="form_loader_is_visible"
                                type="'inner_content'"
                                size="'small'"
@@ -59,7 +72,7 @@
     <div class="form-group">
         <div class="col-md-12">
             <div class="alert alert-warning">
-                <?php echo __("WebSocket server log.") ?>
+                <?php echo p__('cabride', 'WebSocket server log.') ?>
             </div>
 
             <div ng-if="logError"
