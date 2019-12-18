@@ -3,7 +3,7 @@ angular.module('starter')
                                                  $window) {
     angular.extend($scope, {
         isLoading: false,
-        pageTitle: $translate.instant("Accepted requests", "cabride"),
+        pageTitle: $translate.instant('Accepted requests', 'cabride'),
         valueId: Cabride.getValueId(),
         showPassengerPhone: Cabride.settings.showPassengerPhone,
         collection: []
@@ -20,7 +20,7 @@ angular.module('starter')
         .then(function (payload) {
             $scope.collection = payload.collection;
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK", -1, "cabride");
+            Dialog.alert("Error", error.message, 'OK', -1, 'cabride');
         }).then(function () {
             $scope.isLoading = false;
         });
@@ -37,14 +37,10 @@ angular.module('starter')
     $scope.distance = function (request) {
         var unit = Cabride.settings.distance_unit;
         var distance = request.distance / 1000;
-        switch (unit) {
-            case "mi":
-                return Math.ceil(distance) + " mi";
-                break;
-            case "km": default:
-            return Math.ceil(distance) + " Km";
-            break;
+        if (unit === 'mi') {
+            return Math.ceil(distance) + ' mi';
         }
+        return Math.ceil(distance) + ' Km';
     };
 
     $scope.duration = function (request) {
@@ -79,19 +75,19 @@ angular.module('starter')
             .then(function (payload) {
                 Cabride.updateRequest(request);
                 Dialog
-                .alert("", payload.message, "OK", 2350)
+                .alert('', payload.message, 'OK', 2350)
                 .then(function () {
                     Loader.hide();
                     Navigator.navigate(payload.driveTo);
                 });
             }, function (error) {
-                Dialog.alert("Error", error.message, "OK", -1, "cabride");
+                Dialog.alert('Error', error.message, 'OK', -1, 'cabride');
             }).then(function () {
                 Loader.hide();
                 $scope.refresh();
             });
         }, function (error) {
-            Dialog.alert("Error", error[1], "OK", -1, "cabride");
+            Dialog.alert('Error', error[1], 'OK', -1, 'cabride');
             Loader.hide();
             $scope.refresh();
         });
@@ -104,13 +100,13 @@ angular.module('starter')
         .then(function (payload) {
             Cabride.updateRequest(request);
             Dialog
-            .alert("", payload.message, "OK", 2350)
+            .alert('', payload.message, 'OK', 2350)
             .then(function () {
                 Loader.hide();
                 Navigator.navigate(payload.driveTo);
             });
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK", -1, "cabride");
+            Dialog.alert('Error', error.message, 'OK', -1, 'cabride');
         }).then(function () {
             Loader.hide();
             $scope.refresh();
@@ -124,13 +120,13 @@ angular.module('starter')
         .then(function (payload) {
             Cabride.updateRequest(request);
             Dialog
-            .alert("", payload.message, "OK", 2350)
+            .alert('', payload.message, 'OK', 2350)
             .then(function () {
                 Loader.hide();
-                $state.go("cabride-completed-rides");
+                $state.go('cabride-completed-rides');
             });
         }, function (error) {
-            Dialog.alert("Error", error.message, "OK", -1, "cabride");
+            Dialog.alert('Error', error.message, 'OK', -1, 'cabride');
         }).then(function () {
             Loader.hide();
             $scope.refresh();
@@ -138,18 +134,18 @@ angular.module('starter')
     };
 
     $scope.callClient = function (request) {
-        $window.open("tel:" + request.client_phone, "_system");
+        $window.open('tel:' + request.client_phone, '_system');
     };
 
     $scope.details = function (request) {
-        Cabride.requestDetailsModal($scope.$new(true), request.request_id, "driver");
+        Cabride.requestDetailsModal($scope.$new(true), request.request_id, 'driver');
     };
 
     $scope.imagePath = function (image) {
-        if (image === "") {
-            return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg";
+        if (image === '') {
+            return IMAGE_URL + 'app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg';
         }
-        return IMAGE_URL + "images/application" + image;
+        return IMAGE_URL + 'images/application' + image;
     };
 
     $scope.$on('cabride.updateRequest', function (event, request) {

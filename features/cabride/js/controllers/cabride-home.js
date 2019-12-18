@@ -29,28 +29,36 @@ angular.module('starter')
         currentRoute: null,
         isPassenger: false,
         isDriver: false,
+        locationIsEnabled: Location.isEnabled,
         removeSideMenu: null
     });
 
-    $rootScope.$on("cabride.isAlive", function () {
+    $rootScope.$on('cabride.isAlive', function () {
         $timeout(function () {
             $scope.isAlive = true;
         });
     });
 
-    $rootScope.$on("cabride.isGone", function () {
+    $rootScope.$on('cabride.isGone', function () {
         $timeout(function () {
             $scope.isAlive = false;
         });
     });
 
-    $rootScope.$on("cabride.isOnline", function (event, isOnline) {
+    $rootScope.$on('cabride.isOnline', function (event, isOnline) {
         $scope.isOnline = isOnline;
     });
 
-    $rootScope.$on("cabride.advertDrivers", function (event, payload) {
+    $rootScope.$on('cabride.advertDrivers', function (event, payload) {
         // Refresh driver markers
         $scope.drawDrivers(payload.drivers);
+    });
+
+    $rootScope.$on('location.isEnabled', function (event, payload) {
+        // Refresh driver markers
+        $timeout(function () {
+            $scope.locationIsEnabled = payload;
+        });
     });
 
     $scope.$on('$ionicView.enter', function () {
@@ -88,6 +96,9 @@ angular.module('starter')
     $scope.openMenu = function () {
         CabrideUtils.openMenu();
     };
+
+    // Init contextual menu for initial triggers!
+    CabrideUtils.rebuildContextualMenu();
 
     // Passenger / Driver choice!
     $scope.selectPassenger = function () {

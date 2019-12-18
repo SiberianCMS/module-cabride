@@ -2,7 +2,7 @@ angular.module('starter')
 .controller('CabrideCancelled', function ($scope, $translate, $state, Cabride, CabrideUtils, Dialog, Loader) {
     angular.extend($scope, {
         isLoading: false,
-        pageTitle: $translate.instant("Declined requests", "cabride"),
+        pageTitle: $translate.instant('Declined requests', 'cabride'),
         valueId: Cabride.getValueId(),
         collection: []
     });

@@ -3,6 +3,8 @@
     <ion-nav-title>{{ getPageTitle() }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
+        <location-button></location-button>
+
         <button ng-if="canClear()"
                 ng-click="clearSearch()"
                 class="button button-clear header-item">

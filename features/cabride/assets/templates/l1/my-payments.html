@@ -21,13 +21,12 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div ng-if="!isLoading">
-
+        <div ng-if="!isLoading"
+             class="list">
 
             <div ng-if="filterName == 'payments'">
 
-                <div ng-if="payments.length == 0"
-                     class="list">
+                <div ng-if="payments.length == 0">
                     <div class="item item-custom text-center">
                         <span>{{ ::'You have no payments' | translate:'cabride' }}</span>
                     </div>
@@ -84,19 +83,7 @@
             </div>
 
             <div ng-if="filterName == 'cards'">
-
-                <div ng-if="cards.length == 0"
-                     class="list">
-                    <div class="item item-custom text-center">
-                        <span>{{ ::'You have no card saved' | translate:'cabride' }}</span>
-                    </div>
-                </div>
-
-                <div ng-if="cards.length > 0"
-                     class="list">
-                    <payment-stripe-cards cards="cards"
-                                          actions="cardActions"></payment-stripe-cards>
-                </div>
+                <payment-stripe-cards actions="cardActions"></payment-stripe-cards>
             </div>
 
         </div>
