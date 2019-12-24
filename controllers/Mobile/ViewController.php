@@ -4,8 +4,10 @@ use Cabride\Model\PushDevice;
 use Cabride\Model\Cabride;
 use Cabride\Model\Client;
 use Cabride\Model\Driver;
+use Cabride\Model\Field;
 use Cabride\Model\Stripe\Currency;
 use Siberian\Exception;
+use Siberian\Json;
 use Core\Model\Base;
 use Cabride\Controller\Mobile as MobileController;
 
@@ -21,22 +23,20 @@ class Cabride_Mobile_ViewController extends MobileController
     {
         try {
             // Fetch installation config file!
-            $configFile = Core_Model_Directory::getBasePathTo(
-                "/app/local/modules/Cabride/resources/server/config.json"
-            );
+            $configFile = path('/app/local/modules/Cabride/resources/server/config.json');
 
             if (!file_exists($configFile)) {
-                throw new \Siberian\Exception(__("The configuration files is missing!"));
+                throw new Exception(__('The configuration files is missing!'));
             }
 
-            $config = \Siberian_Json::decode(file_get_contents($configFile));
-            $wssUrl = $config["wssHost"] . ":" . $config["port"] . "/cabride";
+            $config = Json::decode(file_get_contents($configFile));
+            $wssUrl = $config['wssHost'] . ':' . $config['port'] . '/cabride';
 
             // DB Config!
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
             $dbConfig = (new Cabride())
-                ->find($valueId, "value_id");
+                ->find($valueId, 'value_id');
 
             $currency = Currency::getCurrency($dbConfig->getCurrency());
 
@@ -53,42 +53,92 @@ class Cabride_Mobile_ViewController extends MobileController
                 $passengerPicture = "/images/application{$passengerPicture}";
             }
 
+            // Custom form fields!
+            $enableCustomForm = (boolean) $dbConfig->getEnableCustomForm();
+            $customFormFields = [];
+            if ($enableCustomForm) {
+                // Fetching custom form fields
+                /**
+                 * @var $fields Field[]
+                 */
+                $fields = (new Field())->findAll(
+                    [
+                        'value_id = ?' => $valueId
+                    ],
+                    [
+                        'position ASC'
+                    ]
+                );
+                foreach ($fields as $field) {
+                    $customField = [
+                        'field_id' => (integer) $field->getFieldId(),
+                        'label' => (string) $field->getLabel(),
+                        'type' => (string) $field->getFieldType(),
+                        'options' => (array) array_values($field->getFieldOptions()),
+                        'min' => (float) $field->getNumberMin(),
+                        'max' => (float) $field->getNumberMax(),
+                        'step' => (float) $field->getNumberStep(),
+                        'date_format' => (string) $field->getDateFormat(),
+                        'datetime_format' => (string) $field->getDatetimeFormat(),
+                        'is_required' => (boolean) $field->getIsRequired(),
+                    ];
+                    $defaultValue = (string) $field->getDefaultValue();
+                    if (!empty($defaultValue)) {
+                        switch ($field->getFieldType()) {
+                            case 'number':
+                                $defaultValue = (float) $defaultValue;
+                                break;
+                            case 'checkbox':
+                                $defaultValue = (boolean) $defaultValue;
+                                break;
+                            default:
+                                $defaultValue = (string) $defaultValue;
+                        }
+                        $customField['value'] = $defaultValue;
+                    }
+                    $customFormFields[] = $customField;
+                }
+            }
+
             $payload = [
-                "success" => true,
-                "settings" => [
-                    "wssUrl" => $wssUrl,
-                    "pageTitle" => (string) $optionValue->getTabbarName(),
-                    "distanceUnit" => (string) $dbConfig->getDistanceUnit(),
-                    "searchTimeout" => (integer) $dbConfig->getSearchTimeout(),
-                    "searchRadius" => (integer) $dbConfig->getSearchRadius(),
-                    "acceptedPayments" => (string) $dbConfig->getAcceptedPayments(),
-                    "courseMode" => (string) $dbConfig->getCourseMode(),
-                    "pricingMode" => (string) $dbConfig->getPricingMode(),
-                    "paymentProvider" => (string) $dbConfig->getPaymentProvider(),
-                    "stripePublicKey" => (string) $dbConfig->getStripePublicKey(),
-                    "stripeIsSandbox" => (boolean) $dbConfig->getStripeIsSandbox(),
-                    "driverCanRegister" => (boolean) $dbConfig->getDriverCanRegister(),
-                    "defaultLat" => (float) $dbConfig->getDefaultLat(),
-                    "defaultLng" => (float) $dbConfig->getDefaultLng(),
-                    "currency" => $currency,
-                    "commission_type" => (string) $dbConfig->getCommissionType(),
-                    "commission" => (float) $dbConfig->getCommission(),
-                    "commission_fmt" => Base::_formatPrice($dbConfig->getCommission(), $currency),
-                    "commission_fixed" => (float) $dbConfig->getCommissionFixed(),
-                    "commission_fixed_fmt" => Base::_formatPrice($dbConfig->getCommissionFixed(), $currency),
-                    "passengerPicture" => $passengerPicture,
-                    "driverPicture" => $driverPicture,
-                    "navBackground" => $navBackground,
-                    "showPassengerPhoto" => (boolean) $dbConfig->getShowPassengerPhoto(),
-                    "showPassengerName" => (boolean) $dbConfig->getShowPassengerName(),
-                    "showPassengerPhone" => (boolean) $dbConfig->getShowPassengerPhone(),
+                'success' => true,
+                'settings' => [
+                    'wssUrl' => $wssUrl,
+                    'pageTitle' => (string) $optionValue->getTabbarName(),
+                    'distanceUnit' => (string) $dbConfig->getDistanceUnit(),
+                    'searchTimeout' => (integer) $dbConfig->getSearchTimeout(),
+                    'searchRadius' => (integer) $dbConfig->getSearchRadius(),
+                    'acceptedPayments' => (string) $dbConfig->getAcceptedPayments(),
+                    //'paymentMethods' => $dbConfig->getPaymentMethods(),
+                    'courseMode' => (string) $dbConfig->getCourseMode(),
+                    'pricingMode' => (string) $dbConfig->getPricingMode(),
+                    'paymentProvider' => (string) $dbConfig->getPaymentProvider(),
+                    'stripePublicKey' => (string) $dbConfig->getStripePublicKey(),
+                    'stripeIsSandbox' => (boolean) $dbConfig->getStripeIsSandbox(),
+                    'driverCanRegister' => (boolean) $dbConfig->getDriverCanRegister(),
+                    'enableCustomForm' => (boolean) $enableCustomForm,
+                    'customFormFields' => $customFormFields,
+                    'defaultLat' => (float) $dbConfig->getDefaultLat(),
+                    'defaultLng' => (float) $dbConfig->getDefaultLng(),
+                    'currency' => $currency,
+                    'commission_type' => (string) $dbConfig->getCommissionType(),
+                    'commission' => (float) $dbConfig->getCommission(),
+                    'commission_fmt' => Base::_formatPrice($dbConfig->getCommission(), $currency),
+                    'commission_fixed' => (float) $dbConfig->getCommissionFixed(),
+                    'commission_fixed_fmt' => Base::_formatPrice($dbConfig->getCommissionFixed(), $currency),
+                    'passengerPicture' => $passengerPicture,
+                    'driverPicture' => $driverPicture,
+                    'navBackground' => $navBackground,
+                    'showPassengerPhoto' => (boolean) $dbConfig->getShowPassengerPhoto(),
+                    'showPassengerName' => (boolean) $dbConfig->getShowPassengerName(),
+                    'showPassengerPhone' => (boolean) $dbConfig->getShowPassengerPhone(),
                 ]
             ];
 
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage()
+                'error' => true,
+                'message' => $e->getMessage()
             ];
         }
 
@@ -105,48 +155,48 @@ class Cabride_Mobile_ViewController extends MobileController
             // First search in drivers!
             $driver = (new Driver())
                 ->find([
-                    "customer_id" => $customerId,
-                    "value_id" => $valueId,
+                    'customer_id' => $customerId,
+                    'value_id' => $valueId,
                 ]);
 
             $user = null;
-            if ($driver->getId()) {
+            if ($driver && $driver->getId()) {
                 $user = [
-                    "type" => "driver",
-                    "driverId" => (integer) $driver->getId(),
-                    "isOnline" => (boolean) $driver->getIsOnline(),
+                    'type' => 'driver',
+                    'driverId' => (integer) $driver->getId(),
+                    'isOnline' => (boolean) $driver->getIsOnline(),
                 ];
             } else {
                 $passenger = (new Client())
                     ->find([
-                        "customer_id" => $customerId,
-                        "value_id" => $valueId,
+                        'customer_id' => $customerId,
+                        'value_id' => $valueId,
                     ]);
 
-                if ($passenger->getId()) {
+                if ($passenger && $passenger->getId()) {
                     // fetch saved cards if applies
-
+                    // @todo
 
                     $user = [
-                        "clientId" => (integer) $passenger->getId(),
-                        "type" => "passenger",
+                        'clientId' => (integer) $passenger->getId(),
+                        'type' => 'passenger',
                     ];
                 } else {
                     $user = [
-                        "clientId" => (integer) $passenger->getId(),
-                        "type" => "new",
+                        'clientId' => (integer) $passenger->getId(),
+                        'type' => 'new',
                     ];
                 }
             }
 
             $payload = [
-                "success" => true,
-                "user" => $user,
+                'success' => true,
+                'user' => $user,
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -162,52 +212,52 @@ class Cabride_Mobile_ViewController extends MobileController
             $request = $this->getRequest();
             $valueId = $this->getCurrentOptionValue()->getId();
             $customerId = $this->getSession()->getCustomerId();
-            $userType = $request->getParam("userType", "passenger");
+            $userType = $request->getParam('userType', 'passenger');
 
             switch ($userType) {
-                case "passenger":
+                case 'passenger':
                     $passenger = (new Client())
                         ->find([
-                            "customer_id" => $customerId,
-                            "value_id" => $valueId,
+                            'customer_id' => $customerId,
+                            'value_id' => $valueId,
                         ]);
 
-                    if (!$passenger->getId()) {
+                    if ($passenger && !$passenger->getId()) {
                         $passenger
                             ->setCustomerId($customerId)
                             ->setValueId($valueId)
                             ->save();
                     }
                     break;
-                case "driver":
+                case 'driver':
                     $driver = (new Driver())
                         ->find([
-                            "customer_id" => $customerId,
-                            "value_id" => $valueId,
+                            'customer_id' => $customerId,
+                            'value_id' => $valueId,
                         ]);
 
-                    if (!$driver->getId()) {
+                    if ($driver && !$driver->getId()) {
                         $driver
                             ->setCustomerId($customerId)
                             ->setValueId($valueId)
-                            ->setStatus("active") // @todo adapt to settings
+                            ->setStatus('active') // @todo adapt to settings
                             ->save();
                     }
                     $driver
-                        ->setStatus("active") // @todo adapt to settings
+                        ->setStatus('active') // @todo adapt to settings
                         ->save();
 
                     break;
             }
 
             $payload = [
-                "success" => true,
-                "message" => __("Success"),
+                'success' => true,
+                'message' => __('Success'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -223,16 +273,16 @@ class Cabride_Mobile_ViewController extends MobileController
             $request = $this->getRequest();
             $valueId = Cabride::getCurrentValueId();
             $customerId = $this->getSession()->getCustomerId();
-            $device = $request->getParam("device", null);
-            $token = $request->getParam("token", null);
+            $device = $request->getParam('device', null);
+            $token = $request->getParam('token', null);
 
             if (empty($customerId) || empty($device) || empty($token)) {
-                throw new Siberian\Exception(__("A value is missing."));
+                throw new Siberian\Exception(__('A value is missing.'));
             }
 
             // Clear token if user switched between passenger & driver.
-            $pushDevice = (new PushDevice())
-                ->find($token, "token");
+            $pushDevice = (new PushDevice());
+            $pushDevice = $pushDevice->find($token, 'token');
 
             $pushDevice
                 ->setCustomerId($customerId)
@@ -242,13 +292,13 @@ class Cabride_Mobile_ViewController extends MobileController
                 ->save();
 
             $payload = [
-                "success" => true,
-                "message" => __("Success"),
+                'success' => true,
+                'message' => __('Success'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -264,25 +314,25 @@ class Cabride_Mobile_ViewController extends MobileController
             $request = $this->getRequest();
             $valueId = $this->getCurrentOptionValue()->getId();
             $customerId = $this->getSession()->getCustomerId();
-            $isOnline = filter_var($request->getParam("isOnline", null), FILTER_VALIDATE_BOOLEAN);
+            $isOnline = filter_var($request->getParam('isOnline', null), FILTER_VALIDATE_BOOLEAN);
 
             $driver = (new Driver())
                 ->find([
-                    "customer_id" => $customerId,
-                    "value_id" => $valueId,
+                    'customer_id' => $customerId,
+                    'value_id' => $valueId,
                 ]);
 
-            if (!$driver->getId()) {
-                throw new Exception(p__("cabride",
-                    "You are not registered as a driver! Please contact the App owner."));
+            if ($driver && !$driver->getId()) {
+                throw new Exception(p__('cabride',
+                    'You are not registered as a driver! Please contact the App owner.'));
             }
 
             $profileErrors = $driver->getProfileErrors();
-            if ($isOnline && sizeof($profileErrors) > 0) {
+            if ($isOnline && count($profileErrors) > 0) {
                 foreach ($profileErrors as &$profileError) {
                     $profileError = "- {$profileError}";
                 }
-                throw new Exception(p__("cabride", join("<br />", $profileErrors)));
+                throw new Exception(p__('cabride', implode('<br />', $profileErrors)));
             }
 
             $driver
@@ -290,14 +340,14 @@ class Cabride_Mobile_ViewController extends MobileController
                 ->save();
 
             $payload = [
-                "success" => true,
-                "isOnline" => (boolean) $isOnline,
-                "message" => __("Success"),
+                'success' => true,
+                'isOnline' => (boolean) $isOnline,
+                'message' => __('Success'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 

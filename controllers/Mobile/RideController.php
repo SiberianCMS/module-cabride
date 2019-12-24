@@ -343,14 +343,13 @@ class Cabride_Mobile_RideController extends MobileController
             }
 
             $payload = [
-                "success" => true,
-                "collection" => $collection,
+                'success' => true,
+                'collection' => $collection,
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => __("An unknown error occurred, please try again later."),
-                "except" => $e->getMessage()
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -398,8 +397,7 @@ class Cabride_Mobile_RideController extends MobileController
         } catch (\Exception $e) {
             $payload = [
                 "error" => true,
-                "message" => __("An unknown error occurred, please try again later."),
-                "except" => $e->getMessage()
+                "message" => $e->getMessage()
             ];
         }
 
@@ -447,8 +445,7 @@ class Cabride_Mobile_RideController extends MobileController
         } catch (\Exception $e) {
             $payload = [
                 "error" => true,
-                "message" => __("An unknown error occurred, please try again later."),
-                "except" => $e->getMessage()
+                "message" => $e->getMessage()
             ];
         }
 
@@ -771,6 +768,7 @@ class Cabride_Mobile_RideController extends MobileController
             }
 
             $driver
+                ->setVehicleId($driverParams["vehicle_id"])
                 ->setVehicleModel($driverParams["vehicle_model"])
                 ->setVehicleLicensePlate($driverParams["vehicle_license_plate"])
                 ->setDriverPhone($driverParams["driver_phone"])

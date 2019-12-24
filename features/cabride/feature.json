@@ -110,6 +110,7 @@
         "js/controllers/cabride-payment-type.js",
         "js/controllers/cabride-pending-requests.js",
         "js/controllers/cabride-vehicle-information.js",
+        "js/controllers/cabride-vehicle-type.js",
         "js/controllers/request-cancel-controller.js",
         "js/controllers/request-details-controller.js",
         "js/controllers/request-rate-controller.js",

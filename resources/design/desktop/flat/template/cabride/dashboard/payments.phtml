@@ -258,10 +258,9 @@ function colorForStatus ($status) {
                                         </td>
                                         <td class="text-right">
                                             <?php if ($cashArchive->getStatus() === "returned"): ?>
-                                                <a class="btn btn-xs btn-info"
-                                                   href="#">
+                                                <span>
                                                     <?php echo p__("cabride", "RETURNED ON %s", datetime_to_format($cashArchive->getReturnDate(), Zend_Date::DATE_SHORT)) ?>
-                                                </a>
+                                                </span>
                                             <?php else: ?>
                                                 <a class="btn btn-xs btn-success mark-as-returned"
                                                    data-id="<?php echo $cashArchive->getId(); ?>">
@@ -469,10 +468,9 @@ function colorForStatus ($status) {
                                         </td>
                                         <td class="text-right">
                                             <?php if ($payoutArchive->getStatus() === "paid"): ?>
-                                                <a class="btn btn-xs btn-info"
-                                                   href="#">
+                                                <span>
                                                     <?php echo p__("cabride", "PAID ON %s", datetime_to_format($payoutArchive->getPayoutDate(), Zend_Date::DATE_SHORT)) ?>
-                                                </a>
+                                                </span>
                                             <?php else: ?>
                                                 <a class="btn btn-xs btn-success mark-as-paid"
                                                    data-id="<?php echo $payoutArchive->getId(); ?>">

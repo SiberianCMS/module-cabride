@@ -1,9 +1,9 @@
 angular.module('starter')
-.controller('CabrideMyPayments', function ($scope, $filter, $translate, $ionicScrollDelegate,
+.controller('CabrideMyPayments', function ($rootScope, $scope, $filter, $translate, $ionicScrollDelegate,
                                            Cabride, CabrideUtils, Dialog) {
     angular.extend($scope, {
         isLoading: false,
-        pageTitle: $translate.instant("My payments", "cabride"),
+        pageTitle: $translate.instant('My payments', 'cabride'),
         valueId: Cabride.getValueId(),
         filtered: null,
         filterName: "payments",

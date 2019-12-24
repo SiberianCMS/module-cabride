@@ -88,6 +88,7 @@ class Request extends Core_Model_Db_Table
      * @param $driverId
      * @param $status
      * @return mixed
+     * @throws \Zend_Exception
      */
     public function findForDriver($valueId, $driverId, $status)
     {

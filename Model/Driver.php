@@ -8,6 +8,7 @@ use Core\Model\Base;
  * Class Driver
  * @package Cabride\Model
  *
+ * @method integer getId()
  * @method Db\Table\Driver getTable()
  * @method integer getDriverId()
  * @method float getBaseFare()
@@ -25,8 +26,7 @@ class Driver extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride\Model\Db\Table\Driver';
-        return $this;
+        $this->_db_table = Db\Table\Driver::class;
     }
 
     /**
@@ -94,7 +94,7 @@ class Driver extends Base
     {
         $data = $this->getData();
         $data["hasVehicle"] = (boolean) $data["vehicle_id"];
-        $data["vehicle_id"] = (boolean) $data["vehicle_id"];
+        $data["vehicle_id"] = (integer) $data["vehicle_id"];
         $data["base_fare"] = (float) $data["base_fare"];
         $data["distance_fare"] = (float) $data["distance_fare"];
         $data["time_fare"] = (float) $data["time_fare"];

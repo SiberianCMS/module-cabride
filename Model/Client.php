@@ -3,11 +3,13 @@
 namespace Cabride\Model;
 
 use Core\Model\Base;
+use Siberian\Json;
 
 /**
  * Class Client
  * @package Cabride\Model
  *
+ * @method integer getId()
  * @method Db\Table\Client getTable()
  */
 class Client extends Base
@@ -20,8 +22,7 @@ class Client extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride\Model\Db\Table\Client';
-        return $this;
+        $this->_db_table = Db\Table\Client::class;
     }
 
     /**

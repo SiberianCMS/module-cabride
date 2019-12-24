@@ -32,18 +32,18 @@ class Cabride_Mobile_RequestController extends MobileController
             $customerId = $session->getCustomerId();
 
             $valueId = $optionValue->getId();
-            $route = $data["route"];
-            $request = $route["request"];
-            $origin = $request["origin"]["location"];
-            $lat = $origin["lat"];
-            $lng = $origin["lng"];
+            $route = $data['route'];
+            $request = $route['request'];
+            $origin = $request['origin']['location'];
+            $lat = $origin['lat'];
+            $lng = $origin['lng'];
 
-            $distanceKm = ceil($route["routes"][0]["legs"][0]["distance"]["value"] / 1000);
-            $durationMinute = ceil($route["routes"][0]["legs"][0]["duration"]["value"] / 60);
+            $distanceKm = ceil($route['routes'][0]['legs'][0]['distance']['value'] / 1000);
+            $durationMinute = ceil($route['routes'][0]['legs'][0]['duration']['value'] / 60);
 
             // Searching for closest drivers!
             // Attention, distance is computed on the fly!
-            $formula = Geocoding::getDistanceFormula($lat, $lng, "d", "latitude", "longitude");
+            $formula = Geocoding::getDistanceFormula($lat, $lng, 'd', 'latitude', 'longitude');
 
             $drivers = (new Driver())
                 ->findNearestOnline($valueId, $formula);
@@ -132,6 +132,7 @@ class Cabride_Mobile_RequestController extends MobileController
             $route = $data["route"];
             $cashOrVault = $data["cashOrVault"];
             $gmapsKey = $application->getGooglemapsKey();
+            $customFormFields = $data['customFormFields'];
 
             $staticMap = Request::staticMapFromRoute($route, $optionValue, $gmapsKey);
 
@@ -154,7 +155,7 @@ class Cabride_Mobile_RequestController extends MobileController
 
             $vehicle = (new Vehicle())->find($vehicleType["id"]);
             (new Request())->createRideRequest(
-                $client->getId(), $vehicle, $valueId, $drivers, $cashOrVault, $route, $staticMap, Request::SOURCE_CLIENT);
+                $client->getId(), $vehicle, $valueId, $drivers, $cashOrVault, $route, $staticMap, $customFormFields, Request::SOURCE_CLIENT);
 
             $payload = [
                 "success" => true,
@@ -162,8 +163,8 @@ class Cabride_Mobile_RequestController extends MobileController
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -233,9 +234,10 @@ class Cabride_Mobile_RequestController extends MobileController
 
             // Recast values
             $now = time();
-            $data["search_timeout"] = (integer) $data["search_timeout"];
-            $data["timestamp"] = (integer) $data["timestamp"];
-            $data["expires_in"] = (integer) ($data["expires_at"] - $now);
+            $data['search_timeout'] = (integer) $data['search_timeout'];
+            $data['timestamp'] = (integer) $data['timestamp'];
+            $data['expires_in'] = (integer) ($data['expires_at'] - $now);
+            $data['customFormFields'] = Json::decode(base64_decode($request['custom_form_fields']));
 
             // Fetch status history
             $logs = (new RequestLog())->findAll(["request_id = ?" => $requestId], ["created_at DESC"]);

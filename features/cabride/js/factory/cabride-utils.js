@@ -31,18 +31,20 @@ angular.module('starter')
         };*/
 
         factory.rebuildContextualMenu = function () {
-            ContextualMenu.init(
-                "./features/cabride/assets/templates/l1/nav/contextual-menu.html",
-                275,
-                "right");
+            if (!Cabride.isTaxiLayout &&
+                ContextualMenu.settings.templateUrl !== "./features/cabride/assets/templates/l1/nav/contextual-menu.html") {
+                ContextualMenu.init(
+                    "./features/cabride/assets/templates/l1/nav/contextual-menu.html",
+                    275,
+                    "right");
+            }
         };
 
         factory.openMenu = function () {
             // Rebuild menu only on purpose!
-            if (!Cabride.isTaxiLayout) {
-                if (ContextualMenu.settings.templateUrl !== "./features/cabride/assets/templates/l1/nav/contextual-menu.html") {
-                    factory.rebuildContextualMenu();
-                }
+            if (!Cabride.isTaxiLayout &&
+                ContextualMenu.settings.templateUrl !== "./features/cabride/assets/templates/l1/nav/contextual-menu.html") {
+                factory.rebuildContextualMenu();
             }
             ContextualMenu.open();
         };

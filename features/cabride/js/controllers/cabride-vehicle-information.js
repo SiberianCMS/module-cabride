@@ -35,6 +35,7 @@ angular.module('starter')
         .selectVehicleType(type.id)
         .then(function (payload) {
             $scope.driver = payload.driver;
+            $scope.driver.vehicle_id = payload.currentType.vehicle_id;
             $scope.currentType = payload.currentType;
             $scope.changingType = false;
         }, function (error) {

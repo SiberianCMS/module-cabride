@@ -29,28 +29,36 @@ angular.module('starter')
         currentRoute: null,
         isPassenger: false,
         isDriver: false,
+        locationIsEnabled: Location.isEnabled,
         removeSideMenu: null
     });
 
-    $rootScope.$on("cabride.isAlive", function () {
+    $rootScope.$on('cabride.isAlive', function () {
         $timeout(function () {
             $scope.isAlive = true;
         });
     });
 
-    $rootScope.$on("cabride.isGone", function () {
+    $rootScope.$on('cabride.isGone', function () {
         $timeout(function () {
             $scope.isAlive = false;
         });
     });
 
-    $rootScope.$on("cabride.isOnline", function (event, isOnline) {
+    $rootScope.$on('cabride.isOnline', function (event, isOnline) {
         $scope.isOnline = isOnline;
     });
 
-    $rootScope.$on("cabride.advertDrivers", function (event, payload) {
+    $rootScope.$on('cabride.advertDrivers', function (event, payload) {
         // Refresh driver markers
         $scope.drawDrivers(payload.drivers);
+    });
+
+    $rootScope.$on('location.isEnabled', function (event, payload) {
+        // Refresh driver markers
+        $timeout(function () {
+            $scope.locationIsEnabled = payload;
+        });
     });
 
     $scope.$on('$ionicView.enter', function () {
@@ -88,6 +96,9 @@ angular.module('starter')
     $scope.openMenu = function () {
         CabrideUtils.openMenu();
     };
+
+    // Init contextual menu for initial triggers!
+    CabrideUtils.rebuildContextualMenu();
 
     // Passenger / Driver choice!
     $scope.selectPassenger = function () {
@@ -347,7 +358,7 @@ angular.module('starter')
         if ($scope.ride.isSearching) {
             return {
                 action: "loading",
-                class: "",
+                class: "ng-hide",
                 text: ""
             };
         }
@@ -360,6 +371,7 @@ angular.module('starter')
         }
         return {
             action: "none",
+            class: "ng-hide",
             text: ""
         };
     };
@@ -450,16 +462,10 @@ angular.module('starter')
         .fromTemplateUrl("features/cabride/assets/templates/l1/modal/vehicle-type.html", {
             scope: angular.extend($scope.$new(true), {
                 close: function () {
-                    $scope.vtModal.hide();
+                    $scope.vtModal.remove();
                 },
-                select: function (vehicleType) {
+                selectVehicle: function (vehicleType) {
                     $scope.selectVehicle(vehicleType);
-                },
-                imagePath: function (image) {
-                    if (image === "") {
-                        return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/car-icon.png";
-                    }
-                    return IMAGE_URL + "images/application" + image;
                 },
                 vehicles: vehicles
             }),
@@ -470,6 +476,12 @@ angular.module('starter')
 
             return modal;
         });
+    };
+
+    $scope.selectVehicle = function (vehicleType) {
+        // Payment modal
+        $scope.vehicleType = vehicleType;
+        $scope.paymentTypeModal();
     };
 
     $scope.ptModal = null;
@@ -506,7 +518,7 @@ angular.module('starter')
     $scope.validateRequest = function (cashOrVault) {
         Loader.show("Sending request ...");
         Cabride
-        .validateRequest($scope.vehicleType, $scope.currentRoute, cashOrVault)
+        .validateRequest($scope.vehicleType, $scope.currentRoute, cashOrVault, Cabride.settings.customFormFields)
         .then(function (response) {
             Loader.hide();
             Dialog

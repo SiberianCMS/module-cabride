@@ -2,6 +2,8 @@ angular.module('starter')
 .controller('RequestDetailsController', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader) {
     angular.extend($scope, {
         isLoading: false,
+        enableCustomForm: $scope.request.customFormFields.length > 0,
+        customFormFields: $scope.request.customFormFields,
         showPassengerName: Cabride.settings.showPassengerName,
         showPassengerPhone: Cabride.settings.showPassengerPhone,
         showPassengerPhoto: Cabride.settings.showPassengerPhoto

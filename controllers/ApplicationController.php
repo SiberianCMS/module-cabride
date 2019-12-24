@@ -7,6 +7,7 @@ use Cabride\Model\Stripe\Currency;
 use Siberian_Google_Geocoding as Geocoding;
 use Siberian\Exception;
 use Siberian\Feature;
+use Siberian\Json;
 
 /**
  * Class Cabride_ApplicationController

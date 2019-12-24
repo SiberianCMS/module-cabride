@@ -11,6 +11,7 @@ $requests = [
     "UPDATE cabride_request_driver JOIN cabride_request ON cabride_request_driver.request_id = cabride_request.request_id JOIN cabride ON cabride_request.value_id = cabride.value_id SET cabride_request_driver.expires_at = (UNIX_TIMESTAMP(cabride_request_driver.created_at) + cabride.search_timeout) WHERE cabride_request_driver.expires_at = 0;",
     // cabride_payment
     "UPDATE cabride_payment AS cp INNER JOIN cabride_client_vault AS ccv ON cp.client_vault_id = ccv.client_vault_id SET cp.brand = ccv.brand, cp.exp = ccv.exp, cp.last = ccv.last",
+    "ALTER TABLE `cabride_payment` CHANGE `request_id` `request_id` INT(11) UNSIGNED NULL DEFAULT NULL;",
 ];
 
 foreach ($requests as $request) {

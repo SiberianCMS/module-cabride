@@ -8,6 +8,7 @@ use Core\Model\Base;
  * Class Vehicle
  * @package Cabride\Model
  *
+ * @method integer getId()
  * @method string getIcon()
  * @method float getBaseFare()
  * @method float getDistanceFare()
@@ -23,8 +24,7 @@ class Vehicle extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = "Cabride\Model\Db\Table\Vehicle";
-        return $this;
+        $this->_db_table = Db\Table\Vehicle::class;
     }
 
     /**
@@ -34,8 +34,8 @@ class Vehicle extends Base
     {
         $icon = trim($this->getIcon());
         $iconPath = !empty($icon) ?
-            "/images/application/" . $this->getIcon() :
-            "/app/local/modules/Cabride/resources/design/desktop/flat/images/car-icon.png";
+            '/images/application/' . $this->getIcon() :
+            '/app/local/modules/Cabride/resources/design/desktop/flat/images/car-icon.png';
 
         return $iconPath;
     }

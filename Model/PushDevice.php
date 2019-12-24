@@ -10,6 +10,7 @@ use Push_Model_Message as Message;
  * Class PushDevice
  * @package Cabride\Model
  *
+ * @method integer getId()
  * @method string getIcon()
  */
 class PushDevice extends Base
@@ -22,8 +23,7 @@ class PushDevice extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = "Cabride\Model\Db\Table\PushDevice";
-        return $this;
+        $this->_db_table = Db\Table\PushDevice::class;
     }
 
     /**
@@ -32,9 +32,10 @@ class PushDevice extends Base
      * @param $requestId
      * @param $target
      * @param $status
-     * @param $actionValue
-     * @param $valueId
-     * @param $appId
+     * @param null $actionValue
+     * @param null $valueId
+     * @param null $appId
+     * @throws \Siberian\Exception
      * @throws \Zend_Exception
      */
     public function sendMessage($title, $text, $requestId, $target, $status, $actionValue = null, $valueId = null, $appId = null)

@@ -21,13 +21,15 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div ng-if="!isLoading">
+        <div ng-if="!isLoading"
+             class="list">
             <div class="item item-divider item-divider-custom">
-                <span ng-show="filterName == 'card'">{{ ::"Pending payout" | translate:"cabride" }}</span>
+                <span ng-show="filterName == 'credit-card'">{{ ::"Pending payout" | translate:"cabride" }}</span>
                 <span ng-show="filterName == 'cash'">{{ ::"Pending cash return" | translate:"cabride" }}</span>
             </div>
 
-            <div ng-if="filterName == 'card'">
+            <div ng-if="filterName == 'card'"
+                 class="list">
                 <div ng-if="pendingPayouts.length > 0"
                      ng-repeat="pendingPayout in pendingPayouts"
                      class="item item-custom"

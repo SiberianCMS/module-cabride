@@ -9,7 +9,7 @@
                 <i class="icon ion-android-arrow-back"></i>
             </button>
         </div>
-        <h1 class="title">{{ "How was your course?" | translate:"cabride" }}</h1>
+        <h1 class="title">{{ ::'How was your course?' | translate:'cabride' }}</h1>
     </ion-header-bar>
 
     <ion-content>
@@ -17,7 +17,7 @@
             <div style="margin-bottom: 20px;"></div>
 
             <div class="item item-divider item-divider-custom">
-                {{ "Rating" | translate:"cabride" }}
+                {{ ::'Rating' | translate:'cabride' }}
             </div>
 
             <div class="item item-custom rate-course">
@@ -48,19 +48,19 @@
             <div style="margin-bottom: 20px;"></div>
 
             <div class="item item-divider item-divider-custom">
-                {{ "Leave a comment" | translate:"cabride" }}
+                {{ ::'Leave a comment' | translate:'cabride' }}
             </div>
 
             <label class="item item-input item-custom">
                 <textarea rows="4"
-                          placeholder="{{ 'Your comment ...' | translate:'cabride' }}"
+                          placeholder="{{ ::'Your comment ...' | translate:'cabride' }}"
                           ng-model="rating.comment"></textarea>
             </label>
 
             <button type="submit"
                     class="button button-assertive button-full button-assertive-custom"
                     ng-click="submit()"
-                    ng-show="!is_loading">{{ "Submit" | translate:"cabride" }}</button>
+                    ng-show="!is_loading">{{ ::'Submit' | translate:'cabride' }}</button>
 
         </div>
     </ion-content>

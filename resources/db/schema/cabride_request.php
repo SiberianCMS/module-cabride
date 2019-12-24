@@ -90,6 +90,11 @@ $schemas['cabride_request'] = [
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'custom_form_fields' => [
+        'type' => 'longtext',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'driver_rating' => [
         'type' => 'tinyint(1)',
         'default' => '-1',

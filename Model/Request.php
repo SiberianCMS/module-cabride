@@ -3,6 +3,7 @@
 namespace Cabride\Model;
 
 use Core\Model\Base;
+use Customer_Model_Customer as Customer;
 use Siberian_Google_Geocoding as Geocoding;
 use Siberian\Feature;
 use Siberian\Json;
@@ -12,6 +13,7 @@ use Siberian\Exception;
  * Class Request
  * @package Cabride\Model
  *
+ * @method integer getId()
  * @method Db\Table\Request getTable()
  * @method $this setValueId(integer $valueId)
  * @method $this setVehicleId(integer $vehicleId)
@@ -46,8 +48,7 @@ class Request extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Cabride\Model\Db\Table\Request';
-        return $this;
+        $this->_db_table = Db\Table\Request::class;
     }
 
     /**
@@ -125,19 +126,22 @@ class Request extends Base
      * @param $cashOrVault
      * @param $route
      * @param $staticMap
+     * @param $customFormFields
      * @param $source
      * @return $this
      * @throws Exception
      * @throws \Zend_Currency_Exception
      * @throws \Zend_Exception
      */
-    public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $cashOrVault, $route, $staticMap, $source)
+    public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $cashOrVault, $route,
+                                      $staticMap, $customFormFields, $source)
     {
         $travel = $route["request"];
         $leg = $route["routes"][0]["legs"][0];
         $distanceKm = ceil($leg["distance"]["value"] / 1000);
         $durationMinute = ceil($leg["duration"]["value"] / 60);
         $cabride = (new Cabride)->find($valueId, "value_id");
+        $application = $this->getApplication();
 
         $lowestCost = null;
         $highestCost = null;
@@ -180,6 +184,7 @@ class Request extends Base
             ->setToLat($travel["destination"]["location"]["lat"])
             ->setToLng($travel["destination"]["location"]["lng"])
             ->setRequestMode("immediate")
+            ->setCustomFormFields($customFormFields)
             ->setRawRoute(Json::encode($route));
 
         if ($cashOrVault === "cash") {
@@ -458,6 +463,30 @@ class Request extends Base
 
                 break;
         }
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function getCustomFormFields()
+    {
+        $_tmp = $this->getData("custom_form_fields");
+        try {
+            $customFormFields = Json::decode(base64_decode($_tmp));
+        } catch (\Exception $e) {
+            $customFormFields = [];
+        }
+        return $customFormFields;
+    }
+
+    /**
+     * @param $customFormFields
+     * @return Request
+     */
+    public function setCustomFormFields($customFormFields)
+    {
+        $_tmp = base64_encode(Json::encode($customFormFields));
+        return $this->setData("custom_form_fields", $_tmp);
     }
 
     /**

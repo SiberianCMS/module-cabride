@@ -8,6 +8,11 @@ $acls = [
         "url" => "cabride/dashboard/index",
     ],
     [
+        "code" => "cabride_form",
+        "label" => "Form",
+        "url" => "cabride/dashboard/form",
+    ],
+    [
         "code" => "cabride_users",
         "label" => "Users",
         "url" => "cabride/dashboard/users",

@@ -5,6 +5,7 @@ namespace Cabride\Model;
 use Core\Model\Base;
 use Siberian\Account;
 use Siberian\Exception;
+use Siberian\File;
 use Siberian\Json;
 use Siberian\Api;
 use Siberian_Google_Geocoding as Geocoding;
@@ -13,6 +14,7 @@ use Siberian_Google_Geocoding as Geocoding;
  * Class Cabride
  * @package Cabride\Model
  *
+ * @method integer getId()
  * @method $this find($id, $field = null)
  * @method string getDistanceUnit()
  * @method integer getSearchRadius()
@@ -25,7 +27,7 @@ class Cabride extends Base
     public static $acl = null;
 
     /**
-     * Cabride constructor.
+     * Cabride constructor.s
      * @param array $params
      * @throws \Zend_Exception
      */
@@ -130,8 +132,8 @@ class Cabride extends Base
         $featurePath = __path("/cabride/mobile_home/index");
 
         return [
-            "featureUrl" => $featureUrl,
-            "featurePath" => $featurePath,
+            "featureUrl" => $featureUrl . "/index",
+            "featurePath" => $featurePath . "/index",
         ];
     }
 
@@ -214,6 +216,7 @@ class Cabride extends Base
         $currentUrl = str_replace(self::getBaseUrl(), "", self::getCurrentUrl());
         $editorAccess = [
             "cabride_dashboard",
+            "cabride_form",
             "cabride_users",
             "cabride_drivers",
             "cabride_rides",
@@ -284,6 +287,14 @@ class Cabride extends Base
                         "/cabride/dashboard/vehicle-types",
                         "/cabride/vehicle/edit",
                     ]),
+                ],
+                "form" => [
+                    "hasChilds" => false,
+                    "isVisible" => self::_canAccess("cabride_form"),
+                    "label" => p__("cabride", "Form"),
+                    "icon" => "fa fa-list",
+                    "url" => self::_getUrl("cabride/dashboard/form"),
+                    "is_current" => ("/cabride/dashboard/form" === $currentUrl),
                 ],
                 "settings" => [
                     "hasChilds" => false,
@@ -377,7 +388,7 @@ class Cabride extends Base
                 "auth" => $serverAuth, // Defaults to basic
                 "bearer" => $cabrideUser->getBearerToken()
             ];
-            file_put_contents($configFile, Json::encode($config));
+            File::putContents($configFile, Json::encode($config));
 
         } else {
             // Update ACL to full access after any updates, in case there is new API Endpoints

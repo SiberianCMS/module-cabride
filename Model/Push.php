@@ -18,6 +18,7 @@ use Zend_Registry;
  * Class Push
  * @package Cabride\Model
  *
+ * @method integer getId()
  * @method string getIcon()
  */
 class Push extends Base
@@ -30,8 +31,7 @@ class Push extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = "Cabride\Model\Db\Table\Push";
-        return $this;
+        $this->_db_table = Db\Table\Push::class;
     }
 
     /**

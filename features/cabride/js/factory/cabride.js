@@ -51,7 +51,7 @@ angular.module('starter')
             Application.loaded.then(function () {
                 // App runtime!
                 var cabride = _.find(Pages.getActivePages(), {
-                    code: "cabride"
+                    code: 'cabride'
                 });
 
                 // Module is not in the App!
@@ -378,7 +378,7 @@ angular.module('starter')
             });
         };
 
-        factory.validateRequest = function (vehicleType, route, cashOrVault) {
+        factory.validateRequest = function (vehicleType, route, cashOrVault, customFormFields) {
             return $pwaRequest.post('/cabride/mobile_request/validate', {
                 urlParams: {
                     value_id: factory.value_id
@@ -386,6 +386,7 @@ angular.module('starter')
                 data: {
                     vehicleType: vehicleType,
                     cashOrVault: cashOrVault,
+                    customFormFields: customFormFields,
                     route: route
                 },
                 cache: false
@@ -413,7 +414,7 @@ angular.module('starter')
                 .fromTemplateUrl("features/cabride/assets/templates/l1/modal/request-details.html", {
                     scope: angular.extend(newScope, {
                         close: function () {
-                            factory.rdModal.hide();
+                            factory.rdModal.remove();
                         },
                         request: payload.request,
                         userType: userType
@@ -437,7 +438,7 @@ angular.module('starter')
                 scope: angular.extend($rootScope.$new(true), {
                     request: request,
                     close: function () {
-                        factory.rcModal.hide();
+                        factory.rcModal.remove();
                     }
                 }),
                 animation: "slide-in-right-left"
@@ -457,7 +458,7 @@ angular.module('starter')
                     request: request,
                     userType: userType,
                     close: function () {
-                        factory.clModal.hide();
+                        factory.clModal.remove();
                     }
                 }),
                 animation: "slide-in-right-left"

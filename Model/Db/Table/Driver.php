@@ -15,12 +15,12 @@ class Driver extends Core_Model_Db_Table
     /**
      * @var string
      */
-    protected $_name = "cabride_driver";
+    protected $_name = 'cabride_driver';
 
     /**
      * @var string
      */
-    protected $_primary = "driver_id";
+    protected $_primary = 'driver_id';
 
     /**
      * @param $valueId
@@ -31,41 +31,41 @@ class Driver extends Core_Model_Db_Table
     public function findNearestOnline($valueId, $formula)
     {
         $settings = (new ModelCabride())
-            ->find($valueId, "value_id");
+            ->find($valueId, 'value_id');
         $unit = $settings->getDistanceUnit();
         $radius = $settings->getSearchRadius();
 
         // Convert miles to meters
-        if ($unit === "mi") {
-            $radius = $radius * 1609.34;
+        if ($unit === 'mi') {
+            $radius *= 1609.34;
         } else {
-            $radius = $radius * 1000;
+            $radius *= 1000;
         }
 
         $select = $this->_db->select()
             ->from(
-                ["d" => $this->_name],
+                ['d' => $this->_name],
                 [
-                    "*",
-                    "distance" => $formula
+                    '*',
+                    'distance' => $formula
                 ]
             )
             ->joinInner(
-                ["v" => "cabride_vehicle"],
-                "v.vehicle_id = d.vehicle_id",
+                ['v' => 'cabride_vehicle'],
+                'v.vehicle_id = d.vehicle_id',
                 [
-                    "type",
-                    "icon",
-                    "base_fare",
-                    "distance_fare",
-                    "time_fare",
+                    'type',
+                    'icon',
+                    'base_fare',
+                    'distance_fare',
+                    'time_fare',
                 ]
             )
-            ->where("d.value_id = ?", $valueId)
-            ->where("d.is_online = ?", 1)
-            ->where("d.status = ?", "active") // Driver must be activated!
-            ->where("(d.latitude != 0 AND d.longitude != 0)")
-            ->having("distance < ?", $radius)
+            ->where('d.value_id = ?', $valueId)
+            ->where('d.is_online = ?', 1)
+            ->where('d.status = ?', 'active') // Driver must be activated!
+            ->where('(d.latitude != 0 AND d.longitude != 0)')
+            ->having('distance < ?', $radius)
         ;
 
         return $this->toModelClass($this->_db->fetchAll($select));
@@ -82,17 +82,17 @@ class Driver extends Core_Model_Db_Table
         $select = $this->_db
             ->select()
             ->from(
-                ["d" => $this->_name]
+                ['d' => $this->_name]
             )
             ->joinInner(
-                ["v" => "cabride_vehicle"],
-                "v.vehicle_id = d.vehicle_id",
+                ['v' => 'cabride_vehicle'],
+                'v.vehicle_id = d.vehicle_id',
                 [
-                    "type",
-                    "icon",
-                    "base_fare",
-                    "distance_fare",
-                    "time_fare",
+                    'type',
+                    'icon',
+                    'base_fare',
+                    'distance_fare',
+                    'time_fare',
                 ]
             );
 
@@ -108,35 +108,36 @@ class Driver extends Core_Model_Db_Table
     /**
      * @param $valueId
      * @return mixed
+     * @throws \Zend_Exception
      */
     public function fetchForValueId($valueId)
     {
         $select = $this->_db->select()
             ->from(
                 [
-                    "driver" => $this->_name,
+                    'driver' => $this->_name,
                 ],
                 [
-                    "*",
+                    '*',
                 ]
             )
             ->joinInner(
-                "customer",
-                "driver.customer_id = customer.customer_id",
+                'customer',
+                'driver.customer_id = customer.customer_id',
                 [
-                    "firstname",
-                    "lastname",
-                    "nickname",
-                    "email",
-                    "image",
+                    'firstname',
+                    'lastname',
+                    'nickname',
+                    'email',
+                    'image',
                 ]
             )
             ->joinLeft(
-                "cabride_vehicle",
-                "driver.vehicle_id = cabride_vehicle.vehicle_id",
-                ["type", "icon", "base_fare", "distance_fare", "time_fare", "base_address"]
+                'cabride_vehicle',
+                'driver.vehicle_id = cabride_vehicle.vehicle_id',
+                ['type', 'icon', 'base_fare', 'distance_fare', 'time_fare', 'base_address']
             )
-            ->where("driver.value_id = ?", $valueId);
+            ->where('driver.value_id = ?', $valueId);
 
         return $this->toModelClass($this->_db->fetchAll($select));
     }
@@ -150,14 +151,14 @@ class Driver extends Core_Model_Db_Table
         $select = $this->_db->select()
             ->from(
                 [
-                    "cabride_request",
+                    'cabride_request',
                 ],
                 [
-                    "average_rating" => new \Zend_Db_Expr("SUM(course_rating) / COUNT(*)")
+                    'average_rating' => new \Zend_Db_Expr('SUM(course_rating) / COUNT(*)')
                 ]
             )
-            ->where("cabride_request.driver_id = ?", $driverId)
-            ->where("cabride_request.course_rating > 0");
+            ->where('cabride_request.driver_id = ?', $driverId)
+            ->where('cabride_request.course_rating > 0');
 
         return $this->_db->fetchOne($select);
     }

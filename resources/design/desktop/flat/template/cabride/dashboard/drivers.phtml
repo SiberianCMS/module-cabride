@@ -8,8 +8,7 @@ $request = $this->getRequest();
 $valueId = Cabride::getCurrentValueId();
 
 $settings = (new Cabride())
-    ->find($valueId, "value_id");
-$settings = (new Cabride())->find($valueId, "value_id");
+    ->find($valueId, 'value_id');
 if (!$settings->getId()) {
     $settings->setValueId($valueId);
     $settings->save();
@@ -59,34 +58,36 @@ foreach ($drivers as $driver) {
                                         <b>#<?php echo $driver->getId(); ?></b>
                                     </td>
                                     <td>
-                                        <?php if ($driver->getAverageRating() > 0): ?>
-                                            <b><?php echo round($driver->getAverageRating(), 2); ?></b>
+                                        <?php if ($driver->getAverageRating() > 0): $rating = round($driver->getAverageRating(), 2); ?>
                                             <i class="fa fa-star"
                                                style="color: #d3bb51;"></i>
+                                            <b><?php echo $rating ?></b>
                                         <?php else: ?>
-                                            <?php echo p__("cabride", "n.c."); ?>
+                                            <?php echo p__('cabride', '-'); ?>
                                         <?php endif;  ?>
                                     </td>
                                     <td>
                                         <a class="btn btn-xs btn-info"
-                                           href="<?php echo __path("/customer/application/edit/", [
-                                               "customer_id" => $driver->getCustomerId()
+                                           href="<?php echo __path('/customer/application/edit/', [
+                                               'customer_id' => $driver->getCustomerId()
                                            ]); ?>">
                                             #<?php echo $driver->getCustomerId(); ?>
                                         </a>
+                                        <?php echo $driver->getFirstname(); ?> <?php echo $driver->getLastname(); ?>
                                     </td>
                                     <td>
                                         <?php if (!empty($driver->getVehicleId())): ?>
-                                        <a class="btn btn-xs btn-info"
-                                           href="<?php echo __path("/cabride/vehicle/edit/", [
-                                               "vehicle_id" => $driver->getVehicleId()
-                                           ]); ?>">
-                                            #<?php echo $driver->getVehicleId() ?> - <?php echo $driver->getType(); ?>
-                                        </a>
+                                            <a class="btn btn-xs btn-info"
+                                               href="<?php echo __path('/cabride/vehicle/edit/', [
+                                                   'vehicle_id' => $driver->getVehicleId()
+                                               ]); ?>">
+                                                #<?php echo $driver->getVehicleId() ?>
+                                            </a>
+                                            <?php echo $driver->getType(); ?>
                                         <?php else: ?>
-                                        <span class="btn btn-xs btn-warning">
-                                            <?php echo p__("cabride", "no vehicle type"); ?>
-                                        </span>
+                                            <span class="btn btn-xs btn-warning">
+                                                <?php echo p__('cabride', 'no vehicle type'); ?>
+                                            </span>
                                         <?php endif; ?>
                                     </td>
                                     <td><?php echo $driver->getVehicleModel(); ?></td>
@@ -99,25 +100,25 @@ foreach ($drivers as $driver) {
                                     </td>
                                     <td class="text-right">
                                         <a class="btn btn-xs btn-info"
-                                           href="<?php echo __path("/cabride/driver/edit", [
-                                               "driver_id" => $driver->getId()
+                                           href="<?php echo __path('/cabride/driver/edit', [
+                                               'driver_id' => $driver->getId()
                                            ]); ?>">
-                                            <?php echo p__("cabride", "EDIT") ?>
+                                            <?php echo p__('cabride', 'EDIT') ?>
                                         </a>
                                         <a class="btn btn-xs btn-danger delete-driver"
                                            data-id="<?php echo $driver->getId(); ?>">
-                                            <?php echo p__("cabride", "DELETE") ?>
+                                            <?php echo p__('cabride', 'DELETE') ?>
                                         </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
                             <tfoot>
-                            <tr>
-                                <td colspan="8">
-                                    <?php echo p__("cabride", "No results for your search.") ?>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td colspan="8">
+                                        <?php echo p__('cabride', 'No results for your search.') ?>
+                                    </td>
+                                </tr>
                             </tfoot>
                         </table>
                     </div>

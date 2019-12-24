@@ -448,7 +448,7 @@ let init = function (httpsOptions) {
             waitHello: true,
             user: {
                 id: null,
-                type: null,
+                type: null
             }
         };
 
