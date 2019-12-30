@@ -24,8 +24,8 @@
         <div ng-if="!isLoading"
              class="list">
             <div class="item item-divider item-divider-custom">
-                <span ng-show="filterName == 'credit-card'">{{ ::"Pending payout" | translate:"cabride" }}</span>
-                <span ng-show="filterName == 'cash'">{{ ::"Pending cash return" | translate:"cabride" }}</span>
+                <span ng-show="filterName == 'credit-card'">{{ ::'Pending payout' | translate:'cabride' }}</span>
+                <span ng-show="filterName == 'cash'">{{ ::'Pending cash return' | translate:'cabride' }}</span>
             </div>
 
             <div ng-if="filterName == 'card'"
@@ -45,7 +45,7 @@
                     <div class="row"
                          style="font-size: .85em;">
                         <div class="col-25">
-                            {{ ::"Period" | translate:"cabride" }}
+                            {{ ::'Period' | translate:'cabride' }}
                         </div>
                         <div class="col-75 text-right">
                             {{ dateFormat(pendingPayout.period_from_timestamp) }} - {{ dateFormat(pendingPayout.period_to_timestamp) }}
@@ -56,7 +56,7 @@
                 <div ng-if="pendingPayouts.length == 0"
                      class="item item-custom text-center"
                      style="padding-top: 5px; padding-bottom: 5px;">
-                    {{ ::"You have no pending payout." | translate:"cabride" }}
+                    {{ ::'You have no pending payout.' | translate:'cabride' }}
                 </div>
 
             </div>
@@ -78,10 +78,10 @@
                     </div>
                     <div class="row"
                          style="font-size: .85em;">
-                        <div class="col-60">
-                            {{ ::"Period" | translate:"cabride" }}
+                        <div class="col-25">
+                            {{ ::'Period' | translate:'cabride' }}
                         </div>
-                        <div class="col-40 text-right">
+                        <div class="col-75 text-right">
                             {{ dateFormat(cashReturn.period_from_timestamp) }} - {{ dateFormat(cashReturn.period_to_timestamp) }}
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                 <div ng-if="cashReturns.length == 0"
                      class="item item-custom text-center"
                      style="padding-top: 5px; padding-bottom: 5px;">
-                    {{ ::"You have no cash return requests." | translate:"cabride" }}
+                    {{ ::'You have no cash return requests.' | translate:'cabride' }}
                 </div>
 
             </div>
@@ -131,8 +131,11 @@
                         </div>
                         <div class="row"
                              style="margin-left: 10px; font-size: 0.8em;">
-                            <div class="col-50">{{ ::"Cash to return" | translate:"cabride" }} {{ payment.formatted_commission_amount }}</div>
-                            <div class="col-50 text-right">{{ ::"For you" | translate:"cabride" }} {{ payment.formatted_payout }}</div>
+                            <div class="col-100">{{ ::'Cash to return' | translate:'cabride' }} {{ payment.formatted_commission_amount }}</div>
+                        </div>
+                        <div class="row"
+                             style="margin-left: 10px; font-size: 0.8em;">
+                            <div class="col-100 text-right">{{ ::'For you' | translate:'cabride' }} {{ payment.formatted_payout }}</div>
                         </div>
                     </div>
 
@@ -146,7 +149,7 @@
                              style="margin-left: 10px;">
                             <div class="col-50"
                                  style="text-transform: uppercase;">
-                                <b>{{ payment.payout_status | translate:"cabride" }}</b>
+                                <b>{{ payment.payout_status | translate:'cabride' }}</b>
                             </div>
                             <div class="col-50 text-right">
                                 <b>{{ payment.formatted_amount }}</b>
@@ -154,8 +157,11 @@
                         </div>
                         <div class="row"
                              style="margin-left: 10px; font-size: 0.8em;">
-                            <div class="col-50">{{ ::"Commission" | translate:"cabride" }} {{ payment.formatted_commission_amount }}</div>
-                            <div class="col-50 text-right">{{ ::"Payout" | translate:"cabride" }} {{ payment.formatted_payout }}</div>
+                            <div class="col-100">{{ ::'Commission' | translate:'cabride' }} {{ payment.formatted_commission_amount }}</div>
+                        </div>
+                        <div class="row"
+                             style="margin-left: 10px; font-size: 0.8em;">
+                            <div class="col-100 text-right">{{ ::'Payout' | translate:'cabride' }} {{ payment.formatted_payout }}</div>
                         </div>
                     </div>
                 </div>
@@ -168,13 +174,13 @@
            ng-class="{'activated': filterName == 'card'}"
            class="tab-item">
             <i class="icon ion-card"></i>
-            {{ ::"Credit card" | translate:"cabride" }}
+            {{ ::'Credit card' | translate:'cabride' }}
         </a>
         <a ng-click="statusFilter('cash')"
            ng-class="{'activated': filterName == 'cash'}"
            class="tab-item">
             <i class="icon ion-cash"></i>
-            {{ ::"Cash" | translate:"cabride" }}
+            {{ ::'Cash' | translate:'cabride' }}
         </a>
     </div>
 </ion-view>

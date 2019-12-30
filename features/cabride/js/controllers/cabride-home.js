@@ -47,6 +47,15 @@ angular.module('starter')
 
     $rootScope.$on('cabride.isOnline', function (event, isOnline) {
         $scope.isOnline = isOnline;
+        try {
+            if (isOnline) {
+                window.plugins.insomnia.keepAwake();
+            } else {
+                window.plugins.insomnia.allowSleepAgain();
+            }
+        } catch (e) {
+            // Silently fails.
+        }
     });
 
     $rootScope.$on('cabride.advertDrivers', function (event, payload) {
@@ -518,7 +527,7 @@ angular.module('starter')
     $scope.validateRequest = function (cashOrVault) {
         Loader.show("Sending request ...");
         Cabride
-        .validateRequest($scope.vehicleType, $scope.currentRoute, cashOrVault, Cabride.settings.customFormFields)
+        .validateRequest($scope.vehicleType, $scope.currentRoute, cashOrVault, Cabride.settings.customFormFieldsUser)
         .then(function (response) {
             Loader.hide();
             Dialog

@@ -3,7 +3,6 @@ angular.module('starter')
     angular.extend($scope, {
         isLoading: false,
         enableCustomForm: Cabride.settings.enableCustomForm,
-        customFormFields: Cabride.settings.customFormFields,
         currentVehicleId: null,
         currentVehicleType: null
     });
@@ -16,6 +15,14 @@ angular.module('starter')
         if (!$scope.enableCustomForm) {
             $scope.selectVehicle($scope.currentVehicleType);
         }
+    };
+
+    $scope.resetFields = function () {
+        Cabride.settings.customFormFieldsUser = angular.copy(Cabride.settings.customFormFields);
+    };
+
+    $scope.customFormFields = function () {
+        return Cabride.settings.customFormFieldsUser;
     };
 
     $scope.imagePath = function (image) {
@@ -32,21 +39,21 @@ angular.module('starter')
     };
 
     $scope.customFormIsValid = function () {
-        var required = ["number", "password", "text", "textarea", "date", "datetime"];
+        var required = ['number', 'password', 'text', 'textarea', 'date', 'datetime'];
         var isValid = true;
         var invalidFields = [];
-        Cabride.settings.customFormFields.forEach(function (field) {
+        Cabride.settings.customFormFieldsUser.forEach(function (field) {
             if (required.indexOf(field.type) >= 0) {
                 if (field.value === undefined ||
-                    (field.value + "").trim().length === 0) {
-                    invalidFields.push("&nbsp;-&nbsp;" + field.label);
+                    (field.value + '').trim().length === 0) {
+                    invalidFields.push('&nbsp;-&nbsp;' + field.label);
                     isValid = false;
                 }
             }
         });
 
         if (!$scope.currentVehicleType) {
-            invalidFields.push("&nbsp;-&nbsp;" + $translate.instant("Vehicle type", "cabride"));
+            invalidFields.push('&nbsp;-&nbsp;' + $translate.instant('Vehicle type', 'cabride'));
             isValid = false;
         }
 
@@ -58,4 +65,6 @@ angular.module('starter')
 
         return isValid;
     };
+
+    $scope.resetFields();
 });

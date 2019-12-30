@@ -66,7 +66,8 @@ angular.module('starter')
     };
 
     $scope.creditCardBrand = function (brand) {
-        switch (brand.toLowerCase()) {
+        var _localBrand = brand === null ? '' : brand;
+        switch (_localBrand.toLowerCase()) {
             case "visa":
                 return "./features/cabride/assets/templates/images/011-cc-visa.svg";
             case "mastercard":
