@@ -89,5 +89,11 @@ $init = function($bootstrap) {
     Hook::listen("editor.left.menu.ready", "cabride_nav", "dashboardNav");
 
     initApiUser();
+
+    // searching for enterprise payment stripe.js file.
+    $conflictStripeFile = path('/app/local/modules/Enterprisepayment/features/enterprisepayment/js/stripe.js');
+    if (is_readable($conflictStripeFile)) {
+        unlink($conflictStripeFile);
+    }
 };
 
