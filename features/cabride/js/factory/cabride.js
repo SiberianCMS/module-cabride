@@ -843,8 +843,7 @@ angular.module('starter')
                             cordova.plugins.notification.local.schedule({
                                 title: msgPayload.title,
                                 text: msgPayload.message,
-                                smallIcon: "res://icon.png",
-                                icon: IMAGE_URL + "/app/local/modules/Cabride/features/cabride/icons/cabride-push.png"
+                                smallIcon: "res://icon.png"
                             });
                         }
                     }
