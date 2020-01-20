@@ -61,39 +61,29 @@ msgctxt "cabride"
 msgid "Amount"
 msgstr "Amount"
 
-# GMT 1558015600.5185
-# GMT 1577209515.7803
 # GMT 1558022199.4499
 #, mobile
 msgctxt "cabride"
 msgid "Driver information"
 msgstr "Driver information"
 
-# GMT 1558015600.5187
-# GMT 1577209515.7806
 # GMT 1558095766.9628
 msgctxt "cabride"
 msgid "Driving license"
 msgstr "Driving license"
 
-# GMT 1558015600.519
-# GMT 1577209515.7808
 # GMT 1558022199.4546
 #, mobile
 msgctxt "cabride"
 msgid "Mobile number"
 msgstr "Mobile number"
 
-# GMT 1558015600.5219
-# GMT 1577209515.781
 # GMT 1558095766.9679
 #, mobile
 msgctxt "cabride"
 msgid "Base address"
 msgstr "Base address"
 
-# GMT 1558015600.5764
-# GMT 1577209515.7812
 # GMT 1558095766.9709
 msgctxt "cabride"
 msgid "Pickup radius"
