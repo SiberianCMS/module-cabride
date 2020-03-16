@@ -1619,3 +1619,248 @@ msgstr "No results for your search."
 msgctxt "cabride"
 msgid "Form"
 msgstr "Form"
+
+# GMT 1579885553.2802
+msgctxt "cabride"
+msgid "Settings & maintenance"
+msgstr "Settings & maintenance"
+
+# GMT 1579885553.2808
+msgctxt "cabride"
+msgid "Enable service"
+msgstr "Enable service"
+
+# GMT 1579885553.2813
+msgctxt "cabride"
+msgid "Yes"
+msgstr "Yes"
+
+# GMT 1579885553.2819
+msgctxt "cabride"
+msgid "No"
+msgstr "No"
+
+# GMT 1579885553.2824
+msgctxt "cabride"
+msgid "Auth type"
+msgstr "Auth type"
+
+# GMT 1579885553.283
+msgctxt "cabride"
+msgid "HTTP Basic"
+msgstr "HTTP Basic"
+
+# GMT 1579885553.2835
+msgctxt "cabride"
+msgid "Bearer token"
+msgstr "Bearer token"
+
+# GMT 1579885553.284
+msgctxt "cabride"
+msgid "With some admin panels, HTTP Basic is not available, you can switch to Bearer token if this is your case."
+msgstr "With some admin panels, HTTP Basic is not available, you can switch to Bearer token if this is your case."
+
+# GMT 1579885553.2846
+msgctxt "cabride"
+msgid "WebSocket port"
+msgstr "WebSocket port"
+
+# GMT 1579885553.2851
+msgctxt "cabride"
+msgid "Port 37000 is the default."
+msgstr "Port 37000 is the default."
+
+# GMT 1579885553.2857
+msgctxt "cabride"
+msgid "Save & restart"
+msgstr "Save & restart"
+
+# GMT 1579885553.2862
+msgctxt "cabride"
+msgid "Live log"
+msgstr "Live log"
+
+# GMT 1579885553.2868
+msgctxt "cabride"
+msgid "WebSocket server log."
+msgstr "WebSocket server log."
+
+# GMT 1579885553.4668
+msgctxt "cabride"
+msgid "Cabride"
+msgstr "Cabride"
+
+# GMT 1579885557.2523
+msgctxt "cabride"
+msgid "Log file var/log/modules/cabride.log doesn't exists, seems your cabride server is not running."
+msgstr "Log file var/log/modules/cabride.log doesn't exists, seems your cabride server is not running."
+
+# GMT 1580726863.9746
+msgctxt "cabride"
+msgid "Enable custom form"
+msgstr "Enable custom form"
+
+# GMT 1580726869.2331
+msgctxt "cabride"
+msgid "Title (divider)"
+msgstr "Title (divider)"
+
+# GMT 1580726869.2334
+msgctxt "cabride"
+msgid "White space (spacer)"
+msgstr "White space (spacer)"
+
+# GMT 1580726869.2336
+msgctxt "cabride"
+msgid "Number"
+msgstr "Number"
+
+# GMT 1580726869.2337
+msgctxt "cabride"
+msgid "Dropdown select"
+msgstr "Dropdown select"
+
+# GMT 1580726869.2339
+msgctxt "cabride"
+msgid "Checkbox"
+msgstr "Checkbox"
+
+# GMT 1580726869.2343
+msgctxt "cabride"
+msgid "Password"
+msgstr "Password"
+
+# GMT 1580726869.2347
+msgctxt "cabride"
+msgid "Text"
+msgstr "Text"
+
+# GMT 1580726869.235
+msgctxt "cabride"
+msgid "Textarea"
+msgstr "Textarea"
+
+# GMT 1580726869.2354
+msgctxt "cabride"
+msgid "Date & time"
+msgstr "Date & time"
+
+# GMT 1580726869.2356
+msgctxt "cabride"
+msgid "Label"
+msgstr "Label"
+
+# GMT 1580726869.2359
+msgctxt "cabride"
+msgid "Min. value"
+msgstr "Min. value"
+
+# GMT 1580726869.2363
+msgctxt "cabride"
+msgid "Max. value"
+msgstr "Max. value"
+
+# GMT 1580726869.2367
+msgctxt "cabride"
+msgid "Step"
+msgstr "Step"
+
+# GMT 1580726869.237
+msgctxt "cabride"
+msgid "Number options"
+msgstr "Number options"
+
+# GMT 1580726869.2373
+msgctxt "cabride"
+msgid "Select options"
+msgstr "Select options"
+
+# GMT 1580726869.2377
+msgctxt "cabride"
+msgid "Date format"
+msgstr "Date format"
+
+# GMT 1580726869.238
+msgctxt "cabride"
+msgid "Date options"
+msgstr "Date options"
+
+# GMT 1580726869.2381
+msgctxt "cabride"
+msgid "Date & time format"
+msgstr "Date & time format"
+
+# GMT 1580726869.2385
+msgctxt "cabride"
+msgid "Date & time options"
+msgstr "Date & time options"
+
+# GMT 1580726869.2388
+msgctxt "cabride"
+msgid "Default value"
+msgstr "Default value"
+
+# GMT 1580726869.2391
+msgctxt "cabride"
+msgid "Required?"
+msgstr "Required?"
+
+# GMT 1580726869.2394
+msgctxt "cabride"
+msgid "Form configuration"
+msgstr "Form configuration"
+
+# GMT 1580726869.2396
+msgctxt "cabride"
+msgid "Add a field"
+msgstr "Add a field"
+
+# GMT 1580726869.24
+msgctxt "cabride"
+msgid "Add an option"
+msgstr "Add an option"
+
+# GMT 1580726869.2404
+msgctxt "cabride"
+msgid "Option"
+msgstr "Option"
+
+# GMT 1580726869.2407
+msgctxt "cabride"
+msgid "Value"
+msgstr "Value"
+
+# GMT 1580726886.3225
+msgctxt "cabride"
+msgid "Customer ID"
+msgstr "Customer ID"
+
+# GMT 1580726886.3229
+msgctxt "cabride"
+msgid "Vehicle model"
+msgstr "Vehicle model"
+
+# GMT 1580726886.3232
+msgctxt "cabride"
+msgid "License plate"
+msgstr "License plate"
+
+# GMT 1580726886.3236
+msgctxt "cabride"
+msgid "Photo"
+msgstr "Photo"
+
+# GMT 1580726886.324
+msgctxt "cabride"
+msgid "Search ..."
+msgstr "Search ..."
+
+# GMT 1580726886.3243
+msgctxt "cabride"
+msgid "Delete driver"
+msgstr "Delete driver"
+
+# GMT 1580726886.3247
+msgctxt "cabride"
+msgid "Yes, Delete"
+msgstr "Yes, Delete"

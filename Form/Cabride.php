@@ -90,7 +90,7 @@ RAW;
         $search_radius = $this->addSimpleNumber(
             "search_radius",
             p__("cabride", "Search radius (km/mi)"),
-            10,
+            1,
             5000,
             true,
             1);

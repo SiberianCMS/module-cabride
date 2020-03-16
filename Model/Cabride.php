@@ -318,17 +318,15 @@ class Cabride extends Base
     public static function initApiUser ($auth = null, $port = null)
     {
         // Defaults!
-        $serverAuth = ($auth === null) ?
-            __get("cabride_server_auth") : $auth;
+        $serverAuth = $auth ?? __get('cabride_server_auth');
         if (empty($serverAuth)) {
-            __set("cabride_server_auth", "basic");
-            $serverAuth = "basic";
+            __set('cabride_server_auth', 'basic');
+            $serverAuth = 'basic';
         }
 
-        $serverPort = ($port === null) ?
-            __get("cabride_server_port") : $port;
+        $serverPort = $port ?? __get('cabride_server_port');
         if (empty($serverPort)) {
-            __set("cabride_server_port", 37000);
+            __set('cabride_server_port', 37000);
             $serverPort = 37000;
         }
 
@@ -336,7 +334,7 @@ class Cabride extends Base
          * @var $cabrideUser \Api_Model_User
          */
         $cabrideUser = (new \Api_Model_User())
-            ->find("cabride", "username");
+            ->find('cabride', 'username');
 
         $acl = [];
         foreach (Api::$acl_keys as $key => $subkeys) {
@@ -356,11 +354,13 @@ class Cabride extends Base
             }
         }
 
+        $mainDomain = __get('main_domain');
+
         if (!$cabrideUser->getId()) {
             // Create API User with full access
-            $password = "cr" . uniqid() . "api";
+            $password = uniqid('cr', true) . 'api';
             $cabrideUser
-                ->setUsername("cabride")
+                ->setUsername('cabride')
                 ->setPassword($password)
                 ->setBearerToken($cabrideUser->_generateBearerToken())
                 ->setIsVisible(0)
@@ -369,27 +369,26 @@ class Cabride extends Base
 
             // Save Credentials for cabride server
             $serverHost = sprintf(
-                "https://%s",
-                __get("main_domain")
+                'https://%s',
+                $mainDomain
             );
 
             $wssHost = sprintf(
-                "wss://%s",
-                __get("main_domain")
+                'wss://%s',
+                $mainDomain
             );
 
-            $configFile = path("/app/local/modules/Cabride/resources/server/config.json");
+            $configFile = path('/app/local/modules/Cabride/resources/server/config.json');
             $config = [
-                "apiUrl" => $serverHost,
-                "wssHost" => $wssHost,
-                "port" => $serverPort,
-                "username" => "cabride",
-                "password" => base64_encode($password),
-                "auth" => $serverAuth, // Defaults to basic
-                "bearer" => $cabrideUser->getBearerToken()
+                'apiUrl' => $serverHost,
+                'wssHost' => $wssHost,
+                'port' => $serverPort,
+                'username' => 'cabride',
+                'password' => base64_encode($password),
+                'auth' => $serverAuth, // Defaults to basic
+                'bearer' => $cabrideUser->getBearerToken()
             ];
             File::putContents($configFile, Json::encode($config));
-
         } else {
             // Update ACL to full access after any updates, in case there is new API Endpoints
             $cabrideUser
@@ -407,9 +406,9 @@ class Cabride extends Base
      */
     public static function extendedFields ($payload)
     {
-        $application = $payload["application"];
-        $request = $payload["request"];
-        $session = $payload["session"];
+        $application = $payload['application'];
+        $request = $payload['request'];
+        $session = $payload['session'];
 
         // Check if Cabride feature exists!
         $valueId = Cabride::getCurrentValueId();
