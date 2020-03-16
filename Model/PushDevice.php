@@ -16,15 +16,9 @@ use Push_Model_Message as Message;
 class PushDevice extends Base
 {
     /**
-     * PushDevice constructor.
-     * @param array $params
-     * @throws \Zend_Exception
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = Db\Table\PushDevice::class;
-    }
+    protected $_db_table = Db\Table\PushDevice::class;
 
     /**
      * @param $title
@@ -38,13 +32,14 @@ class PushDevice extends Base
      * @throws \Siberian\Exception
      * @throws \Zend_Exception
      */
-    public function sendMessage($title, $text, $requestId, $target, $status, $actionValue = null, $valueId = null, $appId = null)
+    public function sendMessage($title, $text, $requestId, $target, $status, $actionValue = null, $valueId = null,
+                                $appId = null)
     {
         if ($valueId === null) {
             $valueId = Cabride::getCurrentValueId();
         }
 
-        $device = $this->getDevice() == 1 ? "android" : "ios";
+        $device = $this->getDevice() == 1 ? 'android' : 'ios';
 
         // History
         $logPush = new Push();

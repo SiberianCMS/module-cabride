@@ -1864,3 +1864,8 @@ msgstr "Delete driver"
 msgctxt "cabride"
 msgid "Yes, Delete"
 msgstr "Yes, Delete"
+
+# GMT 1581668075.7263
+msgctxt "cabride"
+msgid "Enable custom form"
+msgstr "Enable custom form"
