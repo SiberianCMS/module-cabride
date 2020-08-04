@@ -215,6 +215,7 @@ class Cabride extends Base
             "cabride_rides",
             "cabride_payments",
             "cabride_vehicle_types",
+            "cabride_translations",
             "cabride_settings",
         ];
 
@@ -288,6 +289,14 @@ class Cabride extends Base
                     "icon" => "fa fa-list",
                     "url" => self::_getUrl("cabride/dashboard/form"),
                     "is_current" => ("/cabride/dashboard/form" === $currentUrl),
+                ],
+                "translations" => [
+                    "hasChilds" => false,
+                    "isVisible" => self::_canAccess("cabride_translations"),
+                    "label" => p__("cabride", "Translations"),
+                    "icon" => "fa fa-language",
+                    "url" => self::_getUrl("cabride/dashboard/translations"),
+                    "is_current" => ("/cabride/dashboard/translations" === $currentUrl),
                 ],
                 "settings" => [
                     "hasChilds" => false,

@@ -67,8 +67,8 @@ foreach ($rides as $ride) {
     if ($ride->getStatus() === "done") {
         $averageItems++;
         //
-        $averageDistance += $ride->getDistance() / 1000;
-        $averageDuration += $ride->getDuration() / 60;
+        $averageDistance += $ride->getDistance() ? $ride->getDistance() / 1000 : 0;
+        $averageDuration += $ride->getDuration() ? $ride->getDuration() / 60 : 0;
         $averageCost += $ride->getCost();
     }
 }
@@ -78,10 +78,22 @@ if (!is_numeric($avgCost) || is_nan($avgCost)) {
     $avgCost = 0;
 }
 
-$averageDistance = round($averageDistance / $averageItems, 1);
-$averageDuration = ceil($averageDuration / $averageItems);
+if ($averageItems > 0) {
+    $averageDistance = round($averageDistance / $averageItems, 1);
+    $averageDuration = ceil($averageDuration / $averageItems);
+} else {
+    $averageDistance = 'N.A.';
+    $averageDuration = 'N.A.';
+}
+
+if ($ratingItems > 0) {
+    $averageRating = round($sumRating / $ratingItems, 2);
+} else {
+    $averageRating = 'N.A.';
+}
+
 $averageCost = Base::_formatPrice($avgCost, $cu);
-$averageRating = round($sumRating / $ratingItems, 2);
+
 
 ?>
 <div class="row cabride-rides">

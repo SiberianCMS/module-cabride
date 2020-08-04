@@ -38,6 +38,11 @@ $acls = [
         "url" => "cabride/dashboard/vehicle-types",
     ],
     [
+        "code" => "cabride_translations",
+        "label" => "Translations",
+        "url" => "cabride/dashboard/translations",
+    ],
+    [
         "code" => "cabride_settings",
         "label" => "Settings",
         "url" => "cabride/dashboard/settings",

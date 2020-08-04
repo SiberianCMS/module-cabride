@@ -64,6 +64,14 @@ class Cabride_DashboardController extends Application_Controller_Default
     /**
      *
      */
+    public function translationsAction()
+    {
+        $this->loadPartials();
+    }
+
+    /**
+     *
+     */
     public function settingsAction()
     {
         $this->loadPartials();

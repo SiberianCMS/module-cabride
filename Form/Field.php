@@ -77,7 +77,10 @@ class Field extends FormAbstract
         // Number
         $this->addSimpleNumber('number_min', p__('cabride', 'Min. value'));
         $this->addSimpleNumber('number_max', p__('cabride', 'Max. value'));
-        $this->addSimpleNumber('number_step', p__('cabride', 'Step'));
+
+        $numberStep = $this->addSimpleNumber('number_step', p__('cabride', 'Step'));
+        $numberStep->setValue(0);
+        $numberStep->setDescription(p__('cabride', 'Set to 0 to ignore the increment/step validation.'));
 
         $this->groupElements('group_number', ['number_min', 'number_max', 'number_step'], p__('cabride', 'Number options'));
 

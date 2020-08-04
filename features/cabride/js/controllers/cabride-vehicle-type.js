@@ -38,13 +38,39 @@ angular.module('starter')
         }
     };
 
+    $scope.checkValue = function (field) {
+        field.value += '';
+        field.value = field.value.replace(/[^0-9\.,\-]/, '');
+    };
+
     $scope.customFormIsValid = function () {
-        var required = ['number', 'password', 'text', 'textarea', 'date', 'datetime'];
+        var required = ['number', 'password', 'text', 'textarea', 'date', 'datetime', 'clickwrap', 'select'];
         var isValid = true;
         var invalidFields = [];
-        Cabride.settings.customFormFieldsUser.forEach(function (field) {
-            if (required.indexOf(field.type) >= 0) {
-                if (field.value === undefined ||
+        $scope.fields.forEach(function (field) {
+            if (required.indexOf(field.type) >= 0 && field.is_required) {
+                if (field.type === 'number') {
+                    var current = parseFloat(field.value);
+                    if (!Number.isFinite(current)) {
+                        text = $translate.instant('is not a number', 'cabride');
+                        invalidFields.push('&nbsp;-&nbsp;' + field.label + ' ' + text);
+                        isValid = false;
+                    }
+                    var min = Number.parseInt(field.min);
+                    var max = Number.parseInt(field.max);
+                    var step = parseFloat(field.step);
+                    var text;
+                    if (current < min || current > max) {
+                        text = $translate.instant('is not inside range', 'cabride') + ' ' + min + '-' + max;
+                        invalidFields.push('&nbsp;-&nbsp;' + field.label + ' ' + text);
+                        isValid = false;
+                    }
+                    if (step !== 0 && !Number.isInteger(current / step)) {
+                        text = $translate.instant('must match increment', 'cabride') + ' ' + step;
+                        invalidFields.push('&nbsp;-&nbsp;' + field.label + ' ' + text);
+                        isValid = false;
+                    }
+                } else if (field.value === undefined ||
                     (field.value + '').trim().length === 0) {
                     invalidFields.push('&nbsp;-&nbsp;' + field.label);
                     isValid = false;
@@ -52,15 +78,8 @@ angular.module('starter')
             }
         });
 
-        if (!$scope.currentVehicleType) {
-            invalidFields.push('&nbsp;-&nbsp;' + $translate.instant('Vehicle type', 'cabride'));
-            isValid = false;
-        }
-
         if (!isValid) {
-            Dialog.alert("Required fields", invalidFields.join("<br />"), "OK", -1);
-
-            return isValid;
+            Dialog.alert('Required fields', invalidFields.join('<br />'), 'OK', -1, 'form2');
         }
 
         return isValid;
