@@ -13,11 +13,15 @@ const WebSocketServer = require('ws'),
     btoa = require('btoa'),
     atob = require('atob'),
     https = require('https'),
+    path = require('path'),
     fs = require('fs'),
     nanoTime = require('nano-time'),
     Deferred = require('native-promise-deferred'),
     uuidv4 = require('uuid/v4'),
     levels = ['info', 'debug', 'warning', 'error', 'exception', 'throw'];
+
+// Saving current PID for termination.
+fs.writeFileSync(path.resolve(__dirname, 'server.pid'), process.pid);
 
 let config = require('./config.json'),
     options = {
@@ -37,12 +41,12 @@ let config = require('./config.json'),
 
 if (config.auth) {
     switch (config.auth) {
-        case "bearer":
+        case 'bearer':
             requestDefaultHeaders = {
                 'Api-Auth-Bearer': 'Bearer ' + config.bearer
             };
             break;
-        case "basic":
+        case 'basic':
         default:
             requestDefaultHeaders = {
                 'Authorization': 'Basic ' + btoa(config.username + ':' + atob(config.password)),
@@ -267,10 +271,10 @@ const functions = {
         },
         updatePosition: function (localConnection, params) {
             switch (params.userType) {
-                case "driver":
+                case 'driver':
                     localConnection.user.driverId = params.driverId;
                     localConnection.user.id = params.userId;
-                    localConnection.user.type = "driver";
+                    localConnection.user.type = 'driver';
 
                     try {
                         let previous = globals.drivers[localConnection.uuid].position;
@@ -298,10 +302,10 @@ const functions = {
                     });
 
                     break;
-                case "passenger":
+                case 'passenger':
                     localConnection.user.clientId = params.clientId;
                     localConnection.user.id = params.userId;
-                    localConnection.user.type = "passenger";
+                    localConnection.user.type = 'passenger';
 
                     try {
                         let previous = globals.passengers[localConnection.uuid].position;

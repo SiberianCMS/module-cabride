@@ -80,11 +80,11 @@ angular.module('starter')
     $scope.statusFilter = function (filter) {
         // "payments", "cards"
         switch (filter) {
-            case "payments":
-                $scope.filterName = "payments";
+            case 'payments':
+                $scope.filterName = 'payments';
                 break;
-            case "cards":
-                $scope.filterName = "cards";
+            case 'cards':
+                $scope.filterName = 'cards';
                 break;
         }
         $ionicScrollDelegate.scrollTop();

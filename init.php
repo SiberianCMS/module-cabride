@@ -7,6 +7,7 @@ use Siberian\Hook;
 use Siberian\Translation;
 use Siberian_Module as Module;
 use Cabride\Model\Cabride;
+use Cabride\Model\Service as CabrideService;
 
 /**
  * @throws Exception
@@ -55,38 +56,46 @@ function cabrideSaveExtended ($context, $fields) {
     return Cabride::saveExtended($context, $fields);
 }
 
-/** Alias for non-confusing escape */
-class_alias("Cabride\Model\Service", "CabrideService");
-class_alias("Cabride\Model\Cabride", "Cabride_Model_Cabride");
+/**
+ * @return bool
+ */
+function reloadSocket () {
+    return CabrideService::killServer();
+}
 
-$init = function($bootstrap) {
+/** Alias for non-confusing escape */
+class_alias('Cabride\Model\Service', 'CabrideService');
+class_alias('Cabride\Model\Cabride', 'Cabride_Model_Cabride');
+
+$init = static function ($bootstrap) {
 
     // Register API!
-    Api::register("cabride", __("CabRide"), [
-        "settings" => __("Settings"),
-        "join-lobby" => __("Join lobby"),
-        "send-request" => __("Send request"),
-        "aggregate-information" => __("Aggregate information"),
+    Api::register('cabride', __('CabRide'), [
+        'settings' => __('Settings'),
+        'join-lobby' => __('Join lobby'),
+        'send-request' => __('Send request'),
+        'aggregate-information' => __('Aggregate information'),
     ]);
 
     // Registering cabride service
-    Service::registerService("CabRide WebSocket", [
-        "command" => "CabrideService::serviceStatus",
-        "text" => "Running",
+    Service::registerService('CabRide WebSocket', [
+        'command' => 'CabrideService::serviceStatus',
+        'text' => 'Running',
     ]);
 
     // Cab-Ride
     Assets::registerScss([
-        "/app/local/modules/Cabride/features/cabride/scss/cabride.scss"
+        '/app/local/modules/Cabride/features/cabride/scss/cabride.scss'
     ]);
 
-    Module::addMenu("Cabride", "cabride", "Cabride",
-        "cabride/backoffice_view", "icofont icofont-car");
+    Module::addMenu('Cabride', 'cabride', 'Cabride',
+        'cabride/backoffice_view', 'icofont icofont-car');
 
-    Translation::registerExtractor("cabride", "Cabride");
+    Translation::registerExtractor('cabride', 'Cabride');
 
-    Hook::listen("mobile.controller.init", "cabride_extendedfields", "extendedFields");
-    Hook::listen("editor.left.menu.ready", "cabride_nav", "dashboardNav");
+    Hook::listen('mobile.controller.init', 'cabride_extendedfields', 'extendedFields');
+    Hook::listen('editor.left.menu.ready', 'cabride_nav', 'dashboardNav');
+    Hook::listen('ssl.certificate.update', 'cabride_reload_socket', 'reloadSocket');
 
     initApiUser();
 

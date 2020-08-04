@@ -27,7 +27,7 @@ class Timezone
             $timezones = DateTimeZone::listIdentifiers();
             $select = [];
             foreach ($timezones as $timezone) {
-                $select[$timezone] = p__("timezone", $timezone);
+                $select[$timezone] = p__('timezone', $timezone);
             }
 
             asort($select);

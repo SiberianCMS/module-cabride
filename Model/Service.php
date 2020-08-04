@@ -47,6 +47,7 @@ class Service extends Base
         $command = sprintf("%s %s/cabride.js %s >> %s 2>&1", $bin_path, $base_node, $base_path, $log_path);
 
         try {
+            echo $command . PHP_EOL;
             exec($command, $output, $return);
         } catch (\Exception $e) {
             $cron->log('CabRide server exception.');
@@ -94,7 +95,7 @@ class Service extends Base
             echo $command . PHP_EOL;
             exec($command, $output, $return);
             return !(boolean) $return;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -112,8 +113,17 @@ class Service extends Base
     /**
      * @return bool
      */
-    public static function killServer()
+    public static function killServer(): bool
     {
-        return true;
+        $serverPid = path('/app/local/modules/Cabride/resources/server/server.pid');
+        if (is_readable($serverPid)) {
+            $pid = file_get_contents($serverPid);
+            $kill = sprintf("kill -9 %s", $pid);
+            echo $kill . PHP_EOL;
+            exec($kill);
+
+            return true;
+        }
+        return false;
     }
 }

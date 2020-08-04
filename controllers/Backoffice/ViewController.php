@@ -1,8 +1,9 @@
 <?php
 
-use Siberian\Json;
+use Siberian\File;
 use Siberian\Exception;
 use Cabride\Model\Cabride;
+use Cabride\Model\Service;
 
 /**
  * Class Cabride_Backoffice_ViewController
@@ -63,7 +64,7 @@ class Cabride_Backoffice_ViewController extends Backoffice_Controller_Default
             File::putContents($logPath, '-- RESTART -- \n');
 
             // Call for a restart!
-            exec('pkill -9 node_64 2&>1');
+            Service::killServer();
 
             $payload = [
                 'success' => true,
