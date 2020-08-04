@@ -238,6 +238,7 @@ msgid "Archived pay-out"
 msgstr "Archived pay-out"
 
 # GMT 1558015615.0027
+#, mobile
 msgctxt "cabride"
 msgid "inprogress"
 msgstr "inprogress"
@@ -1566,11 +1567,13 @@ msgid "n.c."
 msgstr "n.c."
 
 # GMT 1558101564.9774
+#, mobile
 msgctxt "cabride"
 msgid "aborted"
 msgstr "aborted"
 
 # GMT 1558101564.9801
+#, mobile
 msgctxt "cabride"
 msgid "done"
 msgstr "done"
@@ -1869,3 +1872,117 @@ msgstr "Yes, Delete"
 msgctxt "cabride"
 msgid "Enable custom form"
 msgstr "Enable custom form"
+
+# GMT 1581668075.7264
+#, mobile
+msgctxt "cabride"
+msgid "Driver at pickup point!"
+msgstr "Driver at pickup point!"
+
+# GMT 1581668075.7265
+#, mobile
+msgctxt "cabride"
+msgid "Your driver is arrived at the pickup point!"
+msgstr "Your driver is arrived at the pickup point!"
+
+# GMT 1581668075.7266
+#, mobile
+msgctxt "cabride"
+msgid "The client is notified!"
+msgstr "The client is notified!"
+
+# GMT 1581668075.7267
+#, mobile
+msgctxt "cabride"
+msgid "NOTIFY"
+msgstr "NOTIFY"
+
+# GMT 1581668075.8000
+#, mobile
+msgctxt "cabride"
+msgid "You already have a pending and/or a ride in progress, please wait before requesting another one!"
+msgstr "You already have a pending and/or a ride in progress, please wait before requesting another one!"
+
+# GMT 1581668075.8001
+#, mobile
+msgctxt "cabride"
+msgid "CLIENT"
+msgstr "CLIENT"
+
+# GMT 1581668075.8002
+#, mobile
+msgctxt "cabride"
+msgid "DESTINATION"
+msgstr "DESTINATION"
+
+# GMT 1581668075.8003
+#, mobile
+msgctxt "cabride"
+msgid "DRIVE TO"
+msgstr "DRIVE TO"
+
+# GMT 1581668075.8004
+#, mobile
+msgctxt "cabride"
+msgid "CALL DRIVER"
+msgstr "CALL DRIVER"
+
+# GMT 1581668075.8005
+#, mobile
+msgctxt "cabride"
+msgid "CALL"
+msgstr "CALL"
+
+# GMT 1581668075.8006
+#, mobile
+msgctxt "cabride"
+msgid "ACCEPT"
+msgstr "ACCEPT"
+
+# GMT 1581668075.8007
+#, mobile
+msgctxt "cabride"
+msgid "MARK AS"
+msgstr "MARK AS"
+
+# GMT 1581668075.8008
+#, mobile
+msgctxt "cabride"
+msgid "COMPLETED"
+msgstr "COMPLETED"
+
+# GMT 1581668075.8009
+#, mobile
+msgctxt "cabride"
+msgid "DECLINE"
+msgstr "DECLINE"
+
+# GMT 1581668075.8010
+#, mobile
+msgctxt "cabride"
+msgid "You'll pay the driver directly when the course ends!"
+msgstr "You'll pay the driver directly when the course ends!"
+
+# GMT 1581668075.8011
+#, mobile
+msgctxt "cabride"
+msgid "expired"
+msgstr "expired"
+
+# GMT 1581668075.8012
+#, mobile
+msgctxt "cabride"
+msgid "declined"
+msgstr "declined"
+
+# GMT 1581668075.8013
+#, mobile
+msgctxt "cabride"
+msgid "onway"
+msgstr "onway"
+
+# GMT 1581668075.8014
+#, mobile
+msgctxt "cabride"
+msgid "accepted"
+msgstr "accepted"

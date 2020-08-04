@@ -290,6 +290,16 @@ angular.module('starter')
             });
         };
 
+        factory.notifyClient = function (requestId) {
+            return $pwaRequest.post('/cabride/mobile_ride/notify-client', {
+                urlParams: {
+                    value_id: factory.value_id,
+                    requestId: requestId
+                },
+                cache: false
+            });
+        };
+
         factory.getVehicleInformation = function () {
             return $pwaRequest.post('/cabride/mobile_ride/vehicle-information', {
                 urlParams: {

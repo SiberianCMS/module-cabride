@@ -3,11 +3,10 @@
 namespace Cabride\Model;
 
 use Core\Model\Base;
-use Customer_Model_Customer as Customer;
-use Siberian_Google_Geocoding as Geocoding;
+use Siberian\Exception;
 use Siberian\Feature;
 use Siberian\Json;
-use Siberian\Exception;
+use Siberian_Google_Geocoding as Geocoding;
 
 /**
  * Class Request
@@ -35,10 +34,10 @@ use Siberian\Exception;
  */
 class Request extends Base
 {
-    const SOURCE_CLIENT = "client";
-    const SOURCE_DRIVER = "driver";
-    const SOURCE_CRON = "cron";
-    const SOURCE_ADMIN = "admin";
+    const SOURCE_CLIENT = 'client';
+    const SOURCE_DRIVER = 'driver';
+    const SOURCE_CRON = 'cron';
+    const SOURCE_ADMIN = 'admin';
 
     /**
      * Request constructor.
@@ -55,19 +54,24 @@ class Request extends Base
      * @param $valueId
      * @param $clientId
      * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
+     * @throws \Zend_Exception
      */
     public function findExtended($valueId, $clientId)
     {
-        return $this->getTable()->findExtended($valueId, $clientId) ;
+        return $this->getTable()->findExtended($valueId, $clientId);
     }
 
     /**
      * @param $requestId
-     * @return mixed
+     * @return string
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
      */
     public function findOneExtended($requestId)
     {
-        return $this->getTable()->findOneExtended($requestId) ;
+        return $this->getTable()->findOneExtended($requestId);
     }
 
     /**
@@ -75,6 +79,7 @@ class Request extends Base
      * @param $clientId
      * @param $status
      * @return mixed
+     * @throws \Zend_Exception
      */
     public function findForDriver($valueId, $clientId, $status)
     {
@@ -88,7 +93,7 @@ class Request extends Base
      * @return string
      * @throws \Siberian\Exception
      */
-    public static function staticMapFromRoute ($route, $optionValue, $gmapsKey)
+    public static function staticMapFromRoute($route, $optionValue, $gmapsKey)
     {
         $request = $route["request"];
         $origin = $request["origin"]["location"];
@@ -111,11 +116,9 @@ class Request extends Base
 
         $mapStaticUri = Geocoding::mapStatic($gmapsKey, $options);
         $rawImage = file_get_contents($mapStaticUri);
-        $uuid = uniqid();
+        $uuid = uniqid('cb_', true);
 
-        $newFile = Feature::createFile($optionValue, $rawImage, "$uuid.jpg");
-
-        return $newFile;
+        return Feature::createFile($optionValue, $rawImage, "$uuid.jpg");
     }
 
     /**
@@ -279,7 +282,7 @@ class Request extends Base
      * @param null $source
      * @throws \Zend_Exception
      */
-    public function notify ($source = null)
+    public function notify($source = null)
     {
         $valueId = $this->getValueId();
         $cabride = (new \Application_Model_Option_Value())->find($valueId);
@@ -466,6 +469,41 @@ class Request extends Base
     }
 
     /**
+     * Notify the customer driver is here!
+     *
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public function notifyCustomer()
+    {
+        $valueId = $this->getValueId();
+        $cabride = (new \Application_Model_Option_Value())->find($valueId);
+        $application = (new \Application_Model_Application())->find($cabride->getAppId());
+        $appId = $application->getId();
+        $appKey = $application->getKey();
+        $clientId = $this->getClientId();
+        $requestId = $this->getRequestId();
+
+        // Send push to passenger!
+        $title = p__('cabride',
+            'Driver at pickup point!');
+        $message = p__('cabride',
+            'Your driver is arrived at the pickup point!');
+
+        $actionUrl = "/{$appKey}/cabride/mobile_my_rides/index";
+
+        $client = (new Client())->find($clientId, 'client_id');
+        $customerId = $client->getCustomerId();
+        $pushDevice = (new PushDevice())
+            ->find($customerId, 'customer_id');
+
+        if ($pushDevice && $pushDevice->getId()) {
+            $pushDevice->sendMessage($title, $message, $requestId, 'passenger',
+                'at_pickup', $actionUrl, $valueId, $appId);
+        }
+    }
+
+    /**
      * @return array|mixed
      */
     public function getCustomFormFields()
@@ -529,7 +567,7 @@ class Request extends Base
 
             $now = time();
             $expireAt = $data["expires_at"];
-            $id  = $data["request_id"];
+            $id = $data["request_id"];
 
             if ($now > $expireAt) {
                 $cron->log("[Cabride] now {$now} / {$expireAt}.");

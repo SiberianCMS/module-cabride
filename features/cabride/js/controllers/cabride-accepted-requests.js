@@ -133,6 +133,23 @@ angular.module('starter')
         });
     };
 
+    $scope.notifyClient = function (request) {
+        Loader.show();
+        Cabride
+            .notifyClient(request.request_id)
+            .then(function (payload) {
+                Dialog
+                    .alert('', payload.message, 'OK', 2350)
+                    .then(function () {
+                        Loader.hide();
+                    });
+            }, function (error) {
+                Dialog.alert('Error', error.message, 'OK', -1, 'cabride');
+            }).then(function () {
+                Loader.hide();
+            });
+    };
+
     $scope.callClient = function (request) {
         $window.open('tel:' + request.client_phone, '_system');
     };

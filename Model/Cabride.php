@@ -27,16 +27,9 @@ class Cabride extends Base
     public static $acl = null;
 
     /**
-     * Cabride constructor.s
-     * @param array $params
-     * @throws \Zend_Exception
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = 'Cabride\Model\Db\Table\Cabride';
-        return $this;
-    }
+    protected $_db_table = Db\Table\Cabride::class;
 
     /**
      * @param $valueId

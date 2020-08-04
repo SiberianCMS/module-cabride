@@ -1060,6 +1060,38 @@ class Cabride_Mobile_RideController extends MobileController
     }
 
     /**
+     * Driver route
+     */
+    public function notifyClientAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $requestId = $request->getParam("requestId", false);
+
+            $ride = (new Request())->find($requestId);
+
+            if (!$requestId || !$ride || !$ride->getId()) {
+                throw new Exception(p__('cabride',
+                    'Sorry, we are unable to find this ride request!'));
+            }
+
+            $ride->notifyCustomer();
+
+            $payload = [
+                'success' => true,
+                'message' => p__('cabride', 'The client is notified!'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
      * Rate the ride
      */
     public function rateCourseAction ()
