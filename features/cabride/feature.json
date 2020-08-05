@@ -1,7 +1,9 @@
 {
     "name": "Cabride",
     "code": "cabride",
-    "lazyLoad": ["places"],
+    "lazyLoad": {
+        "module": "./features/places/places.bundle.min.js"
+    },
     "version": "1.5.2",
     "category": "contact",
     "model": "Cabride_Model_Cabride",
