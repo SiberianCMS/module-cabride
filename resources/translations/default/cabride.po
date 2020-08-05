@@ -1986,3 +1986,8 @@ msgstr "onway"
 msgctxt "cabride"
 msgid "accepted"
 msgstr "accepted"
+
+# GMT 1581668075.8015
+msgctxt "cabride"
+msgid "Load POI from a places feature."
+msgstr "Load POI from a places feature."

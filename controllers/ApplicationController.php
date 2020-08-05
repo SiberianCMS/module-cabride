@@ -60,6 +60,7 @@ class Cabride_ApplicationController extends Application_Controller_Default
             $optionValue = $this->getCurrentOptionValue();
 
             $form = new FormCabride();
+            $form->populatePlaces($application->getId());
 
             // Removes the require on commission if disabled!
             switch ($values["commission_type"]) {

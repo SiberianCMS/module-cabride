@@ -3,8 +3,8 @@
  */
 angular.module('starter')
 .controller('CabrideHome', function ($window, $state, $scope, $rootScope, $timeout, $translate,
-                                     $ionicSideMenuDelegate, Modal, Cabride, CabrideUtils, Customer,
-                                     Loader, GoogleMaps, Dialog, Location, SB) {
+                                     $ionicSideMenuDelegate, $q, Modal, Cabride, CabrideUtils, Customer,
+                                     Loader, GoogleMaps, Dialog, Location, SB, Places) {
     angular.extend($scope, {
         pageTitle: Cabride.settings.pageTitle,
         valueId: Cabride.getValueId(),
@@ -15,6 +15,8 @@ angular.module('starter')
         crMap: null,
         crMapPin: null,
         showMapPin: true,
+        showInfoWindow: false,
+        currentPlace: null,
         driverMarkers: [],
         gmapsAutocompleteOptions: {},
         ride: {
@@ -186,15 +188,17 @@ angular.module('starter')
         $scope.rebuild();
     };
 
-    $scope.initMap = function () {
-        $scope.crMap = GoogleMaps.createMap("crMap", {
+    $scope.initMap = function (placesConfig) {
+        $scope.mapSettings = {
             zoom: 10,
             center: {
                 lat: Cabride.settings.defaultLat,
                 lng: Cabride.settings.defaultLng
             },
             disableDefaultUI: true
-        });
+        };
+
+        $scope.crMap = GoogleMaps.createMap('crMap', $scope.mapSettings);
 
         // Center on user location if default is blank!
         if (Cabride.settings.defaultLat === 0 &&
@@ -218,6 +222,15 @@ angular.module('starter')
             map: $scope.crMap,
             icon: icon
         });
+
+        if (placesConfig !== undefined) {
+            if (placesConfig.markers && placesConfig.markers.constructor === Array) {
+                for (var i = 0; i < placesConfig.markers.length; i++) {
+                    var marker = placesConfig.markers[i];
+                    GoogleMaps.addMarker(marker, i);
+                }
+            }
+        }
 
         google.maps.event.addListener($scope.crMap, "center_changed", function () {
             // 0.5 seconds after the center of the map has changed,
@@ -646,7 +659,117 @@ angular.module('starter')
     };
 
     $scope.rebuild = function () {
-        $scope.initMap();
+        $scope
+            .loadPlacesPOI()
+            .then(function (success) {
+                $scope.initMap(success);
+            }, function (error) {
+                $scope.initMap();
+            });
+
+    };
+
+    $scope.hideInfoWindow = function () {
+        $scope.showInfoWindow = false;
+    };
+
+    $scope.goToPlace = function (placeId) {
+        $state.go('places-view', {
+            value_id: Cabride.settings.placesValueId,
+            page_id: placeId
+        });
+    };
+
+    $scope.loadPlacesPOI = function () {
+        let deferred = $q.defer();
+        if (Cabride.settings.placesValueId !== 0) {
+            Places.setValueId(Cabride.settings.placesValueId);
+            Places
+                .findAllMaps({}, false)
+                .then(function (data) {
+                    $scope.collection = data.places;
+
+                    Places.mapCollection = $scope.collection;
+
+                    var markers = [];
+
+                    for (var i = 0; i < $scope.collection.length; i = i + 1) {
+                        var place = $scope.collection[i];
+                        var marker = {
+                            config: {
+                                id: angular.copy(place.id),
+                                place: angular.copy(place)
+                            },
+                            onClick: (function (marker) {
+                                $timeout(function () {
+                                    if (Places.settings.mapAction &&
+                                        Places.settings.mapAction === 'gotoPlace') {
+                                        $scope.goToPlace(marker.config.place.id);
+                                    } else {
+                                        $scope.showInfoWindow = true;
+                                        $scope.currentPlace = marker.config.place;
+                                    }
+                                });
+                            })
+                        };
+
+                        if (place.address.latitude && place.address.longitude) {
+                            marker.latitude = place.address.latitude;
+                            marker.longitude = place.address.longitude;
+                        } else {
+                            marker.address = place.address.address;
+                        }
+
+                        switch (place.mapIcon) {
+                            case "pin":
+                                if (place.pin) {
+                                    marker.icon = {
+                                        url: place.pin,
+                                        width: 42,
+                                        height: 42
+                                    };
+                                }
+                                break;
+                            case "image":
+                                if (place.picture) {
+                                    marker.icon = {
+                                        url: place.picture,
+                                        width: 70,
+                                        height: 44
+                                    };
+                                }
+                                break;
+                            case "thumbnail":
+                                if (place.thumbnail) {
+                                    marker.icon = {
+                                        url: place.thumbnail,
+                                        width: 42,
+                                        height: 42
+                                    };
+                                }
+                                break;
+                            case "default": default:
+                                // Defaults to google map icons
+                                break;
+                        }
+
+                        markers.push(marker);
+                    }
+
+                    $scope.map_config = {
+                        //cluster: true,
+                        markers: markers,
+                        //bounds_to_marker: true
+                    };
+                    deferred.resolve($scope.map_config);
+                }, function (error) {
+                    deferred.reject();
+                });
+        } else {
+            deferred.reject();
+        }
+
+        return deferred.promise;
     };
 
     // Init build!

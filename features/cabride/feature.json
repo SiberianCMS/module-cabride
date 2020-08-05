@@ -1,6 +1,7 @@
 {
     "name": "Cabride",
     "code": "cabride",
+    "lazyLoad": ["places"],
     "version": "1.5.2",
     "category": "contact",
     "model": "Cabride_Model_Cabride",

@@ -7,6 +7,15 @@ angular.module('starter')
             directionsService: null,
         };
 
+        factory.distance = function (request) {
+            var unit = Cabride.settings.distance_unit;
+            var distance = request.distance / 1000;
+            if (unit === 'mi') {
+                return Math.ceil(distance) + ' mi';
+            }
+            return Math.ceil(distance) + ' Km';
+        };
+
         /**factory.getRoute = function (pickup, dropoff, params) {
             var params = angular.extend({
                 mode: google.maps.DirectionsTravelMode.DRIVING,

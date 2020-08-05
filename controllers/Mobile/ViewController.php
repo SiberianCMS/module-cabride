@@ -129,6 +129,7 @@ class Cabride_Mobile_ViewController extends MobileController
                     'passengerPicture' => $passengerPicture,
                     'driverPicture' => $driverPicture,
                     'navBackground' => $navBackground,
+                    'placesValueId' => (integer) $dbConfig->getPlacesValueId(),
                     'showPassengerPhoto' => (boolean) $dbConfig->getShowPassengerPhoto(),
                     'showPassengerName' => (boolean) $dbConfig->getShowPassengerName(),
                     'showPassengerPhone' => (boolean) $dbConfig->getShowPassengerPhone(),

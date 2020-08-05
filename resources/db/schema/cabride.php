@@ -155,6 +155,9 @@ $schemas['cabride'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
+    'places_value_id' => [
+        'type' => 'int(11) unsigned',
+    ],
     'passenger_picture' => [
         'type' => 'varchar(1024)',
         'charset' => 'utf-8',

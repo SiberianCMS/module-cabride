@@ -74,8 +74,10 @@ RAW;
 
         $this->addSimpleHtml("center_map_hint", $html);
 
+        $this->addSimpleSelect('places_value_id', p__('cabride', 'Load POI from a places feature.'));
+
         $this->groupElements("localization",
-            ["currency", "distance_unit", "center_map", "center_map_hint"],
+            ["currency", "distance_unit", "center_map", "center_map_hint", "places_value_id"],
             p__("cabride", "Localization"));
 
         $search_timeout = $this->addSimpleNumber(
@@ -223,5 +225,31 @@ RAW;
             ->getElement("cabride_id")
             ->setValue($cabrideId)
             ->setRequired(true);
+    }
+
+    /**
+     * @param $appId
+     * @throws \Zend_Exception
+     * @throws \Zend_Form_Exception
+     */
+    public function populatePlaces($appId)
+    {
+        $options = [];
+        $options[] = p__('cabride', 'Select a place');
+
+        $feature = (new \Application_Model_Option())->find('places', 'code');
+        if ($feature && $feature->getId()) {
+            $places = (new \Application_Model_Option_Value())
+                ->findAll([
+                    'aov.app_id = ?' => $appId,
+                    'aov.option_id = ?' => $feature->getId()
+                ]);
+
+            foreach ($places as $place) {
+                $options[$place->getValueId()] = '#' . $place->getValueId() . ' - ' . $place->getTabbarName();
+            }
+        }
+
+        $this->getElement('places_value_id')->setMultiOptions($options);
     }
 }

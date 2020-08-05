@@ -18,17 +18,7 @@ angular.module('starter')
     };
 
     $scope.distance = function (request) {
-        var unit = Cabride.settings.distance_unit;
-        var distance = request.distance / 1000;
-        switch (unit) {
-            case "mi":
-                return Math.ceil(distance) + " mi";
-            break;
-            case "km":
-            default:
-                return Math.ceil(distance) + " Km";
-            break;
-        }
+        return CabrideUtils.distance(request);
     };
 
     $scope.duration = function (request) {

@@ -33,7 +33,7 @@ angular.module('starter')
     };
 
     $scope.distance = function (request) {
-        return Math.ceil(request.distance / 1000) + "Km";
+        return CabrideUtils.distance(request);
     };
 
     $scope.duration = function (request) {

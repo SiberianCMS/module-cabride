@@ -15,7 +15,6 @@ $formSettings->setValueId($valueId);
 
 $settings = (new Cabride())
     ->find($valueId, "value_id");
-$settings = (new Cabride())->find($valueId, "value_id");
 if (!$settings->getId()) {
     $settings->setValueId($valueId);
     $settings->save();
@@ -30,6 +29,8 @@ $formTwocheckout->setValueId($valueId);
 
 $formBraintree = new FormBraintree();
 $formBraintree->setValueId($valueId);
+
+$formSettings->populatePlaces($application->getId());
 
 if ($settings->getId()) {
     $settingsData = $settings->getData();

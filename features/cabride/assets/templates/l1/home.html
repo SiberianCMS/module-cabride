@@ -154,6 +154,25 @@
 
                 </div>
             </div>
+
+            <div id="mapInfoWindow"
+                 ng-class="{'hide': !showInfoWindow}"
+                 class="info-window slide-top">
+                <div class="item item-custom item-text-wrap info-window-icon">
+                    <span class="info-window-title">{{ currentPlace.title }}</span>
+                    <br />
+                    <span ng-click="goToPlace(currentPlace.id)"
+                          class="info-window-more">
+                    {{ ::'See details' | translate:'cabride' }} <i class="icon ion-android-open"></i>
+                </span>
+                    <i ng-click="hideInfoWindow()"
+                       class="icon ion-close info-close"></i>
+                </div>
+                <div ng-if="currentPlace"
+                     sb-cms-address
+                     block="currentPlace.address"></div>
+                <div class="item item-custom item-text-wrap"></div>
+            </div>
         </div>
 
     </ion-content>
