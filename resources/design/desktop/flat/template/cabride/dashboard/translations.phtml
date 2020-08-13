@@ -1,6 +1,57 @@
 <?php
 
-use Cabride\Model\Cabride;
+use Gettext\Translations;
+
+$originalTranslations = new Translations();
+$originalTranslations->addFromPoFile(path('/app/local/modules/Cabride/resources/translations/default/cabride.po'));
+
+$application = $this->getApplication();
+$appId = $application->getId();
+
+$existingLanguages = Core_Model_Language::getLanguageCodes();
+$currentLang = Core_Model_Language::getCurrentLanguage();
+
+$translations = [];
+$userTranslations = [];
+foreach ($existingLanguages as $existingLanguage) {
+    $userTranslations[$existingLanguage] = [];
+
+    $path = path("/languages/{$existingLanguage}/cabride.po");
+    if (!is_readable($path)) {
+        continue;
+    }
+    $_tmpTranslations = new Translations();
+    $_tmpTranslations->addFromPoFile($path);
+
+    $translations[$existingLanguage] = $_tmpTranslations;
+}
+
+$locale = Zend_Registry::get('Zend_Locale');
+$languages = $locale->getTranslationList('language', new Zend_Locale($currentLang));
+foreach ($languages as $k => $language) {
+    if (!$locale->isLocale($k) && !in_array($k, $existingLanguages, false)) {
+        unset($languages[$k]);
+    }
+}
+unset($languages['root']);
+
+asort($languages, SORT_LOCALE_STRING);
+$languages = array_map('ucfirst', $languages);
+
+$dbTranslations = (new \Cabride\Model\Translation())->findAll([
+        'app_id = ?' => $appId
+]);
+foreach ($dbTranslations as $dbTranslation) {
+    $_db_key = base64_decode($dbTranslation->getData('original'));
+    $_db_value = base64_decode($dbTranslation->getTranslation());
+    $_db_locale = $dbTranslation->getLocale();
+
+    if (array_key_exists($_db_locale, $userTranslations) && !empty($_db_value)) {
+        $userTranslations[$_db_locale][$_db_key] = $_db_value;
+    }
+}
+
+$totalCount = count($originalTranslations);
 
 ?>
 <div class="row">
@@ -9,13 +60,109 @@ use Cabride\Model\Cabride;
             <div id="translations_content"
                  class="content solo-page sb-tour">
                 <h3 class="title-editor border-blue text-center">
-                    <?php echo p__("cabride", "CabRide translations"); ?>
+                    <?php echo p__('cabride', 'CabRide translations'); ?>
                 </h3>
                 <div class="subcontent content-color">
-                    <div class="col-md-12">
-                        <?php /**echo $formSettings*/ ?>
+                    <form id="form-locales">
+                        <div class="col-md-6">
+                            <label>
+                                <?php echo p__('cabride', 'Select a locale to customize') ?>
+                                <select id="change-lang"
+                                        class="sb-select styled-select color-blue form-control no-dk">
+                                    <?php foreach ($existingLanguages as $code): ?>
+                                        <option value="<?php echo $code ?>"
+                                            <?php echo $code === $currentLang ? 'selected="selected"' : '' ?>>
+                                            <?php echo $languages[$code] ?>
+                                            (<?php echo count($userTranslations[$code]) ?>/<?php echo $totalCount ?>)
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </label>
+                            <br />
+                            <br />
+                        </div>
 
-                    </div>
+                        <div class="col-md-6">
+                            <button class="btn default_button color-blue pull-right"
+                                    type="submit"><?php echo p__('cabride', 'Save') ?></button>
+                            <div style="clear: both;"></div>
+                        </div>
+
+                        <div class="clear col-md-12">
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr class="second-tr">
+                                    <th>Original</th>
+                                    <?php $i = 0;
+                                    foreach ($existingLanguages as $language): $i++ ?>
+                                        <th class="<?php echo $i % 2 === 0 ? 'bg-white' : 'bg-grey' ?>"
+                                            style="width: 35%;"
+                                            rel="<?php echo $language; ?>"><?php echo p__('cabride', 'Default') ?></th>
+                                        <th class="<?php echo $i % 2 === 0 ? 'bg-white' : 'bg-grey' ?>"
+                                            style="width: 35%;"
+                                            rel="<?php echo $language; ?>"><?php echo p__('cabride', 'Yours') ?></th>
+                                    <?php endforeach; ?>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                foreach ($originalTranslations as $key => $originalTranslation):
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo $originalTranslation->getOriginal() ?>
+                                            <?php if (count($originalTranslation->getFlags()) > 0): ?>
+                                                <span class="badge">#<?php echo $originalTranslation->getFlags()[0] ?></span>
+                                            <?php endif; ?>
+                                        </td>
+                                    <?php
+                                    foreach ($existingLanguages as $code):
+                                        $_originalKey = $originalTranslation->getOriginal();
+                                        $_tmpTr = $translations[$code];
+                                        $_userValue = '';
+                                        if (array_key_exists($code, $userTranslations) && array_key_exists($_originalKey, $userTranslations[$code])) {
+                                            $_userValue = htmlentities($userTranslations[$code][$_originalKey]);
+                                        }
+                                        if (array_key_exists($key, $_tmpTr)) {
+                                            ?>
+                                            <td rel="<?php echo $code ?>">
+                                                <?php echo $_tmpTr[$key]->getTranslation() ?>
+                                            </td>
+                                            <td rel="<?php echo $code ?>">
+                                                <input type="text"
+                                                       name="tr[<?php echo $code ?>][<?php echo $originalTranslation->getOriginal() ?>][value]"
+                                                       rel="<?php echo $code ?>"
+                                                       class="input-flat"
+                                                       value="<?php echo $_userValue; ?>" />
+                                            </td>
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <td rel="<?php echo $code ?>">
+                                                <i><?php echo p__('cabride', 'not set') ?></i>
+                                            </td>
+                                            <td rel="<?php echo $code ?>">
+                                                <input type="text"
+                                                       name="tr[<?php echo $code ?>][<?php echo $originalTranslation->getOriginal() ?>][value]"
+                                                       rel="<?php echo $code ?>"
+                                                       class="input-flat"
+                                                       value="<?php echo $_userValue; ?>" />
+                                            </td>
+                                            <?php
+                                        }
+                                    endforeach;
+                                    echo "</tr>";
+                                endforeach;
+                                ?>
+                                </tbody>
+                            </table>
+
+                            <button class="btn default_button color-blue pull-right"
+                                    type="submit"><?php echo p__('cabride', 'Save') ?></button>
+
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -24,10 +171,62 @@ use Cabride\Model\Cabride;
     </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function () {
-    bindForms("#translations_content");
+    $(document).ready(function () {
+        let currentLang = '<?php echo $currentLang ?>';
 
-});
+        let toggleLanguage = function (code) {
+            $('th[rel], td[rel]').hide();
+            $('th[rel="' + code + '"], td[rel="' + code + '"]').show();
+            currentLang = code;
+        };
+
+        let _cabSubmit = function (uri, formData) {
+            loader.show('sb-formget');
+
+            $.ajax({
+                type: 'POST',
+                url: uri,
+                data: formData,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.success) {
+                        feature_form_success(data.message || data.success_message);
+                    } else if (data.warning) {
+                        feature_form_warning(data.message);
+                    } else if (data.error) {
+                        feature_form_error(data.message);
+                    } else {
+                        feature_form_error('An error occured, please try again.');
+                    }
+
+                    loader.hide('sb-formget');
+                },
+                error: function (data) {
+                    feature_form_error(data.message, data.message_timeout);
+
+                    loader.hide('sb-formget');
+                }
+            });
+        };
+
+        let formTr = $('#form-locales');
+        formTr.off('submit');
+        formTr.on('submit', function (e) {
+            e.preventDefault();
+            let values = $('#form-locales input[rel="'+currentLang+'"]').serialize();
+            _cabSubmit('/cabride/translation/save', values);
+        });
+
+        let selectLang = $('#change-lang');
+        selectLang.off('change');
+        selectLang.on('change', function () {
+            toggleLanguage($(this).val());
+        });
+
+        toggleLanguage(currentLang);
+
+
+    });
 </script>
 <style type="text/css">
     #translations_content fieldset {
@@ -53,5 +252,15 @@ $(document).ready(function () {
         padding: 15px;
         margin-bottom: 0;
         padding-bottom: 0;
+    }
+
+    tr.second-tr th {
+        border: 0 !important;
+        border-bottom: 1px solid grey !important;
+        background-color: #ffffff;
+    }
+
+    th.bg-grey {
+        background-color: #e3e3e3 !important;
     }
 </style>

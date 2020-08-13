@@ -187,6 +187,7 @@ class Cabride extends Base
      * @param $editorTree
      * @return mixed
      * @throws Exception
+     * @throws \Zend_Exception
      */
     public static function dashboardNav($editorTree)
     {
@@ -195,7 +196,7 @@ class Cabride extends Base
 
         $useCabRide = false;
         foreach ($options as $option) {
-            if ($option->getCode() === "cabride") {
+            if ($option->getCode() === 'cabride') {
                 $useCabRide = true;
                 break;
             }
@@ -205,8 +206,7 @@ class Cabride extends Base
             return $editorTree;
         }
 
-
-        $currentUrl = str_replace(self::getBaseUrl(), "", self::getCurrentUrl());
+        $currentUrl = str_replace((new self())->getBaseUrl(), "", (new self())->getCurrentUrl());
         $editorAccess = [
             "cabride_dashboard",
             "cabride_form",
@@ -657,7 +657,7 @@ class Cabride extends Base
      */
     protected static function _canAccess($acl)
     {
-        $aclList = \Admin_Controller_Default::_getAcl();
+        $aclList = \Admin_Controller_Default::_sGetAcl();
         if ($aclList) {
             return $aclList->isAllowed($acl);
         }

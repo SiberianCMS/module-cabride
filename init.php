@@ -7,6 +7,7 @@ use Siberian\Hook;
 use Siberian\Translation;
 use Siberian_Module as Module;
 use Cabride\Model\Cabride;
+use Cabride\Model\Translation as CabrideTranslation;
 use Cabride\Model\Service as CabrideService;
 
 /**
@@ -63,6 +64,22 @@ function reloadSocket () {
     return CabrideService::killServer();
 }
 
+/**
+ * @param $payload
+ * @return mixed
+ */
+function cabrideOverrideAppTranslations ($payload) {
+    return CabrideTranslation::overrideApp($payload);
+}
+
+/**
+ * @param $payload
+ * @return mixed
+ */
+function cabrideOverrideEditorTranslations ($payload) {
+    return CabrideTranslation::overrideEditor($payload);
+}
+
 /** Alias for non-confusing escape */
 class_alias('Cabride\Model\Service', 'CabrideService');
 class_alias('Cabride\Model\Cabride', 'Cabride_Model_Cabride');
@@ -96,6 +113,8 @@ $init = static function ($bootstrap) {
     Hook::listen('mobile.controller.init', 'cabride_extendedfields', 'extendedFields');
     Hook::listen('editor.left.menu.ready', 'cabride_nav', 'dashboardNav');
     Hook::listen('ssl.certificate.update', 'cabride_reload_socket', 'reloadSocket');
+    Hook::listen('app.translation.ready', 'cabride_app_translation', 'cabrideOverrideAppTranslations');
+    Hook::listen('editor.translation.ready', 'cabride_editor_translation', 'cabrideOverrideEditorTranslations');
 
     initApiUser();
 
