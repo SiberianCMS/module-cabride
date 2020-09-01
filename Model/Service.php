@@ -82,6 +82,18 @@ class Service extends Base
     }
 
     /**
+     * @param $cron
+     */
+    public static function bulk ($cron)
+    {
+        $cron->log("[Cabride] bulk payouts start");
+
+        PayoutBulk::toGenerate($cron);
+
+        $cron->log("[Cabride] bulk payouts end");
+    }
+
+    /**
      * @return bool
      */
     public static function serviceStatus(): bool

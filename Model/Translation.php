@@ -32,9 +32,10 @@ class Translation extends Base
         ]);
         foreach ($dbTranslations as $dbTranslation) {
             $_db_key = base64_decode($dbTranslation->getData('original'));
-            $_db_value = base64_decode($dbTranslation->getTranslation());
+            $_db_value = trim(base64_decode($dbTranslation->getTranslation()));
 
-            if (array_key_exists($_db_key, $translationBlock['_context']['cabride'])) {
+            if (!empty($_db_value) &&
+                array_key_exists($_db_key, $translationBlock['_context']['cabride'])) {
                 $translationBlock['_context']['cabride'][$_db_key] = $_db_value;
             }
         }
@@ -70,9 +71,13 @@ class Translation extends Base
         foreach ($payload['translations'] as $key => $translation) {
             $_tr_key = $translation->getOriginal();
             $_tr_context = $translation->getContext();
-            if (array_key_exists($_tr_key, $keyValuesTr) &&
+            if (!array_key_exists($_tr_key, $keyValuesTr)) {
+                continue;
+            }
+            $_tr_translation = trim($keyValuesTr[$_tr_key]);
+            if (!empty($_tr_translation) &&
                 $_tr_context === 'cabride') {
-                $payload['translations'][$key]->setTranslation($keyValuesTr[$_tr_key]);
+                $payload['translations'][$key]->setTranslation($_tr_translation);
             }
         }
 

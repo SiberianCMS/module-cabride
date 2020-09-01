@@ -170,146 +170,17 @@ class Cabride_PayoutController extends Application_Controller_Default
             $from = $request->getParam("from", null);
             $to = $request->getParam("to", null);
 
-            $cabride = (new Cabride())->find($valueId, "value_id");
-
-            $params = null;
-            if (!empty($from) && !empty($to)) {
-                $params = [
-                    "from" => $from,
-                    "to" => $to,
-                ];
-            }
-
-            $payouts = (new Payment())->aggregatePayout($valueId, $params);
-
-            $payoutIds = [];
-            $driverIds = [];
-            $bulkPaymentIds = [];
-            $grandTotal = 0;
-
-            $csvLines = [
-                [
-                    "Driver ID",
-                    "Payout ID",
-                    "Driver",
-                    "E-mail",
-                    "Period from",
-                    "Period to",
-                    "Payment IDs",
-                    "Total commission due",
-                ]
-            ];
-            foreach ($payouts as $payout) {
-                $_payout = new Payout();
-                $_payout
-                    ->setDriverId($payout->getDriverId())
-                    ->setValueId($valueId)
-                    ->setAmount(round($payout->getTotal(), 2))
-                    ->setStatus("inprogress")
-                    ->setPaymentIds($payout->getPaymentIds())
-                    ->setPeriodFrom($payout->getPeriodFrom())
-                    ->setPeriodTo($payout->getPeriodTo())
-                    ->save();
-
-                // Update payment to "inprogress"
-                $paymentIds = explode(",", $payout->getPaymentIds());
-                foreach ($paymentIds as $paymentId) {
-                    $_payment = (new Payment())->find($paymentId);
-                    if ($_payment->getId()) {
-                        $_payment
-                            ->setPayoutStatus("inprogress")
-                            ->save();
-                    }
-                }
-
-                $payoutIds[] = $_payout->getId();
-                $driverIds[] = $_payout->getDriverId();
-                $bulkPaymentIds[] = $_payout->getPaymentIds();
-
-                $csvLines[] = [
-                    $payout->getDriverId(),
-                    $payout->getId(),
-                    str_replace(";", "-", $payout->getFirstname() . " " . $payout->getLastname()),
-                    $payout->getEmail(),
-                    $payout->getPeriodFrom(),
-                    $payout->getPeriodTo(),
-                    $payout->getPaymentIds(),
-                    round($payout->getTotal(), 2),
-                ];
-
-                $grandTotal += round($payout->getTotal(), 2);
-
-                // Notify driver by e-mail
-                try {
-                    $values = [
-                        'title' => p__("cabride",
-                            "You have a pending payout, please check inside the application for more details."),
-                        'more' => p__("cabride", "The total amount to be paid out is %s",
-                            Base::_formatPrice($payout->getTotal(), $cabride->getCurrency()))
-                    ];
-
-                    // Fake recipient for the smtp-sender!
-                    $recipient = new Admin_Model_Admin();
-                    $recipient
-                        ->setEmail($payout->getEmail())
-                        ->setFirstname($payout->getFirstname())
-                        ->setLastname($payout->getLastname);
-
-                    // SMTP Mailer
-                    (new Mail())
-                        ->simpleEmail(
-                            'cabride',
-                            'pending_payout',
-                            p__("cabride","You have a pending payout"),
-                            [
-                                $recipient
-                            ],
-                            $values,
-                            explode(",", $cabride->getAdminEmails())[0])
-                        ->send();
-                } catch (\Exception $e) {
-                    // Unable to send e-mail
-                }
-            }
-
-            $bulk = new PayoutBulk();
-            $bulk
-                ->setValueId($valueId)
-                ->setDriverIds(join(",", $driverIds))
-                ->setPaymentIds(join(",", $bulkPaymentIds))
-                ->setPayoutIds(join(",", $payoutIds))
-                ->setTotal($grandTotal)
-                ->setRawCsv(Json::encode($csvLines));
-
-            // Add period if defined!
-            if (is_array($params)) {
-                $bulk
-                    ->setPeriodFrom($params["from"])
-                    ->setPeriodTo($params["to"]);
-            }
-
-            $bulk->save();
-
-            // E-mail CSV to admins!
-            $csvTextLines = [];
-            foreach ($csvLines as $csvLine) {
-                $csvTextLines[] = join(";", $csvLine);
-            }
-            $csvText = join("\n", $csvTextLines);
-
-            // uniqid
-            $csvPath = rpath("/var/tmp/" . uniqid() . ".csv");
-            File::putContents($csvPath, $csvText);
+            $csvPath = PayoutBulk::generateBulk($valueId, $from, $to);
 
             $payload = [
-                "success" => true,
-                "message" => __("Success"),
-                "csvPath" => $csvPath,
+                'success' => true,
+                'message' => __('Success'),
+                'csvPath' => $csvPath,
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 

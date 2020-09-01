@@ -84,6 +84,15 @@ class Cabride_Mobile_DriverController extends MobileController
                 $dataCashReturns[] = $data;
             }
 
+            $payoutPeriod = $cabride->getPayoutPeriod();
+            $payoutPeriodText = '';
+            if ($payoutPeriod === 'week') {
+                $payoutPeriodText = 'per week';
+            } else if ($payoutPeriod === 'month') {
+                $payoutPeriodText = 'per month';
+            }
+            $dataCashReturns['paymentsPeriod'] = p__('cabride', $payoutPeriodText);
+
             $payouts = (new Payout())->findAll(
                 [
                     "driver_id = ?" => $driver->getId(),

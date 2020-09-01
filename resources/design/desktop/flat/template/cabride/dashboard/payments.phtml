@@ -26,6 +26,8 @@ if (!$cabride->getId()) {
 $cu = $cabride->getCurrency();
 $cs = Currency::getCurrency($cabride->getCurrency())["symbol_native"];
 
+$payoutPeriod = $cabride->getPayoutPeriod();
+
 $paramsCash = null;
 if (!empty($_GET["dateFormat"]) && !empty($_GET["fromCash"]) && !empty($_GET["toCash"])) {
     $dateFormat = str_replace(["dd", "mm", "yy"], ["d", "m", "Y"], $_GET["dateFormat"]);
@@ -334,7 +336,9 @@ function colorForStatus ($status) {
                                 <div class="col-md-6">
                                     <button class="btn color-blue filter-payout"><?php echo p__("cabride", "FILTER"); ?></button>
                                     <button class="btn color-blue clear-payout"><?php echo p__("cabride", "CLEAR"); ?></button>
+                                    <?php if ($payoutPeriod === 'disabled'): ?>
                                     <button class="btn btn-success bulk-payout"><?php echo p__("cabride", "GENERATE BULK PAYOUT"); ?></button>
+                                    <?php endif; ?>
                                 </div>
                             </div>
 

@@ -39,7 +39,7 @@ asort($languages, SORT_LOCALE_STRING);
 $languages = array_map('ucfirst', $languages);
 
 $dbTranslations = (new \Cabride\Model\Translation())->findAll([
-        'app_id = ?' => $appId
+    'app_id = ?' => $appId
 ]);
 foreach ($dbTranslations as $dbTranslation) {
     $_db_key = base64_decode($dbTranslation->getData('original'));
@@ -78,8 +78,8 @@ $totalCount = count($originalTranslations);
                                     <?php endforeach; ?>
                                 </select>
                             </label>
-                            <br />
-                            <br />
+                            <br/>
+                            <br/>
                         </div>
 
                         <div class="col-md-6">
@@ -90,64 +90,68 @@ $totalCount = count($originalTranslations);
 
                         <div class="clear col-md-12">
 
-                            <table class="table table-striped">
+                            <table class="table table-translations">
                                 <thead>
-                                <tr class="second-tr">
-                                    <th>Original</th>
-                                    <?php $i = 0;
-                                    foreach ($existingLanguages as $language): $i++ ?>
-                                        <th class="<?php echo $i % 2 === 0 ? 'bg-white' : 'bg-grey' ?>"
-                                            style="width: 35%;"
-                                            rel="<?php echo $language; ?>"><?php echo p__('cabride', 'Default') ?></th>
-                                        <th class="<?php echo $i % 2 === 0 ? 'bg-white' : 'bg-grey' ?>"
-                                            style="width: 35%;"
-                                            rel="<?php echo $language; ?>"><?php echo p__('cabride', 'Yours') ?></th>
-                                    <?php endforeach; ?>
-                                </tr>
+                                    <tr class="second-tr">
+                                        <?php $i = 0;
+                                        foreach ($existingLanguages as $language): $i++ ?>
+                                            <th class="bg-white"
+                                                style="width: 50%;"
+                                                rel="<?php echo $language; ?>"><?php echo p__('cabride', 'Default') ?></th>
+                                            <th class="bg-white"
+                                                style="width: 50%;"
+                                                rel="<?php echo $language; ?>"><?php echo p__('cabride', 'Yours') ?></th>
+                                        <?php endforeach; ?>
+                                    </tr>
                                 </thead>
-                                <tbody>
+                                <tbody style="display: none;">
                                 <?php
+                                $indexI = 0;
+                                $indexJ = 0;
                                 foreach ($originalTranslations as $key => $originalTranslation):
-                                    ?>
-                                    <tr>
-                                        <td>
-                                            <?php echo $originalTranslation->getOriginal() ?>
-                                            <?php if (count($originalTranslation->getFlags()) > 0): ?>
-                                                <span class="badge">#<?php echo $originalTranslation->getFlags()[0] ?></span>
-                                            <?php endif; ?>
-                                        </td>
-                                    <?php
+                                    $indexI++;
+                                    echo "<tr class=\"translation\">";
                                     foreach ($existingLanguages as $code):
+                                        $indexJ++;
                                         $_originalKey = $originalTranslation->getOriginal();
-                                        $_tmpTr = $translations[$code];
+                                        $_tmpTr = $translations[$code] ?? [];
                                         $_userValue = '';
                                         if (array_key_exists($code, $userTranslations) && array_key_exists($_originalKey, $userTranslations[$code])) {
                                             $_userValue = htmlentities($userTranslations[$code][$_originalKey]);
                                         }
                                         if (array_key_exists($key, $_tmpTr)) {
                                             ?>
-                                            <td rel="<?php echo $code ?>">
+                                            <td rel="<?php echo $code ?>"
+                                                ref="<?php echo $code ?>-<?php echo $indexI ?>-<?php echo $indexJ ?>">
                                                 <?php echo $_tmpTr[$key]->getTranslation() ?>
+                                                <?php if (count($originalTranslation->getFlags()) > 0): ?>
+                                                    <span class="badge">#<?php echo $originalTranslation->getFlags()[0] ?></span>
+                                                <?php endif; ?>
                                             </td>
-                                            <td rel="<?php echo $code ?>">
+                                            <td rel="<?php echo $code ?>"
+                                                ref="<?php echo $code ?>-<?php echo $indexI ?>-<?php echo $indexJ ?>">
                                                 <input type="text"
                                                        name="tr[<?php echo $code ?>][<?php echo $originalTranslation->getOriginal() ?>][value]"
                                                        rel="<?php echo $code ?>"
-                                                       class="input-flat"
-                                                       value="<?php echo $_userValue; ?>" />
+                                                       ref="<?php echo $code ?>-<?php echo $indexI ?>-<?php echo $indexJ ?>"
+                                                       class="input-flat input-translation"
+                                                       value="<?php echo trim($_userValue); ?>"/>
                                             </td>
                                             <?php
                                         } else {
                                             ?>
-                                            <td rel="<?php echo $code ?>">
-                                                <i><?php echo p__('cabride', 'not set') ?></i>
+                                            <td rel="<?php echo $code ?>"
+                                                ref="<?php echo $code ?>-<?php echo $indexI ?>-<?php echo $indexJ ?>">
+                                                <i><?php echo $originalTranslation->getOriginal() ?></i>
                                             </td>
-                                            <td rel="<?php echo $code ?>">
+                                            <td rel="<?php echo $code ?>"
+                                                ref="<?php echo $code ?>-<?php echo $indexI ?>-<?php echo $indexJ ?>">
                                                 <input type="text"
                                                        name="tr[<?php echo $code ?>][<?php echo $originalTranslation->getOriginal() ?>][value]"
                                                        rel="<?php echo $code ?>"
-                                                       class="input-flat"
-                                                       value="<?php echo $_userValue; ?>" />
+                                                       ref="<?php echo $code ?>-<?php echo $indexI ?>-<?php echo $indexJ ?>"
+                                                       class="input-flat input-translation"
+                                                       value="<?php echo trim($_userValue); ?>"/>
                                             </td>
                                             <?php
                                         }
@@ -213,7 +217,7 @@ $totalCount = count($originalTranslations);
         formTr.off('submit');
         formTr.on('submit', function (e) {
             e.preventDefault();
-            let values = $('#form-locales input[rel="'+currentLang+'"]').serialize();
+            let values = $('#form-locales input[rel="' + currentLang + '"]').serialize();
             _cabSubmit('/cabride/translation/save', values);
         });
 
@@ -225,7 +229,37 @@ $totalCount = count($originalTranslations);
 
         toggleLanguage(currentLang);
 
+        let toggleInputClassEl = function (el) {
+            let ref = el.attr('ref');
+            let refCells = $('td[ref="' + ref + '"]');
+            refCells
+                .removeClass('success')
+                .removeClass('info');
 
+            if (el.val().trim().length > 0) {
+                refCells.addClass('success');
+            } else {
+                refCells.addClass('info');
+            }
+        };
+
+        let toggleInputClass = function ()
+        {
+            $('.input-translation').each(function (index, el) {
+                toggleInputClassEl($(el));
+            });
+        };
+
+        let inputTr = $('.input-translation');
+        inputTr.off('keyup');
+        inputTr.on('keyup', function () {
+            toggleInputClassEl($(this));
+        });
+
+        toggleInputClass();
+
+        // Show body only when ready!
+        $('table.table-translations tbody').show();
     });
 </script>
 <style type="text/css">
@@ -256,11 +290,16 @@ $totalCount = count($originalTranslations);
 
     tr.second-tr th {
         border: 0 !important;
-        border-bottom: 1px solid grey !important;
+        border-bottom: 2px solid #949494 !important;
         background-color: #ffffff;
     }
 
-    th.bg-grey {
-        background-color: #e3e3e3 !important;
+    table.table-translations {
+
+    }
+
+    tr.translation td {
+        border-bottom: 1px solid lightgrey;
+        vertical-align: middle !important;
     }
 </style>

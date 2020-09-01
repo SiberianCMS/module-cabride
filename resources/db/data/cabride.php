@@ -34,6 +34,20 @@ try {
         $module->getId()
     );
 
+    Feature::installCronjob(
+        __('Cabride, payouts.'),
+        'CabrideService::bulk',
+        0,
+        -1,
+        -1,
+        -1,
+        -1,
+        true,
+        100,
+        false,
+        $module->getId()
+    );
+
     # Chmod +x allow for execution
     exec('chmod +x ' .
         path('/app/local/modules/Cabride/resources/server/bin/') .

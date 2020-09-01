@@ -98,13 +98,14 @@
             <div style="margin-bottom: 20px;"></div>
 
             <div class="item item-divider item-divider-custom">
-                {{ ::"Payments list (last 100)" | translate:"cabride" }}
+                {{ ::'Payments list' | translate:'cabride' }}
+                <span ng-if="cashReturn.paymentsPeriod != ''">({{ cashReturn.paymentsPeriod | translate:'cabride' }})</span>
             </div>
 
             <div ng-show="filtered.length == 0"
                  class="list">
                 <div class="item item-custom text-center">
-                    {{ ::"You have no payment." | translate:"cabride" }}
+                    {{ ::'You have no payment.' | translate:'cabride' }}
                 </div>
             </div>
 
@@ -123,7 +124,7 @@
                              style="margin-left: 10px;">
                             <div class="col-50"
                                  style="text-transform: uppercase;">
-                                <b>{{ payment.return_status | translate:"cabride" }}</b>
+                                <b>{{ payment.return_status | translate:'cabride' }}</b>
                             </div>
                             <div class="col-50 text-right">
                                 <b>{{ payment.formatted_amount }}</b>

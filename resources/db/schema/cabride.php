@@ -3,10 +3,10 @@
  *
  * Schema definition for 'cabride'
  *
- * Last update: 2018-10-26
+ * Last update: 2020-09-01
  *
  */
-$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas = $schemas ?? [];
 $schemas['cabride'] = [
     'cabride_id' => [
         'type' => 'int(11) unsigned',
@@ -69,6 +69,12 @@ $schemas['cabride'] = [
         'type' => 'varchar(64)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
+    ],
+    'payout_period' => [
+        'type' => 'varchar(64)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'disabled',
     ],
     'commission_type' => [
         'type' => 'varchar(64)',

@@ -164,6 +164,7 @@ $(document).ready(function () {
 
     // Currency
     let currency = $("#currency");
+    let payoutPeriod = $("#payout_period");
     let acceptedPayments = $("#accepted_payments");
     let lineProvider = $("#control-group_payment_provider");
 
@@ -188,6 +189,19 @@ $(document).ready(function () {
     };
 
     updateCurrency();
+
+    payoutPeriod.off('change');
+    payoutPeriod.on('change', function () {
+        periodHint();
+    });
+
+    let periodHint = function () {
+        let value = payoutPeriod.val();
+        $('[id^=payout_period_]').parents('.sb-form-line').hide();
+        $('#payout_period_' + value).parents('.sb-form-line').show();
+    };
+
+    periodHint();
 });
 </script>
 <style type="text/css">
