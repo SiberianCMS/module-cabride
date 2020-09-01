@@ -203,7 +203,7 @@ RAW;
 
         $this->groupElements('payout_cash_return',
             ['payout_period', 'payout_period_disabled', 'payout_period_week', 'payout_period_month'],
-            p__('cabride', 'Payouts'));
+            p__('cabride', 'Payouts & Cash return scheduler'));
 
         // DESIGN!
         $this->addSimpleImage(

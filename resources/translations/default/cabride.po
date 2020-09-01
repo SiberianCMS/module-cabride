@@ -2053,4 +2053,11 @@ msgctxt "cabride"
 msgid "Required information"
 msgstr "Required information"
 
+# GMT 1581668075.8027
+#, mobile
+msgctxt "cabride"
+msgid "Payouts & Cash return scheduler"
+msgstr "Payouts & Cash return scheduler"
+
+
 
