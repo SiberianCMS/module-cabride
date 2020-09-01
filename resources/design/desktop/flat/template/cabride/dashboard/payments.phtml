@@ -179,10 +179,12 @@ function colorForStatus ($status) {
                                         </td>
                                         <td class="text-right"><?php echo Base::_formatPrice($payment->getTotal(), $cu) ?></td>
                                         <td class="text-right">
+                                            <?php if ($payoutPeriod === 'disabled'): ?>
                                             <a class="btn btn-xs btn-success request-cash-return"
                                                data-driver-id="<?php echo $payment->getDriverId(); ?>">
                                                 <?php echo p__("cabride", "REQUEST CASH RETURN") ?>
                                             </a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
