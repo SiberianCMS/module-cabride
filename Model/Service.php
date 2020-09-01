@@ -89,6 +89,7 @@ class Service extends Base
         $cron->log("[Cabride] bulk payouts start");
 
         PayoutBulk::toGenerate($cron);
+        Cashreturn::toGenerate($cron);
 
         $cron->log("[Cabride] bulk payouts end");
     }

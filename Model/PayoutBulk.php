@@ -49,7 +49,7 @@ class PayoutBulk extends Base
                 $from = date('Y-m-d 00:00:00', strtotime('-1 week'));
                 $to = date('Y-m-d 23:59:59', strtotime('-1 day'));
 
-                $cron->log("[Cabride::bulk:period:{$cabrideInstance->getId()}] {$from} [TO] {$to} \n");
+                $cron->log("[Cabride::PayoutBulk:period:{$cabrideInstance->getId()}] {$from} [TO] {$to} \n");
                 self::generateBulk($cabrideInstance->getValueId(), $from, $to);
             } else if ($period === 'month' && $monthDay === 1) {
                 $previousMonth = strtotime('-1 month');
@@ -59,10 +59,10 @@ class PayoutBulk extends Base
                 $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
                 $to = date("Y-m-{$daysInMonth} 23:59:59", $previousMonth);
 
-                $cron->log("[Cabride::bulk:period:{$cabrideInstance->getId()}] {$from} [TO] {$to} \n");
+                $cron->log("[Cabride::PayoutBulk:period:{$cabrideInstance->getId()}] {$from} [TO] {$to} \n");
                 self::generateBulk($cabrideInstance->getValueId(), $from, $to);
             } else {
-                $cron->log("[Cabride::bulk:period:{$cabrideInstance->getId()}] skipped until next {$period}. \n");
+                $cron->log("[Cabride::PayoutBulk:period:{$cabrideInstance->getId()}] skipped until next {$period}. \n");
             }
         }
     }

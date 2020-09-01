@@ -47,7 +47,7 @@ angular.module('starter')
         var required = ['number', 'password', 'text', 'textarea', 'date', 'datetime', 'clickwrap', 'select'];
         var isValid = true;
         var invalidFields = [];
-        $scope.fields.forEach(function (field) {
+        $scope.customFormFields().forEach(function (field) {
             if (required.indexOf(field.type) >= 0 && field.is_required) {
                 if (field.type === 'number') {
                     var current = parseFloat(field.value);

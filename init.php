@@ -80,6 +80,23 @@ function cabrideOverrideEditorTranslations ($payload) {
     return CabrideTranslation::overrideEditor($payload);
 }
 
+/**
+ * @param $payload
+ * @return mixed
+ * @throws Zend_Exception
+ */
+function cabrideAppInit ($payload) {
+    return Cabride::appInit($payload);
+}
+
+/**
+ * @param $payload
+ * @return mixed
+ */
+function cabrideMobileRegister ($payload){
+    return Cabride::mobileRegister($payload);
+}
+
 /** Alias for non-confusing escape */
 class_alias('Cabride\Model\Service', 'CabrideService');
 class_alias('Cabride\Model\Cabride', 'Cabride_Model_Cabride');
@@ -114,6 +131,8 @@ $init = static function ($bootstrap) {
     Hook::listen('editor.left.menu.ready', 'cabride_nav', 'dashboardNav');
     Hook::listen('ssl.certificate.update', 'cabride_reload_socket', 'reloadSocket');
     Hook::listen('app.translation.ready', 'cabride_app_translation', 'cabrideOverrideAppTranslations');
+    Hook::listen('app.init.ready', 'cabride_app_init', 'cabrideAppInit');
+    Hook::listen('mobile.register', 'cabride_mobile_register', 'cabrideMobileRegister');
     Hook::listen('editor.translation.ready', 'cabride_editor_translation', 'cabrideOverrideEditorTranslations');
 
     initApiUser();

@@ -91,7 +91,6 @@ class Cabride_Mobile_DriverController extends MobileController
             } else if ($payoutPeriod === 'month') {
                 $payoutPeriodText = 'per month';
             }
-            $dataCashReturns['paymentsPeriod'] = p__('cabride', $payoutPeriodText);
 
             $payouts = (new Payout())->findAll(
                 [
@@ -116,6 +115,9 @@ class Cabride_Mobile_DriverController extends MobileController
                 "collections" => [
                     "cashPayments" => $cashPayments,
                     "cardPayments" => $cardPayments,
+                ],
+                "wording" => [
+                    "paymentsPeriod" => p__('cabride', $payoutPeriodText)
                 ],
                 "cashReturns" => $dataCashReturns,
                 "pendingPayouts" => $dataPayouts,

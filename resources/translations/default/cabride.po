@@ -1991,3 +1991,66 @@ msgstr "accepted"
 msgctxt "cabride"
 msgid "Load POI from a places feature."
 msgstr "Load POI from a places feature."
+
+# GMT 1581668075.8016
+#, mobile
+msgctxt "cabride"
+msgid "Payments list"
+msgstr "Payments list"
+
+# GMT 1581668075.8017
+#, mobile
+msgctxt "cabride"
+msgid "last %s days"
+msgstr "last %s days"
+
+# GMT 1581668075.8018
+#, mobile
+msgctxt "cabride"
+msgid "per week"
+msgstr "per week"
+
+# GMT 1581668075.8019
+#, mobile
+msgctxt "cabride"
+msgid "per month"
+msgstr "per month"
+
+# GMT 1581668075.8020
+msgctxt "cabride"
+msgid "Weekly"
+msgstr "Weekly"
+
+# GMT 1581668075.8021
+msgctxt "cabride"
+msgid "Monthly"
+msgstr "Monthly"
+
+# GMT 1581668075.8022
+msgctxt "cabride"
+msgid "Default behavior, you will manually generate payouts bulk CSV from the admin page."
+msgstr "Default behavior, you will manually generate payouts bulk CSV from the admin page."
+
+# GMT 1581668075.8023
+msgctxt "cabride"
+msgid "Payouts bulk CSV will be automatically generated every monday."
+msgstr "Payouts bulk CSV will be automatically generated every monday."
+
+# GMT 1581668075.8024
+msgctxt "cabride"
+msgid "Payouts bulk CSV will be automatically generated every month."
+msgstr "Payouts bulk CSV will be automatically generated every month."
+
+# GMT 1581668075.8025
+#, mobile
+msgctxt "cabride"
+msgid "Payouts"
+msgstr "Payouts"
+
+# GMT 1581668075.8026
+#, mobile
+msgctxt "cabride"
+msgid "Required information"
+msgstr "Required information"
+
+

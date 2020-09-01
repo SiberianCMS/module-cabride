@@ -3,11 +3,13 @@
 namespace Cabride\Model;
 
 use Core\Model\Base;
+use CustomMenu\Model\Custom;
 use Siberian\Account;
+use Siberian\Api;
 use Siberian\Exception;
 use Siberian\File;
+use Siberian\Hook;
 use Siberian\Json;
-use Siberian\Api;
 use Siberian_Google_Geocoding as Geocoding;
 
 /**
@@ -119,7 +121,7 @@ class Cabride extends Base
      * @param $optionValue
      * @return array
      */
-    public function getAppInitUris ($optionValue)
+    public function getAppInitUris($optionValue)
     {
         $featureUrl = __url("/cabride/mobile_home/index");
         $featurePath = __path("/cabride/mobile_home/index");
@@ -317,7 +319,7 @@ class Cabride extends Base
      * @param null $port
      * @throws \Exception
      */
-    public static function initApiUser ($auth = null, $port = null)
+    public static function initApiUser($auth = null, $port = null)
     {
         // Defaults!
         $serverAuth = $auth ?? __get('cabride_server_auth');
@@ -406,7 +408,7 @@ class Cabride extends Base
      * @throws \Siberian\Exception
      * @throws \Zend_Exception
      */
-    public static function extendedFields ($payload)
+    public static function extendedFields($payload)
     {
         $application = $payload['application'];
         $request = $payload['request'];
@@ -422,7 +424,7 @@ class Cabride extends Base
         // Check if the user is a driver
         $customerId = $session->getCustomerId();
         $driver = (new Driver())->find($customerId, "customer_id");
-        if ($driver->getId()) {
+        if ($driver && $driver->getId()) {
             // Stops here!
             // Add custom fields to my account!
             Account::addFields(
@@ -468,39 +470,71 @@ class Cabride extends Base
             return $payload;
         }
 
-        $client = (new Client())->find($customerId, "customer_id");
-        if ($client->getId()) {
-            // Stops here!
-            // Add custom fields to my account!
-            Account::addFields(
-                "Cabride",
-                [
-                    [
-                        "type" => "spacer",
-                        "key" => "cabride_spacer",
-                    ],
-                    [
-                        "type" => "divider",
-                        "key" => "cabride_divider",
-                        "label" => p__("cabride", "Passenger information"),
-                    ],
-                    [
-                        "type" => "text",
-                        "key" => "mobile",
-                        "label" => p__("cabride", "Mobile"),
-                    ],
-                    [
-                        "type" => "textarea",
-                        "key" => "address",
-                        "rows" => "3",
-                        "label" => p__("cabride", "Address"),
-                    ],
-                ],
-                "cabridePopulateExtended",
-                "cabrideSaveExtended");
+        $clientFields = [
+            [
+                "type" => "spacer",
+                "key" => "cabride_spacer",
+            ],
+            [
+                "type" => "divider",
+                "key" => "cabride_divider",
+                "label" => p__("cabride", "Passenger information"),
+            ],
+            [
+                "type" => "text",
+                "key" => "mobile",
+                "label" => p__("cabride", "Mobile"),
+            ],
+        ];
 
-            return $payload;
+        $client = (new Client())->find($customerId, "customer_id");
+        if ($client && $client->getId()) {
+            $clientFields = [
+                [
+                    "type" => "spacer",
+                    "key" => "cabride_spacer",
+                ],
+                [
+                    "type" => "divider",
+                    "key" => "cabride_divider",
+                    "label" => p__("cabride", "Passenger information"),
+                ],
+                [
+                    "type" => "text",
+                    "key" => "mobile",
+                    "label" => p__("cabride", "Mobile"),
+                ],
+                [
+                    "type" => "textarea",
+                    "key" => "address",
+                    "rows" => "3",
+                    "label" => p__("cabride", "Address"),
+                ],
+            ];
+        } else {
+            $clientFields = [
+                [
+                    "type" => "spacer",
+                    "key" => "cabride_spacer",
+                ],
+                [
+                    "type" => "divider",
+                    "key" => "cabride_divider",
+                    "label" => p__("cabride", "Required information"),
+                ],
+                [
+                    "type" => "text",
+                    "key" => "mobile",
+                    "label" => p__("cabride", "Mobile") . ' *',
+                ],
+            ];
         }
+
+        Account::addFields(
+            "Cabride",
+            $clientFields,
+            "cabridePopulateExtended",
+            "cabrideSaveExtended");
 
         return $payload;
     }
@@ -511,7 +545,7 @@ class Cabride extends Base
      * @return mixed
      * @throws \Zend_Exception
      */
-    public static function populateExtended ($context, $fields)
+    public static function populateExtended($context, $fields)
     {
         $session = $context["session"];
         $driver = (new Driver())->find($session->getCustomerId(), "customer_id");
@@ -543,12 +577,22 @@ class Cabride extends Base
             }
         }
 
-        $client = (new Client())->find($session->getCustomerId(), "customer_id");
+        // Just in case!
+        $customer = $session->getCustomer();
+        if (!$customer || !$customer->getId()) {
+            $customer = new Base();
+        }
+        $client = (new Client())->find($session->getCustomerId(), 'customer_id');
         if ($client->getId()) {
             foreach ($fields as &$field) {
                 switch ($field["key"]) {
                     case "mobile":
-                        $field["value"] = $client->getMobile();
+                        if (!empty($client->getMobile())) {
+                            $field["value"] = $client->getMobile();
+                        } else if (!empty($customer->getMobile())) {
+                            $field["value"] = $customer->getMobile();
+                        }
+
                         break;
                     case "address":
                         $field["value"] = $client->getAddress();
@@ -567,7 +611,7 @@ class Cabride extends Base
      * @throws Exception
      * @throws \Zend_Exception
      */
-    public static function saveExtended ($context, $fields)
+    public static function saveExtended($context, $fields)
     {
         $application = $context["application"];
         $session = $context["session"];
@@ -635,6 +679,85 @@ class Cabride extends Base
         }
 
         return $fields;
+    }
+
+    /**
+     * @param $payload
+     * @return mixed
+     * @throws \Zend_Exception
+     */
+    public static function appInit ($payload)
+    {
+        // Only if cabride is present inside app!
+        $cabride = array_filter($payload['featureBlock']['pages'], static function ($item) {
+            return $item['code'] === 'cabride';
+        });
+        $hasCabride = count($cabride) > 0;
+        if ($hasCabride &&
+            !isset($payload['loadBlock']['customer']['extendedFields'])) {
+            $payload['loadBlock']['customer']['extendedFields'] = Account::getFields([
+                'session' => (new Base())
+            ]);
+        }
+
+        return $payload;
+    }
+
+    /**
+     * @param $payload
+     * @return mixed
+     * @throws \Zend_Exception
+     */
+    public static function mobileRegister ($payload)
+    {
+        if (isset($payload['request'])) {
+            $data = $payload['request']->getBodyParams();
+
+            // New mobile account hooks/forms
+            if (array_key_exists('extendedFields', $data)) {
+                $application = (new \Application_Model_Application())->find($payload['appId']);
+                Account::saveFields([
+                    'application' => $application,
+                    'request' => $payload['request'],
+                    'session' => (new Base()),
+                ], $data['extendedFields']);
+            }
+
+            if (!$data['isLoggedIn']) {
+                // No session yet
+                $fields = $data['extendedFields'];
+                foreach ($fields['Cabride'] as $field) {
+                    $key = $field['key'];
+                    $value = trim($field['value']);
+                    if ($key === 'mobile') {
+                        if (empty($value)) {
+                            // Special handler, really temporary thing!
+                            http_response_code(400);
+                            echo Json::encode([
+                                'error' => true,
+                                'message' => p__('cabride', 'Mobile phone is required')
+                            ]);
+                            die;
+                        }
+                        Hook::listen(
+                            'mobile.register.success',
+                            'cabride_save_extended_register',
+                            static function ($payload) use ($value) {
+                                $customer = (new \Customer_Model_Customer())->find($payload['customerId']);
+                                if ($customer && $customer->getId()) {
+                                    $customer
+                                        ->setMobile($value)
+                                        ->save();
+                                }
+                                return $payload;
+                            });
+                    }
+                }
+
+            }
+        }
+
+        return $payload;
     }
 
     /**

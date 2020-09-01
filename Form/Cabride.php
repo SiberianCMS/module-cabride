@@ -197,7 +197,6 @@ RAW;
 </div>
 RAW;
 
-
         $this->addSimpleHtml('payout_period_disabled', $disabledHint);
         $this->addSimpleHtml('payout_period_week', $weekHint);
         $this->addSimpleHtml('payout_period_month', $monthlyHint);

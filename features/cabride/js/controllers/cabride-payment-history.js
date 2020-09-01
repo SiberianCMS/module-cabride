@@ -23,6 +23,7 @@ angular.module('starter')
         Cabride
         .getPaymentHistory()
         .then(function (payload) {
+            $scope.wording = payload.wording;
             $scope.collections = payload.collections;
             $scope.cashReturns = payload.cashReturns;
             $scope.pendingPayouts = payload.pendingPayouts;
