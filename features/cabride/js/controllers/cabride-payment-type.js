@@ -24,7 +24,7 @@ angular.module('starter')
             case "cash":
                 // Validate directly!
                 Dialog
-                .alert("Thanks", "You'll pay the driver directly when the course ends!", "OK", 3500)
+                .alert("Thanks", "You'll pay the driver directly when the course ends!", "OK", 3500, 'cabride')
                 .then(function () {
                     $scope.validateRequest("cash");
                 });

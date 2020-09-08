@@ -489,7 +489,7 @@ angular.module('starter')
             }
 
             // Wait until we have an identified user!
-            if (!factory.user) {
+            if (!factory.user || !Customer.customer.id) {
                 return;
             }
 
@@ -506,10 +506,10 @@ angular.module('starter')
                 };
                 if (factory.isDriver) {
                     payload.driverId = factory.user.driverId;
-                    payload.userType = "driver";
+                    payload.userType = 'driver';
                 } else {
                     payload.clientId = factory.user.clientId;
-                    payload.userType = "passenger";
+                    payload.userType = 'passenger';
                 }
                 factory.sendEvent('update-position', payload);
             }, function () {

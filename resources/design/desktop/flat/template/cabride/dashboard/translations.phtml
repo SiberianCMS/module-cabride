@@ -13,6 +13,7 @@ $currentLang = Core_Model_Language::getCurrentLanguage();
 
 $translations = [];
 $userTranslations = [];
+$existingLanguages = array_unique($existingLanguages);
 foreach ($existingLanguages as $existingLanguage) {
     $userTranslations[$existingLanguage] = [];
 

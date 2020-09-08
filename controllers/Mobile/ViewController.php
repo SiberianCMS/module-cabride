@@ -282,9 +282,15 @@ class Cabride_Mobile_ViewController extends MobileController
             }
 
             // Clear token if user switched between passenger & driver.
-            $pushDevice = (new PushDevice());
-            $pushDevice = $pushDevice->find($token, 'token');
+            $pushDevices = (new PushDevice())->findAll([
+                'customer_id = ?' => $customerId
+            ]);
+            foreach ($pushDevices as $pushDevice) {
+                $pushDevice->delete();
+            }
 
+            // Create the new record!
+            $pushDevice = (new PushDevice());
             $pushDevice
                 ->setCustomerId($customerId)
                 ->setValueId($valueId)

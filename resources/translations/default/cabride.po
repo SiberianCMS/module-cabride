@@ -498,8 +498,8 @@ msgstr "We are sorry, but the driver cancelled the ride!"
 # GMT 1558016420.5879
 #, mobile
 msgctxt "cabride"
-msgid "You request expired!"
-msgstr "You request expired!"
+msgid "Your request expired!"
+msgstr "Your request expired!"
 
 # GMT 1558016420.5880
 #, mobile
@@ -2059,5 +2059,26 @@ msgctxt "cabride"
 msgid "Payouts & Cash return scheduler"
 msgstr "Payouts & Cash return scheduler"
 
+# GMT 1581668075.8028
+#, mobile
+msgctxt "cabride"
+msgid "We are sorry we didnt found any available driver around you!"
+msgstr "We are sorry we didnt found any available driver around you!"
 
+# GMT 1581668075.8029
+#, mobile
+msgctxt "cabride"
+msgid "Request sent"
+msgstr "Request sent"
 
+# GMT 1581668075.8030
+#, mobile
+msgctxt "cabride"
+msgid "Please now wait for a driver!"
+msgstr "Please now wait for a driver!"
+
+# GMT 1581668075.8031
+#, mobile
+msgctxt "cabride"
+msgid "Sending request ..."
+msgstr "Sending request ..."

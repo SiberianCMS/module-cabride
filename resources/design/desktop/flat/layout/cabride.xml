@@ -13,7 +13,7 @@
         <addLayout name="admin_menu" />
         <addLayout name="customization_default" />
         <base>
-            <title>CabRide Dashboard</title>
+            <title>Dashboard</title>
         </base>
         <views>
             <content class="admin_view_default"
@@ -27,7 +27,7 @@
         <addLayout name="admin_menu" />
         <addLayout name="customization_default" />
         <base>
-            <title>CabRide Form</title>
+            <title>Form</title>
         </base>
         <views>
             <content class="admin_view_default"
@@ -41,7 +41,7 @@
         <addLayout name="admin_menu" />
         <addLayout name="customization_default" />
         <base>
-            <title>CabRide Users</title>
+            <title>Users</title>
         </base>
         <views>
             <content class="admin_view_default"
@@ -55,7 +55,7 @@
         <addLayout name="admin_menu" />
         <addLayout name="customization_default" />
         <base>
-            <title>CabRide Drivers</title>
+            <title>Drivers</title>
         </base>
         <views>
             <content class="admin_view_default"
@@ -83,7 +83,7 @@
         <addLayout name="admin_menu" />
         <addLayout name="customization_default" />
         <base>
-            <title>CabRide Rides</title>
+            <title>Rides</title>
         </base>
         <views>
             <content class="admin_view_default"
@@ -97,7 +97,7 @@
         <addLayout name="admin_menu" />
         <addLayout name="customization_default" />
         <base>
-            <title>CabRide Settings</title>
+            <title>Settings</title>
         </base>
         <views>
             <content class="admin_view_default"
@@ -111,7 +111,7 @@
         <addLayout name="admin_menu" />
         <addLayout name="customization_default" />
         <base>
-            <title>CabRide vehicle types</title>
+            <title>Vehicle types</title>
         </base>
         <views>
             <content class="admin_view_default"
@@ -139,7 +139,7 @@
         <addLayout name="admin_menu" />
         <addLayout name="customization_default" />
         <base>
-            <title>CabRide Translations</title>
+            <title>Translations</title>
         </base>
         <views>
             <content class="admin_view_default"
@@ -153,7 +153,7 @@
         <addLayout name="admin_menu" />
         <addLayout name="customization_default" />
         <base>
-            <title>CabRide Settings</title>
+            <title>Settings</title>
         </base>
         <views>
             <content class="admin_view_default"

@@ -298,8 +298,8 @@ class Request extends Base
             case "pending":
                 // Notify all drivers found!
                 $requestDrivers = (new RequestDriver())->findAll([
-                    "request_id" => $requestId,
-                    "status" => "pending"
+                    "request_id = ?" => $requestId,
+                    "status = ?" => "pending"
                 ]);
 
                 // Send push to passenger!
@@ -316,7 +316,7 @@ class Request extends Base
                     $pushDevice = (new PushDevice())
                         ->find($customerId, "customer_id");
 
-                    if ($pushDevice->getId()) {
+                    if ($pushDevice && $pushDevice->getId()) {
                         $pushDevice->sendMessage($title, $message, $requestId, "driver",
                             $status, $actionUrl, $valueId, $appId);
                     }
@@ -422,7 +422,7 @@ class Request extends Base
                     $pushDevice = (new PushDevice())
                         ->find($customerId, "customer_id");
 
-                    if ($pushDevice->getId()) {
+                    if ($pushDevice && $pushDevice->getId()) {
                         $pushDevice->sendMessage($title, $message, $requestId, "driver",
                             $status, $actionUrl, $valueId, $appId);
                     }
@@ -438,7 +438,7 @@ class Request extends Base
                     $pushDevice = (new PushDevice())
                         ->find($customerId, "customer_id");
 
-                    if ($pushDevice->getId()) {
+                    if ($pushDevice && $pushDevice->getId()) {
                         $pushDevice->sendMessage($title, $message, $requestId, "passenger",
                             $status, $actionUrl, $valueId, $appId);
                     }
@@ -448,7 +448,7 @@ class Request extends Base
             case "expired":
                 // Send push to passenger!
                 $title = p__("cabride",
-                    "You request expired!");
+                    "Your request expired!");
                 $message = p__("cabride",
                     "Sorry there was no driver available to drive you, please try again!");
 
@@ -459,7 +459,7 @@ class Request extends Base
                 $pushDevice = (new PushDevice())
                     ->find($customerId, "customer_id");
 
-                if ($pushDevice->getId()) {
+                if ($pushDevice && $pushDevice->getId()) {
                     $pushDevice->sendMessage($title, $message, $requestId, "passenger",
                         $status, $actionUrl, $valueId, $appId);
                 }

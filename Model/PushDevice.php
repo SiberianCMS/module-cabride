@@ -68,7 +68,7 @@ class PushDevice extends Base
         Hook::listen(
             "push.message.android.parsed",
             "cabride.alter.android.push",
-            function ($payload) use ($requestId) {
+            static function ($payload) use ($requestId) {
                 /**
                  * @var $msg \Siberian\Service\Push\CloudMessaging\Message
                  */
@@ -90,7 +90,7 @@ class PushDevice extends Base
         Hook::listen(
             "push.message.ios.parsed",
             "cabride.alter.ios.push",
-            function ($payload) use ($requestId) {
+            static function ($payload) use ($requestId) {
                 /**
                  * @var $msg \Siberian_Service_Push_Apns_Message
                  */

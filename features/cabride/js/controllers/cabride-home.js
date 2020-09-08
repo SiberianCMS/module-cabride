@@ -538,13 +538,13 @@ angular.module('starter')
     };
 
     $scope.validateRequest = function (cashOrVault) {
-        Loader.show("Sending request ...");
+        Loader.show($translate.instant("Sending request ...", "cabride"));
         Cabride
         .validateRequest($scope.vehicleType, $scope.currentRoute, cashOrVault, Cabride.settings.customFormFieldsUser)
         .then(function (response) {
             Loader.hide();
             Dialog
-            .alert("Request sent", "Please now wait for a driver!", "OK", 2350)
+            .alert("Request sent", "Please now wait for a driver!", "OK", 2350, "cabride")
             .then(function () {
                 $scope.ptModal.hide();
                 $scope.vtModal.hide();
