@@ -57,6 +57,7 @@ $schemas['cabride_client'] = [
         'type' => 'varchar(1024)',
         'null' => true,
     ],
+    /** @deprecated field mobile, uses customer mobile fields. */
     'mobile' => [
         'type' => 'varchar(20)',
         'null' => true,

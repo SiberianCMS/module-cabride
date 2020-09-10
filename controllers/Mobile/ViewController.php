@@ -151,7 +151,12 @@ class Cabride_Mobile_ViewController extends MobileController
         try {
             $request = $this->getRequest();
             $valueId = $this->getCurrentOptionValue()->getId();
-            $customerId = $this->getSession()->getCustomerId();
+            $session = $this->getSession();
+            $customer = $session->getCustomer();
+            $customerId = $session->getCustomerId();
+
+            // Try to sync/fetch mobile numbers!
+            $mobileCustomer = trim($customer->getMobile());
 
             // First search in drivers!
             $driver = (new Driver())
@@ -162,6 +167,15 @@ class Cabride_Mobile_ViewController extends MobileController
 
             $user = null;
             if ($driver && $driver->getId()) {
+
+                // Update data live!
+                if (empty($mobileCustomer) &&
+                    !empty($driver->getDriverPhone())) {
+                    $customer
+                        ->setMobile($driver->getDriverPhone())
+                        ->save();
+                }
+
                 $user = [
                     'type' => 'driver',
                     'driverId' => (integer) $driver->getId(),
@@ -177,6 +191,14 @@ class Cabride_Mobile_ViewController extends MobileController
                 if ($passenger && $passenger->getId()) {
                     // fetch saved cards if applies
                     // @todo
+
+                    // Update mobile live!
+                    if (empty($mobileCustomer) &&
+                        !empty($passenger->getMobile())) {
+                        $customer
+                            ->setMobile($passenger->getMobile())
+                            ->save();
+                    }
 
                     $user = [
                         'clientId' => (integer) $passenger->getId(),

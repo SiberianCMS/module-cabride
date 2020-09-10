@@ -27,6 +27,7 @@ class Cabride_Mobile_RideController extends MobileController
         try {
             $request = $this->getRequest();
             $session = $this->getSession();
+            $customer = $session->getCustomer();
             $customerId = $session->getCustomerId();
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
@@ -53,7 +54,7 @@ class Cabride_Mobile_RideController extends MobileController
                     $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
 
                     $data["formatted_driver_price"] = Base::_formatPrice($driverPrice, $cabride->getCurrency());
-                    $data["driver_phone"] = $driver->getDriverPhone();
+                    $data["driver_phone"] = $customer->getMobile();
 
                     // Driver request!
                     $driverRequest = (new RequestDriver())->find([
@@ -316,6 +317,7 @@ class Cabride_Mobile_RideController extends MobileController
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
 
+            $customer = $session->getCustomer();
             $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($customerId, "customer_id");
             $rides = (new Request())->findForDriver($valueId, $driver->getId(), ["accepted", "onway", "inprogress"]);
@@ -337,7 +339,7 @@ class Cabride_Mobile_RideController extends MobileController
 
                 $client = (new Client())->find($ride->getClientId());
 
-                $data["client_phone"] = $client->getMobile();
+                $data["client_phone"] = $customer->getMobile();
 
                 $collection[] = $data;
             }
@@ -582,17 +584,16 @@ class Cabride_Mobile_RideController extends MobileController
     public function vehicleInformationAction ()
     {
         try {
-            $request = $this->getRequest();
             $session = $this->getSession();
+            $customer = $session->getCustomer();
             $customerId = $session->getCustomerId();
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
-            $requestId = $request->getParam("requestId", false);
 
             $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($customerId, "customer_id");
 
-            if (!$driver->getId()) {
+            if (!$driver || !$driver->getId()) {
                 throw new Exception(p__("cabride",
                     "Sorry, we are unable to find your driver profile!"));
             }
@@ -626,6 +627,8 @@ class Cabride_Mobile_RideController extends MobileController
                 }
             }
 
+            $driverData['driver_phone'] = $customer->getMobile();
+
             $payload = [
                 "success" => true,
                 "driver" => $driverData,
@@ -651,6 +654,7 @@ class Cabride_Mobile_RideController extends MobileController
         try {
             $request = $this->getRequest();
             $session = $this->getSession();
+            $customer = $session->getCustomer();
             $customerId = $session->getCustomerId();
             $typeId = $request->getParam("typeId", false);
             $optionValue = $this->getCurrentOptionValue();
@@ -659,7 +663,7 @@ class Cabride_Mobile_RideController extends MobileController
             $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($customerId, "customer_id");
 
-            if (!$driver->getId()) {
+            if (!$driver || !$driver->getId()) {
                 throw new Exception(p__("cabride",
                     "Sorry, we are unable to find your driver profile!"));
             }
@@ -691,6 +695,8 @@ class Cabride_Mobile_RideController extends MobileController
 
             $driverData = $driver->toJson();
 
+            $driverData['driver_phone'] = $customer->getMobile();
+
             $payload = [
                 "success" => true,
                 "driver" => $driverData,
@@ -716,6 +722,7 @@ class Cabride_Mobile_RideController extends MobileController
             $request = $this->getRequest();
             $application = $this->getApplication();
             $session = $this->getSession();
+            $customer = $session->getCustomer();
             $data = $request->getBodyParams();
             $driverParams = $data["driver"];
             $valueId = Cabride::getCurrentValueId();
@@ -778,14 +785,19 @@ class Cabride_Mobile_RideController extends MobileController
                 ->setBaseLongitude($position[1])
                 ->setPickupRadius($driverParams["pickup_radius"]);
 
-            if (sizeof($errors) > 0) {
+            if (count($errors) > 0) {
                 foreach ($errors as &$error) {
                     $error = "- {$error}";
                 }
-                throw new Exception(join("<br />", $errors));
+                throw new Exception(implode("<br />", $errors));
             }
 
             $driver->save();
+
+            // Update account mobile number!
+            $customer
+                ->setMobile($driverParams["driver_phone"])
+                ->save();
 
             $driverData = $driver->toJson();
 

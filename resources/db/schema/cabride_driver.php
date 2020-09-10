@@ -74,6 +74,7 @@ $schemas['cabride_driver'] = [
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
+    /** @deprecated field mobile, uses customer mobile fields. */
     'driver_phone' => [
         'type' => 'varchar(20)',
         'charset' => 'utf-8',

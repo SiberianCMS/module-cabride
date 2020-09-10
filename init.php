@@ -27,37 +27,6 @@ function dashboardNav ($payload) {
 }
 
 /**
- * @param $payload
- * @return mixed
- * @throws Zend_Exception
- * @throws \Siberian\Exception
- */
-function extendedFields ($payload) {
-    return Cabride::extendedFields($payload);
-};
-
-/**
- * @param $context
- * @param $fields
- * @return mixed
- * @throws Zend_Exception
- */
-function cabridePopulateExtended ($context, $fields) {
-    return Cabride::populateExtended($context, $fields);
-}
-
-/**
- * @param $context
- * @param $fields
- * @return mixed
- * @throws Zend_Exception
- * @throws \Siberian\Exception
- */
-function cabrideSaveExtended ($context, $fields) {
-    return Cabride::saveExtended($context, $fields);
-}
-
-/**
  * @return bool
  */
 function reloadSocket () {
@@ -78,23 +47,6 @@ function cabrideOverrideAppTranslations ($payload) {
  */
 function cabrideOverrideEditorTranslations ($payload) {
     return CabrideTranslation::overrideEditor($payload);
-}
-
-/**
- * @param $payload
- * @return mixed
- * @throws Zend_Exception
- */
-function cabrideAppInit ($payload) {
-    return Cabride::appInit($payload);
-}
-
-/**
- * @param $payload
- * @return mixed
- */
-function cabrideMobileRegister ($payload){
-    return Cabride::mobileRegister($payload);
 }
 
 /** Alias for non-confusing escape */
@@ -127,12 +79,9 @@ $init = static function ($bootstrap) {
 
     Translation::registerExtractor('cabride', 'Cabride');
 
-    Hook::listen('mobile.controller.init', 'cabride_extendedfields', 'extendedFields');
     Hook::listen('editor.left.menu.ready', 'cabride_nav', 'dashboardNav');
     Hook::listen('ssl.certificate.update', 'cabride_reload_socket', 'reloadSocket');
     Hook::listen('app.translation.ready', 'cabride_app_translation', 'cabrideOverrideAppTranslations');
-    Hook::listen('app.init.ready', 'cabride_app_init', 'cabrideAppInit');
-    Hook::listen('mobile.register', 'cabride_mobile_register', 'cabrideMobileRegister');
     Hook::listen('editor.translation.ready', 'cabride_editor_translation', 'cabrideOverrideEditorTranslations');
 
     initApiUser();

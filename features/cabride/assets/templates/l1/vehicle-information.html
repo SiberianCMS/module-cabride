@@ -27,7 +27,7 @@
             <div style="margin-bottom: 20px;"></div>
 
             <div class="item item-divider item-divider-custom text-center">
-                {{ ::"Please select a vehicle type" | translate:"cabride" }}
+                {{ ::'Please select a vehicle type' | translate:'cabride' }}
             </div>
 
             <div ng-repeat="type in vehicleTypes"
@@ -38,15 +38,15 @@
                     <p ng-if="showFixedPricing()"
                        class="default-fares">
                         <span>
-                            <span>{{ ::"Base" | translate:"cabride" }}</span>{{ type.baseFare }}
+                            <span>{{ ::'Base' | translate:'cabride' }}</span>{{ type.baseFare }}
                         </span>
                         <br />
                         <span ng-if="type.distance_fare > 0">
-                            <span>{{ ::"Distance" | translate:"cabride" }}</span>{{ type.distanceFare }}
+                            <span>{{ ::'Distance' | translate:'cabride' }}</span>{{ type.distanceFare }}
                         </span>
                         <br />
                         <span ng-if="type.time_fare > 0">
-                            <span>{{ ::"Time" | translate:"cabride" }}</span>{{ type.timeFare }}
+                            <span>{{ ::'Time' | translate:'cabride' }}</span>{{ type.timeFare }}
                         </span>
                     </p>
             </div>
@@ -64,22 +64,22 @@
                    class="default-fares">
                     <span class="pull-left">
                         <span>
-                            <span>{{ ::"Base" | translate:"cabride" }}</span>{{ currentType.baseFare }}
+                            <span>{{ ::'Base' | translate:'cabride' }}</span>{{ currentType.baseFare }}
                         </span>
                         <br />
                         <span ng-if="currentType.distance_fare > 0">
-                                <span>{{ ::"Distance" | translate:"cabride" }}</span>{{ currentType.distanceFare }}
+                                <span>{{ ::'Distance' | translate:'cabride' }}</span>{{ currentType.distanceFare }}
                             </span>
                         <br />
                         <span ng-if="currentType.time_fare > 0">
-                            <span>{{ ::"Time" | translate:"cabride" }}</span>{{ currentType.timeFare }}
+                            <span>{{ ::'Time' | translate:'cabride' }}</span>{{ currentType.timeFare }}
                         </span>
                     </span>
                     <span class="pull-right">
                         <button ng-click="changeType()"
                                 style="border-radius: 0 !important; text-transform: uppercase;"
                                 class="button button-small button-positive button-positive-custom">
-                            {{ ::"Change type" | translate:"cabride" }}
+                            {{ ::'Change type' | translate:'cabride' }}
                         </button>
                     </span>
                 </p>
@@ -89,7 +89,7 @@
                         <button ng-click="changeType()"
                                 style="border-radius: 0 !important; text-transform: uppercase;"
                                 class="button button-small button-positive button-positive-custom">
-                            {{ ::"Change type" | translate:"cabride" }}
+                            {{ ::'Change type' | translate:'cabride' }}
                         </button>
                     </span>
                 </p>
@@ -99,7 +99,7 @@
 
             <label class="item item-input item-custom">
                 <div class="input-label">
-                    <b>{{ ::"Mobile number" | translate:"cabride" }} *</b>
+                    <b>{{ ::'Mobile number' | translate:'cabride' }} *</b>
                 </div>
                 <input class="text-right"
                        type="text"
