@@ -27,7 +27,6 @@ class Cabride_Mobile_RideController extends MobileController
         try {
             $request = $this->getRequest();
             $session = $this->getSession();
-            $customer = $session->getCustomer();
             $customerId = $session->getCustomerId();
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
@@ -54,7 +53,9 @@ class Cabride_Mobile_RideController extends MobileController
                     $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
 
                     $data["formatted_driver_price"] = Base::_formatPrice($driverPrice, $cabride->getCurrency());
-                    $data["driver_phone"] = $customer->getMobile();
+
+                    $driverCustomer = (new Customer_Model_Customer())->find($driver->getCustomerId());
+                    $data["driver_phone"] = $driverCustomer->getMobile();
 
                     // Driver request!
                     $driverRequest = (new RequestDriver())->find([
@@ -62,7 +63,7 @@ class Cabride_Mobile_RideController extends MobileController
                         "request_id" => $ride->getId(),
                     ]);
 
-                    if ($driverRequest->getId()) {
+                    if ($driverRequest && $driverRequest->getId()) {
                         $data["eta_driver"] = (integer) $driverRequest->getEtaToClient();
                     }
                 }
@@ -317,7 +318,6 @@ class Cabride_Mobile_RideController extends MobileController
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
 
-            $customer = $session->getCustomer();
             $cabride = (new Cabride())->find($valueId, "value_id");
             $driver = (new Driver())->find($customerId, "customer_id");
             $rides = (new Request())->findForDriver($valueId, $driver->getId(), ["accepted", "onway", "inprogress"]);
@@ -338,8 +338,9 @@ class Cabride_Mobile_RideController extends MobileController
                 $data["expires_in"] = (integer) ($data["expires_at"] - $now);
 
                 $client = (new Client())->find($ride->getClientId());
+                $clientCustomer = (new Customer_Model_Customer())->find($client->getCustomerId());
 
-                $data["client_phone"] = $customer->getMobile();
+                $data["client_phone"] = $clientCustomer->getMobile();
 
                 $collection[] = $data;
             }
@@ -627,7 +628,9 @@ class Cabride_Mobile_RideController extends MobileController
                 }
             }
 
-            $driverData['driver_phone'] = $customer->getMobile();
+            $driverCustomer = (new Customer_Model_Customer())->find($driver->getCustomerId());
+
+            $driverData['driver_phone'] = $driverCustomer->getMobile();
 
             $payload = [
                 "success" => true,
@@ -694,7 +697,6 @@ class Cabride_Mobile_RideController extends MobileController
                 Base::_formatPrice($currentType["time_fare"], $cabride->getCurrency()) : 0;
 
             $driverData = $driver->toJson();
-
             $driverData['driver_phone'] = $customer->getMobile();
 
             $payload = [
@@ -778,7 +780,6 @@ class Cabride_Mobile_RideController extends MobileController
                 ->setVehicleId($driverParams["vehicle_id"])
                 ->setVehicleModel($driverParams["vehicle_model"])
                 ->setVehicleLicensePlate($driverParams["vehicle_license_plate"])
-                ->setDriverPhone($driverParams["driver_phone"])
                 ->setDriverLicense($driverParams["driver_license"])
                 ->setBaseAddress($driverParams["base_address"])
                 ->setBaseLatitude($position[0])

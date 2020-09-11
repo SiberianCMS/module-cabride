@@ -5,7 +5,6 @@ use Cabride\Model\Driver;
 use Cabride\Model\Client;
 use Cabride\Model\ClientVault;
 use Cabride\Model\Request;
-use Cabride\Model\RequestDriver;
 use Cabride\Model\RequestLog;
 use Cabride\Model\Vehicle;
 use Core\Model\Base;
