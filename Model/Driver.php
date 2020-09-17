@@ -63,7 +63,7 @@ class Driver extends Base
         }
 
         $cabride = Cabride::getCurrent();
-        if ($cabride->getPricingMode() === "driver") {
+        if ($cabride && $cabride->getPricingMode() === 'driver') {
             if (empty($this->getBaseFare())) {
                 $errors[] = p__("cabride", "Base fare");
             }
@@ -73,7 +73,8 @@ class Driver extends Base
             }
         }
 
-        if (empty($this->getDriverPhone())) {
+        $customer = (new \Customer_Model_Customer())->find($this->getCustomerId());
+        if (empty($customer->getMobile())) {
             $errors[] = p__("cabride", "Mobile phone number");
         }
 

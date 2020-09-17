@@ -71,14 +71,25 @@ class Translation extends Base
         foreach ($payload['translations'] as $key => $translation) {
             $_tr_key = $translation->getOriginal();
             $_tr_context = $translation->getContext();
+
             if (!array_key_exists($_tr_key, $keyValuesTr)) {
                 continue;
             }
+
             $_tr_translation = trim($keyValuesTr[$_tr_key]);
-            if (!empty($_tr_translation) &&
-                $_tr_context === 'cabride') {
+            if (!empty($_tr_translation) && $_tr_context === 'cabride') {
                 $payload['translations'][$key]->setTranslation($_tr_translation);
+                unset($keyValuesTr[$_tr_key]);
             }
+        }
+
+        // Create all missing translations (missing keys)
+        $remains = array_filter($keyValuesTr);
+        foreach ($remains as $_remain_key => $_remain_value) {
+            $context_key = 'cabride' . $_remain_key;
+            $_ms_translation = new \Gettext\Translation('cabride', $_remain_key);
+            $_ms_translation->setTranslation($_remain_value);
+            $payload['translations'][$context_key] = $_ms_translation;
         }
 
         return $payload;

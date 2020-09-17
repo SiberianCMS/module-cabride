@@ -2,7 +2,6 @@
 
 use Cabride\Controller\Base;
 use Siberian\Exception;
-use Siberian\Json;
 use Cabride\Model\Driver;
 use Cabride\Model\Client;
 use Cabride\Model\Request;
@@ -172,7 +171,7 @@ class Cabride_Api_MessageController extends Base
                     }
                 }
 
-                $mustFillVehicle = sizeof($driver->getProfileErrors()) > 0;
+                $mustFillVehicle = count($driver->getProfileErrors()) > 0;
 
                 // Cash return pending
                 $cashReturns = (new Cashreturn())->findAll(

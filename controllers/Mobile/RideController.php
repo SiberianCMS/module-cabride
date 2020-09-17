@@ -781,6 +781,7 @@ class Cabride_Mobile_RideController extends MobileController
                 ->setVehicleModel($driverParams["vehicle_model"])
                 ->setVehicleLicensePlate($driverParams["vehicle_license_plate"])
                 ->setDriverLicense($driverParams["driver_license"])
+                ->setDriverPhone($driverParams["driver_phone"])
                 ->setBaseAddress($driverParams["base_address"])
                 ->setBaseLatitude($position[0])
                 ->setBaseLongitude($position[1])
