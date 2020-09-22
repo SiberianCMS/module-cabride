@@ -24,7 +24,6 @@ class Translation extends Base
     {
         $appId = $payload['application']->getId();
         $currentLanguage = $payload['currentLanguage'];
-        $translationBlock = $payload['translationBlock'];
 
         $dbTranslations = (new self())->findAll([
             'app_id = ?' => $appId,
@@ -35,8 +34,8 @@ class Translation extends Base
             $_db_value = trim(base64_decode($dbTranslation->getTranslation()));
 
             if (!empty($_db_value) &&
-                array_key_exists($_db_key, $translationBlock['_context']['cabride'])) {
-                $translationBlock['_context']['cabride'][$_db_key] = $_db_value;
+                array_key_exists($_db_key, $payload['translationBlock']['_context']['cabride'])) {
+                $payload['translationBlock']['_context']['cabride'][$_db_key] = $_db_value;
             }
         }
 
