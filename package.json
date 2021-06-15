@@ -6,7 +6,7 @@
     "show": true
   },
   "type": "module",
-  "version": "2.1.1",
+  "version": "2.1.3",
   "dependencies": {
     "system": {
       "type": "SAE",

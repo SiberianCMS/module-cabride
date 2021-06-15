@@ -2082,3 +2082,27 @@ msgstr "Please now wait for a driver!"
 msgctxt "cabride"
 msgid "Sending request ..."
 msgstr "Sending request ..."
+
+# GMT 1581668075.8032
+#, mobile
+msgctxt "cabride"
+msgid "Translations"
+msgstr "Translations"
+
+# GMT 1581668075.8033
+#, mobile
+msgctxt "cabride"
+msgid "Select a locale to customize"
+msgstr "Select a locale to customize"
+
+# GMT 1581668075.8034
+#, mobile
+msgctxt "cabride"
+msgid "Default"
+msgstr "Default"
+
+# GMT 1581668075.8035
+#, mobile
+msgctxt "cabride"
+msgid "Yours"
+msgstr "Yours"

@@ -53,10 +53,10 @@ class Push extends Base
 
         $iosCertificate = path(Push_Model_Certificate::getiOSCertificat($appId));
 
-        if ($device === "ios") {
+        if ($device === 'ios') {
             try {
                 if (is_file($iosCertificate)) {
-                    $instance = new Push_Model_Ios_Message(new Siberian_Service_Push_Apns(null, $iosCertificate));
+                    $instance = new Push_Model_Ios_Message(new Siberian_Service_Push_Apns($iosCertificate));
                     $instance->setMessage($message);
                     $instance->push();
                 } else {
@@ -65,7 +65,7 @@ class Push extends Base
             } catch (\Exception $e) {
                 $logger->err(sprintf("[CabRide: %s]: " . $e->getMessage(), date("Y-m-d H:i:s")), "cabride_push");
             }
-        } else if ($device === "android") {
+        } else if ($device === 'android') {
             try {
                 $gcmKey = Push_Model_Certificate::getAndroidKey();
                 $gcmInstance = null;

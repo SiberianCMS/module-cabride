@@ -29,6 +29,10 @@ $schemas['cabride_push'] = [
             'is_unique' => false,
         ],
     ],
+    'app_id' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
     'push_device_id' => [
         'type' => 'int(11) unsigned',
         'null' => true,

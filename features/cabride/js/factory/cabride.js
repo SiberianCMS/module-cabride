@@ -807,24 +807,24 @@ angular.module('starter')
             factory.stopUpdatePosition();
         });
 
-        $rootScope.$on("cabride.updateUser", function (event, user) {
+        $rootScope.$on('cabride.updateUser', function (event, user) {
             factory.user = user;
         });
 
-        $rootScope.$on("cabride.isTaxiLayout", function () {
+        $rootScope.$on('cabride.isTaxiLayout', function () {
             factory.setIsTaxiLayout(true);
         });
 
-        $rootScope.$on("cabride.isOnline", function (event, isOnline) {
+        $rootScope.$on('cabride.isOnline', function (event, isOnline) {
             // Refresh driver markers
             factory
             .toggleOnlineStatus(isOnline)
             .then(function (payload) {
-                $rootScope.$broadcast("cabride.setIsOnline", payload.isOnline);
+                $rootScope.$broadcast('cabride.setIsOnline', payload.isOnline);
             }, function (error) {
-                $rootScope.$broadcast("cabride.setIsOnline", false);
+                $rootScope.$broadcast('cabride.setIsOnline', false);
                 Dialog
-                .alert("Incomplete profile!", error.message, "OK", 5000)
+                .alert('Incomplete profile!', error.message, 'OK', 5000)
                 .then(function () {
                     if ($ionicSideMenuDelegate.isOpenLeft()) {
                         $ionicSideMenuDelegate.toggleLeft();
@@ -832,7 +832,7 @@ angular.module('starter')
                     if ($ionicSideMenuDelegate.isOpenRight()) {
                         $ionicSideMenuDelegate.toggleRight();
                     }
-                    $state.go("cabride-vehicle-information");
+                    $state.go('cabride-vehicle-information');
                 });
             });
         });
@@ -840,7 +840,8 @@ angular.module('starter')
         // We will hook push when App is open to force a local notification
         $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
             try {
-                if (cordova.plugins.notification && cordova.plugins.notification.local) {
+                if (cordova.plugins.notification &&
+                    cordova.plugins.notification.local) {
                     // Ok it's a cabride payload!
                     if (data.additionalData &&
                         data.additionalData.additional_payload &&
