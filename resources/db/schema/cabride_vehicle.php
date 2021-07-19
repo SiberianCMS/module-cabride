@@ -56,6 +56,10 @@ $schemas['cabride_vehicle'] = [
         'type' => 'float',
         'null' => true,
     ],
+    'seats' => [
+        'type' => 'int(11)',
+        'default' => '3',
+    ],
     'base_fare' => [
         'type' => 'float',
     ],
@@ -63,6 +67,27 @@ $schemas['cabride_vehicle'] = [
         'type' => 'float',
     ],
     'time_fare' => [
+        'type' => 'float',
+    ],
+    'extra_seat_fare' => [
+        'type' => 'float',
+    ],
+    'seat_distance_fare' => [
+        'type' => 'float',
+    ],
+    'seat_time_fare' => [
+        'type' => 'float',
+    ],
+    'tour_base_fare' => [
+        'type' => 'float',
+    ],
+    'extra_seat_tour_base_fare' => [
+        'type' => 'float',
+    ],
+    'tour_time_fare' => [
+        'type' => 'float',
+    ],
+    'extra_seat_tour_time_fare' => [
         'type' => 'float',
     ],
     'is_visible' => [

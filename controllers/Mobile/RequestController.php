@@ -31,8 +31,12 @@ class Cabride_Mobile_RequestController extends MobileController
             $session = $this->getSession();
             $customerId = $session->getCustomerId();
 
+            $cabride = Cabride::getCurrent();
+
             $valueId = $optionValue->getId();
             $route = $data['route'];
+            $ride = $data['ride'];
+            $seats = $ride['seats'] ?? 1;
             $request = $route['request'];
             $origin = $request['origin']['location'];
             $lat = $origin['lat'];
@@ -45,11 +49,16 @@ class Cabride_Mobile_RequestController extends MobileController
             // Attention, distance is computed on the fly!
             $formula = Geocoding::getDistanceFormula($lat, $lng, 'd', 'latitude', 'longitude');
 
+            // Number of seats
+            $params = [];
+            if ($cabride->getEnableSeats()) {
+                $params['seats <= ?'] = $seats;
+            }
+
             $drivers = (new Driver())
-                ->findNearestOnline($valueId, $formula);
+                ->findNearestOnline($valueId, $formula, $params);
 
             $client = (new Client())->find($customerId, "customer_id");
-            $cabride = (new Cabride())->find($optionValue->getId(), "value_id");
 
             $collection = [];
             foreach ($drivers as $driver) {
@@ -57,14 +66,17 @@ class Cabride_Mobile_RequestController extends MobileController
                 $_tmpDriver = (new Driver())->find($driver->getId());
 
                 $vehicleId = $_tmpDriver->getVehicleId();
-                $pricing = $_tmpDriver->estimatePricing($distanceKm, $durationMinute);
-                $pricingValue = $_tmpDriver->estimatePricing($distanceKm, $durationMinute, false);
+
+                $pricingCourse = $driver->estimatePricing($distanceKm, $durationMinute, $seats);
+
+                $pricing = $pricingCourse['format'];
+                $pricingValue = $pricingCourse['price'];
 
                 if (!array_key_exists($vehicleId, $collection)) {
                     $vehicle = (new Vehicle())->find($vehicleId);
                     $collection[$vehicleId] = [
                         "drivers" => [],
-                        "id" => $vehicle->getId(),
+                        "id" => (int) $vehicle->getId(),
                         "type" => $vehicle->getType(),
                         "icon" => $vehicle->getIcon(),
                         "pricing" => $pricing,
@@ -117,6 +129,106 @@ class Cabride_Mobile_RequestController extends MobileController
         $this->_sendJson($payload);
     }
 
+    public function tourAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $data = $request->getBodyParams();
+            $optionValue = $this->getCurrentOptionValue();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
+
+            $cabride = Cabride::getCurrent();
+
+            $valueId = $optionValue->getId();
+            $ride = $data['ride'];
+            $seats = $ride['seats'] ?? 1;
+            $duration = $ride['duration'];
+            $origin = $ride['pickup'];
+            $lat = $origin['latitude'];
+            $lng = $origin['longitude'];
+
+            // Searching for closest drivers!
+            // Attention, distance is computed on the fly!
+            $formula = Geocoding::getDistanceFormula($lat, $lng, 'd', 'latitude', 'longitude');
+
+            // Number of seats
+            $params = [];
+            if ($cabride->getEnableSeats()) {
+                $params['seats <= ?'] = $seats;
+            }
+
+            $drivers = (new Driver())
+                ->findNearestOnline($valueId, $formula, $params);
+
+            $client = (new Client())->find($customerId, "customer_id");
+            $cabride = (new Cabride())->find($optionValue->getId(), "value_id");
+
+            $collection = [];
+            foreach ($drivers as $driver) {
+
+                $_tmpDriver = (new Driver())->find($driver->getId());
+
+                $vehicleId = $_tmpDriver->getVehicleId();
+                $pricing = $_tmpDriver->estimatePricingTour($duration, $seats);
+
+                if (!array_key_exists($vehicleId, $collection)) {
+                    $vehicle = (new Vehicle())->find($vehicleId);
+                    $collection[$vehicleId] = [
+                        "drivers" => [],
+                        "id" => (int) $vehicle->getId(),
+                        "type" => $vehicle->getType(),
+                        "icon" => $vehicle->getIcon(),
+                        "pricing" => $pricing['format'],
+                        "pricingValue" => $pricing['price'],
+                        "lowPricing" => $pricing['format'],
+                        "lowPricingValue" => $pricing['price'],
+                        "prices" => [],
+                    ];
+                } else {
+                    if ($pricing['price'] > $collection[$vehicleId]["pricingValue"]) {
+                        // Gives highest estimate to passenger!
+                        $collection[$vehicleId]["pricing"] = $pricing['format'];
+                        $collection[$vehicleId]["pricingValue"] = $pricing['price'];
+                    }
+
+                    if ($pricing['price'] < $collection[$vehicleId]["lowPricingValue"]) {
+                        // Lowest estimate to passenger!
+                        $collection[$vehicleId]["lowPricing"] = $pricing['format'];
+                        $collection[$vehicleId]["lowPricingValue"] = $pricing['price'];
+                    }
+                }
+
+                $collection[$vehicleId]["drivers"][] = $_tmpDriver->getFilteredData();
+            }
+
+            $type = $cabride->getPaymentProvider();
+            $clientVaults = (new ClientVault())->fetchForClientId($client->getId());
+            $vaults = [];
+            foreach ($clientVaults as $clientVault) {
+                // Filter vaults by type!
+                if ($clientVault->getPaymentProvider() === $type) {
+                    $data = $clientVault->toJson();
+                    $vaults[] = $data;
+                }
+            }
+
+            $payload = [
+                "success" => true,
+                "collection" => $collection,
+                "vaults" => $vaults,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => __("An unknown error occurred, please try again later."),
+                "except" => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
     /**
      *
      */
@@ -130,6 +242,7 @@ class Cabride_Mobile_RequestController extends MobileController
             $optionValue = $this->getCurrentOptionValue();
             $customerId = $session->getCustomerId();
             $route = $data["route"];
+            $ride = $data["ride"] ?? null;
             $cashOrVault = $data["cashOrVault"];
             $gmapsKey = $application->getGooglemapsKey();
             $customFormFields = $data['customFormFields'];
@@ -153,9 +266,27 @@ class Cabride_Mobile_RequestController extends MobileController
 
             $drivers = $vehicleType["drivers"];
 
+            $type = 'course';
+            $seats = 1;
+            if ($ride !== null) {
+                $type = $ride['type'] ?? 'course';
+                $seats = $ride['seats'] ?? 'course';
+            }
+
             $vehicle = (new Vehicle())->find($vehicleType["id"]);
             (new Request())->createRideRequest(
-                $client->getId(), $vehicle, $valueId, $drivers, $cashOrVault, $route, $staticMap, $customFormFields, Request::SOURCE_CLIENT);
+                $client->getId(),
+                $vehicle,
+                $valueId,
+                $drivers,
+                $cashOrVault,
+                $route,
+                $ride,
+                $staticMap,
+                $customFormFields,
+                Request::SOURCE_CLIENT,
+                $type,
+                $seats);
 
             $payload = [
                 "success" => true,
@@ -205,9 +336,14 @@ class Cabride_Mobile_RequestController extends MobileController
                 $driverCustomer = (new Customer())->find($driver->getCustomerId());
                 $distanceKm = ceil($request["distance"] / 1000);
                 $durationMinute = ceil($request["duration"] / 60);
-                $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
 
-                $data["formatted_driver_price"] = Base::_formatPrice($driverPrice, $cabride->getCurrency());
+                if ($request->getType() === 'course') {
+                    $pricing = $driver->estimatePricing($distanceKm, $durationMinute, $request->getSeats());
+                } else {
+                    $pricing = $driver->estimatePricingTour($durationMinute, $request->getSeats());
+                }
+
+                $data["formatted_driver_price"] = $pricing['format'];
                 $data["driver"] = $driver->getData();
                 $data["driverCustomer"] = $driverCustomer->getData();
             }
@@ -234,11 +370,12 @@ class Cabride_Mobile_RequestController extends MobileController
 
             // Recast values
             $now = time();
+            $data['type'] = $request['type'];
             $data['search_timeout'] = (integer) $data['search_timeout'];
             $data['timestamp'] = (integer) $data['timestamp'];
             $data['expires_in'] = (integer) ($data['expires_at'] - $now);
             $data['customFormFields'] = Json::decode(base64_decode($request['custom_form_fields']));
-
+            
             // Fetch status history
             $logs = (new RequestLog())->findAll(["request_id = ?" => $requestId], ["created_at DESC"]);
 

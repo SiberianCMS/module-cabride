@@ -101,6 +101,10 @@ $schemas['cabride_driver'] = [
         'default' => '10',
     ],
     /** Temporary fields */
+    'seats' => [
+        'type' => 'int(11)',
+        'default' => '3',
+    ],
     'base_fare' => [
         'type' => 'float',
         'null' => true,
@@ -110,6 +114,34 @@ $schemas['cabride_driver'] = [
         'null' => true,
     ],
     'time_fare' => [
+        'type' => 'float',
+        'null' => true,
+    ],
+    'extra_seat_fare' => [
+        'type' => 'float',
+        'null' => true,
+    ],
+    'seat_distance_fare' => [
+        'type' => 'float',
+        'null' => true,
+    ],
+    'seat_time_fare' => [
+        'type' => 'float',
+        'null' => true,
+    ],
+    'tour_base_fare' => [
+        'type' => 'float',
+        'null' => true,
+    ],
+    'tour_time_fare' => [
+        'type' => 'float',
+        'null' => true,
+    ],
+    'extra_seat_tour_base_fare' => [
+        'type' => 'float',
+        'null' => true,
+    ],
+    'extra_seat_tour_time_fare' => [
         'type' => 'float',
         'null' => true,
     ],

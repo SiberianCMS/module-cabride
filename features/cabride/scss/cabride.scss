@@ -59,17 +59,146 @@
     #cr-map-overlay {
 
       /** Map pickup/dropoff */
+      .passengers-count {
+        position: absolute;
+        top: 87px;
+        z-index: 1;
+        min-width: 164px;
+        width: 180px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        border-radius: 0 0 16px 16px;
+        height: 36px;
+        z-index: 2;
+
+        &.tour-enabled {
+          left: calc(50% + 1px) !important;
+          transform: translate(-100%, 0) !important;
+          border-radius: 0 0 0 16px !important;
+        }
+
+        input.seats-input {
+          display: inline;
+          width: calc(100% - 36px);
+          text-align: center;
+          background: transparent;
+          font-size: 1rem;
+          position: absolute;
+          top: 0;
+          left: 4px;
+          z-index: 2;
+        }
+
+        i.ion-android-add {
+          font-size: 1.5rem;
+          line-height: 2rem;
+          width: 2rem;
+          height: 2rem;
+          position: absolute;
+          right: 36px;
+          top: 2px;
+          text-align: center;
+          z-index: 3;
+        }
+
+        i.ion-android-remove {
+          font-size: 1.5rem;
+          line-height: 2rem;
+          width: 2rem;
+          height: 2rem;
+          position: absolute;
+          left: 6px;
+          top: 2px;
+          text-align: center;
+          z-index: 3;
+        }
+
+        i.ion-person-stalker {
+          font-size: 1.5rem;
+          line-height: 1rem;
+          width: 1rem;
+          height: 1rem;
+          position: absolute;
+          right: 14px;
+          top: 6px;
+        }
+      }
+
+      .duration-count {
+        position: absolute;
+        top: 87px;
+        z-index: 1;
+        min-width: 164px;
+        width: 180px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        border-radius: 0 0 16px 16px;
+        height: 36px;
+        z-index: 2;
+
+        &.seats-enabled {
+          transform: translate(0, 0) !important;
+          border-radius: 0 0 16px 0 !important;
+        }
+
+        input.clock-input {
+          display: inline;
+          width: calc(100% - 36px);
+          text-align: center;
+          background: transparent;
+          font-size: 1rem;
+          position: absolute;
+          top: 0;
+          left: 4px;
+          z-index: 2;
+        }
+
+        i.ion-android-add {
+          font-size: 1.5rem;
+          line-height: 2rem;
+          width: 2rem;
+          height: 2rem;
+          position: absolute;
+          right: 36px;
+          top: 2px;
+          text-align: center;
+          z-index: 3;
+        }
+
+        i.ion-android-remove {
+          font-size: 1.5rem;
+          line-height: 2rem;
+          width: 2rem;
+          height: 2rem;
+          position: absolute;
+          left: 6px;
+          top: 2px;
+          text-align: center;
+          z-index: 3;
+        }
+
+        i.ion-clock {
+          font-size: 1.5rem;
+          line-height: 1rem;
+          width: 1rem;
+          height: 1rem;
+          position: absolute;
+          right: 14px;
+          top: 6px;
+        }
+      }
+
       .cr-map-location {
+        z-index: 1;
         position: absolute;
         width: calc(100vw - 2rem - 2px);
         top: 0;
         left: 0;
         margin: 1rem;
         border: 1px solid lightgrey;
-        border-radius: 4px;
+        border-radius: 12px;
         overflow: hidden;
         background-color: #fefefe;
-        box-shadow: 1px 1px 1px #333333;
 
         .cr-map-pickup,
         .cr-map-dropoff {
@@ -301,6 +430,15 @@
     }
   }
 
+  .cabride-vehicle-information {
+    .change-type {
+      margin: 30px 0;
+      padding: 2px 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+  }
+
   /** My rides */
   .item-course {
     padding: 0;
@@ -487,6 +625,8 @@
   .vehicle-type.item.item-custom {
     .vehicle-type-title {
       font-weight: bold;
+      line-height: 84px;
+      padding-left: 15px;
     }
 
     .default-fares {

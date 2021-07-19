@@ -136,15 +136,36 @@ class Request extends Base
      * @throws \Zend_Currency_Exception
      * @throws \Zend_Exception
      */
-    public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $cashOrVault, $route,
-                                      $staticMap, $customFormFields, $source)
+    public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $cashOrVault, $route, $ride,
+                                      $staticMap, $customFormFields, $source, $type = 'course', $seats = 1)
     {
         $travel = $route["request"];
-        $leg = $route["routes"][0]["legs"][0];
-        $distanceKm = ceil($leg["distance"]["value"] / 1000);
-        $durationMinute = ceil($leg["duration"]["value"] / 60);
+        if ($type === 'course') {
+            $leg = $route["routes"][0]["legs"][0];
+            $distanceKm = ceil($leg["distance"]["value"] / 1000);
+            $durationMinute = ceil($leg["duration"]["value"] / 60);
+
+            $pickupAddress = $leg["start_address"];
+            $pickupLatitude = $travel["origin"]["location"]["lat"];
+            $pickupLongitude = $travel["origin"]["location"]["lat"];
+
+            $dropoffAddress = $leg["start_address"];
+            $dropoffLatitude = $travel["destination"]["location"]["lat"];
+            $dropoffLongitude = $travel["destination"]["location"]["lat"];
+        } else {
+            $distanceKm = 0;
+            $durationMinute = $ride['duration'];
+
+            $pickupAddress = $ride['pickupAddress'];
+            $pickupLatitude = $ride['pickup']['latitude'];
+            $pickupLongitude = $ride['pickup']['longitude'];
+
+            $dropoffAddress = '';
+            $dropoffLatitude = 0;
+            $dropoffLongitude = 0;
+        }
+
         $cabride = (new Cabride)->find($valueId, "value_id");
-        $application = $this->getApplication();
 
         $lowestCost = null;
         $highestCost = null;
@@ -152,7 +173,12 @@ class Request extends Base
             $driverId = $driver["driver_id"];
             $_tmpDriver = (new Driver())->find($driverId);
 
-            $estimatedCost = $_tmpDriver->estimatePricing($distanceKm, $durationMinute, false);
+            if ($type === 'course') {
+                $pricing = $_tmpDriver->estimatePricing($distanceKm, $durationMinute, $seats);
+            } else {
+                $pricing = $_tmpDriver->estimatePricingTour($durationMinute, $seats);
+            }
+            $estimatedCost = $pricing['price'];
 
             if ($lowestCost === null) {
                 $lowestCost = $estimatedCost;
@@ -174,19 +200,21 @@ class Request extends Base
         $this
             ->setValueId($valueId)
             ->setClientId($clientId)
+            ->setType($type)
+            ->setSeats($seats)
             ->setVehicleId($vehicleType->getId())
             ->setStaticImage($staticMap)
             ->setEstimatedCost($highestCost)
             ->setEstimatedLowestCost($lowestCost)
-            ->setDistance($leg["distance"]["value"])
-            ->setDuration($leg["duration"]["value"])
-            ->setFromAddress($leg["start_address"])
-            ->setFromLat($travel["origin"]["location"]["lat"])
-            ->setFromLng($travel["origin"]["location"]["lng"])
-            ->setToAddress($leg["end_address"])
-            ->setToLat($travel["destination"]["location"]["lat"])
-            ->setToLng($travel["destination"]["location"]["lng"])
-            ->setRequestMode("immediate")
+            ->setDistance($distanceKm * 1000)
+            ->setDuration($durationMinute * 60)
+            ->setFromAddress($pickupAddress)
+            ->setFromLat($pickupLatitude)
+            ->setFromLng($pickupLongitude)
+            ->setToAddress($dropoffAddress)
+            ->setToLat($dropoffLatitude)
+            ->setToLng($dropoffLongitude)
+            ->setRequestMode('immediate')
             ->setCustomFormFields($customFormFields)
             ->setRawRoute(Json::encode($route));
 

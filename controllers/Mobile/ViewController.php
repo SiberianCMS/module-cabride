@@ -114,9 +114,11 @@ class Cabride_Mobile_ViewController extends MobileController
                     'pricingMode' => (string) $dbConfig->getPricingMode(),
                     'paymentProvider' => (string) $dbConfig->getPaymentProvider(),
                     'stripePublicKey' => (string) $dbConfig->getStripePublicKey(),
-                    'stripeIsSandbox' => (boolean) $dbConfig->getStripeIsSandbox(),
-                    'driverCanRegister' => (boolean) $dbConfig->getDriverCanRegister(),
-                    'enableCustomForm' => (boolean) $enableCustomForm,
+                    'stripeIsSandbox' => (bool) $dbConfig->getStripeIsSandbox(),
+                    'driverCanRegister' => (bool) $dbConfig->getDriverCanRegister(),
+                    'enableCustomForm' => $enableCustomForm,
+                    'enableTour' => (bool) $dbConfig->getEnableTour(),
+                    'enableSeats' => (bool) $dbConfig->getEnableSeats(),
                     'customFormFields' => $customFormFields,
                     'defaultLat' => (float) $dbConfig->getDefaultLat(),
                     'defaultLng' => (float) $dbConfig->getDefaultLng(),
@@ -130,9 +132,9 @@ class Cabride_Mobile_ViewController extends MobileController
                     'driverPicture' => $driverPicture,
                     'navBackground' => $navBackground,
                     'placesValueId' => (integer) $dbConfig->getPlacesValueId(),
-                    'showPassengerPhoto' => (boolean) $dbConfig->getShowPassengerPhoto(),
-                    'showPassengerName' => (boolean) $dbConfig->getShowPassengerName(),
-                    'showPassengerPhone' => (boolean) $dbConfig->getShowPassengerPhone(),
+                    'showPassengerPhoto' => (bool) $dbConfig->getShowPassengerPhoto(),
+                    'showPassengerName' => (bool) $dbConfig->getShowPassengerName(),
+                    'showPassengerPhone' => (bool) $dbConfig->getShowPassengerPhone(),
                 ]
             ];
 

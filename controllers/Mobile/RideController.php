@@ -50,7 +50,14 @@ class Cabride_Mobile_RideController extends MobileController
                     $driver = (new Driver())->find($data["driver_id"]);
                     $distanceKm = ceil($ride->getDistance() / 1000);
                     $durationMinute = ceil($ride->getDuration() / 60);
-                    $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
+
+                    if ($ride->getType() === 'course') {
+                        $pricing = $driver->estimatePricing($distanceKm, $durationMinute, $ride->getSeats());
+                    } else {
+                        $pricing = $driver->estimatePricingTour($durationMinute, $ride->getSeats());
+                    }
+
+                    $driverPrice = $pricing['price'];
 
                     $data["formatted_driver_price"] = Base::_formatPrice($driverPrice, $cabride->getCurrency());
 
@@ -547,7 +554,15 @@ class Cabride_Mobile_RideController extends MobileController
 
             $distanceKm = ceil($ride->getDistance() / 1000);
             $durationMinute = ceil($ride->getDuration() / 60);
-            $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
+
+            if ($ride->getType() === 'course') {
+                $pricing = $driver->estimatePricing($distanceKm, $durationMinute, $ride->getSeats());
+            } else {
+                $pricing = $driver->estimatePricingTour($durationMinute, $ride->getSeats());
+            }
+
+            $driverPrice = $pricing['price'];
+
             $ride->setCost($driverPrice);
 
             $ride->changeStatus("accepted", Request::SOURCE_DRIVER);
@@ -608,6 +623,19 @@ class Cabride_Mobile_RideController extends MobileController
 
             $driverData = $driver->toJson();
 
+            $fareKeyValue = [
+                'baseFare' => 'base_fare',
+                'distanceFare' => 'distance_fare',
+                'timeFare' => 'time_fare',
+                'extraSeatFare' => 'extra_seat_fare',
+                'extraSeatDistanceFare' => 'seat_distance_fare',
+                'extraSeatTimeFare' => 'seat_time_fare',
+                'tourBaseFare' => 'tour_base_fare',
+                'tourTimeFare' => 'tour_time_fare',
+                'tourExtraSeatBaseFare' => 'extra_seat_tour_base_fare',
+                'tourExtraSeatTimeFare' => 'extra_seat_tour_time_fare',
+            ];
+
             $types = [];
             $currentType = null;
             foreach ($vehicleTypes as $vehicleType) {
@@ -615,11 +643,12 @@ class Cabride_Mobile_RideController extends MobileController
 
                 $data["id"] = $data["vehicle_id"];
                 $data["label"] = $data["type"];
-                $data["baseFare"] = Base::_formatPrice($data["base_fare"], $cabride->getCurrency());
-                $data["distanceFare"] = ($data["distance_fare"] > 0) ?
-                    Base::_formatPrice($data["distance_fare"], $cabride->getCurrency()) : 0;
-                $data["timeFare"] = ($data["time_fare"] > 0) ?
-                    Base::_formatPrice($data["time_fare"], $cabride->getCurrency()) : 0;
+
+                foreach ($fareKeyValue as $key => $value) {
+                    $data[$key] = ($data[$value] > 0) ?
+                        Base::_formatPrice($data[$value], $cabride->getCurrency()) : 0;
+                    $data[$key] = (float) $data[$key];
+                }
 
                 $types[] = $data;
 
@@ -688,13 +717,27 @@ class Cabride_Mobile_RideController extends MobileController
 
             $currentType = $type->getData();
 
+            $fareKeyValue = [
+                'baseFare' => 'base_fare',
+                'distanceFare' => 'distance_fare',
+                'timeFare' => 'time_fare',
+                'extraSeatFare' => 'extra_seat_fare',
+                'extraSeatDistanceFare' => 'seat_distance_fare',
+                'extraSeatTimeFare' => 'seat_time_fare',
+                'tourBaseFare' => 'tour_base_fare',
+                'tourTimeFare' => 'tour_time_fare',
+                'tourExtraSeatBaseFare' => 'extra_seat_tour_base_fare',
+                'tourExtraSeatTimeFare' => 'extra_seat_tour_time_fare',
+            ];
+
             $currentType["id"] = $currentType["vehicle_id"];
             $currentType["label"] = $currentType["type"];
-            $currentType["baseFare"] = Base::_formatPrice($currentType["base_fare"], $cabride->getCurrency());
-            $currentType["distanceFare"] = ($currentType["distance_fare"] > 0) ?
-                Base::_formatPrice($currentType["distance_fare"], $cabride->getCurrency()) : 0;
-            $currentType["timeFare"] = ($currentType["time_fare"] > 0) ?
-                Base::_formatPrice($currentType["time_fare"], $cabride->getCurrency()) : 0;
+
+            foreach ($fareKeyValue as $key => $value) {
+                $data[$key] = ($currentType[$value] > 0) ?
+                    Base::_formatPrice($currentType[$value], $cabride->getCurrency()) : 0;
+                $data[$key] = (float) $data[$key];
+            }
 
             $driverData = $driver->toJson();
             $driverData['driver_phone'] = $customer->getMobile();
@@ -770,13 +813,26 @@ class Cabride_Mobile_RideController extends MobileController
                     $errors[] = p__("cabride", "Driving fares!");
                 }
 
-                $driver
-                    ->setBaseFare($driverParams["base_fare"])
-                    ->setDistanceFare($driverParams["distance_fare"])
-                    ->setTimeFare($driverParams["time_fare"]);
+                $keys = [
+                    'base_fare',
+                    'distance_fare',
+                    'time_fare',
+                    'extra_seat_fare',
+                    'seat_distance_fare',
+                    'seat_time_fare',
+                    'tour_base_fare',
+                    'tour_time_fare',
+                    'extra_seat_tour_base_fare',
+                    'extra_seat_tour_time_fare',
+                ];
+
+                foreach ($keys as $key) {
+                    $driver->setData($key, $driverParams[$key]);
+                }
             }
 
             $driver
+                ->setSeats($driverParams["seats"])
                 ->setVehicleId($driverParams["vehicle_id"])
                 ->setVehicleModel($driverParams["vehicle_model"])
                 ->setVehicleLicensePlate($driverParams["vehicle_license_plate"])
@@ -989,7 +1045,14 @@ class Cabride_Mobile_RideController extends MobileController
 
             $distanceKm = ceil($ride->getDistance() / 1000);
             $durationMinute = ceil($ride->getDuration() / 60);
-            $driverPrice = $driver->estimatePricing($distanceKm, $durationMinute, false);
+
+            if ($ride->getType() === 'course') {
+                $pricing = $driver->estimatePricing($distanceKm, $durationMinute, $ride->getSeats());
+            } else {
+                $pricing = $driver->estimatePricingTour($durationMinute, $ride->getSeats());
+            }
+
+            $driverPrice = $pricing['price'];
 
             $requestDriver
                 ->setStatus("done")

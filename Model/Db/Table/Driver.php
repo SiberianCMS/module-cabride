@@ -25,10 +25,11 @@ class Driver extends Core_Model_Db_Table
     /**
      * @param $valueId
      * @param $formula
+     * @param $params
      * @return mixed
      * @throws \Zend_Exception
      */
-    public function findNearestOnline($valueId, $formula)
+    public function findNearestOnline($valueId, $formula, $params = null)
     {
         $settings = (new ModelCabride())
             ->find($valueId, 'value_id');
@@ -59,6 +60,13 @@ class Driver extends Core_Model_Db_Table
                     'base_fare',
                     'distance_fare',
                     'time_fare',
+                    'extra_seat_fare',
+                    'seat_distance_fare',
+                    'seat_time_fare',
+                    'tour_base_fare',
+                    'tour_time_fare',
+                    'extra_seat_tour_base_fare',
+                    'extra_seat_tour_time_fare',
                 ]
             )
             ->where('d.value_id = ?', $valueId)
@@ -67,6 +75,17 @@ class Driver extends Core_Model_Db_Table
             ->where('(d.latitude != 0 AND d.longitude != 0)')
             ->having('distance < ?', $radius)
         ;
+
+        // Extra params
+        if (is_array($params)) {
+            foreach ($params as $key => $value) {
+                if (strpos($key, '?') === false) {
+                    $select->where("{$key} = ?", $value);
+                } else {
+                    $select->where($key, $value);
+                }
+            }
+        }
 
         return $this->toModelClass($this->_db->fetchAll($select));
     }

@@ -26,8 +26,8 @@
             <ion-item class="item-divider item-divider-custom"
                       ng-if="enableCustomForm">{{ ::'Vehicle type' | translate:'cabride' }}</ion-item>
             <ion-item ng-repeat="(vehicleId, vehicleType) in vehicles"
-                 ng-click="select(vehicleId, vehicleType)"
-                 class="item-custom item item-thumbnail-left item-icon-right vehicle-type">
+                      ng-click="select(vehicleId, vehicleType)"
+                      class="item-custom item item-thumbnail-left item-icon-right vehicle-type">
                 <img ng-src="{{ imagePath(vehicleType.icon) }}" />
                 <h2 class="vehicle-type-title">{{ vehicleType.type }}</h2>
                 <p class="default-fares">

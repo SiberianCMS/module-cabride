@@ -20,13 +20,18 @@ angular.module('starter')
         driverMarkers: [],
         gmapsAutocompleteOptions: {},
         ride: {
+            seats: 1,
+            type: 'course',
             isSearching: false,
             pickupPlace: null,
             pickupAddress: "",
             dropoffPlace: null,
             dropoffAddress: "",
             distance: null,
-            duration: null
+            duration: 15,
+            durationText: "15mn",
+            isCourse: false,
+            isTour: false
         },
         currentRoute: null,
         isPassenger: false,
@@ -326,13 +331,18 @@ angular.module('starter')
     // Pristine ride values!
     $scope.clearSearch = function () {
         $scope.ride = {
+            seats: 1,
+            type: 'course',
             isSearching: false,
             pickupPlace: null,
             pickupAddress: "",
             dropoffPlace: null,
             dropoffAddress: "",
             distance: null,
-            duration: null,
+            duration: 15,
+            durationText: "15mn",
+            isCourse: false,
+            isTour: false
         };
 
         CabrideUtils.clearRoute();
@@ -354,6 +364,53 @@ angular.module('starter')
         $scope.showMapPin = true;
     };
 
+    $scope.tourEnabled = function () {
+        return Cabride.settings.enableTour;
+    };
+
+    $scope.seatsEnabled = function () {
+        return Cabride.settings.enableSeats;
+    };
+
+    $scope.displayClock = function () {
+        return $scope.tourEnabled() && $scope.ride.dropoffAddress === '';
+    };
+
+    $scope.decreaseSeats = function () {
+        if ($scope.ride.seats <= 1) {
+            return;
+        }
+        $timeout(function () {
+            $scope.ride.seats--;
+        });
+    };
+
+    $scope.increaseSeats = function () {
+        $timeout(function () {
+            $scope.ride.seats++;
+        });
+    };
+
+    $scope.decreaseClock = function () {
+        if ($scope.ride.duration <= 15) {
+            return;
+        }
+        $timeout(function () {
+            $scope.ride.duration -= 15;
+            $scope.ride.durationText = CabrideUtils.toHmm($scope.ride.duration * 60);
+        });
+    };
+
+    $scope.increaseClock = function () {
+        if ($scope.ride.duration >= 720) {
+            return;
+        }
+        $timeout(function () {
+            $scope.ride.duration += 15;
+            $scope.ride.durationText = CabrideUtils.toHmm($scope.ride.duration * 60);
+        });
+    };
+
     $scope.pinIcon = function () {
         if ($scope.isDriver && $scope.isOnline) {
             return "./features/cabride/assets/templates/images/003-pin-green.svg";
@@ -370,7 +427,7 @@ angular.module('starter')
                 text: $translate.instant("Set pick-up location", "cabride")
             };
         }
-        if ($scope.ride.dropoffAddress === "") {
+        if (!$scope.ride.isTour && $scope.ride.dropoffAddress === "") {
             return {
                 action: "dropoff",
                 class: "energized",
@@ -396,6 +453,11 @@ angular.module('starter')
             class: "ng-hide",
             text: ""
         };
+    };
+
+    // Starts a tour ride!
+    $scope.setTour = function () {
+        $scope.requestTour();
     };
 
     $scope.setPinLocation = function (action) {
@@ -459,23 +521,58 @@ angular.module('starter')
         }
     };
 
+    // Tour
+    $scope.vaults = null;
+    $scope.requestTour = function () {
+        $scope.ride.isSearching = true;
+        $scope.ride.isTour = true;
+        $scope.ride.type = 'tour';
+
+        var pickup = {
+            latitude: $scope.ride.pickupPlace.geometry.location.lat(),
+            longitude: $scope.ride.pickupPlace.geometry.location.lng(),
+        };
+
+        $scope.ride.pickup = pickup;
+
+        Cabride
+            .requestTour($scope.ride)
+            .then(function (response) {
+                if (response.collection && Object.keys(response.collection).length > 0) {
+                    $scope.vaults = response.vaults;
+                    $scope.showModal(response.collection);
+                } else {
+                    Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK", -1, "cabride");
+                }
+            }, function (error) {
+                Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK", -1, "cabride");
+            }).then(function () {
+                $scope.ride.isSearching = false;
+                $scope.ride.isTour = false;
+            });
+    };
+
     $scope.vaults = null;
     $scope.requestRide = function () {
         $scope.ride.isSearching = true;
+        $scope.ride.isCourse = true;
+        $scope.ride.type = 'course';
+
         Cabride
-        .requestRide($scope.currentRoute)
-        .then(function (response) {
-            if (response.collection && Object.keys(response.collection).length > 0) {
-                $scope.vaults = response.vaults;
-                $scope.showModal(response.collection);
-            } else {
+            .requestRide($scope.currentRoute, $scope.ride)
+            .then(function (response) {
+                if (response.collection && Object.keys(response.collection).length > 0) {
+                    $scope.vaults = response.vaults;
+                    $scope.showModal(response.collection);
+                } else {
+                    Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK", -1, "cabride");
+                }
+            }, function (error) {
                 Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK", -1, "cabride");
-            }
-        }, function (error) {
-            Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK", -1, "cabride");
-        }).then(function () {
-            $scope.ride.isSearching = false;
-        });
+            }).then(function () {
+                $scope.ride.isSearching = false;
+                $scope.ride.isCourse = false;
+            });
     };
 
     $scope.vtModal = null;
@@ -489,6 +586,7 @@ angular.module('starter')
                 selectVehicle: function (vehicleType) {
                     $scope.selectVehicle(vehicleType);
                 },
+                ride: $scope.ride,
                 vehicles: vehicles
             }),
             animation: "slide-in-right-left"
@@ -540,7 +638,7 @@ angular.module('starter')
     $scope.validateRequest = function (cashOrVault) {
         Loader.show($translate.instant("Sending request ...", "cabride"));
         Cabride
-        .validateRequest($scope.vehicleType, $scope.currentRoute, cashOrVault, Cabride.settings.customFormFieldsUser)
+        .validateRequest($scope.vehicleType, $scope.currentRoute, $scope.ride, cashOrVault, Cabride.settings.customFormFieldsUser)
         .then(function (response) {
             Loader.hide();
             Dialog

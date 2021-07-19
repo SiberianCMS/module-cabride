@@ -2,7 +2,7 @@
  * CabrideUtils factory
  */
 angular.module('starter')
-    .factory('CabrideUtils', function (Cabride, ContextualMenu, $q) {
+    .factory('CabrideUtils', function (Cabride, ContextualMenu, $q, $translate) {
         var factory = {
             directionsService: null,
         };
@@ -76,6 +76,28 @@ angular.module('starter')
             }
             if (hours !== "00") {
                 text = hours + ":" + text;
+            }
+
+            return text;
+        };
+
+        factory.hourSepartorText = $translate.instant('h', 'cabride');
+        factory.minuteText = $translate.instant('mn', 'cabride');
+
+        factory.toHmm = function (seconds) {
+            var sec_num = parseInt(seconds, 10); // don't forget the second param
+            var hours = Math.floor(sec_num / 3600);
+            var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+
+            var text = minutes;
+            if (hours >= 1) {
+                text = hours + factory.hourSepartorText + text;
+            } else {
+                text = text + factory.minuteText;
             }
 
             return text;

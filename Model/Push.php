@@ -9,7 +9,6 @@ use Push_Model_Android_Message;
 use Push_Model_Firebase;
 use Siberian_Service_Push_Apns;
 use Siberian\Exception;
-use Siberian\CloudMessaging\Sender\Gcm;
 use Siberian\CloudMessaging\Sender\Fcm;
 use Application_Model_Application as Application;
 use Zend_Registry;
@@ -67,12 +66,6 @@ class Push extends Base
             }
         } else if ($device === 'android') {
             try {
-                $gcmKey = Push_Model_Certificate::getAndroidKey();
-                $gcmInstance = null;
-                if (!empty($gcmKey)) {
-                    $gcmInstance = new Gcm($gcmKey);
-                }
-
                 $credentials = (new Push_Model_Firebase())
                     ->find('0', 'admin_id');
 
@@ -85,11 +78,9 @@ class Push extends Base
                     throw new Exception("You must provide FCM Credentials");
                 }
 
-                if ($fcmInstance || $gcmInstance) {
-                    $instance = new Push_Model_Android_Message($fcmInstance, $gcmInstance);
-                    $instance->setMessage($message);
-                    $instance->push();
-                }
+                $instance = new Push_Model_Android_Message($fcmInstance);
+                $instance->setMessage($message);
+                $instance->push();
             } catch (\Exception $e) {
                 $logger->err(sprintf("[CabRide: %s]: " . $e->getMessage(), date("Y-m-d H:i:s")), "cabride_push");
             }

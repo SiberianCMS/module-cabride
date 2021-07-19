@@ -152,8 +152,47 @@ RAW;
                 'driver' => p__('cabride', 'Fixed by the drivers'),
             ]);
 
+        // Enable SEATS option
+        $seats = $this->addSimpleCheckbox('enable_seats', p__('cabride', 'Enable seats pricing?'));
+        $seatsText = p__('cabride', 'When enabled, users will have to select the number of seats required.');
+        $seatsHint = <<<RAW
+<div class="form-group sb-form-line">
+    <label class="col-sm-3">&nbsp;</label>
+    <div class="col-sm-7" 
+         style="margin: 0 9px 0 7px;">
+        <div class="period_hint alert alert-warning">{$seatsText}</div>
+    </div>
+</div>
+RAW;
+        $this->addSimpleHtml('seats_hint', $seatsHint);
+
+        // Enable TOUR option
+        $tour = $this->addSimpleCheckbox('enable_tour', p__('cabride', 'Enable tour option?'));
+        $tourText = p__('cabride', 'When enabled, users will be able to book the driver for a given time.');
+        $tourHint = <<<RAW
+<div class="form-group sb-form-line">
+    <label class="col-sm-3">&nbsp;</label>
+    <div class="col-sm-7" 
+         style="margin: 0 9px 0 7px;">
+        <div class="period_hint alert alert-warning">{$tourText}</div>
+    </div>
+</div>
+RAW;
+        $this->addSimpleHtml('tour_hint', $tourHint);
+
         $this->groupElements('payments',
-            ['accepted_payments', 'payment_provider', 'commission_type', 'commission_fixed', 'commission', 'pricing_mode'],
+            [
+                'accepted_payments',
+                'payment_provider',
+                'commission_type',
+                'commission_fixed',
+                'commission',
+                'pricing_mode',
+                'enable_seats',
+                'seats_hint',
+                'enable_tour',
+                'tour_hint'
+            ],
             p__('cabride', 'Payments'));
 
         // PAYOUTS CASH RETURNS
@@ -165,6 +204,7 @@ RAW;
                 'week' => p__('cabride', 'Weekly'),
                 'month' => p__('cabride', 'Monthly'),
             ]);
+
 
         $disabledText = p__('cabride', 'Default behavior, you will manually generate payouts bulk CSV from the admin page.');
         $disabledHint = <<<RAW

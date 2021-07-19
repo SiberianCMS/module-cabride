@@ -34,6 +34,16 @@ $schemas['cabride_request'] = [
         'type' => 'varchar(64)',
         'null' => true,
     ],
+    'type' => [
+        'type' => 'varchar(128)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'course',
+    ],
+    'seats' => [
+        'type' => 'int(11)',
+        'default' => '1',
+    ],
     'status' => [ // "pending", "accepted", "onway", "inprogress", "declined", "done", "aborted", "expired"
         'type' => 'varchar(128)',
         'charset' => 'utf-8',

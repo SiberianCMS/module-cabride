@@ -99,6 +99,13 @@ class Driver extends Base
         $data["base_fare"] = (float) $data["base_fare"];
         $data["distance_fare"] = (float) $data["distance_fare"];
         $data["time_fare"] = (float) $data["time_fare"];
+        $data["extra_seat_fare"] = (float) $data["extra_seat_fare"];
+        $data["seat_distance_fare"] = (float) $data["seat_distance_fare"];
+        $data["seat_time_fare"] = (float) $data["seat_time_fare"];
+        $data["tour_base_fare"] = (float) $data["tour_base_fare"];
+        $data["tour_time_fare"] = (float) $data["tour_time_fare"];
+        $data["extra_seat_tour_base_fare"] = (float) $data["extra_seat_tour_base_fare"];
+        $data["extra_seat_tour_time_fare"] = (float) $data["extra_seat_tour_time_fare"];
         $data["base_latitude"] = (float) $data["base_latitude"];
         $data["base_longitude"] = (float) $data["base_longitude"];
         $data["pickup_radius"] = (integer) $data["pickup_radius"];
@@ -115,35 +122,101 @@ class Driver extends Base
     /**
      * @param $km
      * @param $minute
-     * @param bool $format
-     * @return float|mixed
-     * @throws \Zend_Currency_Exception
+     * @param int $seats
+     * @return array
      * @throws \Zend_Exception
      */
-    public function estimatePricing($km, $minute, $format = true)
+    public function estimatePricing($km, $minute, $seats = 1)
     {
-        $cabride = (new Cabride())->find($this->getValueId(), "value_id");
+        $cabride = (new Cabride())->find($this->getValueId(), 'value_id');
 
         // Automatically get price depending on settings!
-        if ($cabride->getPricingMode() === "fixed") {
+        if ($cabride->getPricingMode() === 'fixed') {
             $vehicleType = (new Vehicle())->find($this->getVehicleId());
 
             $base = $vehicleType->getBaseFare();
             $distance = $vehicleType->getDistanceFare();
             $time = $vehicleType->getTimeFare();
+            $extraSeatFare = $vehicleType->getExtraSeatFare();
+            $seatDistanceFare = $vehicleType->getSeatDistanceFare();
+            $seatTimeFare = $vehicleType->getSeatTimeFare();
         } else {
             $base = $this->getBaseFare();
             $distance = $this->getDistanceFare();
             $time = $this->getTimeFare();
+            $extraSeatFare = $this->getExtraSeatFare();
+            $seatDistanceFare = $this->getSeatDistanceFare();
+            $seatTimeFare = $this->getSeatTimeFare();
         }
 
         $rawPrice = $base + ($distance * $km) + ($time * $minute);
+
+        // Seats are enabled, we add the price
+        $seats = abs($seats) - 1;
+        if ($seats < 0) {
+            $seats = 0;
+        }
+
+        $seatPrice = 0;
+        if ($cabride->getEnableSeats()) {
+            $seatPrice = ($extraSeatFare * $seats) + ($seatTimeFare * $seats * $minute) + ($seatDistanceFare * $seats * $km);
+        }
+
+        $rawPrice = $rawPrice + $seatPrice;
         $price = round($rawPrice, 2, PHP_ROUND_HALF_UP);
 
-        if ($format) {
-            return self::_formatPrice($price, $cabride->getCurrency());
+        return [
+            'price' => $price,
+            'format' => self::_formatPrice($price, $cabride->getCurrency()),
+        ];
+    }
+
+    /**
+     * @param int $minutes
+     * @param int $seats
+     * @return array
+     * @throws \Zend_Exception
+     */
+    public function estimatePricingTour($minutes = 30, $seats = 1)
+    {
+        $cabride = (new Cabride())->find($this->getValueId(), 'value_id');
+
+        // Automatically get price depending on settings!
+        if ($cabride->getPricingMode() === 'fixed') {
+            $vehicleType = (new Vehicle())->find($this->getVehicleId());
+
+            $base = $vehicleType->getTourBaseFare();
+            $time = $vehicleType->getTourTimeFare();
+            $seatBase = $vehicleType->getExtraSeatTourBaseFare();
+            $seatTime = $vehicleType->getExtraSeatTourTimeFare();
+        } else {
+            $base = $this->getTourBaseFare();
+            $time = $this->getTourTimeFare();
+            $seatBase = $this->getExtraSeatTourBaseFare();
+            $seatTime = $this->getExtraSeatTourTimeFare();
         }
-        return $price;
+
+        $rawPrice = $base + ($time * $minutes);
+
+        // Seats are enabled, we add the price
+        $seats = abs($seats) - 1;
+        if ($seats < 0) {
+            $seats = 0;
+        }
+
+        $seatPrice = 0;
+        if ($cabride->getEnableSeats()) {
+            $seatPrice = ($seatBase * $seats) + ($seatTime * $seats * $minutes);
+        }
+
+        $rawPrice = $rawPrice + $seatPrice;
+
+        $price = round($rawPrice, 2, PHP_ROUND_HALF_UP);
+
+        return [
+            'price' => $price,
+            'format' => self::_formatPrice($price, $cabride->getCurrency()),
+        ];
     }
 
     /**
@@ -185,11 +258,12 @@ class Driver extends Base
     /**
      * @param $valueId
      * @param $formula
+     * @param $params
      * @return Driver[]
      * @throws \Zend_Exception
      */
-    public function findNearestOnline($valueId, $formula)
+    public function findNearestOnline($valueId, $formula, $params = null)
     {
-        return $this->getTable()->findNearestOnline($valueId, $formula);
+        return $this->getTable()->findNearestOnline($valueId, $formula, $params = null);
     }
 }

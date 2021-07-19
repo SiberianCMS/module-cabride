@@ -376,19 +376,32 @@ angular.module('starter')
             CabrideSocket.sendMsg(localPayload);
         };
 
-        factory.requestRide = function (route) {
+        factory.requestRide = function (route, ride) {
             return $pwaRequest.post('/cabride/mobile_request/ride', {
                 urlParams: {
                     value_id: factory.value_id
                 },
                 data: {
-                    route: route
+                    route: route,
+                    ride: ride
                 },
                 cache: false
             });
         };
 
-        factory.validateRequest = function (vehicleType, route, cashOrVault, customFormFields) {
+        factory.requestTour = function (ride) {
+            return $pwaRequest.post('/cabride/mobile_request/tour', {
+                urlParams: {
+                    value_id: factory.value_id
+                },
+                data: {
+                    ride: ride
+                },
+                cache: false
+            });
+        };
+
+        factory.validateRequest = function (vehicleType, route, ride, cashOrVault, customFormFields) {
             return $pwaRequest.post('/cabride/mobile_request/validate', {
                 urlParams: {
                     value_id: factory.value_id
@@ -397,6 +410,7 @@ angular.module('starter')
                     vehicleType: vehicleType,
                     cashOrVault: cashOrVault,
                     customFormFields: customFormFields,
+                    ride: ride,
                     route: route
                 },
                 cache: false

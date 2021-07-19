@@ -30,25 +30,140 @@
                 {{ ::'Please select a vehicle type' | translate:'cabride' }}
             </div>
 
-            <div ng-repeat="type in vehicleTypes"
-                 ng-click="selectType(type)"
-                 class="item item-custom item item-thumbnail-left vehicle-type">
-                    <img ng-src="{{ imagePath(type.icon) }}" />
+            <div ng-click="selectType(type)"
+                 ng-repeat="type in vehicleTypes">
+                <div style="border-bottom: 0 !important;"
+                     class="item item-custom item-thumbnail-left item-icon-right vehicle-type">
+                    <img ng-src="{{ imagePath(type.icon) }}"/>
                     <h2 class="vehicle-type-title">{{ type.label }}</h2>
-                    <p ng-if="showFixedPricing()"
-                       class="default-fares">
-                        <span>
-                            <span>{{ ::'Base' | translate:'cabride' }}</span>{{ type.baseFare }}
-                        </span>
-                        <br />
-                        <span ng-if="type.distance_fare > 0">
-                            <span>{{ ::'Distance' | translate:'cabride' }}</span>{{ type.distanceFare }}
-                        </span>
-                        <br />
-                        <span ng-if="type.time_fare > 0">
-                            <span>{{ ::'Time' | translate:'cabride' }}</span>{{ type.timeFare }}
-                        </span>
-                    </p>
+                    <i class="icon ion-chevron-right"></i>
+                </div>
+                <div ng-if="showFixedPricing()"
+                     style="border-top: 0 !important;"
+                     class="item item-custom">
+                    <div class="row">
+                        <div class="col-40"></div>
+                        <div class="text-center"
+                             ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                            <b>{{ ::'Course' | translate:'cabride' }}</b>
+                        </div>
+                        <div ng-if="tourEnabled()"
+                             class="col-30 text-center">
+                            <b>{{ ::'Tour' | translate:'cabride' }}</b>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Course base fare -->
+                        <div class="col-40">
+                            {{ ::'Base' | translate:'cabride' }}
+                        </div>
+
+                        <div class="text-right"
+                             ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                            {{ type.baseFare }}
+                        </div>
+
+                        <!-- Tour base fare -->
+                        <div ng-if="tourEnabled()"
+                             class="col-30 text-right">
+                            {{ type.tourBaseFare }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Course base fare -->
+                        <div class="col-40">
+                            {{ ::'Distance' | translate:'cabride' }}
+                        </div>
+
+                        <div class="text-right"
+                             ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                            {{ type.distanceFare }}
+                        </div>
+
+                        <!-- Tour base fare -->
+                        <div ng-if="tourEnabled()"
+                             class="col-30 text-right">
+                            -
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Course base fare -->
+                        <div class="col-40">
+                            {{ ::'Time' | translate:'cabride' }} <i>({{ ::'Every minute' | translate:'cabride' }})</i>
+                        </div>
+
+                        <div class="text-right"
+                             ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                            {{ type.timeFare }}
+                        </div>
+
+                        <!-- Tour base fare -->
+                        <div ng-if="tourEnabled()"
+                             class="col-30 text-right">
+                            {{ type.tourTimeFare }}
+                        </div>
+                    </div>
+
+                    <div ng-if="seatsEnabled()"
+                         class="row">
+                        <!-- Course base fare -->
+                        <div class="col-40">
+                            {{ ::'Extra seat' | translate:'cabride' }}
+                        </div>
+
+                        <div class="text-right"
+                             ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                            {{ type.extraSeatFare }}
+                        </div>
+
+                        <!-- Tour base fare -->
+                        <div ng-if="tourEnabled()"
+                             class="col-30 text-right">
+                            {{ type.tourExtraSeatBaseFare }}
+                        </div>
+                    </div>
+
+                    <div ng-if="seatsEnabled()"
+                         class="row">
+                        <!-- Course base fare -->
+                        <div class="col-40">
+                            {{ ::'Extra seat distance' | translate:'cabride' }}
+                        </div>
+
+                        <div class="text-right"
+                             ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                            {{ type.extraSeatDistanceFare }}
+                        </div>
+
+                        <!-- Tour base fare -->
+                        <div ng-if="tourEnabled()"
+                             class="col-30 text-right">
+                            -
+                        </div>
+                    </div>
+
+                    <div ng-if="seatsEnabled()"
+                         class="row">
+                        <!-- Course base fare -->
+                        <div class="col-40">
+                            {{ ::'Extra seat time' | translate:'cabride' }} <i>({{ ::'Every minute' | translate:'cabride' }})</i>
+                        </div>
+
+                        <div class="text-right"
+                             ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                            {{ type.extraSeatTimeFare }}
+                        </div>
+
+                        <!-- Tour base fare -->
+                        <div ng-if="tourEnabled()"
+                             class="col-30 text-right">
+                            {{ type.tourExtraSeatTimeFare }}
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div style="margin-bottom: 20px;"></div>
@@ -57,42 +172,139 @@
         <div ng-if="!isLoading && (driver.hasVehicle && !changingType)"
              class="list">
 
-            <div class="item item-custom item item-thumbnail-left vehicle-type">
-                <img ng-src="{{ imagePath(currentType.icon) }}" />
+            <div class="item item-custom item item-thumbnail-left item-button-right vehicle-type">
+                <img ng-src="{{ imagePath(currentType.icon) }}"/>
                 <h2 class="vehicle-type-title">{{ currentType.label }}</h2>
-                <p ng-if="showFixedPricing()"
-                   class="default-fares">
-                    <span class="pull-left">
-                        <span>
-                            <span>{{ ::'Base' | translate:'cabride' }}</span>{{ currentType.baseFare }}
-                        </span>
-                        <br />
-                        <span ng-if="currentType.distance_fare > 0">
-                                <span>{{ ::'Distance' | translate:'cabride' }}</span>{{ currentType.distanceFare }}
-                            </span>
-                        <br />
-                        <span ng-if="currentType.time_fare > 0">
-                            <span>{{ ::'Time' | translate:'cabride' }}</span>{{ currentType.timeFare }}
-                        </span>
-                    </span>
-                    <span class="pull-right">
-                        <button ng-click="changeType()"
-                                style="border-radius: 0 !important; text-transform: uppercase;"
-                                class="button button-small button-positive button-positive-custom">
-                            {{ ::'Change type' | translate:'cabride' }}
-                        </button>
-                    </span>
-                </p>
-                <p ng-if="!showFixedPricing()"
-                   class="default-fares">
-                    <span class="pull-right">
-                        <button ng-click="changeType()"
-                                style="border-radius: 0 !important; text-transform: uppercase;"
-                                class="button button-small button-positive button-positive-custom">
-                            {{ ::'Change type' | translate:'cabride' }}
-                        </button>
-                    </span>
-                </p>
+                <button ng-click="changeType()"
+                        class="change-type button button-small button-positive button-positive-custom">
+                    {{ ::'Change type' | translate:'cabride' }}
+                </button>
+            </div>
+
+            <div ng-if="showFixedPricing()"
+                 class="item item-custom">
+                <div class="row">
+                    <div class="col-40"></div>
+                    <div class="text-center"
+                         ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                        <b>{{ ::'Course' | translate:'cabride' }}</b>
+                    </div>
+                    <div ng-if="tourEnabled()"
+                         class="col-30 text-center">
+                        <b>{{ ::'Tour' | translate:'cabride' }}</b>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Course base fare -->
+                    <div class="col-40">
+                        {{ ::'Base' | translate:'cabride' }}
+                    </div>
+
+                    <div class="text-right"
+                         ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                        {{ currentType.baseFare }}
+                    </div>
+
+                    <!-- Tour base fare -->
+                    <div ng-if="tourEnabled()"
+                         class="col-30 text-right">
+                        {{ currentType.tourBaseFare }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Course base fare -->
+                    <div class="col-40">
+                        {{ ::'Distance' | translate:'cabride' }}
+                    </div>
+
+                    <div class="text-right"
+                         ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                        {{ currentType.distanceFare }}
+                    </div>
+
+                    <!-- Tour base fare -->
+                    <div ng-if="tourEnabled()"
+                         class="col-30 text-right">
+                        -
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Course base fare -->
+                    <div class="col-40">
+                        {{ ::'Time' | translate:'cabride' }} <i>({{ ::'Every minute' | translate:'cabride' }})</i>
+                    </div>
+
+                    <div class="text-right"
+                         ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                        {{ currentType.timeFare }}
+                    </div>
+
+                    <!-- Tour base fare -->
+                    <div ng-if="tourEnabled()"
+                         class="col-30 text-right">
+                        {{ currentType.tourTimeFare }}
+                    </div>
+                </div>
+
+                <div ng-if="seatsEnabled()"
+                     class="row">
+                    <!-- Course base fare -->
+                    <div class="col-40">
+                        {{ ::'Extra seat' | translate:'cabride' }}
+                    </div>
+
+                    <div class="text-right"
+                         ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                        {{ currentType.extraSeatFare }}
+                    </div>
+
+                    <!-- Tour base fare -->
+                    <div ng-if="tourEnabled()"
+                         class="col-30 text-right">
+                        {{ currentType.tourExtraSeatBaseFare }}
+                    </div>
+                </div>
+
+                <div ng-if="seatsEnabled()"
+                     class="row">
+                    <!-- Course base fare -->
+                    <div class="col-40">
+                        {{ ::'Extra seat distance' | translate:'cabride' }}
+                    </div>
+
+                    <div class="text-right"
+                         ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                        {{ currentType.extraSeatDistanceFare }}
+                    </div>
+
+                    <!-- Tour base fare -->
+                    <div ng-if="tourEnabled()"
+                         class="col-30 text-right">
+                        -
+                    </div>
+                </div>
+
+                <div ng-if="seatsEnabled()"
+                     class="row">
+                    <!-- Course base fare -->
+                    <div class="col-40">
+                        {{ ::'Extra seat time' | translate:'cabride' }} <i>({{ ::'Every minute' | translate:'cabride' }})</i>
+                    </div>
+
+                    <div class="text-right"
+                         ng-class="{'col-30': tourEnabled(), 'col-60': !tourEnabled()}">
+                        {{ currentType.extraSeatTimeFare }}
+                    </div>
+
+                    <!-- Tour base fare -->
+                    <div ng-if="tourEnabled()"
+                         class="col-30 text-right">
+                        {{ currentType.tourExtraSeatTimeFare }}
+                    </div>
+                </div>
             </div>
 
             <div style="margin-bottom: 20px;"></div>
@@ -105,7 +317,7 @@
                        type="text"
                        required="required"
                        placeholder="{{ ::'Mobile number' | translate:'cabride' }}"
-                       ng-model="driver.driver_phone" />
+                       ng-model="driver.driver_phone"/>
             </label>
 
             <div style="margin-bottom: 20px;"></div>
@@ -117,7 +329,7 @@
                 <input class="text-right"
                        type="text"
                        placeholder="{{ ::'Model' | translate:'cabride' }}"
-                       ng-model="driver.vehicle_model" />
+                       ng-model="driver.vehicle_model"/>
             </label>
 
             <label class="item item-input item-custom">
@@ -128,7 +340,7 @@
                        type="text"
                        required="required"
                        placeholder="{{ ::'License plate' | translate:'cabride' }}"
-                       ng-model="driver.vehicle_license_plate" />
+                       ng-model="driver.vehicle_license_plate"/>
             </label>
 
             <label class="item item-input item-custom">
@@ -139,7 +351,19 @@
                        type="text"
                        required="required"
                        placeholder="{{ ::'Driving license' | translate:'cabride' }}"
-                       ng-model="driver.driver_license" />
+                       ng-model="driver.driver_license"/>
+            </label>
+
+            <label ng-if="seatsEnabled()"
+                   class="item item-input item-custom">
+                <div class="input-label">
+                    <b>{{ ::"Number of seats" | translate:"cabride" }} *</b>
+                </div>
+                <input class="text-right"
+                       type="text"
+                       required="required"
+                       placeholder="{{ ::'Number of seats' | translate:'cabride' }}"
+                       ng-model="driver.seats"/>
             </label>
 
             <label class="item item-input item-custom item-stacked-label">
@@ -159,7 +383,7 @@
                        min="0"
                        max="100"
                        step="1"
-                       ng-model="driver.pickup_radius" />
+                       ng-model="driver.pickup_radius"/>
             </label>
 
             <div ng-if="pricingDriver()">
@@ -181,47 +405,147 @@
                     </p>
                 </div>
 
-                <div style="margin-bottom: 20px;"></div>
 
-                <div class="item item-divider item-divider-custom text-center">
-                    <h2>{{ ::"Your ride fares" | translate:"cabride" }}</h2>
+
+                <div>
+                    <div style="margin-bottom: 20px;"></div>
+
+                    <div class="item item-divider item-divider-custom text-center">
+                        <h2>{{ ::"Course fares" | translate:"cabride" }}</h2>
+                    </div>
+
+                    <label class="item item-input item-custom">
+                        <div class="input-label">
+                            <b>{{ ::"Base" | translate:"cabride" }} *</b>
+                        </div>
+                        <input class="text-right"
+                               type="number"
+                               min="0"
+                               max="100000000"
+                               step="0.01"
+                               ng-model="driver.base_fare"/>
+                    </label>
+
+                    <label class="item item-input item-custom">
+                        <div class="input-label">
+                            <b>{{ ::"Distance (every km/mi)" | translate:"cabride" }} *</b>
+                        </div>
+                        <input class="text-right"
+                               type="number"
+                               min="0"
+                               max="100000000"
+                               step="0.01"
+                               ng-model="driver.distance_fare"/>
+                    </label>
+
+                    <label class="item item-input item-custom">
+                        <div class="input-label">
+                            <b>{{ ::"Time (every minute)" | translate:"cabride" }} *</b>
+                        </div>
+                        <input class="text-right"
+                               type="number"
+                               min="0"
+                               max="100000000"
+                               step="0.01"
+                               ng-model="driver.time_fare"/>
+                    </label>
+
+                    <div ng-if="seatsEnabled()">
+                        <label class="item item-input item-custom">
+                            <div class="input-label">
+                                <b>{{ ::"Extra seat" | translate:"cabride" }} *</b>
+                            </div>
+                            <input class="text-right"
+                                   type="number"
+                                   min="0"
+                                   max="100000000"
+                                   step="0.01"
+                                   ng-model="driver.extra_seat_fare"/>
+                        </label>
+
+                        <label class="item item-input item-custom">
+                            <div class="input-label">
+                                <b>{{ ::"Extra seat distance (every km/mi)" | translate:"cabride" }} *</b>
+                            </div>
+                            <input class="text-right"
+                                   type="number"
+                                   min="0"
+                                   max="100000000"
+                                   step="0.01"
+                                   ng-model="driver.seat_distance_fare"/>
+                        </label>
+
+                        <label class="item item-input item-custom">
+                            <div class="input-label">
+                                <b>{{ ::"Extra seat time (every minute)" | translate:"cabride" }} *</b>
+                            </div>
+                            <input class="text-right"
+                                   type="number"
+                                   min="0"
+                                   max="100000000"
+                                   step="0.01"
+                                   ng-model="driver.seat_time_fare"/>
+                        </label>
+                    </div>
                 </div>
 
-                <label class="item item-input item-custom">
-                    <div class="input-label">
-                        <b>{{ ::"Base" | translate:"cabride" }} *</b>
-                    </div>
-                    <input class="text-right"
-                           type="number"
-                           min="0"
-                           max="100000000"
-                           step="0.01"
-                           ng-model="driver.base_fare" />
-                </label>
+                <div ng-if="tourEnabled()">
+                    <div style="margin-bottom: 20px;"></div>
 
-                <label class="item item-input item-custom">
-                    <div class="input-label">
-                        <b>{{ ::"Distance (every km/mi)" | translate:"cabride" }} *</b>
+                    <div class="item item-divider item-divider-custom text-center">
+                        <h2>{{ ::"Tour fares" | translate:"cabride" }}</h2>
                     </div>
-                    <input class="text-right"
-                           type="number"
-                           min="0"
-                           max="100000000"
-                           step="0.01"
-                           ng-model="driver.distance_fare" />
-                </label>
 
-                <label class="item item-input item-custom">
-                    <div class="input-label">
-                        <b>{{ ::"Time (every minute)" | translate:"cabride" }} *</b>
+                    <label class="item item-input item-custom">
+                        <div class="input-label">
+                            <b>{{ ::"Base" | translate:"cabride" }} *</b>
+                        </div>
+                        <input class="text-right"
+                               type="number"
+                               min="0"
+                               max="100000000"
+                               step="0.01"
+                               ng-model="driver.tour_base_fare"/>
+                    </label>
+
+                    <label class="item item-input item-custom">
+                        <div class="input-label">
+                            <b>{{ ::"Time (every minute)" | translate:"cabride" }} *</b>
+                        </div>
+                        <input class="text-right"
+                               type="number"
+                               min="0"
+                               max="100000000"
+                               step="0.01"
+                               ng-model="driver.tour_time_fare"/>
+                    </label>
+
+                    <div ng-if="seatsEnabled()">
+                        <label class="item item-input item-custom">
+                            <div class="input-label">
+                                <b>{{ ::"Extra seat" | translate:"cabride" }} *</b>
+                            </div>
+                            <input class="text-right"
+                                   type="number"
+                                   min="0"
+                                   max="100000000"
+                                   step="0.01"
+                                   ng-model="driver.extra_seat_tour_base_fare"/>
+                        </label>
+
+                        <label class="item item-input item-custom">
+                            <div class="input-label">
+                                <b>{{ ::"Extra seat time (every minute)" | translate:"cabride" }} *</b>
+                            </div>
+                            <input class="text-right"
+                                   type="number"
+                                   min="0"
+                                   max="100000000"
+                                   step="0.01"
+                                   ng-model="driver.extra_seat_tour_time_fare"/>
+                        </label>
                     </div>
-                    <input class="text-right"
-                           type="number"
-                           min="0"
-                           max="100000000"
-                           step="0.01"
-                           ng-model="driver.time_fare" />
-                </label>
+                </div>
             </div>
 
             <div style="margin-bottom: 20px;"></div>

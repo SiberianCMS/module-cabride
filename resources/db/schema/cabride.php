@@ -194,6 +194,14 @@ $schemas['cabride'] = [
         'type' => 'float',
         'default' => '1.433333',
     ],
+    'enable_seats' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'enable_tour' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'created_at' => [
         'type' => 'datetime',
     ],

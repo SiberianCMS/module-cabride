@@ -30,7 +30,9 @@
 
                         <div class="row course-details">
                             <div class="col-75">
-                                <span class="vehicle-type">{{ request.type }}</span>
+                                <span class="course-type">{{ (request.type == 'course') ? 'Course' : 'Tour' | translate:'cabride' }}</span>
+                                <br />
+                                <span class="vehicle-type">{{ request.vehicle_type }}</span>
                                 <br />
                                 <span class="course-date">{{ calendar(request.requested_at) }}</span>
                             </div>
@@ -78,8 +80,14 @@
 
             <div style="margin-bottom: 20px;"></div>
 
-            <div class="item item-divider item-divider-custom">
+            <div ng-if="request.type == 'course'"
+                 class="item item-divider item-divider-custom">
                 {{ ::'Origin & destination' | translate:'cabride' }}
+            </div>
+
+            <div ng-if="request.type == 'tour'"
+                 class="item item-divider item-divider-custom">
+                {{ ::'Pickup & duration' | translate:'cabride' }}
             </div>
 
             <div class="item item-custom request-detail-small item-icon-left">
@@ -88,13 +96,15 @@
                     <b>{{ request.from_address }}</b>
                 </p>
             </div>
-            <div class="item item-custom request-detail-small item-icon-left">
+            <div ng-if="request.type == 'course'"
+                 class="item item-custom request-detail-small item-icon-left">
                 <i class="icon ion-ios-flag"></i>
                 <p>
                     {{ request.to_address }}
                 </p>
             </div>
-            <div class="item item-custom request-detail-small item-icon-left">
+            <div ng-if="request.type == 'course'"
+                 class="item item-custom request-detail-small item-icon-left">
                 <i class="icon ion-android-car"></i>
                 <p>
                     {{ distance(request) }}

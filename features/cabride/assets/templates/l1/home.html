@@ -97,6 +97,38 @@
                         </div>
                     </div>
 
+                    <!-- Number of passengers -->
+                    <div ng-show="isPassenger && seatsEnabled()"
+                         ng-class="{'tour-enabled': displayClock()}"
+                         class="passengers-count item item-custom">
+                        <i class="icon ion-android-remove"
+                           ng-class="{'seats-disabled': ride.seats <= 1}"
+                           ng-click="decreaseSeats()"></i>
+                        <input type="text"
+                               class="seats-input"
+                               ng-model="ride.seats"
+                               readonly />
+                        <i class="icon ion-android-add"
+                           ng-click="increaseSeats()"></i>
+                        <i class="icon ion-person-stalker"></i>
+                    </div>
+
+                    <div ng-show="isPassenger && displayClock()"
+                         ng-class="{'seats-enabled': seatsEnabled()}"
+                         class="duration-count item item-custom">
+                        <i class="icon ion-android-remove"
+                           ng-class="{'clock-disabled': ride.duration <= 30}"
+                           ng-click="decreaseClock()"></i>
+                        <input type="text"
+                               class="clock-input"
+                               ng-model="ride.durationText"
+                               readonly />
+                        <i class="icon ion-android-add"
+                           ng-class="{'clock-disabled': ride.duration >= 720}"
+                           ng-click="increaseClock()"></i>
+                        <i class="icon ion-clock"></i>
+                    </div>
+
                     <!-- Zoom In/Out & Geolocation -->
                     <div class="cr-map-zoom">
                         <div class="cr-zoom-center-me"
@@ -131,6 +163,14 @@
                     <!-- Centered static map pinPoint -->
                     <div ng-show="showMapPin"
                          class="cr-map-pin">
+
+                        <div class="cr-pin-text balanced"
+                             style="transform: translate(-50%, -200%);"
+                             ng-if="isPassenger && pinText().action === 'dropoff' && tourEnabled()"
+                             ng-click="setTour()">
+                            {{ ::'Timed tour - No drop-off' | translate:'cabride' }} - {{ ride.durationText }}
+                        </div>
+
                         <div class="cr-pin-text"
                              ng-if="isPassenger && pinText().action !== 'none'"
                              ng-click="setPinLocation(pinText().action)"
