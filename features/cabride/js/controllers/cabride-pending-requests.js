@@ -74,40 +74,67 @@ angular.module('starter')
 
     $scope.accept = function (request) {
         Loader.show();
+        if (request.type === 'course') {
+            $scope.acceptCourse(request);
+        } else if (request.type === 'tour') {
+            $scope.acceptTour(request);
+        }
+    };
+    
+    $scope.acceptCourse = function (request) {
         CabrideUtils
-        .getDirectionWaypoints(
-            Cabride.lastPosition,
-            {
-                latitude: request.from_lat,
-                longitude: request.from_lng,
-            },
-            {
-                latitude: request.to_lat,
-                longitude: request.to_lng,
-            },
-            true
-        ).then(function (route) {
-            Cabride
-            .acceptRide(request.request_id, route)
+            .getDirectionWaypoints(
+                Cabride.lastPosition,
+                {
+                    latitude: request.from_lat,
+                    longitude: request.from_lng,
+                },
+                {
+                    latitude: request.to_lat,
+                    longitude: request.to_lng,
+                },
+                true
+            ).then(function (route) {
+                Cabride
+                    .acceptRide(request.request_id, route)
+                    .then(function (payload) {
+                        Cabride.updateRequest(request);
+                        Dialog
+                            .alert("", payload.message, "OK", 2350)
+                            .then(function () {
+                                Loader.hide();
+                                $state.go("cabride-accepted-requests");
+                            });
+                    }, function (error) {
+                        Dialog.alert("Error", error.message, "OK", -1, "cabride");
+                    }).then(function () {
+                        Loader.hide();
+                        $scope.refresh();
+                    });
+            }, function (error) {
+                Dialog.alert("Error", error[1], "OK", -1, "cabride");
+                Loader.hide();
+                $scope.refresh();
+            });
+    };
+
+    $scope.acceptTour = function (request) {
+        Cabride
+            .acceptRide(request.request_id, {})
             .then(function (payload) {
                 Cabride.updateRequest(request);
                 Dialog
-                .alert("", payload.message, "OK", 2350)
-                .then(function () {
-                    Loader.hide();
-                    $state.go("cabride-accepted-requests");
-                });
+                    .alert("", payload.message, "OK", 2350)
+                    .then(function () {
+                        Loader.hide();
+                        $state.go("cabride-accepted-requests");
+                    });
             }, function (error) {
                 Dialog.alert("Error", error.message, "OK", -1, "cabride");
             }).then(function () {
                 Loader.hide();
                 $scope.refresh();
             });
-        }, function (error) {
-            Dialog.alert("Error", error[1], "OK", -1, "cabride");
-            Loader.hide();
-            $scope.refresh();
-        });
     };
 
     $scope.details = function (request) {
