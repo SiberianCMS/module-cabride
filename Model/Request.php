@@ -122,6 +122,33 @@ class Request extends Base
     }
 
     /**
+     * @param $pickup
+     * @param $optionValue
+     * @param $gmapsKey
+     * @return string
+     * @throws \Siberian\Exception
+     */
+    public static function staticMapFromPickup($pickup, $optionValue, $gmapsKey)
+    {
+        $lat = $pickup["lat"];
+        $lng = $pickup["lng"];
+
+        $options = [
+            "markers" => [
+                "color:green|size:mid|{$lat},{$lng}",
+            ],
+            "size" => "600x220",
+            "scale" => "2"
+        ];
+
+        $mapStaticUri = Geocoding::mapStatic($gmapsKey, $options);
+        $rawImage = file_get_contents($mapStaticUri);
+        $uuid = uniqid('cb_', true);
+
+        return Feature::createFile($optionValue, $rawImage, "$uuid.jpg");
+    }
+
+    /**
      * @param $clientId
      * @param $vehicleType
      * @param $valueId

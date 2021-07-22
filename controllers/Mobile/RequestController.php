@@ -247,8 +247,6 @@ class Cabride_Mobile_RequestController extends MobileController
             $gmapsKey = $application->getGooglemapsKey();
             $customFormFields = $data['customFormFields'];
 
-            $staticMap = Request::staticMapFromRoute($route, $optionValue, $gmapsKey);
-
             $valueId = $optionValue->getId();
             $vehicleType = $data["vehicleType"];
 
@@ -271,6 +269,16 @@ class Cabride_Mobile_RequestController extends MobileController
             if ($ride !== null) {
                 $type = $ride['type'] ?? 'course';
                 $seats = $ride['seats'] ?? 'course';
+            }
+
+            if ($type === 'course') {
+                $staticMap = Request::staticMapFromRoute($route, $optionValue, $gmapsKey);
+            } else if ($type === 'tour') {
+                $pickup = [
+                    'lat' => $ride['pickup']['latitude'],
+                    'lng' => $ride['pickup']['longitude'],
+                ];
+                $staticMap = Request::staticMapFromPickup($pickup, $optionValue, $gmapsKey);
             }
 
             $vehicle = (new Vehicle())->find($vehicleType["id"]);
@@ -375,7 +383,7 @@ class Cabride_Mobile_RequestController extends MobileController
             $data['timestamp'] = (integer) $data['timestamp'];
             $data['expires_in'] = (integer) ($data['expires_at'] - $now);
             $data['customFormFields'] = Json::decode(base64_decode($request['custom_form_fields']));
-            
+
             // Fetch status history
             $logs = (new RequestLog())->findAll(["request_id = ?" => $requestId], ["created_at DESC"]);
 
