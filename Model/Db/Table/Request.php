@@ -125,7 +125,13 @@ class Request extends Core_Model_Db_Table
             ->joinInner(
                 ["vehicle" => "cabride_vehicle"],
                 "vehicle.vehicle_id = request.vehicle_id",
-                ["type", "icon", "base_fare", "distance_fare", "time_fare"]
+                [
+                    'vehicle_type' => new \Zend_Db_Expr("vehicle.type"),
+                    "icon",
+                    "base_fare",
+                    "distance_fare",
+                    "time_fare"
+                ]
             )
             ->joinInner(
                 "cabride",

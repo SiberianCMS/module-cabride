@@ -779,7 +779,7 @@ angular.module('starter')
     };
 
     $scope.loadPlacesPOI = function () {
-        let deferred = $q.defer();
+        var deferred = $q.defer();
         if (Cabride.settings.placesValueId !== 0) {
             Places.setValueId(Cabride.settings.placesValueId);
             Places

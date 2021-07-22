@@ -16,7 +16,7 @@ angular.module('starter')
             socket: null,
             uuid: null,
             waitPong: false,
-            initPromise: false,acceptRide
+            initPromise: false,
             helloPromise: $q.defer(),
             lobbyPromise: null,
             joinedLobby: false,
