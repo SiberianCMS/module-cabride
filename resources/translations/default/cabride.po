@@ -2106,3 +2106,15 @@ msgstr "Default"
 msgctxt "cabride"
 msgid "Yours"
 msgstr "Yours"
+
+# GMT 1581668075.8036
+#, mobile
+msgctxt "cabride"
+msgid "seat"
+msgstr "seat"
+
+# GMT 1581668075.8037
+#, mobile
+msgctxt "cabride"
+msgid "seats"
+msgstr "seats"

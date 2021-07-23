@@ -1,6 +1,6 @@
 angular.module('starter')
-.controller('RequestDetailsController', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader) {
-    angular.extend($scope, {
+.controller('RequestDetailsController', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader, CabrideBase) {
+    angular.extend($scope, CabrideBase, {
         isLoading: false,
         enableCustomForm: $scope.request.customFormFields.length > 0,
         customFormFields: $scope.request.customFormFields,
@@ -8,22 +8,6 @@ angular.module('starter')
         showPassengerPhone: Cabride.settings.showPassengerPhone,
         showPassengerPhoto: Cabride.settings.showPassengerPhoto
     });
-
-    $scope.expiration = function (request) {
-        return moment().add(parseInt(request.expires_in, 10), "seconds").fromNow();
-    };
-
-    $scope.calendar = function (timestampSeconds) {
-        return moment(timestampSeconds * 1000).calendar();
-    };
-
-    $scope.distance = function (request) {
-        return CabrideUtils.distance(request);
-    };
-
-    $scope.duration = function (request) {
-        return CabrideUtils.toHHMM(request.duration);
-    };
 
     $scope.source = function (source) {
         if ($scope.userType === "driver" && source === "driver") {
@@ -67,10 +51,6 @@ angular.module('starter')
             case "expired":
                 return $translate.instant("Expired", "cabride");
         }
-    };
-
-    $scope.rateCourse = function (request) {
-        Cabride.rateCourseModal(request);
     };
 
     $scope.canRate = function (request) {

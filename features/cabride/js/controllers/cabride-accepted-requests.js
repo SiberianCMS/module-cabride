@@ -1,17 +1,13 @@
 angular.module('starter')
 .controller('CabrideAcceptedRequests', function ($scope, $translate, $state, Cabride, CabrideUtils, Dialog, Loader,
-                                                 $window) {
-    angular.extend($scope, {
+                                                 $window, CabrideBase) {
+    angular.extend($scope, CabrideBase, {
         isLoading: false,
         pageTitle: $translate.instant('Accepted requests', 'cabride'),
         valueId: Cabride.getValueId(),
         showPassengerPhone: Cabride.settings.showPassengerPhone,
         collection: []
     });
-
-    $scope.cs = function () {
-        return Cabride.currencySymbol();
-    };
 
     $scope.loadPage = function () {
         $scope.isLoading = true;
@@ -26,31 +22,39 @@ angular.module('starter')
         });
     };
 
-    $scope.isTaxiLayout = function () {
-        return Cabride.isTaxiLayout;
-    };
-
-    $scope.openMenu = function () {
-        CabrideUtils.openMenu();
-    };
-
-    $scope.distance = function (request) {
-        return CabrideUtils.distance(request);
-    };
-
-    $scope.duration = function (request) {
-        return CabrideUtils.toHHMM(request.duration);
-    };
-
-    $scope.calendar = function (timestampSeconds) {
-        return moment(timestampSeconds * 1000).calendar();
-    };
-
     $scope.refresh = function () {
         $scope.loadPage();
     };
 
     $scope.driveToPassenger = function (request) {
+        if (request.type === 'course') {
+            $scope.driveToPassengerCourse(request);
+        } else if (request.type === 'tour') {
+            $scope.driveToPassengerTour(request);
+        }
+    };
+
+    $scope.driveToPassengerTour = function (request) {
+        Loader.show();
+        Cabride
+            .driveToPassenger(request.request_id, {})
+            .then(function (payload) {
+                Cabride.updateRequest(request);
+                Dialog
+                    .alert('', payload.message, 'OK', 2350)
+                    .then(function () {
+                        Loader.hide();
+                        Navigator.navigate(payload.driveTo);
+                    });
+            }, function (error) {
+                Dialog.alert('Error', error.message, 'OK', -1, 'cabride');
+            }).then(function () {
+                Loader.hide();
+                $scope.refresh();
+            });
+    };
+
+    $scope.driveToPassengerCourse = function (request) {
         Loader.show();
         CabrideUtils
         .getDirectionWaypoints(
@@ -143,21 +147,6 @@ angular.module('starter')
             }).then(function () {
                 Loader.hide();
             });
-    };
-
-    $scope.callClient = function (request) {
-        $window.open('tel:' + request.client_phone, '_system');
-    };
-
-    $scope.details = function (request) {
-        Cabride.requestDetailsModal($scope.$new(true), request.request_id, 'driver');
-    };
-
-    $scope.imagePath = function (image) {
-        if (image === '') {
-            return IMAGE_URL + 'app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg';
-        }
-        return IMAGE_URL + 'images/application' + image;
     };
 
     $scope.$on('cabride.updateRequest', function (event, request) {

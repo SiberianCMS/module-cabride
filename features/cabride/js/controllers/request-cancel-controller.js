@@ -1,10 +1,10 @@
 angular.module('starter')
-.controller('RequestCancelController', function ($scope, $rootScope, $translate, Cabride, Dialog, Loader) {
+.controller('RequestCancelController', function ($scope, $rootScope, $translate, Cabride, Dialog, Loader, CabrideBase) {
 
-    angular.extend($scope, {
+    angular.extend($scope, CabrideBase, {
         cancel: {
             reason: null,
-            message: ""
+            message: ''
         }
     });
 

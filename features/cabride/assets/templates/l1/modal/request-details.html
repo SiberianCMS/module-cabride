@@ -29,12 +29,16 @@
                               class="course-expiration {{ request.status }}">{{ ::'Expires' | translate:'cabride' }} {{ expiration(request) }}</span>
 
                         <div class="row course-details">
-                            <div class="col-75">
+                            <div class="col-50">
                                 <span class="course-type">{{ (request.type == 'course') ? 'Course' : 'Tour' | translate:'cabride' }}</span>
-                                <br />
+                            </div>
+                            <div class="col-50 text-right">
+                                <span class="course-date">{{ dateFormat(request.requested_at) }}</span>
+                            </div>
+                        </div>
+                        <div class="row course-details">
+                            <div class="col-75">
                                 <span class="vehicle-type">{{ request.vehicle_type }}</span>
-                                <br />
-                                <span class="course-date">{{ calendar(request.requested_at) }}</span>
                             </div>
                             <div class="col-25 course-price">
                                 <span ng-if="request.formatted_driver_price">
@@ -110,12 +114,23 @@
                     {{ distance(request) }}
                 </p>
             </div>
-            <div class="item item-custom request-detail-small item-icon-left">
-                <i class="icon ion-clock"></i>
-                <p>
-                    {{ duration(request) }} {{ ::'mn' | translate:'cabride' }}
-                </p>
+            <div class="row time-seats">
+                <div class="item item-custom request-detail-small item-icon-left"
+                     ng-class="{'col-100': !seatsEnabled(), 'col-50': seatsEnabled()}">
+                    <i class="icon ion-clock"></i>
+                    <p>
+                        {{ duration(request) }}
+                    </p>
+                </div>
+                <div ng-if="seatsEnabled()"
+                     class="col-50 item item-custom request-detail-small item-icon-left">
+                    <i class="icon ion-person-stalker"></i>
+                    <p>
+                        {{ request.seats }}
+                    </p>
+                </div>
             </div>
+
 
             <div ng-if="enableCustomForm">
                 <div style="margin-bottom: 20px;"></div>
@@ -239,7 +254,7 @@
                     <div class="row">
                         <div class="col-25"><b>{{ source(log.source) }}</b></div>
                         <div class="col-30">{{ status(log.status_to) }}</div>
-                        <div class="col-45 text-right">{{ calendar(log.timestamp) }}</div>
+                        <div class="col-45 text-right">{{ dateFormat(log.timestamp) }}</div>
                     </div>
                 </div>
             </div>

@@ -345,10 +345,10 @@ class Cabride_Mobile_RequestController extends MobileController
                 $distanceKm = ceil($request["distance"] / 1000);
                 $durationMinute = ceil($request["duration"] / 60);
 
-                if ($request->getType() === 'course') {
-                    $pricing = $driver->estimatePricing($distanceKm, $durationMinute, $request->getSeats());
+                if ($request['type'] === 'course') {
+                    $pricing = $driver->estimatePricing($distanceKm, $durationMinute, $request['seats']);
                 } else {
-                    $pricing = $driver->estimatePricingTour($durationMinute, $request->getSeats());
+                    $pricing = $driver->estimatePricingTour($durationMinute, $request['seats']);
                 }
 
                 $data["formatted_driver_price"] = $pricing['format'];

@@ -1,15 +1,11 @@
 angular.module('starter')
-.controller('CabridePendingRequests', function ($scope, $translate, $state, Cabride, CabrideUtils, Dialog, Loader) {
-    angular.extend($scope, {
+.controller('CabridePendingRequests', function ($scope, $translate, $state, Cabride, CabrideUtils, Dialog, Loader, CabrideBase) {
+    angular.extend($scope, CabrideBase, {
         isLoading: false,
         pageTitle: $translate.instant("Pending requests", "cabride"),
         valueId: Cabride.getValueId(),
         collection: []
     });
-
-    $scope.cs = function () {
-        return Cabride.currencySymbol();
-    };
 
     $scope.loadPage = function () {
         $scope.isLoading = true;
@@ -22,30 +18,6 @@ angular.module('starter')
         }).then(function () {
             $scope.isLoading = false;
         });
-    };
-
-    $scope.distance = function (request) {
-        return CabrideUtils.distance(request);
-    };
-
-    $scope.isTaxiLayout = function () {
-        return Cabride.isTaxiLayout;
-    };
-
-    $scope.openMenu = function () {
-        CabrideUtils.openMenu();
-    };
-
-    $scope.duration = function (request) {
-        return CabrideUtils.toHHMM(request.duration);
-    };
-
-    $scope.calendar = function (timestampSeconds) {
-        return moment(timestampSeconds * 1000).calendar();
-    };
-
-    $scope.expiration = function (request) {
-        return moment().add(parseInt(request.expires_in, 10), "seconds").fromNow();
     };
 
     $scope.refresh = function () {
@@ -135,17 +107,6 @@ angular.module('starter')
                 Loader.hide();
                 $scope.refresh();
             });
-    };
-
-    $scope.details = function (request) {
-        Cabride.requestDetailsModal($scope.$new(true), request.request_id, "driver");
-    };
-
-    $scope.imagePath = function (image) {
-        if (image === "") {
-            return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg";
-        }
-        return IMAGE_URL + "images/application" + image;
     };
 
     $scope.$on('cabride.updateRequest', function (event, request) {

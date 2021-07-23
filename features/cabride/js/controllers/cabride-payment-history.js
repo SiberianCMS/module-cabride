@@ -1,8 +1,8 @@
 angular.module('starter')
 .controller('CabridePaymentHistory', function ($scope, $translate, $ionicScrollDelegate, Cabride,
-                                               CabrideUtils, Dialog) {
+                                               CabrideUtils, Dialog, CabrideBase) {
 
-    angular.extend($scope, {
+    angular.extend($scope, CabrideBase, {
         isLoading: false,
         pageTitle: $translate.instant("Payment history", "cabride"),
         valueId: Cabride.getValueId(),
@@ -13,10 +13,6 @@ angular.module('starter')
         cashReturns: [],
         collections: [],
     });
-
-    $scope.cs = function () {
-        return Cabride.currencySymbol();
-    };
 
     $scope.loadPage = function () {
         $scope.isLoading = true;
@@ -35,35 +31,8 @@ angular.module('starter')
         });
     };
 
-    $scope.dateFormat = function (timestampSeconds) {
-        return moment(timestampSeconds * 1000).calendar();
-    };
-
-    $scope.isTaxiLayout = function () {
-        return Cabride.isTaxiLayout;
-    };
-
-    $scope.openMenu = function () {
-        CabrideUtils.openMenu();
-    };
-
-    $scope.calendar = function (timestampSeconds) {
-        return moment(timestampSeconds * 1000).calendar();
-    };
-
     $scope.refresh = function () {
         $scope.loadPage();
-    };
-
-    $scope.details = function (request) {
-        Cabride.requestDetailsModal($scope.$new(true), request.request_id, "client");
-    };
-
-    $scope.imagePath = function (image) {
-        if (image === "") {
-            return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg";
-        }
-        return IMAGE_URL + "images/application" + image;
     };
 
     $scope.creditCardBrand = function (brand) {

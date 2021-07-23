@@ -1,7 +1,7 @@
 angular.module('starter')
 .controller('CabrideMyPayments', function ($rootScope, $scope, $filter, $translate, $ionicScrollDelegate,
-                                           Cabride, CabrideUtils, Dialog) {
-    angular.extend($scope, {
+                                           Cabride, CabrideUtils, Dialog, CabrideBase) {
+    angular.extend($scope, CabrideBase, {
         isLoading: false,
         pageTitle: $translate.instant('My payments', 'cabride'),
         valueId: Cabride.getValueId(),
@@ -10,10 +10,6 @@ angular.module('starter')
         payments: [],
         cards: [],
     });
-
-    $scope.cs = function () {
-        return Cabride.currencySymbol();
-    };
 
     $scope.loadPage = function () {
         $scope.isLoading = true;
@@ -59,18 +55,6 @@ angular.module('starter')
                 return "./features/cabride/assets/templates/images/013-cc-amex.png";
         }
         return "./features/cabride/assets/templates/images/014-cc.svg";
-    };
-
-    $scope.isTaxiLayout = function () {
-        return Cabride.isTaxiLayout;
-    };
-
-    $scope.openMenu = function () {
-        CabrideUtils.openMenu();
-    };
-
-    $scope.calendar = function (timestampSeconds) {
-        return moment(timestampSeconds * 1000).calendar();
     };
 
     $scope.refresh = function () {

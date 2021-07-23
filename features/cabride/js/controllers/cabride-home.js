@@ -4,8 +4,8 @@
 angular.module('starter')
 .controller('CabrideHome', function ($window, $state, $scope, $rootScope, $timeout, $translate,
                                      $ionicSideMenuDelegate, $q, Modal, Cabride, CabrideUtils, Customer,
-                                     Loader, GoogleMaps, Dialog, Location, SB, Places) {
-    angular.extend($scope, {
+                                     Loader, GoogleMaps, Dialog, Location, SB, Places, CabrideBase) {
+    angular.extend($scope, CabrideBase, {
         pageTitle: Cabride.settings.pageTitle,
         valueId: Cabride.getValueId(),
         isAlive: Cabride.isAlive,
@@ -85,33 +85,6 @@ angular.module('starter')
         $ionicSideMenuDelegate.canDragContent(true);
     });
 
-    $scope.cs = function () {
-        return Cabride.currencySymbol();
-    };
-
-    $scope.getPageTitle = function () {
-        return Cabride.settings.pageTitle;
-    };
-
-    $scope.passengerPicture = function () {
-        return Cabride.settings.passengerPicture;
-    };
-
-    $scope.driverPicture = function () {
-        return Cabride.settings.driverPicture;
-    };
-
-    $scope.reconnect = function () {
-        Cabride.init();
-    };
-
-    $scope.isTaxiLayout = function () {
-        return Cabride.isTaxiLayout;
-    };
-
-    $scope.openMenu = function () {
-        CabrideUtils.openMenu();
-    };
 
     // Init contextual menu for initial triggers!
     CabrideUtils.rebuildContextualMenu();
@@ -362,14 +335,6 @@ angular.module('starter')
 
     $scope.displayMapPin = function () {
         $scope.showMapPin = true;
-    };
-
-    $scope.tourEnabled = function () {
-        return Cabride.settings.enableTour;
-    };
-
-    $scope.seatsEnabled = function () {
-        return Cabride.settings.enableSeats;
     };
 
     $scope.displayClock = function () {

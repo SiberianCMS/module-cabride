@@ -1,3 +1,24 @@
+/** Funcs */
+@function css-function( $function, $values... ) {
+  @return
+          $function
+		+ unquote( '(' )
+		+ $values
+		+ unquote( ')' );
+}
+
+@function css-min( $values... ) {
+  @return css-function( min, $values );
+}
+
+@function css-max( $values... ) {
+  @return css-function( max, $values );
+}
+
+@function css-clamp( $values... ) {
+  @return css-function( clamp, $values );
+}
+
 .cabride {
   /** Cab-Ride design */
   .cr-home-title {
@@ -63,8 +84,9 @@
         position: absolute;
         top: 87px;
         z-index: 1;
-        min-width: 164px;
+        min-width: css-min(164px, 40vw);
         width: 180px;
+        max-width: 40vw;
         left: 50%;
         transform: translate(-50%, 0);
         border-radius: 0 0 16px 16px;
@@ -128,8 +150,9 @@
         position: absolute;
         top: 87px;
         z-index: 1;
-        min-width: 164px;
+        min-width: css-min(164px, 40vw);
         width: 180px;
+        max-width: 40vw;
         left: 50%;
         transform: translate(-50%, 0);
         border-radius: 0 0 16px 16px;
@@ -471,7 +494,7 @@
     }
 
     span.course-date {
-      font-size: .75em;
+      font-size: 1em;
       opacity: 0.7;
       white-space: normal;
     }
@@ -667,6 +690,17 @@
     opacity: 1;
   }
 
+  .row {
+    &.time-seats {
+      padding: 0;
+
+      .item {
+        border: 0;
+        margin: 0;
+      }
+    }
+  }
+
   .item {
     &.item-custom {
       &.item-no-border-top {
@@ -674,9 +708,9 @@
       }
 
       &.request-detail-small {
-        padding: 5px 10px 8px;
-        font-size: .9em;
         border-top: 0;
+        font-size: .9em;
+        padding: 8px 10px;
 
         p {
           padding-left: 32px;
@@ -685,7 +719,7 @@
 
         i.icon {
           font-size: 1.5em;
-          left: 0;
+          left: 10px;
         }
       }
 
@@ -773,6 +807,9 @@
 .line-box {
   .badge {
     margin-left: 1em;
+    transform: translate(0px, -5px);
+    padding: 4px 9px 4px 7px;
+    border-radius: 100px;
   }
 }
 
@@ -820,6 +857,8 @@
     margin-left: 1em;
     font-size: 18px;
     line-height: 22px;
+    min-width: 30px;
+    text-align: center;
   }
 
   .line-title {
@@ -828,6 +867,11 @@
     font-weight: bold;
     font-variant: small-caps;
     text-transform: lowercase;
+    transform: translate(0, -3px);
+  }
+
+  i ~ .line-title {
+    transform: translate(0, -6px) !important;
   }
 
   .line-box {

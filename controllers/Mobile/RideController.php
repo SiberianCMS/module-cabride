@@ -911,10 +911,16 @@ class Cabride_Mobile_RideController extends MobileController
                     "Sorry, we are unable to find this ride request!"));
             }
 
-            $timeToClient = (integer) $route["routes"][0]["legs"][0]["duration"]["value"];
-            $timeToDestination =
-                (integer) $route["routes"][0]["legs"][0]["duration"]["value"] +
-                (integer) $route["routes"][0]["legs"][1]["duration"]["value"];
+            if ($ride->getType() === 'course') {
+                $timeToClient = (integer) $route["routes"][0]["legs"][0]["duration"]["value"];
+                $timeToDestination =
+                    (integer) $route["routes"][0]["legs"][0]["duration"]["value"] +
+                    (integer) $route["routes"][0]["legs"][1]["duration"]["value"];
+            } else if ($ride->getType() === 'tour') {
+                $timeToClient = 0;
+                $timeToDestination = 0;
+            }
+
 
             $requestDriver
                 ->setStatus("onway")

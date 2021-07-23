@@ -1,8 +1,8 @@
 angular
     .module('starter')
-    .controller('CabrideVehicleInformation', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader) {
+    .controller('CabrideVehicleInformation', function ($scope, $translate, Cabride, CabrideUtils, Dialog, Loader, CabrideBase) {
 
-        angular.extend($scope, {
+        angular.extend($scope, CabrideBase, {
             isLoading: false,
             pageTitle: $translate.instant("Vehicle information", "cabride"),
             valueId: Cabride.getValueId(),
@@ -11,18 +11,6 @@ angular
             changingType: false,
             collection: []
         });
-
-        $scope.cs = function () {
-            return Cabride.currencySymbol();
-        };
-
-        $scope.seatsEnabled = function () {
-            return Cabride.settings.enableSeats;
-        };
-
-        $scope.tourEnabled = function () {
-            return Cabride.settings.enableTour;
-        };
 
         $scope.loadPage = function () {
             $scope.isLoading = true;
@@ -55,14 +43,6 @@ angular
             });
         };
 
-        $scope.isTaxiLayout = function () {
-            return Cabride.isTaxiLayout;
-        };
-
-        $scope.openMenu = function () {
-            CabrideUtils.openMenu();
-        };
-
         $scope.changeType = function () {
             $scope.changingType = true;
         };
@@ -83,14 +63,6 @@ angular
                 }).then(function () {
                 Loader.hide();
             });
-        };
-
-        $scope.distanceUnit = function () {
-            return Cabride.settings.distanceUnit;
-        };
-
-        $scope.pricingDriver = function () {
-            return Cabride.settings.pricingMode === "driver";
         };
 
         $scope.imagePath = function (image) {

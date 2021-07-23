@@ -29,31 +29,8 @@
 
             <div ng-if="collection.length > 0"
                  class="list">
-                <div ng-repeat="request in collection"
-                     class="item item-custom item-course">
-                    <div class="cabride-course">
-                        <div class="course-image">
-                            <img ng-src="{{ imagePath(request.static_image) }}" />
-                        </div>
-                        <div>
-                            <span class="course-status {{ request.driver_status }}">{{ request.driver_status | translate:"cabride" }}</span>
-                            <span class="course-expiration {{ request.driver_status }}">{{ ::'Expires' | translate:"cabride" }} {{ expiration(request) }}</span>
-                            <div class="row course-details">
-                                <div class="col-75">
-                                    <span class="vehicle-type">{{ request.from_address }}</span>
-                                    <br />
-                                    <span class="course-date">{{ request.to_address }}</span>
-                                </div>
-                                <div class="col-25 text-right">
-                                    <span class="vehicle-type">{{ request.formatted_price }}</span>
-                                    <br />
-                                    <span class="course-date">{{ distance(request) }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div ng-include="'./features/cabride/assets/templates/l1/actions/driver-'+ request.status +'.html'"></div>
-                    </div>
-                </div>
+                <driver-request request="request"
+                                ng-repeat="request in collection"></driver-request>
             </div>
         </div>
     </ion-content>

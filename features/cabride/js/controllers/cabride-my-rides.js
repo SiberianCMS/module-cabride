@@ -1,7 +1,7 @@
 angular.module('starter')
 .controller('CabrideMyRides', function ($scope, $filter, $translate, $ionicScrollDelegate,
-                                        Cabride, CabrideUtils, Dialog, $window) {
-    angular.extend($scope, {
+                                        Cabride, CabrideUtils, Dialog, $window, CabrideBase) {
+    angular.extend($scope, CabrideBase, {
         isLoading: false,
         pageTitle: $translate.instant("My rides", "cabride"),
         valueId: Cabride.getValueId(),
@@ -10,10 +10,6 @@ angular.module('starter')
         filterName: "inprogress",
         collection: []
     });
-
-    $scope.cs = function () {
-        return Cabride.currencySymbol();
-    };
 
     $scope.loadPage = function () {
         $scope.isLoading = true;
@@ -30,61 +26,8 @@ angular.module('starter')
         });
     };
 
-    $scope.isTaxiLayout = function () {
-        return Cabride.isTaxiLayout;
-    };
-
-    $scope.openMenu = function () {
-        CabrideUtils.openMenu();
-    };
-
-    $scope.distance = function (request) {
-        return CabrideUtils.distance(request);
-    };
-
-    $scope.duration = function (request) {
-        return CabrideUtils.toHHMM(request.duration);
-    };
-
-    $scope.calendar = function (timestampSeconds) {
-        return moment(timestampSeconds * 1000).calendar();
-    };
-
-    $scope.expiration = function (request) {
-        return moment().add(parseInt(request.expires_in, 10), "seconds").fromNow();
-    };
-
-    $scope.eta = function (request) {
-        // Ensure values are integers
-        var duration = parseInt(request.eta_driver, 10) * 1000;
-        return moment(duration).fromNow();
-    };
-
     $scope.refresh = function () {
         $scope.loadPage();
-    };
-
-    $scope.canCancel = function (request) {
-        return ["pending", "accepted"].indexOf(request.status) != -1;
-    };
-
-    $scope.callDriver = function (request) {
-        $window.open("tel:" + request.driver_phone, "_system");
-    };
-
-    $scope.cancel = function (request) {
-        Cabride.cancelModal(request, "client");
-    };
-
-    $scope.details = function (request) {
-        Cabride.requestDetailsModal($scope.$new(true), request.request_id, "client");
-    };
-
-    $scope.imagePath = function (image) {
-        if (image === "") {
-            return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg";
-        }
-        return IMAGE_URL + "images/application" + image;
     };
 
     $scope.statusFilter = function (filter) {
@@ -98,14 +41,6 @@ angular.module('starter')
         }
 
         $ionicScrollDelegate.scrollTop();
-    };
-
-    $scope.rateCourse = function (request) {
-        Cabride.rateCourseModal(request);
-    };
-
-    $scope.getRatingIcon = function(request, value) {
-        return (request.course_rating >= value) ? 'ion-android-star' : 'ion-android-star-outline';
     };
 
     $scope.$watch("filterName", function () {

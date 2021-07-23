@@ -1,0 +1,68 @@
+<div class="item item-custom item-course">
+    <div class="cabride-course">
+        <div class="course-image">
+            <img ng-src="{{ imagePath(request.static_image) }}"/>
+        </div>
+        <div>
+            <div class="driver-photo">
+                <img src=""/>
+            </div>
+            <span class="course-status {{ request.status }}">{{ request.status | translate:"cabride" }}</span>
+
+            <span ng-show="filterName == 'inprogress' && request.status == 'pending'"
+                  class="course-expiration {{ request.status }}">{{ ::"Expires" | translate:"cabride" }} {{ expiration(request) }}</span>
+
+            <span ng-show="filterName == 'inprogress' && request.status == 'onway'"
+                  class="course-eta {{ request.status }}">{{ ::"Driver arrival" | translate:"cabride" }} {{ eta(request) }}</span>
+
+            <span ng-if="request.course_rating > 0"
+                  class="course-rating {{ request.status }}">
+                <i class="icon icon-rate-list {{ getRatingIcon(request, 1) }}"></i>
+                <i class="icon icon-rate-list {{ getRatingIcon(request, 2) }}"></i>
+                <i class="icon icon-rate-list {{ getRatingIcon(request, 3) }}"></i>
+                <i class="icon icon-rate-list {{ getRatingIcon(request, 4) }}"></i>
+                <i class="icon icon-rate-list {{ getRatingIcon(request, 5) }}"></i>
+            </span>
+
+            <div class="row course-details">
+                <div class="col-75">
+                    <span class="vehicle-type">{{ request.type }}</span>
+                    <br/>
+
+                    <span class="vehicle-type">{{ request.from_address }}</span>
+                    <br />
+                    <span ng-if="request.type == 'course'"
+                          class="course-date">{{ request.to_address }}</span>
+                    <span ng-if="request.type == 'tour'"
+                          class="course-date">
+                        <span>{{ ::'Timed tour' | translate:'cabride' }}</span>
+                        <span ng-if="seatsEnabled()">
+                            <br />
+                            <i class="icon ion-person-stalker"
+                               style="margin-right: 15px;"></i>{{ request.seats }} {{ textSeats(request.seats) }}
+                        </span>
+                    </span>
+                </div>
+                <div class="col-25 text-right">
+                    <span class="vehicle-type">{{ request.formatted_price }}</span>
+                    <br />
+                    <span ng-if="request.type == 'course'"
+                          class="course-date">{{ distance(request) }}</span>
+                    <span ng-if="request.type == 'tour'"
+                          class="course-date">
+                        <i class="icon ion-clock"
+                           style="margin-right: 15px;"></i>
+                        {{ durationTour(request) }}
+                    </span>
+                    <span ng-if="request.formatted_price != request.formatted_lowest_price"
+                          ng-class="{'price-stroke': request.formatted_driver_price}"
+                          class="course-cost">{{ ::"Est." | translate:"cabride" }} {{ request.formatted_lowest_price }} - {{ request.formatted_price }}</span>
+                    <span ng-if="request.formatted_price == request.formatted_lowest_price"
+                          ng-class="{'price-stroke': request.formatted_driver_price}"
+                          class="course-cost">{{ request.formatted_price }}</span>
+                </div>
+            </div>
+            <div ng-include="'./features/cabride/assets/templates/l1/actions/client-'+ request.status +'.html'"></div>
+        </div>
+    </div>
+</div>

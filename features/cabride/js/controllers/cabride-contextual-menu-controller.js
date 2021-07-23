@@ -2,8 +2,8 @@ angular.module('starter')
 .controller('CabrideContextualMenuController', function ($scope, $rootScope, $state,
                                                          $ionicSideMenuDelegate,
                                                          $ionicHistory, Customer, Pages,
-                                                         SB, $timeout, HomepageLayout, Cabride) {
-    angular.extend($scope, {
+                                                         SB, $timeout, HomepageLayout, Cabride, CabrideBase) {
+    angular.extend($scope, CabrideBase, {
         isOnline: false,
         customer: null,
         information: null,
@@ -15,10 +15,6 @@ angular.module('starter')
             backgroundImage: 'url("./features/cabride/assets/templates/images/008-background.png")'
         }
     });
-
-    $scope.cs = function () {
-        return Cabride.currencySymbol();
-    };
 
     /**
      * @param identifier

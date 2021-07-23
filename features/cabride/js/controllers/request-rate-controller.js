@@ -1,11 +1,11 @@
 angular.module('starter')
-.controller('RequestRateController', function ($scope, $rootScope, $translate, Cabride, Dialog) {
+.controller('RequestRateController', function ($scope, $rootScope, $translate, Cabride, Dialog, CabrideBase) {
 
-    angular.extend($scope, {
+    angular.extend($scope, CabrideBase, {
         rating: {
             course: -1,
             driver: -1,
-            comment: ""
+            comment: ''
         }
     });
 

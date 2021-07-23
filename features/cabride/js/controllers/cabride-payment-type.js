@@ -1,6 +1,6 @@
 angular.module('starter')
-.controller('CabridePaymentType', function ($scope, Dialog, CabridePayment, Loader) {
-    angular.extend($scope, {
+.controller('CabridePaymentType', function ($scope, Dialog, CabridePayment, Loader, CabrideBase) {
+    angular.extend($scope, CabrideBase, {
         hasPaymentType: false,
         addEditCard: false,
         paymentProvider: false

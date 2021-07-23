@@ -1,15 +1,11 @@
 angular.module('starter')
-.controller('CabrideCompletedRides', function ($scope, $translate, Cabride, CabrideUtils, Dialog) {
-    angular.extend($scope, {
+.controller('CabrideCompletedRides', function ($scope, $translate, Cabride, CabrideUtils, Dialog, CabrideBase) {
+    angular.extend($scope, CabrideBase, {
         isLoading: false,
         pageTitle: $translate.instant("Completed requests", "cabride"),
         valueId: Cabride.getValueId(),
         collection: []
     });
-
-    $scope.cs = function () {
-        return Cabride.currencySymbol();
-    };
 
     $scope.loadPage = function () {
         $scope.isLoading = true;
@@ -24,43 +20,8 @@ angular.module('starter')
         });
     };
 
-    $scope.isTaxiLayout = function () {
-        return Cabride.isTaxiLayout;
-    };
-
-    $scope.openMenu = function () {
-        CabrideUtils.openMenu();
-    };
-
-    $scope.distance = function (request) {
-        return CabrideUtils.distance(request);
-    };
-
-    $scope.duration = function (request) {
-        return $scope.toHHMM(request.duration);
-    };
-
-    $scope.calendar = function (timestampSeconds) {
-        return moment(timestampSeconds * 1000).calendar();
-    };
-
     $scope.refresh = function () {
         $scope.loadPage();
-    };
-
-    $scope.details = function (request) {
-        Cabride.requestDetailsModal($scope.$new(true), request.request_id, "driver");
-    };
-
-    $scope.getRatingIcon = function(request, value) {
-        return (request.course_rating >= value) ? 'ion-android-star' : 'ion-android-star-outline';
-    };
-
-    $scope.imagePath = function (image) {
-        if (image === "") {
-            return IMAGE_URL + "app/local/modules/Cabride/resources/design/desktop/flat/images/no-route.jpg";
-        }
-        return IMAGE_URL + "images/application" + image;
     };
 
     $scope.$on('cabride.updateRequest', function (event, request) {

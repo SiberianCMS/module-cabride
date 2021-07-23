@@ -1,6 +1,6 @@
 angular.module('starter')
-.controller('CabrideVehicleType', function ($scope, $translate, Cabride, Dialog) {
-    angular.extend($scope, {
+.controller('CabrideVehicleType', function ($scope, $translate, Cabride, Dialog, CabrideBase) {
+    angular.extend($scope, CabrideBase, {
         isLoading: false,
         enableCustomForm: Cabride.settings.enableCustomForm,
         currentVehicleId: null,
