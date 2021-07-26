@@ -1209,6 +1209,7 @@ msgid "Icon"
 msgstr "Icon"
 
 # GMT 1558095805.9979
+#, mobile
 msgctxt "cabride"
 msgid "Vehicle type"
 msgstr "Vehicle type"
@@ -2118,3 +2119,33 @@ msgstr "seat"
 msgctxt "cabride"
 msgid "seats"
 msgstr "seats"
+
+# GMT 1581668075.8038
+msgctxt "cabride"
+msgid "When enabled, users will be able to select the number of seats required."
+msgstr "When enabled, users will be able to select the number of seats required."
+
+# GMT 1581668075.8039
+msgctxt "cabride"
+msgid "When set to 0, users will be required to fill the number of seats."
+msgstr "When set to 0, users will be required to fill the number of seats."
+
+# GMT 1581668075.8040
+msgctxt "cabride"
+msgid "Seats"
+msgstr "Seats"
+
+# GMT 1581668075.8041
+msgctxt "cabride"
+msgid "Please select the number of seats you need!"
+msgstr "Please select the number of seats you need!"
+
+# GMT 1581668075.8042
+#, mobile
+msgctxt "cabride"
+msgid "Please select a vehicle type!"
+msgstr "Please select a vehicle type!"
+
+
+
+

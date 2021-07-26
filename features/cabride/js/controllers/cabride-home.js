@@ -20,7 +20,7 @@ angular.module('starter')
         driverMarkers: [],
         gmapsAutocompleteOptions: {},
         ride: {
-            seats: 1,
+            seats: '1',
             type: 'course',
             isSearching: false,
             pickupPlace: null,
@@ -218,6 +218,8 @@ angular.module('starter')
                 $scope.crMapPin.setPosition(center);
             }, 500);
         });
+
+        $scope.clearSearch(false);
     };
 
     $scope.drawDrivers = function (drivers) {
@@ -302,9 +304,9 @@ angular.module('starter')
     };
 
     // Pristine ride values!
-    $scope.clearSearch = function () {
+    $scope.clearSearch = function (withRoute) {
         $scope.ride = {
-            seats: 1,
+            seats: Cabride.settings.seatsDefault.toString(),
             type: 'course',
             isSearching: false,
             pickupPlace: null,
@@ -318,7 +320,9 @@ angular.module('starter')
             isTour: false
         };
 
-        CabrideUtils.clearRoute();
+        if (withRoute) {
+            CabrideUtils.clearRoute();
+        }
     };
 
     $scope.disableTap = function (inputId) {
@@ -342,17 +346,17 @@ angular.module('starter')
     };
 
     $scope.decreaseSeats = function () {
-        if ($scope.ride.seats <= 1) {
+        if (parseInt($scope.ride.seats) <= 1) {
             return;
         }
         $timeout(function () {
-            $scope.ride.seats--;
+            $scope.ride.seats = parseInt($scope.ride.seats) - 1;
         });
     };
 
     $scope.increaseSeats = function () {
         $timeout(function () {
-            $scope.ride.seats++;
+            $scope.ride.seats = parseInt($scope.ride.seats) + 1;
         });
     };
 
@@ -486,9 +490,25 @@ angular.module('starter')
         }
     };
 
+    $scope.checkSeats = function () {
+        if (!Cabride.settings.enableSeats) {
+            return true;
+        }
+        if ($scope.ride.seats < 1) {
+            Dialog.alert('Seats', 'Please select the number of seats you need!', 'OK', -1, 'cabride');
+            return false;
+        }
+        return true;
+    };
+
     // Tour
     $scope.vaults = null;
     $scope.requestTour = function () {
+        // Break if seats are required & not set
+        if (!$scope.checkSeats()) {
+            return;
+        }
+
         $scope.ride.isSearching = true;
         $scope.ride.isTour = true;
         $scope.ride.type = 'tour';
@@ -519,6 +539,11 @@ angular.module('starter')
 
     $scope.vaults = null;
     $scope.requestRide = function () {
+        // Break if seats are required & not set
+        if (!$scope.checkSeats()) {
+            return;
+        }
+
         $scope.ride.isSearching = true;
         $scope.ride.isCourse = true;
         $scope.ride.type = 'course';
@@ -614,7 +639,7 @@ angular.module('starter')
                 $state.go("cabride-my-rides");
             });
             // Clear ride
-            $scope.clearSearch();
+            $scope.clearSearch(true);
         }, function (error) {
             Loader.hide();
             Dialog

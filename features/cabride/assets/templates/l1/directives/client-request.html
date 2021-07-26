@@ -24,6 +24,54 @@
                 <i class="icon icon-rate-list {{ getRatingIcon(request, 5) }}"></i>
             </span>
 
+            <div ng-if="request.type == 'course'"
+                 class="row course-details">
+                <div class="col-75">
+                    <span class="vehicle-type">{{ request.from_address }}</span>
+                    <br />
+                    <span class="course-date">{{ request.to_address }}</span>
+                    <br />
+                    {{ ::'Course' | translate:'cabride' }}
+                    <span ng-if="seatsEnabled()">
+                        <br />
+                        <i class="icon ion-person-stalker"
+                           style="margin-left: 10px; margin-right: 10px;"></i>{{ request.seats }} {{ textSeats(request.seats) }}
+                    </span>
+                </div>
+                <div class="col-25 text-right">
+                    <span class="vehicle-type">{{ request.formatted_price }}</span>
+                    <br />
+                    <span>&nbsp;</span>
+                    <br />
+                    <span class="course-date">{{ distance(request) }}</span>
+                </div>
+            </div>
+
+            <div ng-if="request.type == 'tour'"
+                 class="row course-details">
+                <div class="col-75">
+                    <span class="course-date">
+                        <span>{{ ::'Tour' | translate:'cabride' }}</span>
+                        <span ng-if="seatsEnabled()">
+                            <i class="icon ion-person-stalker"
+                               style="margin-left: 10px; margin-right: 10px;"></i>{{ request.seats }} {{ textSeats(request.seats) }}
+                        </span>
+                    </span>
+                    <br />
+                    <span class="vehicle-type">{{ request.from_address }}</span>
+                </div>
+                <div class="col-25 text-right">
+                    <span class="course-date">
+                        <i class="icon ion-clock"
+                           style="margin-right: 5px;"></i>
+                        {{ durationTour(request) }}
+                    </span>
+                    <br />
+                    <span class="vehicle-type">{{ request.formatted_price }}</span>
+                </div>
+            </div>
+
+
             <div class="row course-details">
                 <div class="col-75">
                     <span class="vehicle-type">{{ request.type }}</span>

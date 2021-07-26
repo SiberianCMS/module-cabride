@@ -44,6 +44,7 @@ angular.module('starter')
     };
 
     $scope.customFormIsValid = function () {
+
         var required = ['number', 'password', 'text', 'textarea', 'date', 'datetime', 'clickwrap', 'select'];
         var isValid = true;
         var invalidFields = [];
@@ -77,6 +78,13 @@ angular.module('starter')
                 }
             }
         });
+
+        // Check vehicle type
+        if ($scope.currentVehicleId === null) {
+            var vehicleType = $translate.instant('Vehicle type', 'cabride');
+            invalidFields.push('&nbsp;-&nbsp;' + vehicleType);
+            isValid = false;
+        }
 
         if (!isValid) {
             Dialog.alert('Required fields', invalidFields.join('<br />'), 'OK', -1, 'form2');

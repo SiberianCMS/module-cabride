@@ -154,17 +154,37 @@ RAW;
 
         // Enable SEATS option
         $seats = $this->addSimpleCheckbox('enable_seats', p__('cabride', 'Enable seats pricing?'));
-        $seatsText = p__('cabride', 'When enabled, users will have to select the number of seats required.');
+        $seatsText = p__('cabride', 'When enabled, users will be able to select the number of seats required.');
         $seatsHint = <<<RAW
 <div class="form-group sb-form-line">
     <label class="col-sm-3">&nbsp;</label>
     <div class="col-sm-7" 
          style="margin: 0 9px 0 7px;">
-        <div class="period_hint alert alert-warning">{$seatsText}</div>
+        <div class="period_hint alert alert-warning">
+            {$seatsText}
+        </div>
     </div>
 </div>
 RAW;
         $this->addSimpleHtml('seats_hint', $seatsHint);
+
+        $seatsDefault = $this->addSimpleNumber('seats_default', p__('cabride', 'Default number of seats'), 0, 100, true, 1);
+        $seatsDefault->setValue(1);
+
+        // Enable SEATS option
+        $seatsDefaultText = p__('cabride', 'When set to 0, users will be required to fill the number of seats.');
+        $seatsDefaultHint = <<<RAW
+<div class="form-group sb-form-line">
+    <label class="col-sm-3">&nbsp;</label>
+    <div class="col-sm-7" 
+         style="margin: 0 9px 0 7px;">
+        <div class="period_hint alert alert-warning">
+            {$seatsDefaultText}
+        </div>
+    </div>
+</div>
+RAW;
+        $this->addSimpleHtml('seats_default_hint', $seatsDefaultHint);
 
         // Enable TOUR option
         $tour = $this->addSimpleCheckbox('enable_tour', p__('cabride', 'Enable tour option?'));
@@ -190,6 +210,8 @@ RAW;
                 'pricing_mode',
                 'enable_seats',
                 'seats_hint',
+                'seats_default',
+                'seats_default_hint',
                 'enable_tour',
                 'tour_hint'
             ],

@@ -198,6 +198,10 @@ $schemas['cabride'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
+    'seats_default' => [
+        'type' => 'int(11)',
+        'default' => '1',
+    ],
     'enable_tour' => [
         'type' => 'tinyint(1)',
         'default' => '0',

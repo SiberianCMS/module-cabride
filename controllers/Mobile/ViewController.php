@@ -119,6 +119,7 @@ class Cabride_Mobile_ViewController extends MobileController
                     'enableCustomForm' => $enableCustomForm,
                     'enableTour' => (bool) $dbConfig->getEnableTour(),
                     'enableSeats' => (bool) $dbConfig->getEnableSeats(),
+                    'seatsDefault' => (integer) $dbConfig->getSeatsDefault(),
                     'customFormFields' => $customFormFields,
                     'defaultLat' => (float) $dbConfig->getDefaultLat(),
                     'defaultLng' => (float) $dbConfig->getDefaultLng(),

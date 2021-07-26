@@ -206,7 +206,9 @@ angular.module('starter')
          * Clear the displayed route!
          */
         factory.clearRoute = function () {
-            factory.directionsRenderer.setMap(null);
+            if (factory.directionsRenderer !== undefined) {
+                factory.directionsRenderer.setMap(null);
+            }
         };
 
         factory.taxiIcon = function (rotation) {

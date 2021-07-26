@@ -61,8 +61,8 @@ angular.module('starter')
             return moment().add(parseInt(request.expires_in, 10), 'seconds').fromNow();
         };
 
-        factory.details = function (request) {
-            Cabride.requestDetailsModal($rootScope.$new(true), request.request_id, 'driver');
+        factory.details = function (request, pov) {
+            Cabride.requestDetailsModal($rootScope.$new(true), request.request_id, pov);
         };
 
         factory.callClient = function (request) {

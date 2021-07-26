@@ -6,18 +6,9 @@
  */
 angular
     .module('starter')
-    .directive('driverRequest', function (CabrideBase) {
+    .directive('driverRequest', function () {
         return {
             restrict: 'E',
-            scope: {
-                request: '='
-            },
-            templateUrl: 'features/cabride/assets/templates/l1/directives/driver-request.html',
-            link: function (scope) {},
-            controller: function ($scope) {
-                angular.extend($scope, CabrideBase);
-            }
+            templateUrl: 'features/cabride/assets/templates/l1/directives/driver-request.html'
         };
     });
-
-

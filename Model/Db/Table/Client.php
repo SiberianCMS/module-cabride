@@ -42,9 +42,9 @@ class Client extends Core_Model_Db_Table
     {
         $select = $this->_db
             ->select()
-            ->from("cabride_request", ["COUNT(*) AS total"])
-            ->where("client_id = ?", $clientId)
-            ->where("status IN (?)", ["pending", "accepted"]);
+            ->from('cabride_request', ['COUNT(*) AS total'])
+            ->where('client_id = ?', $clientId)
+            ->where('status IN (?)', ['pending', 'accepted', 'onway']);
 
         return $this->_db->fetchRow($select);
     }

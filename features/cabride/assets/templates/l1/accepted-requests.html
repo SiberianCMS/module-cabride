@@ -29,8 +29,7 @@
 
             <div ng-if="collection.length > 0"
                  class="list">
-                <driver-request request="request"
-                                ng-repeat="request in collection"></driver-request>
+                <driver-request ng-repeat="request in collection"></driver-request>
             </div>
         </div>
     </ion-content>
