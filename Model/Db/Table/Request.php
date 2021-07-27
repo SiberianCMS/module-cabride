@@ -38,12 +38,27 @@ class Request extends Core_Model_Db_Table
             ->joinInner(
                 ["vehicle" => "cabride_vehicle"],
                 "vehicle.vehicle_id = request.vehicle_id",
-                ["type", "icon", "base_fare", "distance_fare", "time_fare"]
+                [
+                    'vehicle_type' => new \Zend_Db_Expr("vehicle.type"),
+                    'icon',
+                    'base_fare',
+                    'distance_fare',
+                    'time_fare',
+                    'extra_seat_fare',
+                    'seat_distance_fare',
+                    'seat_time_fare',
+                    'tour_base_fare',
+                    'tour_time_fare',
+                    'extra_seat_tour_base_fare',
+                    'extra_seat_tour_time_fare',
+                ]
             )
             ->joinInner(
                 "cabride",
                 "cabride.value_id = request.value_id",
-                ["search_timeout"]
+                [
+                    "search_timeout"
+                ]
             )
             ->where("request.value_id = ?", $valueId)
             ->where("request.client_id = ?", $clientId)
@@ -127,10 +142,17 @@ class Request extends Core_Model_Db_Table
                 "vehicle.vehicle_id = request.vehicle_id",
                 [
                     'vehicle_type' => new \Zend_Db_Expr("vehicle.type"),
-                    "icon",
-                    "base_fare",
-                    "distance_fare",
-                    "time_fare"
+                    'icon',
+                    'base_fare',
+                    'distance_fare',
+                    'time_fare',
+                    'extra_seat_fare',
+                    'seat_distance_fare',
+                    'seat_time_fare',
+                    'tour_base_fare',
+                    'tour_time_fare',
+                    'extra_seat_tour_base_fare',
+                    'extra_seat_tour_time_fare',
                 ]
             )
             ->joinInner(

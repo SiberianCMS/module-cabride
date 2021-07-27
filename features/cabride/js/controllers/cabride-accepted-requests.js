@@ -24,8 +24,8 @@ angular
                 }, function (error) {
                     Dialog.alert("Error", error.message, 'OK', -1, 'cabride');
                 }).then(function () {
-                $scope.isLoading = false;
-            });
+                    $scope.isLoading = false;
+                });
         };
 
         $scope.refresh = function () {
@@ -55,9 +55,9 @@ angular
                 }, function (error) {
                     Dialog.alert('Error', error.message, 'OK', -1, 'cabride');
                 }).then(function () {
-                Loader.hide();
-                $scope.refresh();
-            });
+                    Loader.hide();
+                    $scope.refresh();
+                });
         };
 
         $scope.driveToPassengerCourse = function (request) {
@@ -75,27 +75,27 @@ angular
                     },
                     true
                 ).then(function (route) {
-                Cabride
-                    .driveToPassenger(request.request_id, route)
-                    .then(function (payload) {
-                        Cabride.updateRequest(request);
-                        Dialog
-                            .alert('', payload.message, 'OK', 2350)
-                            .then(function () {
-                                Loader.hide();
-                                Navigator.navigate(payload.driveTo);
-                            });
-                    }, function (error) {
-                        Dialog.alert('Error', error.message, 'OK', -1, 'cabride');
-                    }).then(function () {
+                    Cabride
+                        .driveToPassenger(request.request_id, route)
+                        .then(function (payload) {
+                            Cabride.updateRequest(request);
+                            Dialog
+                                .alert('', payload.message, 'OK', 2350)
+                                .then(function () {
+                                    Loader.hide();
+                                    Navigator.navigate(payload.driveTo);
+                                });
+                        }, function (error) {
+                            Dialog.alert('Error', error.message, 'OK', -1, 'cabride');
+                        }).then(function () {
+                            Loader.hide();
+                            $scope.refresh();
+                        });
+                }, function (error) {
+                    Dialog.alert('Error', error[1], 'OK', -1, 'cabride');
                     Loader.hide();
                     $scope.refresh();
                 });
-            }, function (error) {
-                Dialog.alert('Error', error[1], 'OK', -1, 'cabride');
-                Loader.hide();
-                $scope.refresh();
-            });
         };
 
         $scope.driveToDestination = function (request) {

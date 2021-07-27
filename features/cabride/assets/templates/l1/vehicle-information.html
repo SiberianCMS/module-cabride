@@ -35,7 +35,9 @@
                 <div style="border-bottom: 0 !important;"
                      class="item item-custom item-thumbnail-left item-icon-right vehicle-type">
                     <img ng-src="{{ imagePath(type.icon) }}"/>
-                    <h2 class="vehicle-type-title">{{ type.label }}</h2>
+                    <h2 class="vehicle-type-title">
+                        <span>{{ type.label }}</span>&nbsp;<span>{{ type.seats }} {{ textSeats(type.seats) }}</span>
+                    </h2>
                     <i class="icon ion-chevron-right"></i>
                 </div>
                 <div ng-if="showFixedPricing()"
@@ -174,7 +176,9 @@
 
             <div class="item item-custom item item-thumbnail-left item-button-right vehicle-type">
                 <img ng-src="{{ imagePath(currentType.icon) }}"/>
-                <h2 class="vehicle-type-title">{{ currentType.label }}</h2>
+                <h2 class="vehicle-type-title">
+                    <span>{{ currentType.label }}</span>&nbsp;<span>{{ currentType.seats }} {{ textSeats(currentType.seats) }}</span>
+                </h2>
                 <button ng-click="changeType()"
                         class="change-type button button-small button-positive button-positive-custom">
                     {{ ::'Change type' | translate:'cabride' }}
@@ -354,7 +358,8 @@
                        ng-model="driver.driver_license"/>
             </label>
 
-            <label ng-if="seatsEnabled()"
+            <!-- Seats configuration is only enabled when the driver can set the pricing! -->
+            <label ng-if="seatsEnabled() && pricingDriver()"
                    class="item item-input item-custom">
                 <div class="input-label">
                     <b>{{ ::"Number of seats" | translate:"cabride" }} *</b>

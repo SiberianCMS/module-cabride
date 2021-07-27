@@ -100,6 +100,12 @@ class Cabride_Mobile_ViewController extends MobileController
                 }
             }
 
+            // Check custom icon
+            $customIcon = $dbConfig->getCustomIcon();
+            if (empty($customIcon)) {
+                $customIcon = false;
+            }
+
             $payload = [
                 'success' => true,
                 'settings' => [
@@ -133,6 +139,7 @@ class Cabride_Mobile_ViewController extends MobileController
                     'driverPicture' => $driverPicture,
                     'navBackground' => $navBackground,
                     'placesValueId' => (integer) $dbConfig->getPlacesValueId(),
+                    'customIcon' => $customIcon,
                     'showPassengerPhoto' => (bool) $dbConfig->getShowPassengerPhoto(),
                     'showPassengerName' => (bool) $dbConfig->getShowPassengerName(),
                     'showPassengerPhone' => (bool) $dbConfig->getShowPassengerPhone(),

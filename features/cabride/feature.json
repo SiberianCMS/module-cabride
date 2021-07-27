@@ -124,6 +124,7 @@
     ],
     "compile": true,
     "use_account": true,
+    "use_mobile": true,
     "only_once": true,
     "load_on_start": true,
     "on_start_factory": "Cabride"

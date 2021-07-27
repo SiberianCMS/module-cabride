@@ -31,7 +31,8 @@ class Cabride_Mobile_RequestController extends MobileController
             $session = $this->getSession();
             $customerId = $session->getCustomerId();
 
-            $cabride = Cabride::getCurrent();
+            $cabrideOption = Cabride::getCurrent();
+            $cabride = (new Cabride())->find($cabrideOption->getValueId(), 'value_id');
 
             $valueId = $optionValue->getId();
             $route = $data['route'];
@@ -52,7 +53,11 @@ class Cabride_Mobile_RequestController extends MobileController
             // Number of seats
             $params = [];
             if ($cabride->getEnableSeats()) {
-                $params['seats <= ?'] = $seats;
+                if ($cabride->getPricingMode() === 'fixed') {
+                    $params['v.seats >= ?'] = $seats;
+                } else {
+                    $params['d.seats >= ?'] = $seats;
+                }
             }
 
             $drivers = (new Driver())
@@ -138,7 +143,8 @@ class Cabride_Mobile_RequestController extends MobileController
             $session = $this->getSession();
             $customerId = $session->getCustomerId();
 
-            $cabride = Cabride::getCurrent();
+            $cabrideOption = Cabride::getCurrent();
+            $cabride = (new Cabride())->find($cabrideOption->getValueId(), 'value_id');
 
             $valueId = $optionValue->getId();
             $ride = $data['ride'];
@@ -155,7 +161,11 @@ class Cabride_Mobile_RequestController extends MobileController
             // Number of seats
             $params = [];
             if ($cabride->getEnableSeats()) {
-                $params['seats <= ?'] = $seats;
+                if ($cabride->getPricingMode() === 'fixed') {
+                    $params['v.seats >= ?'] = $seats;
+                } else {
+                    $params['d.seats >= ?'] = $seats;
+                }
             }
 
             $drivers = (new Driver())

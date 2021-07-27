@@ -264,6 +264,6 @@ class Driver extends Base
      */
     public function findNearestOnline($valueId, $formula, $params = null)
     {
-        return $this->getTable()->findNearestOnline($valueId, $formula, $params = null);
+        return $this->getTable()->findNearestOnline($valueId, $formula, $params);
     }
 }

@@ -112,6 +112,14 @@ class Driver extends Core_Model_Db_Table
                     'base_fare',
                     'distance_fare',
                     'time_fare',
+                    'extra_seat_fare',
+                    'seat_distance_fare',
+                    'seat_time_fare',
+                    'tour_base_fare',
+                    'tour_time_fare',
+                    'extra_seat_tour_base_fare',
+                    'extra_seat_tour_time_fare',
+                    'vehicle_seats' => new \Zend_Db_Expr('v.seats'),
                 ]
             );
 

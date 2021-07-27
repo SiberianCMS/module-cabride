@@ -206,6 +206,11 @@ $schemas['cabride'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
+    'custom_icon' => [ // currency
+        'type' => 'mediumtext',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'created_at' => [
         'type' => 'datetime',
     ],

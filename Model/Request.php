@@ -174,11 +174,11 @@ class Request extends Base
 
             $pickupAddress = $leg["start_address"];
             $pickupLatitude = $travel["origin"]["location"]["lat"];
-            $pickupLongitude = $travel["origin"]["location"]["lat"];
+            $pickupLongitude = $travel["origin"]["location"]["lng"];
 
-            $dropoffAddress = $leg["start_address"];
+            $dropoffAddress = $leg["end_address"];
             $dropoffLatitude = $travel["destination"]["location"]["lat"];
-            $dropoffLongitude = $travel["destination"]["location"]["lat"];
+            $dropoffLongitude = $travel["destination"]["location"]["lng"];
         } else {
             $distanceKm = 0;
             $durationMinute = $ride['duration'];

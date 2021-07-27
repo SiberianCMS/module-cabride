@@ -88,6 +88,11 @@ class PayoutBulk extends Base
 
         $payouts = (new Payment())->aggregatePayout($valueId, $params);
 
+        // Ends here!
+        if ($payouts->count() <= 0) {
+            return false;
+        }
+
         $payoutIds = [];
         $driverIds = [];
         $bulkPaymentIds = [];

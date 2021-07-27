@@ -275,24 +275,26 @@
         .cr-zoom-center-me {
           border: 1px solid lightgrey;
           background-color: #fefefe;
-          padding: .4rem 0.75rem;
-          border-radius: 4px;
+          padding: .5rem 0.75rem;
+          border-radius: 12px;
           margin-bottom: 1rem;
-          box-shadow: 1px 1px 1px #333333;
+
+          i {
+            transform: translate(-1px, 1px);
+            display: block;
+          }
         }
         .cr-zoom-shadow {
-          box-shadow: 1px 1px 1px #333333;
-          border-radius: 4px;
+          border: 1px solid lightgrey;
+          border-radius: 12px;
+          overflow: hidden;
 
           .cr-zoom-in {
-            border: 1px solid lightgrey;
             background-color: #fefefe;
             padding: .4rem 0.75rem;
 
           }
           .cr-zoom-out {
-            border: 1px solid lightgrey;
-            border-top: 0;
             background-color: #fefefe;
             padding: .4rem 0.75rem;
           }
@@ -312,8 +314,7 @@
         text-transform: lowercase;
         letter-spacing: 0.05em;
         font-size: 1rem;
-        border-radius: 4px;
-        box-shadow: 1px 1px 1px #333333;
+        border-radius: 12px;
 
         .cr-map-distance {
           padding: .5rem 1rem 0;
@@ -347,8 +348,7 @@
         text-transform: lowercase;
         letter-spacing: 0.05em;
         font-size: 1rem;
-        border-radius: 4px;
-        box-shadow: 1px 1px 1px #333333;
+        border-radius: 12px;
 
         .cr-map-loader {
           .cr-loader-spinner {

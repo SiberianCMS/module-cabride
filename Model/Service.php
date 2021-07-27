@@ -13,6 +13,52 @@ use Cron_Model_Cron as Task;
  */
 class Service extends Base
 {
+    /**
+     * @var string
+     */
+    public static $basePath;
+
+    /**
+     * @var string
+     */
+    public static $logPath;
+
+    /**
+     * @var string
+     */
+    public static $baseNode;
+
+    /**
+     * @var string
+     */
+    public static $binPath;
+
+    /**
+     * @var string
+     */
+    public static $serverPid;
+
+    /**
+     * Init global paths
+     */
+    public static function init ()
+    {
+        self::$basePath = path();
+        self::$logPath = path('/var/log/cabride.log');
+        self::$baseNode = path('/app/local/modules/Cabride/resources/server');
+        self::$binPath = path('/app/local/modules/Cabride/resources/server/bin/node_64');
+        self::$serverPid = path('/app/local/modules/Cabride/resources/server/server.pid');
+
+        // Special dev case!
+        try {
+            exec('uname', $uname);
+            if (strpos(strtolower(implode('', $uname)), 'arwin') !== false) {
+                self::$binPath = self::$binPath . '.osx';
+            }
+        } catch (\Exception $e) {
+            //Nope!
+        }
+    }
 
     /**
      * @param Cron $cron
@@ -21,6 +67,8 @@ class Service extends Base
      */
     public static function serve($cron, $task)
     {
+        self::init();
+
         if (!self::selfServe()) {
             $cron->log('CabRide service is running outside cron.');
             return;
@@ -31,20 +79,12 @@ class Service extends Base
             return;
         }
 
-        $base_path = path('');
-        $log_path = path('var/log/modules/cabride.log');
-        if (!is_dir(dirname($log_path)) && !mkdir(dirname($log_path), 0777, true)) {
-            $log_path = path('var/log/cabride.log');
-        }
-        $base_node = path('app/local/modules/Cabride/resources/server');
-        $bin_path = __get('cabride_node_path');
-
-        if (!$bin_path) {
-            $cron->log('Node is not installed.');
-            return;
-        }
-
-        $command = sprintf("%s %s/cabride.js %s >> %s 2>&1", $bin_path, $base_node, $base_path, $log_path);
+        $command = sprintf(
+            "%s %s/cabride.js %s >> %s 2>&1",
+            self::$binPath,
+            self::$baseNode,
+            self::$basePath,
+            self::$logPath);
 
         try {
             echo $command . PHP_EOL;
@@ -53,7 +93,7 @@ class Service extends Base
             $cron->log('CabRide server exception.');
         }
 
-        if ($log = @file_get_contents($log_path)) {
+        if ($log = @file_get_contents(self::$logPath)) {
             $pos = strrpos($log, '---STARTING RTC---');
             if ($pos >= 0) {
                 $log = substr($log, $pos);
@@ -99,10 +139,9 @@ class Service extends Base
      */
     public static function serviceStatus(): bool
     {
-        $base_node = path('app/local/modules/Cabride/resources/server');
-        $bin_path = __get('cabride_node_path');
+        self::init();
 
-        $command = sprintf("%s %s/status.js", $bin_path, $base_node);
+        $command = sprintf("%s %s/status.js", self::$binPath, self::$baseNode);
 
         try {
             echo $command . PHP_EOL;
@@ -128,9 +167,10 @@ class Service extends Base
      */
     public static function killServer(): bool
     {
-        $serverPid = path('/app/local/modules/Cabride/resources/server/server.pid');
-        if (is_readable($serverPid)) {
-            $pid = file_get_contents($serverPid);
+        self::init();
+
+        if (is_readable(self::$serverPid)) {
+            $pid = file_get_contents(self::$serverPid);
             $kill = sprintf("kill -9 %s", $pid);
             echo $kill . PHP_EOL;
             exec($kill);

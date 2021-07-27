@@ -623,6 +623,8 @@ class Cabride_Mobile_RideController extends MobileController
 
             $driverData = $driver->toJson();
 
+            dbg($driverData);
+
             $fareKeyValue = [
                 'baseFare' => 'base_fare',
                 'distanceFare' => 'distance_fare',

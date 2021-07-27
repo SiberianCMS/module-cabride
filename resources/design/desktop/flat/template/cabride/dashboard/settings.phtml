@@ -32,14 +32,21 @@ $formBraintree->setValueId($valueId);
 
 $formSettings->populatePlaces($application->getId());
 
+$customIcon = '';
 if ($settings->getId()) {
     $settingsData = $settings->getData();
+
+    // Empty impossible SVG
+    $customIcon = $settingsData['custom_icon'];
+    $settingsData['custom_icon'] = '';
 
     $formSettings->populate($settingsData);
     $formStripe->populate($settingsData);
     $formTwocheckout->populate($settingsData);
     $formBraintree->populate($settingsData);
 }
+
+
 
 ?>
 <div class="row">
@@ -202,6 +209,10 @@ $(document).ready(function () {
     };
 
     periodHint();
+
+    // Fill textare with JS
+    var svgCustomIcon = `<?php echo $customIcon; ?>`;
+    document.getElementById('custom_icon').value = svgCustomIcon;
 });
 </script>
 <style type="text/css">

@@ -2146,6 +2146,12 @@ msgctxt "cabride"
 msgid "Please select a vehicle type!"
 msgstr "Please select a vehicle type!"
 
+# GMT 1581668075.8043
+#, mobile
+msgctxt "cabride"
+msgid "Pricing & number of seats mode"
+msgstr "Pricing & number of seats mode"
+
 
 
 

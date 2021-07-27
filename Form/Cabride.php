@@ -146,7 +146,7 @@ RAW;
 
         $pricing_mode = $this->addSimpleSelect(
             'pricing_mode',
-            p__('cabride', 'Pricing mode'),
+            p__('cabride', 'Pricing & number of seats mode'),
             [
                 'fixed' => p__('cabride', 'Fixed by vehicle type (Admin)'),
                 'driver' => p__('cabride', 'Fixed by the drivers'),
@@ -298,8 +298,19 @@ RAW;
             ]
         );
 
+        $customIcon = $this->addSimpleTextarea(
+            'custom_icon',
+            p__('cabride', 'Custom icon on map, must be a valid SVG string.')
+        );
+        $customIcon->setNewDesign();
+
         $this->groupElements('design',
-            ['nav_background_button', 'passenger_picture_button', 'driver_picture_button'],
+            [
+                'nav_background_button',
+                'passenger_picture_button',
+                'driver_picture_button',
+                'custom_icon'
+            ],
             p__('cabride', 'Design'));
 
 
