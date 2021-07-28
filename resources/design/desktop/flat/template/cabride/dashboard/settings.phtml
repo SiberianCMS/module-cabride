@@ -213,9 +213,30 @@ $(document).ready(function () {
     // Fill textare with JS
     var svgCustomIcon = `<?php echo $customIcon; ?>`;
     document.getElementById('custom_icon').value = svgCustomIcon;
+
+    let customIcon = $('#custom_icon');
+    let updateSVGPreview = function () {
+        $('#svg_preview').remove();
+        let val = customIcon.val();
+
+        customIcon.after('<div id="svg_preview"></div>');
+        document.getElementById('svg_preview').innerHTML = val;
+    };
+
+    customIcon.off('change');
+    customIcon.on('change', function () {
+        updateSVGPreview();
+    });
+
+    updateSVGPreview();
 });
 </script>
 <style type="text/css">
+    #svg_preview svg {
+        width: 128px;
+        height: 128px;
+    }
+
     #settings_content fieldset {
         border-left: 1px solid grey;
         margin-bottom: 15px;
