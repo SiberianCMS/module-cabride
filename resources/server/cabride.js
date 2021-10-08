@@ -23,6 +23,10 @@ const WebSocketServer = require('ws'),
 // Saving current PID for termination.
 fs.writeFileSync(path.resolve(__dirname, 'server.pid'), process.pid);
 
+let httpsAgent = new https.Agent({
+    rejectUnauthorized: false
+});
+
 let config = require('./config.json'),
     options = {
         path: '/cabride'
@@ -632,6 +636,7 @@ let init = function (httpsOptions) {
 // Init when request is OK!
 axios.get(defaultUrl.replace('#APP_KEY#/', '') + '/settings', {
     responseType: 'json',
+    httpsAgent: httpsAgent,
     headers: requestDefaultHeaders
 }).then(function (response) {
     let httpsOptions = {

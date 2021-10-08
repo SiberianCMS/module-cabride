@@ -7,12 +7,12 @@ App.config(function ($routeProvider) {
 			controller: 'CabrideViewController',
 			templateUrl: BASE_URL + '/cabride/backoffice_view/template'
 		});
-}).controller('CabrideViewController', function ($scope, $window, Header, Cabride, $interval) {
+}).controller('CabrideViewController', function ($scope, $window, Header, Cabride, $timeout) {
     angular.extend($scope, {
         header: new Header(),
         content_loader_is_visible: true,
 		settings: {},
-		logContent: "",
+		logContent: [],
         logError: false,
         logErrorMessage: ""
     });
@@ -69,18 +69,40 @@ App.config(function ($routeProvider) {
         });
     };
 
-    $interval(function () {
+    $scope.nextTimeout = 3000;
+    $scope.nextLog = function () {
         Cabride
-        .liveLog($scope.offset)
-        .success(function (payload) {
-            $scope.logError = false;
-            $scope.logErrorMessage = "";
-            $scope.offset = payload.offset;
-            $scope.logContent += payload.txtContent;
-        }).error(function (payload){
-            $scope.offset = 0;
-            $scope.logError = true;
-            $scope.logErrorMessage = payload.message;
-        })
-    }, 3000);
+            .liveLog($scope.offset)
+            .success(function (payload) {
+                $scope.logError = false;
+                $scope.logErrorMessage = "";
+                $scope.offset = payload.offset;
+
+                /// concat then keep only 1000 lines
+                $scope.nextTimeout = 3000;
+                if (payload.txtContent.length > 0) {
+                    $scope.logContent = $scope.logContent.concat(payload.txtContent);
+                    if ($scope.logContent.length > 1000) {
+                        var endRemove = $scope.logContent.length - 1000;
+                        $scope.logContent.splice(0, endRemove);
+                    }
+                    $scope.txtContent = $scope.logContent.join("\n");
+                } else {
+                    $scope.nextTimeout = 5000;
+                }
+
+                // Load next only on success!
+                $timeout(function () {
+                    $scope.nextLog();
+                }, $scope.nextTimeout);
+            }).error(function (payload){
+                $scope.offset = 0;
+                $scope.logError = true;
+                $scope.logErrorMessage = payload.message;
+            });
+    };
+
+    $timeout(function () {
+        $scope.nextLog();
+    }, 1500);
 });

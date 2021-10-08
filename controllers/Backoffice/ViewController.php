@@ -60,7 +60,7 @@ class Cabride_Backoffice_ViewController extends Backoffice_Controller_Default
 
             Cabride::initApiUser($settings['cabride_server_auth'], $settings['cabride_server_port']);
 
-            $logPath = path('var/log/modules/cabride.log');
+            $logPath = path('var/log/cabride.log');
             File::putContents($logPath, '-- RESTART -- \n');
 
             // Call for a restart!
@@ -85,19 +85,25 @@ class Cabride_Backoffice_ViewController extends Backoffice_Controller_Default
     {
         try {
             $request = $this->getRequest();
-            $offset = $request->getParam('offset', 0);
-            $logPath = path('var/log/modules/cabride.log');
+            $offset = (int) $request->getParam('offset', 0);
+            $logPath = path('var/log/cabride.log');
 
             if (!is_file($logPath)) {
-                throw new Exception(p__('cabride', "Log file var/log/modules/cabride.log doesn't exists, seems your cabride server is not running."));
+                throw new Exception(p__('cabride', "Log file var/log/cabride.log doesn't exists, seems your cabride server is not running."));
             }
 
             $logFile = fopen($logPath, 'rb');
+            if ($offset === 0) {
+                $fsize = filesize($logPath);
+                if ($fsize > 10000) {
+                    $offset = $fsize - 5000;
+                }
+            }
             $txtContent = stream_get_contents($logFile, -1, $offset);
 
             $payload = [
                 'success' => true,
-                'txtContent' => $txtContent,
+                'txtContent' => explode("\n", $txtContent),
                 'offset' => strlen($txtContent) + $offset,
             ];
         } catch (\Exception $e) {
