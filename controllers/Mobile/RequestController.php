@@ -323,6 +323,87 @@ class Cabride_Mobile_RequestController extends MobileController
     /**
      *
      */
+    public function validateV2Action()
+    {
+        try {
+            $application = $this->getApplication();
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            $data = $request->getBodyParams();
+            $optionValue = $this->getCurrentOptionValue();
+            $customerId = $session->getCustomerId();
+            $route = $data['route'];
+            $ride = $data['ride'] ?? null;
+            $paymentId = $data['paymentId'];
+            $gmapsKey = $application->getGooglemapsKey();
+            $customFormFields = $data['customFormFields'];
+
+            $valueId = $optionValue->getId();
+            $vehicleType = $data["vehicleType"];
+
+            // Search for existing "pending" ride requests, prevent the user to request while waiting!
+            $client = (new Client())->find($customerId, "customer_id");
+            if (!$client->getId()) {
+                throw new Exception(p__("cabride",
+                    "Sorry, you are not registered as a Client, please contact the Application owner."));
+            }
+
+            if ($client->hasInProgressRequest()) {
+                throw new Exception(p__("cabride",
+                    "You already have a pending and/or a ride in progress, please wait before requesting another one!"));
+            }
+
+            $drivers = $vehicleType["drivers"];
+
+            $type = 'course';
+            $seats = 1;
+            if ($ride !== null) {
+                $type = $ride['type'] ?? 'course';
+                $seats = $ride['seats'] ?? 'course';
+            }
+
+            if ($type === 'course') {
+                $staticMap = Request::staticMapFromRoute($route, $optionValue, $gmapsKey);
+            } else if ($type === 'tour') {
+                $pickup = [
+                    'lat' => $ride['pickup']['latitude'],
+                    'lng' => $ride['pickup']['longitude'],
+                ];
+                $staticMap = Request::staticMapFromPickup($pickup, $optionValue, $gmapsKey);
+            }
+
+            $vehicle = (new Vehicle())->find($vehicleType['id']);
+            (new Request())->createRideRequestV2(
+                $client->getId(),
+                $vehicle,
+                $valueId,
+                $drivers,
+                $paymentId,
+                $route,
+                $ride,
+                $staticMap,
+                $customFormFields,
+                Request::SOURCE_CLIENT,
+                $type,
+                $seats);
+
+            $payload = [
+                'success' => true,
+                'message' => __('Success'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
     public function fetchAction ()
     {
         try {

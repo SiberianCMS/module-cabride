@@ -359,10 +359,12 @@ class Cabride extends Base
         }
 
         $mainDomain = __get('main_domain');
+        $configFile = path('/app/local/modules/Cabride/resources/server/config.json');
 
-        if (!$cabrideUser->getId()) {
-            // Create API User with full access
+        if (!$cabrideUser->getId() || !is_file($configFile)) {
             $password = uniqid('cr', true) . 'api';
+
+            // Create API User with full access
             $cabrideUser
                 ->setUsername('cabride')
                 ->setPassword($password)
@@ -382,7 +384,7 @@ class Cabride extends Base
                 $mainDomain
             );
 
-            $configFile = path('/app/local/modules/Cabride/resources/server/config.json');
+            // Ensure file is always up-to-date
             $config = [
                 'apiUrl' => $serverHost,
                 'wssHost' => $wssHost,

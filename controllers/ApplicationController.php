@@ -79,10 +79,30 @@ class Cabride_ApplicationController extends Application_Controller_Default
                     break;
             }
 
-            // Validate currency, enforcing cash if not supported
-            if (!in_array($values["currency"], Currency::$supported)) {
-                $values["accepted_payments"] = "cash";
+            $aGateways = [];
+            foreach ($values as $key => $value) {
+                if ((int) $value === 0) {
+                    continue;
+                }
+                if (stripos($key, 'gateway_') === 0) {
+                    $_gatewayKey = str_replace('gateway_', '', $key);
+
+                    // Removes stripe if the currency is not supported***
+                    if ($_gatewayKey === 'stripe' &&
+                        !in_array($values['currency'], Currency::$supported, true)) {
+                        continue;
+                    }
+
+                    // Otherwise continue!
+                    $aGateways[] = $_gatewayKey;
+                }
             }
+
+            if (empty($aGateways)) {
+                throw new Exception(p__('cabride','You must select at least one payment gateway!'));
+            }
+
+            $values['payment_gateways'] = implode(',', $aGateways);
 
             if ($form->isValid($values)) {
                 $cabride = new Cabride();

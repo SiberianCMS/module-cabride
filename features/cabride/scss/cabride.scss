@@ -1040,10 +1040,3 @@
     }
   }
 }
-
-/** CSS Fix for datetime picker */
-.modal-open {
-  .picker-open {
-    pointer-events: auto !important;
-  }
-}

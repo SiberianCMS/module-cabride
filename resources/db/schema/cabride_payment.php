@@ -117,6 +117,15 @@ $schemas['cabride_payment'] = [
         'collation' => 'utf8_unicode_ci',
         'default' => 'toreturn',
     ],
+    /** Used to link abstract payment method, even with version 2, we will still link basic data to handle payouts & commissions */
+    'payment_method_id' => [
+        'type' => 'int(11) unsigned',
+    ],
+    /** Version 1 is the pre-payment-modal, Version 2 is the payment-modal */
+    'payment_api_version' => [
+        'type' => 'tinyint(1)',
+        'default' => '1',
+    ],
     'created_at' => [
         'type' => 'datetime',
     ],

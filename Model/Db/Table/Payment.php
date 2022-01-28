@@ -82,9 +82,11 @@ class Payment extends Core_Model_Db_Table
 
     /**
      * @param $driverId
-     * @param $statuses
-     * @param $params
+     * @param array $statuses
+     * @param null $params
      * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
      */
     public function cashReturnForDriverId ($driverId, $statuses = ["toreturn"], $params = null)
     {
@@ -202,9 +204,11 @@ class Payment extends Core_Model_Db_Table
 
     /**
      * @param $driverId
-     * @param $statuses
-     * @param $params
+     * @param array $statuses
+     * @param null $params
      * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
      */
     public function payoutForDriverId ($driverId, $statuses = ["unpaid"], $params = null)
     {
@@ -262,7 +266,9 @@ class Payment extends Core_Model_Db_Table
 
     /**
      * @param $valueId
-     * @return mixed
+     * @return array
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
      */
     public function aggregateDashboard ($valueId)
     {
@@ -364,6 +370,9 @@ class Payment extends Core_Model_Db_Table
     /**
      * @param $clientId
      * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
+     * @throws \Zend_Exception
      */
     public function fetchForClientId ($clientId)
     {

@@ -4,7 +4,7 @@
 angular.module('starter')
 .controller('CabrideHome', function ($window, $state, $scope, $rootScope, $timeout, $translate,
                                      $ionicSideMenuDelegate, $q, Modal, Cabride, CabrideUtils, Customer,
-                                     Loader, GoogleMaps, Dialog, Location, SB, Places, CabrideBase) {
+                                     Loader, GoogleMaps, Dialog, Location, SB, Places, CabrideBase, PaymentMethod) {
     angular.extend($scope, CabrideBase, {
         pageTitle: Cabride.settings.pageTitle,
         valueId: Cabride.getValueId(),
@@ -233,24 +233,8 @@ angular.module('starter')
         for (var indexDriver in drivers) {
             var driver = drivers[indexDriver];
             var myLatlng = new google.maps.LatLng(driver.position.latitude, driver.position.longitude);
-
-            var a = {
-                lat: function () {
-                    return driver.position.latitude;
-                },
-                lng: function () {
-                    return driver.position.longitude;
-                }
-            };
-            var b = {
-                lat: function () {
-                    return driver.previous.latitude;
-                },
-                lng: function () {
-                    return driver.previous.longitude;
-                }
-            };
-            var heading = google.maps.geometry.spherical.computeHeading(a, b);
+            var b = new google.maps.LatLng(driver.previous.latitude, driver.previous.longitude);
+            var heading = google.maps.geometry.spherical.computeHeading(myLatlng, b);
 
             var icon = {
                 url: CabrideUtils.taxiIcon(heading),
@@ -594,28 +578,90 @@ angular.module('starter')
         $scope.paymentTypeModal();
     };
 
-    $scope.ptModal = null;
-    $scope.addEditCard = false;
-    $scope.paymentTypeModal = function (paymentTypes) {
-        Modal
-        .fromTemplateUrl("features/cabride/assets/templates/l1/modal/payment-type.html", {
-            scope: angular.extend($scope.$new(true), {
-                close: function () {
-                    $scope.ptModal.hide();
-                },
-                validateRequest: function (cashOrVault) {
-                    $scope.validateRequest(cashOrVault);
-                },
-                settings: Cabride.settings,
-                paymentTypes: paymentTypes,
-                vaults: $scope.vaults
-            }),
-            animation: "slide-in-right-left"
-        }).then(function (modal) {
-            $scope.ptModal = modal;
-            $scope.ptModal.show();
+    $scope.textRecap = function () {
+        var recap = [];
+        if ($scope.ride.type === 'course') {
+            recap.push('<div class="item item-divider item-divider-custom text-center">' + $translate.instant('Course', 'cabride') + '</div>');
+            recap.push('<div class="item item-custom">');
+            if (Cabride.settings.enableSeats) {
+                recap.push('    <span class="text-center">- ' + $scope.ride.seats + ' ' + ($scope.ride.seats === 1 ? $translate.instant('seat', 'cabride') : $translate.instant('seats', 'cabride')) + '</span><br />');
+            }
+            recap.push('    <span class="text-center">- ' + $scope.ride.pickupAddress + '</span><br />');
+            recap.push('    <span class="text-center">- ' + $scope.ride.dropoffAddress + '</span><br />');
+            recap.push('</div>');
+            recap.push('<div style="margin-bottom: 20px;"></div>');
+        }
 
-            return modal;
+        if ($scope.ride.type === 'tour') {
+            recap.push('<div class="item item-divider item-divider-custom text-center">' + $translate.instant('Tour', 'cabride') + '</div>');
+            recap.push('<div class="item item-custom">');
+            if (Cabride.settings.enableSeats) {
+                recap.push('    <span class="text-center">- ' + $scope.ride.seats + ' ' + ($scope.ride.seats === 1 ? $translate.instant('seat', 'cabride') : $translate.instant('seats', 'cabride')) + '</span><br />');
+            }
+            recap.push('    <span class="text-center">- ' + $scope.ride.durationText + '</span><br />');
+            recap.push('    <span class="text-center">- ' + $scope.ride.pickupAddress + '</span><br />');
+            recap.push('</div>');
+            recap.push('<div style="margin-bottom: 20px;"></div>');
+        }
+
+        return recap.join('');
+    };
+
+    $scope.paymentTypeModal = function (paymentTypes) {
+
+        console.log('paymentTypes', paymentTypes);
+
+        PaymentMethod.openModal($scope, {
+            title: $translate.instant('Select a payment method', 'payment_demo'),
+            type: PaymentMethod.AUTHORIZATION,
+            display: {
+                amount: false,
+                recap: true
+            },
+            labels: {
+                amount: $translate.instant('Amount', 'payment_demo'),
+                amountExtra: $translate.instant('This is a pre-authorization, you will only be charged after the ride is completed.', 'payment_demo'),
+                authorizeLoaderMessage: $translate.instant('Authorizing payment...', 'payment_demo')
+            },
+            methods: [
+                'stripe',
+                'cash'
+            ],
+            elementsStyle: {
+                base: {
+                    color: "#32325d",
+                    fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+                    fontSmoothing: "antialiased",
+                    fontSize: "16px",
+                    "::placeholder": {
+                        color: "#aab7c4"
+                    }
+                },
+                invalid: {
+                    color: "#fa755a",
+                    iconColor: "#fa755a"
+                }
+            },
+            enableVaults: true,
+            payment: {
+                amount: $scope.vehicleType.pricingValue,
+                formattedAmount: $scope.vehicleType.pricing,
+                recap: $scope.textRecap()
+            },
+            actions: [
+                PaymentMethod.ACTION_AUTHORIZE
+            ],
+            settings: Cabride.settings,
+            onSelect: function (options) {
+                console.log('onSelect', options);
+            },
+            onSuccess: function (options) {
+                console.log('onSuccess', options);
+                $scope.validateRequest(options);
+            },
+            onError: function (options) {
+                console.log('onError', options);
+            }
         });
     };
 
@@ -625,29 +671,29 @@ angular.module('starter')
         $scope.paymentTypeModal();
     };
 
-    $scope.validateRequest = function (cashOrVault) {
+    $scope.validateRequest = function (paymentId) {
         Loader.show($translate.instant("Sending request ...", "cabride"));
         Cabride
-        .validateRequest($scope.vehicleType, $scope.currentRoute, $scope.ride, cashOrVault, Cabride.settings.customFormFieldsUser)
+        .validateRequest($scope.vehicleType, $scope.currentRoute, $scope.ride, paymentId, Cabride.settings.customFormFieldsUser)
         .then(function (response) {
             Loader.hide();
             Dialog
-            .alert("Request sent", "Please now wait for a driver!", "OK", 2350, "cabride")
+            .alert('Request sent', 'Please now wait for a driver!', 'OK', 2350, 'cabride')
             .then(function () {
-                $scope.ptModal.hide();
+                PaymentMethod.closeModal();
                 $scope.vtModal.hide();
-                $state.go("cabride-my-rides");
+                $state.go('cabride-my-rides');
             });
             // Clear ride
             $scope.clearSearch(true);
         }, function (error) {
             Loader.hide();
             Dialog
-            .alert("Sorry!", error.message, "OK")
+            .alert('Sorry!', error.message, 'OK')
             .then(function () {
-                $scope.ptModal.hide();
+                PaymentMethod.closeModal();
                 $scope.vtModal.hide();
-                $state.go("cabride-my-rides");
+                $state.go('cabride-my-rides');
             });
         });
     };

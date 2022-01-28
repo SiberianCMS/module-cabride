@@ -21,14 +21,6 @@ if (!$settings->getId()) {
     $settings->reload();
 }
 
-$formStripe = new FormStripe();
-$formStripe->setValueId($valueId);
-
-$formTwocheckout = new FormTwocheckout();
-$formTwocheckout->setValueId($valueId);
-
-$formBraintree = new FormBraintree();
-$formBraintree->setValueId($valueId);
 
 $formSettings->populatePlaces($application->getId());
 
@@ -40,10 +32,13 @@ if ($settings->getId()) {
     $customIcon = $settingsData['custom_icon'];
     $settingsData['custom_icon'] = '';
 
+    // Payment gateways
+    $gateways = explode(',', $settingsData['payment_gateways']);
+    foreach ($gateways as $gateway) {
+        $settingsData['gateway_' . $gateway] = 1;
+    }
+
     $formSettings->populate($settingsData);
-    $formStripe->populate($settingsData);
-    $formTwocheckout->populate($settingsData);
-    $formBraintree->populate($settingsData);
 }
 
 
@@ -172,8 +167,6 @@ $(document).ready(function () {
     // Currency
     let currency = $("#currency");
     let payoutPeriod = $("#payout_period");
-    let acceptedPayments = $("#accepted_payments");
-    let lineProvider = $("#control-group_payment_provider");
 
     currency.off("change");
     currency.on("change", function () {
@@ -184,14 +177,9 @@ $(document).ready(function () {
         let value = currency.val();
         let text = currency.find("[value='" + value + "']").text();
         if (text.indexOf("Stripe") >= 0) {
-            lineProvider.show();
-            acceptedPayments.find("[value='credit-card']").show();
-            acceptedPayments.find("[value='all']").show();
+            $('[name="gateway_stripe"]').parents('.sb-form-line').show();
         } else {
-            lineProvider.hide();
-            acceptedPayments.find("[value='credit-card']").hide();
-            acceptedPayments.find("[value='all']").hide();
-            acceptedPayments.val("cash");
+            $('[name="gateway_stripe"]').parents('.sb-form-line').hide();
         }
     };
 

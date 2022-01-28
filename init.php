@@ -8,7 +8,10 @@ use Siberian\Translation;
 use Siberian_Module as Module;
 use Cabride\Model\Cabride;
 use Cabride\Model\Translation as CabrideTranslation;
-use Cabride\Model\Service as CabrideService;
+use Cabride\Model\Service as Cabride_Service;
+
+/** Alias for non-confusing escape */
+class_alias('Cabride\Model\Cabride', 'Cabride_Model_Cabride');
 
 /**
  * @throws Exception
@@ -30,7 +33,7 @@ function dashboardNav ($payload) {
  * @return bool
  */
 function reloadSocket () {
-    return CabrideService::killServer();
+    return Cabride_Service::killServer();
 }
 
 /**
@@ -49,10 +52,6 @@ function cabrideOverrideEditorTranslations ($payload) {
     return CabrideTranslation::overrideEditor($payload);
 }
 
-/** Alias for non-confusing escape */
-class_alias('Cabride\Model\Service', 'CabrideService');
-class_alias('Cabride\Model\Cabride', 'Cabride_Model_Cabride');
-
 $init = static function ($bootstrap) {
 
     // Register API!
@@ -65,7 +64,7 @@ $init = static function ($bootstrap) {
 
     // Registering cabride service
     Service::registerService('CabRide WebSocket', [
-        'command' => 'CabrideService::serviceStatus',
+        'command' => '\Cabride\Model\Service::serviceStatus',
         'text' => 'Running',
     ]);
 
@@ -84,6 +83,7 @@ $init = static function ($bootstrap) {
     Hook::listen('app.translation.ready', 'cabride_app_translation', 'cabrideOverrideAppTranslations');
     Hook::listen('editor.translation.ready', 'cabride_editor_translation', 'cabrideOverrideEditorTranslations');
 
+    // Be sure the config.json is always present*
     initApiUser();
 
     // searching for enterprise payment stripe.js file.

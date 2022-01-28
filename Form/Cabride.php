@@ -2,6 +2,7 @@
 
 namespace Cabride\Form;
 
+use PaymentMethod\Model\Gateway;
 use Siberian_Form_Abstract;
 use Cabride\Model\Stripe\Currency;
 
@@ -110,23 +111,35 @@ RAW;
             ['search_timeout', 'search_radius', 'course_mode'],
             p__('cabride', 'Rides'));
 
-        $accepted_payments = $this->addSimpleSelect(
-            'accepted_payments',
-            p__('cabride', 'Accepted payments'),
-            [
-                'credit-card' => p__('cabride', 'Credit card'),
-                'cash' => p__('cabride', 'Cash'),
-                'all' => p__('cabride', 'Credit card & Cash'),
-            ]);
+        // Payment Gateways
+        $gateways = Gateway::all();
+        $gatewaysList = [];
+        foreach ($gateways as $shortName => $gateway) {
+            $label = $gateway['label'];
+            try {
+                $_gatewayInstance = new $gateway['class']();
+                $isSetup = $_gatewayInstance::isSetup();
+            } catch (\Exception $e) {
+                $isSetup = false;
+            }
 
-        $paymentProvider = $this->addSimpleSelect(
-            'payment_provider',
-            p__('cabride', 'Payment provider'),
-            [
-                'stripe' => p__('cabride', 'Stripe (Credit card)'),
-                //'twocheckout' => p__('cabride', '2 Checkout (Credit card)'),
-                //'braintree' => p__('cabride', 'BrainTree (Credit card & PayPal)'),
-            ]);
+            $shortCode = 'gateway_' . $shortName;
+            $this->addSimpleCheckbox(
+                $shortCode,
+                p__('payment_method', $label));
+
+            if (!$isSetup) {
+                $this
+                    ->getElement($shortCode)
+                    ->setDescription(p__(
+                        'payment_method',
+                        'This payment method is not enabled and/or configured, go to <a href="/%s" target="_blank" style="text-decoration: underline; font-weight: bold;">Payment gateways > %s</a>',
+                        $gateway['url'],
+                        $label));
+            }
+
+            $gatewaysList[] = $shortCode;
+        }
 
         $commissionType = $this->addSimpleSelect(
             'commission_type',
@@ -200,10 +213,10 @@ RAW;
 RAW;
         $this->addSimpleHtml('tour_hint', $tourHint);
 
+        $this->groupElements('payment_gateways', $gatewaysList, p__('cabride', 'Payment gateways'));
+
         $this->groupElements('payments',
             [
-                'accepted_payments',
-                'payment_provider',
                 'commission_type',
                 'commission_fixed',
                 'commission',

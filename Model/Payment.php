@@ -11,6 +11,11 @@ use Siberian\Exception;
  *
  * @method Db\Table\Payment getTable()
  * @method integer getId()
+ * @method integer getAmount()
+ * @method integer getValueId()
+ * @method $this setCommissionType(string $type)
+ * @method $this setCommissionAmount(float $amount)
+ * @method $this setCommissionExceedAmount(boolean $exceed)
  */
 class Payment extends Base
 {
@@ -30,25 +35,25 @@ class Payment extends Base
      * @throws Exception
      * @throws \Zend_Exception
      */
-    public function addCommission ()
+    public function addCommission (): self
     {
-        $cabride = (new Cabride())->find($this->getValueId(), "value_id");
+        $cabride = (new Cabride())->find($this->getValueId(), 'value_id');
         if (!$cabride->getId()) {
-            throw new Exception(p__("cabride", "We are unable to find feature settings."));
+            throw new Exception(p__('cabride', 'We are unable to find feature settings.'));
         }
 
         $commissionType = $cabride->getCommissionType();
         $commission = (float) $cabride->getCommission();
         $commissionFixed = (float) $cabride->getCommissionFixed();
         switch ($commissionType) {
-            case "disabled":
+            case 'disabled':
                 $this
-                    ->setCommissionType("disabled")
+                    ->setCommissionType('disabled')
                     ->setCommissionAmount(0)
                     ->setCommissionExceedAmount(false)
                     ->save();
                 break;
-            case "fixed":
+            case 'fixed':
                 $comValue = round($commissionFixed, 2);
                 $commissionExceedAmount = false;
                 if ($comValue > $this->getAmount()) {
@@ -57,12 +62,12 @@ class Payment extends Base
                 }
 
                 $this
-                    ->setCommissionType("fixed")
+                    ->setCommissionType('fixed')
                     ->setCommissionAmount($comValue)
                     ->setCommissionExceedAmount($commissionExceedAmount)
                     ->save();
                 break;
-            case "percentage":
+            case 'percentage':
                 $total = $this->getAmount();
                 $part = round($total / 100 * $commission, 2);
 
@@ -73,12 +78,12 @@ class Payment extends Base
                 }
 
                 $this
-                    ->setCommissionType("percentage")
+                    ->setCommissionType('percentage')
                     ->setCommissionAmount($part)
                     ->setCommissionExceedAmount($commissionExceedAmount)
                     ->save();
                 break;
-            case "mixed":
+            case 'mixed':
                 $total = $this->getAmount();
                 $part = round(($total / 100 * $commission) + $commissionFixed, 2);
 
@@ -89,7 +94,7 @@ class Payment extends Base
                 }
 
                 $this
-                    ->setCommissionType("mixed")
+                    ->setCommissionType('mixed')
                     ->setCommissionAmount($part)
                     ->setCommissionExceedAmount($commissionExceedAmount)
                     ->save();
@@ -103,6 +108,7 @@ class Payment extends Base
      * @param $valueId
      * @param $params
      * @return mixed
+     * @throws \Zend_Exception
      */
     public function aggregateCashReturn ($valueId, $params)
     {
@@ -111,11 +117,13 @@ class Payment extends Base
 
     /**
      * @param $driverId
-     * @param $statuses
-     * @param $params
+     * @param array $statuses
+     * @param null $params
      * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
      */
-    public function cashReturnForDriverId ($driverId, $statuses = ["toreturn"], $params = null)
+    public function cashReturnForDriverId ($driverId, $statuses = ['toreturn'], $params = null)
     {
         return $this->getTable()->cashReturnForDriverId($driverId, $statuses, $params);
     }
@@ -124,6 +132,7 @@ class Payment extends Base
      * @param $valueId
      * @param $params
      * @return mixed
+     * @throws \Zend_Exception
      */
     public function aggregatePayout ($valueId, $params)
     {
@@ -132,11 +141,13 @@ class Payment extends Base
 
     /**
      * @param $driverId
-     * @param $statuses
-     * @param $params
+     * @param array $statuses
+     * @param null $params
      * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
      */
-    public function payoutForDriverId ($driverId, $statuses = ["unpaid"], $params = null)
+    public function payoutForDriverId ($driverId, $statuses = ['unpaid'], $params = null)
     {
         return $this->getTable()->payoutForDriverId($driverId, $statuses, $params);
     }
@@ -144,6 +155,8 @@ class Payment extends Base
     /**
      * @param $valueId
      * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
      */
     public function aggregateDashboard ($valueId)
     {
@@ -153,6 +166,9 @@ class Payment extends Base
     /**
      * @param $clientId
      * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
+     * @throws \Zend_Exception
      */
     public function fetchForClientId ($clientId)
     {

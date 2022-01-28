@@ -292,6 +292,150 @@ class Request extends Base
     }
 
     /**
+     * @param $clientId
+     * @param $vehicleType
+     * @param $valueId
+     * @param $drivers
+     * @param $paymentId
+     * @param $route
+     * @param $staticMap
+     * @param $customFormFields
+     * @param $source
+     * @return $this
+     * @throws Exception
+     * @throws \Zend_Currency_Exception
+     * @throws \Zend_Exception
+     */
+    public function createRideRequestV2($clientId, $vehicleType, $valueId, $drivers, $paymentId, $route, $ride,
+                                      $staticMap, $customFormFields, $source, $type = 'course', $seats = 1)
+    {
+        $travel = $route["request"];
+        if ($type === 'course') {
+            $leg = $route["routes"][0]["legs"][0];
+            $distanceKm = ceil($leg["distance"]["value"] / 1000);
+            $durationMinute = ceil($leg["duration"]["value"] / 60);
+
+            $pickupAddress = $leg["start_address"];
+            $pickupLatitude = $travel["origin"]["location"]["lat"];
+            $pickupLongitude = $travel["origin"]["location"]["lng"];
+
+            $dropoffAddress = $leg["end_address"];
+            $dropoffLatitude = $travel["destination"]["location"]["lat"];
+            $dropoffLongitude = $travel["destination"]["location"]["lng"];
+        } else {
+            $distanceKm = 0;
+            $durationMinute = $ride['duration'];
+
+            $pickupAddress = $ride['pickupAddress'];
+            $pickupLatitude = $ride['pickup']['latitude'];
+            $pickupLongitude = $ride['pickup']['longitude'];
+
+            $dropoffAddress = '';
+            $dropoffLatitude = 0;
+            $dropoffLongitude = 0;
+        }
+
+        $cabride = (new Cabride)->find($valueId, "value_id");
+
+        $lowestCost = null;
+        $highestCost = null;
+        foreach ($drivers as $driver) {
+            $driverId = $driver["driver_id"];
+            $_tmpDriver = (new Driver())->find($driverId);
+
+            if ($type === 'course') {
+                $pricing = $_tmpDriver->estimatePricing($distanceKm, $durationMinute, $seats);
+            } else {
+                $pricing = $_tmpDriver->estimatePricingTour($durationMinute, $seats);
+            }
+            $estimatedCost = $pricing['price'];
+
+            if ($lowestCost === null) {
+                $lowestCost = $estimatedCost;
+            }
+
+            if ($estimatedCost < $lowestCost) {
+                $lowestCost = $estimatedCost;
+            }
+
+            if ($highestCost === null) {
+                $highestCost = $estimatedCost;
+            }
+
+            if ($estimatedCost > $highestCost) {
+                $highestCost = $estimatedCost;
+            }
+        }
+
+        $this
+            ->setValueId($valueId)
+            ->setClientId($clientId)
+            ->setType($type)
+            ->setSeats($seats)
+            ->setVehicleId($vehicleType->getId())
+            ->setStaticImage($staticMap)
+            ->setEstimatedCost($highestCost)
+            ->setEstimatedLowestCost($lowestCost)
+            ->setDistance($distanceKm * 1000)
+            ->setDuration($durationMinute * 60)
+            ->setFromAddress($pickupAddress)
+            ->setFromLat($pickupLatitude)
+            ->setFromLng($pickupLongitude)
+            ->setToAddress($dropoffAddress)
+            ->setToLat($dropoffLatitude)
+            ->setToLng($dropoffLongitude)
+            ->setRequestMode('immediate')
+            ->setCustomFormFields($customFormFields)
+            ->setRawRoute(Json::encode($route));
+
+        // @todo paymentId from PaymentMethod
+        if ($cashOrVault === "cash") {
+            $this->setPaymentType("cash");
+        } else {
+            $this
+                ->setPaymentType("credit-card")
+                ->setClientVaultId($cashOrVault["vaultId"]);
+        }
+
+        // Drivers
+        $now = time();
+        $expires = $now + $cabride->getSearchTimeout();
+
+        $this
+            ->setRequestedAt($now)
+            ->setExpiresAt($expires)
+            ->save();
+
+        $sentToDrivers = false;
+        foreach ($drivers as $index => $driver) {
+            $driverId = $driver["driver_id"];
+            $_tmpDriver = (new Driver())->find($driverId);
+            if ($_tmpDriver->getId()) {
+                // Link & notify drivers
+                $requestDriver = new RequestDriver();
+                $requestDriver
+                    ->setRequestId($this->getId())
+                    ->setDriverId($driverId)
+                    ->setStatus("pending")
+                    ->setRequestedAt($now)
+                    ->setExpiresAt($expires)
+                    ->save();
+
+                $sentToDrivers = true;
+            }
+        }
+
+        if (!$sentToDrivers) {
+            throw new Exception(p__("cabride",
+                "We are sorry, but an error occurred while sending your request to the available drivers!"));
+        }
+
+        $this->changeStatus("pending", $source);
+
+        return $this;
+    }
+
+    /**
      * @return Request[]
      */
     public function fetchPending()

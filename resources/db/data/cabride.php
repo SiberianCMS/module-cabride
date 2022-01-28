@@ -2,13 +2,24 @@
 
 use Siberian\Feature;
 
+
+
 try {
     $module = (new Installer_Model_Installer_Module())
         ->prepare('Cabride');
 
+    try {
+        $jobs = (new \Cron_Model_Cron())->findAll(['module_id' => $module->getId()]);
+        foreach ($jobs as $job) {
+            $job->delete();
+        }
+    } catch (\Exception $e) {
+        // Clean up for services!
+    }
+
     Feature::installCronjob(
         __('Cabride, uws Server.'),
-        'CabrideService::serve',
+        '\\\\Cabride\\\\Model\\\\Service::serve',
         -1,
         -1,
         -1,
@@ -22,7 +33,7 @@ try {
 
     Feature::installCronjob(
         __('Cabride, watcher.'),
-        'CabrideService::watch',
+        '\\\\Cabride\\\\Model\\\\Service::watch',
         -1,
         -1,
         -1,
@@ -36,7 +47,7 @@ try {
 
     Feature::installCronjob(
         __('Cabride, payouts.'),
-        'CabrideService::bulk',
+        '\\\\Cabride\\\\Model\\\\Service::bulk',
         0,
         -1,
         -1,

@@ -46,14 +46,14 @@ class Service extends Base
         self::$basePath = path();
         self::$logPath = path('/var/log/cabride.log');
         self::$baseNode = path('/app/local/modules/Cabride/resources/server');
-        self::$binPath = path('/app/local/modules/Cabride/resources/server/bin/node_64');
+        self::$binPath = path('/lib/Siberian/bin/node_64');
         self::$serverPid = path('/app/local/modules/Cabride/resources/server/server.pid');
 
         // Special dev case!
         try {
             exec('uname', $uname);
-            if (strpos(strtolower(implode('', $uname)), 'arwin') !== false) {
-                self::$binPath = self::$binPath . '.osx';
+            if (stripos(implode('', $uname), 'arwin') !== false) {
+                self::$binPath .= '.osx';
             }
         } catch (\Exception $e) {
             //Nope!

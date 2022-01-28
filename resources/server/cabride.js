@@ -158,27 +158,29 @@ const functions = {
                 localParams.sbToken;
 
             try {
-                request(uri, {
-                    method: 'POST',
-                    json: true,
-                    body: localParams,
-                    headers: requestDefaultHeaders,
-                    responseType: 'json'
-                }, function (error, payload, response) {
-                    functions.log('requestApi', payload);
-                    if (error || response.statusCode === 400) {
-                        promise.reject({
-                            'error': true,
-                            'message': (payload) ?
-                                payload.message : 'Unknown API error!'
-                        });
-                    } else {
-                        promise.resolve({
-                            'success': true,
-                            'payload': payload
-                        });
+                axios.post(
+                    uri,
+                    localParams,
+                    {
+                        responseType: 'json',
+                        httpsAgent: httpsAgent,
+                        headers: requestDefaultHeaders
                     }
+                ).then(function (response) {
+                    functions.log('requestApi::success', response);
+                    promise.resolve({
+                        'success': true,
+                        'payload': response.data
+                    });
+                }).catch(function (error) {
+                    functions.log('requestApi::error', error);
+                    promise.reject({
+                        'error': true,
+                        'message': (error.response.data.message) ?
+                            error.response.data.message : 'Unknown API error!'
+                    });
                 });
+
             } catch (e) {
                 promise.reject({
                     'error': true,

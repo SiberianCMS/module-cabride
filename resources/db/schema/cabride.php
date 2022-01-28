@@ -60,13 +60,8 @@ $schemas['cabride'] = [
         'type' => 'float',
         'default' => '10'
     ],
-    'accepted_payments' => [ // CB, Cash, All
+    'payment_gateways' => [
         'type' => 'text',
-        'charset' => 'utf-8',
-        'collation' => 'utf8_unicode_ci',
-    ],
-    'payment_provider' => [ // stripe (only)
-        'type' => 'varchar(64)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
