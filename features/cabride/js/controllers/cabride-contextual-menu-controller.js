@@ -20,35 +20,38 @@ angular.module('starter')
      * @param identifier
      */
     $scope.loadPage = function (identifier) {
-        $rootScope.$broadcast("sideMenu.close");
+        $rootScope.$broadcast('sideMenu.close');
 
         switch (identifier) {
-            case "my-rides":
-                $state.go("cabride-my-rides");
+            case 'my-rides':
+                $state.go('cabride-my-rides');
                 break;
-            case "my-payments":
-                $state.go("cabride-my-payments");
+            case 'my-payments':
+                $state.go('cabride-my-payments');
                 break;
-            case "cabride-home":
-                $state.go("cabride-home");
+            case 'cabride-home':
+                $state.go('cabride-home');
                 break;
-            case "pending-requests":
-                $state.go("cabride-pending-requests");
+            case 'pending-requests':
+                $state.go('cabride-pending-requests');
                 break;
-            case "accepted-requests":
-                $state.go("cabride-accepted-requests");
+            case 'accepted-requests':
+                $state.go('cabride-accepted-requests');
                 break;
-            case "completed-rides":
-                $state.go("cabride-completed-rides");
+            case 'completed-rides':
+                $state.go('cabride-completed-rides');
                 break;
-            case "cancelled":
-                $state.go("cabride-cancelled");
+            case 'declined-rides':
+                $state.go('cabride-declined-rides');
                 break;
-            case "vehicle-information":
-                $state.go("cabride-vehicle-information");
+            case 'cancelled-rides':
+                $state.go('cabride-cancelled-rides');
                 break;
-            case "payment-history":
-                $state.go("cabride-payment-history");
+            case 'vehicle-information':
+                $state.go('cabride-vehicle-information');
+                break;
+            case 'payment-history':
+                $state.go('cabride-payment-history');
                 break;
         }
     };

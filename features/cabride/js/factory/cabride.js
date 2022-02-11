@@ -203,6 +203,15 @@ angular.module('starter')
             });
         };
 
+        factory.getDeclinedRides = function () {
+            return $pwaRequest.post('/cabride/mobile_ride/declined', {
+                urlParams: {
+                    value_id: factory.value_id
+                },
+                cache: false
+            });
+        };
+
         factory.getCancelledRides = function () {
             return $pwaRequest.post('/cabride/mobile_ride/cancelled', {
                 urlParams: {

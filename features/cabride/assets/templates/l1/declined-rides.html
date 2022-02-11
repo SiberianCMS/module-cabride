@@ -1,0 +1,37 @@
+<ion-view sb-page-background
+          class="cabride cabride-view cabride-pending">
+    <ion-nav-title>{{ pageTitle }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="refresh()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+
+        <button ng-if="!isTaxiLayout()"
+                ng-click="openMenu()"
+                class="button button-clear header-item cabride toggle-taxi-menu">
+            <i class="icon ion-sb-more"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <div ng-if="isLoading"
+             class="loader">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div ng-if="!isLoading">
+            <div ng-show="collection.length == 0"
+                 class="list">
+                <div class="item item-custom text-center">{{ ::'You have no declined requests' | translate:'cabride' }}</div>
+            </div>
+
+            <div ng-if="collection.length > 0"
+                 class="list">
+                <driver-request request="request"
+                                ng-repeat="request in collection"></driver-request>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

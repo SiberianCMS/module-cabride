@@ -61,6 +61,24 @@ angular.module('starter')
             return moment().add(parseInt(request.expires_in, 10), 'seconds').fromNow();
         };
 
+        factory.reason = function (request) {
+            switch (request.cancel_reason) {
+                case 'passenger-not-here':
+                    return $translate.instant('Passenger was not here', 'cabride');
+                case 'passenger-cancelled':
+                    return $translate.instant('Passenger cancelled', 'cabride');
+                case 'incorrect-pickup-location':
+                    return $translate.instant('Pickup location was incorrect', 'cabride');
+                case 'driver-cancelled':
+                    return $translate.instant('Driver cancelled', 'cabride');
+                case 'other':
+                    return $translate.instant('Other', 'cabride') + ': ' + request.cancel_note;
+                case 'eta-too-long':
+                    return $translate.instant('The ETA was too long', 'cabride');
+            }
+            return $translate.instant('cabride', 'Unknown reason');
+        };
+
         factory.details = function (request, pov) {
             Cabride.requestDetailsModal($rootScope.$new(true), request.request_id, pov);
         };

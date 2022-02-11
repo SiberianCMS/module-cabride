@@ -46,11 +46,18 @@
     <div ng-if="request.type == 'tour'"
          class="row course-actions">
         <div class="action-start"
-             ng-class="{'col-45': showPassengerPhone, 'col-65': !showPassengerPhone}">
+             ng-class="{'col-25': showPassengerPhone, 'col-45': !showPassengerPhone}">
             <button ng-click="driveToPassenger(request)"
                     class="button button-full button-assertive button-assertive-custom">
                 <span class="cabride-drive-to">{{ ::'DRIVE TO' | translate:'cabride' }}</span>
                 <span class="cabride-target">{{ ::'CLIENT' | translate:'cabride' }}</span>
+            </button>
+        </div>
+        <div class="col-20 action-call">
+            <button ng-click="complete(request)"
+                    class="button button-full button-positive button-positive-custom">
+                <span class="cabride-drive-to">{{ ::'MARK AS' | translate:'cabride' }}</span>
+                <span class="cabride-target">{{ ::'COMPLETED' | translate:'cabride' }}</span>
             </button>
         </div>
         <div class="col-20 action-call">

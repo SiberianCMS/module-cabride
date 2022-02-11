@@ -2152,6 +2152,17 @@ msgctxt "cabride"
 msgid "Pricing & number of seats mode"
 msgstr "Pricing & number of seats mode"
 
+# GMT 1581668075.8044
+#, mobile
+msgctxt "cabride"
+msgid "Declined"
+msgstr "Declined"
+
+# GMT 1581668075.8045
+#, mobile
+msgctxt "cabride"
+msgid "Information & vehicle type"
+msgstr "Information & vehicle type"
 
 
 

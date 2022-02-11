@@ -34,7 +34,7 @@ angular.module('starter')
             .alert("", payload.message, "OK", 2350)
             .then(function () {
                 Loader.hide();
-                $state.go("cabride-cancelled");
+                $state.go("cabride-declined-rides");
             });
         }, function (error) {
             Dialog.alert("Error", error.message, "OK", -1, "cabride");

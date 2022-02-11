@@ -53,10 +53,17 @@
             "cache": false
         },
         {
-            "state": "cabride-cancelled",
-            "controller": "CabrideCancelled",
+            "state": "cabride-declined-rides",
+            "controller": "CabrideDeclinedRides",
+            "url": "cabride/mobile_declined_requests/index",
+            "template": "l1/declined-rides.html",
+            "cache": false
+        },
+        {
+            "state": "cabride-cancelled-rides",
+            "controller": "CabrideCancelledRides",
             "url": "cabride/mobile_cancelled_requests/index",
-            "template": "l1/cancelled.html",
+            "template": "l1/cancelled-rides.html",
             "cache": false
         },
         {
@@ -106,7 +113,8 @@
         "js/directives/driver-request.js",
         "js/filters/cabride-status-filter.js",
         "js/controllers/cabride-accepted-requests.js",
-        "js/controllers/cabride-cancelled.js",
+        "js/controllers/cabride-declined-rides.js",
+        "js/controllers/cabride-cancelled-rides.js",
         "js/controllers/cabride-completed-rides.js",
         "js/controllers/cabride-contextual-menu-controller.js",
         "js/controllers/cabride-home.js",
@@ -125,6 +133,7 @@
     "compile": true,
     "use_account": true,
     "use_mobile": true,
+    "use_critical_push": true,
     "only_once": true,
     "load_on_start": true,
     "on_start_factory": "Cabride"

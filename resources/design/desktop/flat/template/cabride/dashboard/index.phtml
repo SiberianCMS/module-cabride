@@ -19,12 +19,12 @@ $cu = $cabride->getCurrency();
 
 $payments = (new Payment())->findAll(
     [
-        "value_id = ?" => $valueId,
-        "status = ?" => "paid"
+        'value_id = ?' => $valueId,
+        'status = ?' => 'paid'
     ],
-    "created_at DESC",
+    'created_at DESC',
     [
-        "limit" => 100,
+        'limit' => 100,
     ]
 );
 
@@ -123,7 +123,7 @@ $stats = (new Payment())->aggregateDashboard($valueId);
                                         <b>#<?php echo $payment->getId(); ?></b>
                                     </td>
                                     <td>
-                                        <?php if ($payment->getMethod() === "credit-card"): ?>
+                                        <?php if ($payment->getMethod() === 'credit-card'): ?>
                                             <img style="height: 20px;"
                                                  src="/app/local/modules/Cabride/features/cabride/assets/templates/images/009-credit-card.svg" />
                                             <span><?php echo p__("cabride", "Credit card") ?></span>

@@ -3,7 +3,6 @@
 use Cabride\Model\Cabride;
 use Cabride\Model\Driver;
 use Cabride\Model\Payment;
-use Cabride\Model\ClientVault;
 use Cabride\Model\Cashreturn;
 use Cabride\Model\Payout;
 use Core\Model\Base;
@@ -26,16 +25,16 @@ class Cabride_Mobile_DriverController extends MobileController
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
 
-            $cabride = (new Cabride())->find($valueId, "value_id");
-            $driver = (new Driver())->find($customerId, "customer_id");
+            $cabride = (new Cabride())->find($valueId, 'value_id');
+            $driver = (new Driver())->find($customerId, 'customer_id');
             $payments = (new Payment())->findAll(
                 [
-                    "driver_id = ?" => $driver->getId(),
-                    "status = ?" => "paid",
+                    'driver_id = ?' => $driver->getId(),
+                    'status = ?' => 'paid',
                 ],
-                "payment_id DESC",
+                'payment_id DESC',
                 [
-                    "limit" => 100
+                    'limit' => 100
                 ]
             );
 
@@ -44,23 +43,21 @@ class Cabride_Mobile_DriverController extends MobileController
             foreach ($payments as $payment) {
                 $data = $payment->getData();
 
-                $vault = (new ClientVault())->find($payment->getClientVaultId());
-                $vaultData = [
-                    "brand" => $vault->getBrand(),
-                    "ext" => $vault->getExp(),
+                $data['vault'] = [
+                    'last' => $data['last'],
+                    'brand' => $data['brand'],
+                    'exp' => $data['exp'],
                 ];
 
-                $data["vault"] = $vaultData;
-
-                $data["formatted_amount"] = Base::_formatPrice($data["amount"], $cabride->getCurrency());
-                $data["formatted_commission_amount"] = Base::_formatPrice($data["commission_amount"], $cabride->getCurrency());
-                $data["formatted_payout"] = Base::_formatPrice($data["amount"] - $data["commission_amount"], $cabride->getCurrency());
+                $data['formatted_amount'] = Base::_formatPrice($data['amount'], $cabride->getCurrency());
+                $data['formatted_commission_amount'] = Base::_formatPrice($data['commission_amount'], $cabride->getCurrency());
+                $data['formatted_payout'] = Base::_formatPrice($data['amount'] - $data['commission_amount'], $cabride->getCurrency());
 
                 switch ($payment->getMethod()) {
-                    case "credit-card":
+                    case 'credit-card':
                         $cardPayments[] = $data;
                         break;
-                    case "cash":
+                    case 'cash':
                         $cashPayments[] = $data;
                         break;
                 }
@@ -68,8 +65,8 @@ class Cabride_Mobile_DriverController extends MobileController
 
             $cashReturns = (new Cashreturn())->findAll(
                 [
-                    "driver_id = ?" => $driver->getId(),
-                    "status = ?" => "requested",
+                    'driver_id = ?' => $driver->getId(),
+                    'status = ?' => 'requested',
                 ]
             );
 
@@ -77,9 +74,9 @@ class Cabride_Mobile_DriverController extends MobileController
             foreach ($cashReturns as $cashReturn) {
                 $data = $cashReturn->getData();
 
-                $data["formatted_total"] = Base::_formatPrice($data["amount"], $cabride->getCurrency());
-                $data["period_from_timestamp"] = datetime_to_format($data["period_from"], Zend_Date::TIMESTAMP);
-                $data["period_to_timestamp"] = datetime_to_format($data["period_to"], Zend_Date::TIMESTAMP);
+                $data['formatted_total'] = Base::_formatPrice($data['amount'], $cabride->getCurrency());
+                $data['period_from_timestamp'] = datetime_to_format($data['period_from'], Zend_Date::TIMESTAMP);
+                $data['period_to_timestamp'] = datetime_to_format($data['period_to'], Zend_Date::TIMESTAMP);
 
                 $dataCashReturns[] = $data;
             }
@@ -94,8 +91,8 @@ class Cabride_Mobile_DriverController extends MobileController
 
             $payouts = (new Payout())->findAll(
                 [
-                    "driver_id = ?" => $driver->getId(),
-                    "status = ?" => "inprogress",
+                    'driver_id = ?' => $driver->getId(),
+                    'status = ?' => 'inprogress',
                 ]
             );
 
@@ -103,29 +100,29 @@ class Cabride_Mobile_DriverController extends MobileController
             foreach ($payouts as $payout) {
                 $data = $payout->getData();
 
-                $data["formatted_total"] = Base::_formatPrice($data["amount"], $cabride->getCurrency());
-                $data["period_from_timestamp"] = datetime_to_format($data["period_from"], Zend_Date::TIMESTAMP);
-                $data["period_to_timestamp"] = datetime_to_format($data["period_to"], Zend_Date::TIMESTAMP);
+                $data['formatted_total'] = Base::_formatPrice($data['amount'], $cabride->getCurrency());
+                $data['period_from_timestamp'] = datetime_to_format($data['period_from'], Zend_Date::TIMESTAMP);
+                $data['period_to_timestamp'] = datetime_to_format($data['period_to'], Zend_Date::TIMESTAMP);
 
                 $dataPayouts[] = $data;
             }
 
             $payload = [
-                "success" => true,
-                "collections" => [
-                    "cashPayments" => $cashPayments,
-                    "cardPayments" => $cardPayments,
+                'success' => true,
+                'collections' => [
+                    'cashPayments' => $cashPayments,
+                    'cardPayments' => $cardPayments,
                 ],
-                "wording" => [
-                    "paymentsPeriod" => p__('cabride', $payoutPeriodText)
+                'wording' => [
+                    'paymentsPeriod' => p__('cabride', $payoutPeriodText)
                 ],
-                "cashReturns" => $dataCashReturns,
-                "pendingPayouts" => $dataPayouts,
+                'cashReturns' => $dataCashReturns,
+                'pendingPayouts' => $dataPayouts,
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 

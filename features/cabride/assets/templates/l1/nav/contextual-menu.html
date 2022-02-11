@@ -116,7 +116,18 @@
 
             <li class="lines border-custom"
                 ng-if="isLoggedIn && isDriver"
-                ng-click="loadPage('cancelled')">
+                ng-click="loadPage('cancelled-rides')">
+                <div class="line-box">
+                    <i class="line-icon icon ion-admin-trash"></i>
+                    <span class="line-title">
+                        {{ ::'Cancelled' | translate:'cabride' }}
+                    </span>
+                </div>
+            </li>
+
+            <li class="lines border-custom"
+                ng-if="isLoggedIn && isDriver"
+                ng-click="loadPage('declined-rides')">
                 <div class="line-box">
                     <i class="line-icon icon ion-cab-cancel"></i>
                     <span class="line-title">

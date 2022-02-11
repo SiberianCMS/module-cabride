@@ -6,6 +6,9 @@
         <div>
             <span class="course-status {{ request.driver_status }}">{{ request.driver_status | translate:'cabride' }}</span>
 
+            <span ng-show="request.driver_status == 'aborted'"
+                  class="course-expiration {{ request.driver_status }}">{{ reason(request) }}</span>
+
             <span ng-if="request.course_rating > 0"
                   class="course-rating {{ request.status }}">
                 <i class="icon icon-rate-list {{ getRatingIcon(request, 1) }}"></i>

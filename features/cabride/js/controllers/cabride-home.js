@@ -623,10 +623,7 @@ angular.module('starter')
                 amountExtra: $translate.instant('This is a pre-authorization, you will only be charged after the ride is completed.', 'payment_demo'),
                 authorizeLoaderMessage: $translate.instant('Authorizing payment...', 'payment_demo')
             },
-            methods: [
-                'stripe',
-                'cash'
-            ],
+            methods: Cabride.settings.paymentGateways,
             elementsStyle: {
                 base: {
                     color: "#32325d",
@@ -644,6 +641,7 @@ angular.module('starter')
             },
             enableVaults: true,
             payment: {
+                currency: Cabride.settings.currency.code,
                 amount: $scope.vehicleType.pricingValue,
                 formattedAmount: $scope.vehicleType.pricing,
                 recap: $scope.textRecap()
@@ -651,13 +649,14 @@ angular.module('starter')
             actions: [
                 PaymentMethod.ACTION_AUTHORIZE
             ],
+            valueId: Cabride.getValueId(),
             settings: Cabride.settings,
             onSelect: function (options) {
                 console.log('onSelect', options);
             },
             onSuccess: function (options) {
                 console.log('onSuccess', options);
-                $scope.validateRequest(options);
+                $scope.validateRequest(options.paymentId);
             },
             onError: function (options) {
                 console.log('onError', options);

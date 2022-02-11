@@ -167,12 +167,15 @@ class Request extends Core_Model_Db_Table
             ->group("request.request_id");
 
         // We only show declined requests, if they still are pending!
-        if ($status === "declined") {
-            $select->where("request.status = ?", "pending");
+        if ($status === 'declined') {
+            $select->where('request.status = ?', 'pending');
+        }
+        if ($status === 'cancelled') {
+            $select->where('request.status = ?', 'aborted');
         }
 
         // Only fetch pending/declined if they are not expired too!
-        if (in_array($status, ["pending", "declined"])) {
+        if (in_array($status, ['pending', 'declined'])) {
             $select->where("request.expires_at > ?", $now);
         }
 

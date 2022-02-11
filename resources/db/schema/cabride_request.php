@@ -26,13 +26,16 @@ $schemas['cabride_request'] = [
     'value_id' => [
         'type' => 'int(11) unsigned',
     ],
-    'client_vault_id' => [
+    'client_vault_id' => [ // Deprecated in favor of `payment_id` from PaymentMethod
         'type' => 'int(11) unsigned',
         'null' => true,
     ],
     'payment_type' => [ // "credit-card" (vault = client_vault_id), "cash"
         'type' => 'varchar(64)',
         'null' => true,
+    ],
+    'payment_id' => [ // paymentId from PaymentMethod
+        'type' => 'int(11) unsigned',
     ],
     'type' => [
         'type' => 'varchar(128)',

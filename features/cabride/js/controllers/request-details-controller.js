@@ -62,11 +62,11 @@ angular.module('starter')
 
     $scope.canCancel = function (request) {
         var statuses = [];
-        if ($scope.userType === "driver") {
-            statuses = ["accepted", "onway", "inprogress", "aborted"];
+        if ($scope.userType === 'driver') {
+            statuses = ['accepted', 'onway', 'inprogress'];
         }
-        if ($scope.userType === "client") {
-            statuses = ["pending", "accepted", "onway", "inprogress", "aborted"];
+        if ($scope.userType === 'client') {
+            statuses = ['pending', 'accepted', 'onway', 'inprogress'];
         }
 
         return statuses.indexOf(request.status) >= 0;

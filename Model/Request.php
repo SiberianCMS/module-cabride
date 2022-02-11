@@ -158,13 +158,15 @@ class Request extends Base
      * @param $staticMap
      * @param $customFormFields
      * @param $source
+     * @param $type
+     * @param $seats
      * @return $this
      * @throws Exception
      * @throws \Zend_Currency_Exception
      * @throws \Zend_Exception
      */
     public function createRideRequest($clientId, $vehicleType, $valueId, $drivers, $cashOrVault, $route, $ride,
-                                      $staticMap, $customFormFields, $source, $type = 'course', $seats = 1)
+                                      $staticMap, $customFormFields, $source, $type = 'course', $seats = 1): self
     {
         $travel = $route["request"];
         if ($type === 'course') {
@@ -301,13 +303,15 @@ class Request extends Base
      * @param $staticMap
      * @param $customFormFields
      * @param $source
+     * @param $type
+     * @param $seats
      * @return $this
      * @throws Exception
      * @throws \Zend_Currency_Exception
      * @throws \Zend_Exception
      */
     public function createRideRequestV2($clientId, $vehicleType, $valueId, $drivers, $paymentId, $route, $ride,
-                                      $staticMap, $customFormFields, $source, $type = 'course', $seats = 1)
+                                      $staticMap, $customFormFields, $source, $type = 'course', $seats = 1): self
     {
         $travel = $route["request"];
         if ($type === 'course') {
@@ -367,11 +371,16 @@ class Request extends Base
             }
         }
 
+        $paymentMethod = \PaymentMethod\Model\Payment::createOrGetFromModal($paymentId);
+        $gateway = $paymentMethod->gateway();
+
         $this
             ->setValueId($valueId)
             ->setClientId($clientId)
             ->setType($type)
             ->setSeats($seats)
+            ->setPaymentType($gateway::$paymentMethod)
+            ->setPaymentId($paymentId)
             ->setVehicleId($vehicleType->getId())
             ->setStaticImage($staticMap)
             ->setEstimatedCost($highestCost)
@@ -388,15 +397,6 @@ class Request extends Base
             ->setCustomFormFields($customFormFields)
             ->setRawRoute(Json::encode($route));
 
-        // @todo paymentId from PaymentMethod
-        if ($cashOrVault === "cash") {
-            $this->setPaymentType("cash");
-        } else {
-            $this
-                ->setPaymentType("credit-card")
-                ->setClientVaultId($cashOrVault["vaultId"]);
-        }
-
         // Drivers
         $now = time();
         $expires = $now + $cabride->getSearchTimeout();
@@ -408,7 +408,7 @@ class Request extends Base
 
         $sentToDrivers = false;
         foreach ($drivers as $index => $driver) {
-            $driverId = $driver["driver_id"];
+            $driverId = $driver['driver_id'];
             $_tmpDriver = (new Driver())->find($driverId);
             if ($_tmpDriver->getId()) {
                 // Link & notify drivers
@@ -416,7 +416,7 @@ class Request extends Base
                 $requestDriver
                     ->setRequestId($this->getId())
                     ->setDriverId($driverId)
-                    ->setStatus("pending")
+                    ->setStatus('pending')
                     ->setRequestedAt($now)
                     ->setExpiresAt($expires)
                     ->save();
@@ -426,11 +426,11 @@ class Request extends Base
         }
 
         if (!$sentToDrivers) {
-            throw new Exception(p__("cabride",
-                "We are sorry, but an error occurred while sending your request to the available drivers!"));
+            throw new Exception(p__('cabride',
+                'We are sorry, but an error occurred while sending your request to the available drivers!'));
         }
 
-        $this->changeStatus("pending", $source);
+        $this->changeStatus('pending', $source);
 
         return $this;
     }
@@ -494,7 +494,7 @@ class Request extends Base
         $status = $this->getStatus();
 
         switch ($status) {
-            case "pending":
+            case 'pending':
                 // Notify all drivers found!
                 $requestDrivers = (new RequestDriver())->findAll([
                     "request_id = ?" => $requestId,
@@ -522,7 +522,7 @@ class Request extends Base
                 }
 
                 break;
-            case "accepted":
+            case 'accepted':
                 // Send push to passenger!
                 $title = p__("cabride",
                     "Ride accepted!");
@@ -540,7 +540,7 @@ class Request extends Base
                         $status, $actionUrl, $valueId, $appId);
                 }
                 break;
-            case "onway":
+            case 'onway':
                 // Send push to passenger!
                 $title = p__("cabride",
                     "Driver on your way!");
@@ -560,10 +560,10 @@ class Request extends Base
                 }
 
                 break;
-            case "inprogress":
+            case 'inprogress':
 
                 break;
-            case "declined":
+            case 'declined':
                 // Inform the user it's over (Request changes to 'decline' only if all drivers declined it)
                 $title = p__("cabride",
                     "No drivers found!");
@@ -612,6 +612,9 @@ class Request extends Base
                 // Client aborted AND a driver already accepted
                 if ($source === Request::SOURCE_CLIENT &&
                     $this->getDriverId()) {
+
+                    // URL for driver
+                    $actionUrl = "/{$appKey}/cabride/mobile_cancelled_requests/index";
 
                     $message = p__("cabride",
                         "We are sorry, but the passenger cancelled the ride!");
