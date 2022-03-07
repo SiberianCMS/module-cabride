@@ -59,25 +59,6 @@ try {
         $module->getId()
     );
 
-    # Chmod +x allow for execution
-    exec('chmod +x ' .
-        path('/app/local/modules/Cabride/resources/server/bin/') .
-        '*');
-
-    $binPath = false;
-
-    # MacOSX
-    $is_darwin = exec('uname');
-    if (strpos($is_darwin, 'arwin') !== false) {
-        $binPath = path('/app/local/modules/Cabride/resources/server/bin/node_64.osx');
-    } else {
-        $bin64 = path('/app/local/modules/Cabride/resources/server/bin/node_64');
-        exec($bin64 . ' --version 2>&1', $output, $returnVal);
-
-        if ($returnVal === 0) {
-            $binPath = $bin64;
-        }
-    }
 } catch (\Exception $e) {
     $binPath = false;
 }

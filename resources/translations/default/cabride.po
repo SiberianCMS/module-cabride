@@ -2164,5 +2164,14 @@ msgctxt "cabride"
 msgid "Information & vehicle type"
 msgstr "Information & vehicle type"
 
+# GMT 1581668075.8046
+msgctxt "cabride"
+msgid "Bulk exports are only generated when there is at least 1 payment during the given period."
+msgstr "Bulk exports are only generated when there is at least 1 payment during the given period."
+
+# GMT 1581668075.8047
+msgctxt "cabride"
+msgid "N.A."
+msgstr "N.A."
 
 

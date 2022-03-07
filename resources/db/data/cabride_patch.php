@@ -1,7 +1,8 @@
 <?php
 
 $requests = [
-    // Emptied!
+    // 4.0.0 - cleanup empty builk exports*
+    "DELETE FROM `cabride_payout_bulk` WHERE `total` = 0 AND `driver_ids` = '' AND `payout_ids` = '' AND `payment_ids` = '';"
 ];
 
 foreach ($requests as $request) {

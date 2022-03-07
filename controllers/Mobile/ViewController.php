@@ -141,6 +141,7 @@ class Cabride_Mobile_ViewController extends MobileController
                     'showPassengerPhoto' => (bool) $dbConfig->getShowPassengerPhoto(),
                     'showPassengerName' => (bool) $dbConfig->getShowPassengerName(),
                     'showPassengerPhone' => (bool) $dbConfig->getShowPassengerPhone(),
+                    'canMakeOffer' => (bool) $dbConfig->getCanMakeOffer(),
                 ]
             ];
 

@@ -17,6 +17,14 @@ angular.module('starter')
         }
     };
 
+    $scope.canMakeOffer = function () {
+        return Cabride.settings.canMakeOffer;
+    };
+
+    $scope.getCurrency = function () {
+        return Cabride.settings.currency;
+    };
+
     $scope.resetFields = function () {
         Cabride.settings.customFormFieldsUser = angular.copy(Cabride.settings.customFormFields);
     };
@@ -35,6 +43,46 @@ angular.module('starter')
     $scope.validate = function () {
         if ($scope.customFormIsValid()) {
             $scope.selectVehicle($scope.currentVehicleType);
+        }
+    };
+
+    $scope.makeOffer = function () {
+        if ($scope.customFormIsValid()) {
+
+            Dialog
+                .prompt(
+                    'Make an offer',
+                    'Please type down the amount you want to offer for this ride!',
+                    'number',
+                    '',
+                    ['CONFIRM', 'CANCEL'],
+                    -1,
+                    'cabride')
+                .then(function (amount) {
+
+                    var currency = $scope.getCurrency();
+                    var current = parseFloat(amount);
+                    if (!Number.isFinite(current) ||
+                        current <= 0) {
+                        Dialog.alert('Error', 'The offered amount is not valid!', 'OK', -1, 'cabride');
+                        return;
+                    }
+
+                    var formattedAmount = amount.toFixed(currency.decimal_digits) + ' ' + currency.symbol;
+                    var textParts = [
+                        $translate.instant('You are about to offer', 'cabride'),
+                        formattedAmount,
+                        $translate.instant('Please confirm!', 'cabride'),
+                    ];
+
+                    Dialog
+                        .confirm('Your offer', textParts.join('<br />'),['YES', 'NO'], '', 'cabride')
+                        .then(function (confirm) {
+                            if (confirm) {
+                                $scope.selectVehicle($scope.currentVehicleType);
+                            }
+                        });
+                })
         }
     };
 

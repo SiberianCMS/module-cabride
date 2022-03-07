@@ -140,7 +140,7 @@ $averageCost = Base::_formatPrice($avgCost, $cu);
                     </div>
 
                     <div class="col-md-12">
-                        <table class="table content-white-bkg sb-pager margin-top">
+                        <table class="table content-white-bkg sb-pager margin-top high-contrast">
                             <thead>
                             <tr class="border-grey">
                                 <th class="sortable numeric"><?php echo p__("cabride", "ID"); ?></th>
@@ -157,7 +157,7 @@ $averageCost = Base::_formatPrice($avgCost, $cu);
                             </thead>
                             <tbody>
                             <?php foreach ($rides as $ride): ?>
-                                <tr class="sb-pager">
+                                <tr class="sb-pager <?php echo $ride->getStatus() ?>">
                                     <td>
                                         <b>#<?php echo $ride->getId(); ?></b>
                                     </td>
@@ -168,12 +168,18 @@ $averageCost = Base::_formatPrice($avgCost, $cu);
                                         </a>
                                     </td>
                                     <td>
+                                        <?php if ($ride->getDriverId() > 0): ?>
                                         <a class="btn btn-xs btn-info"
                                            href="<?php echo __path("/cabride/driver/edit", [
                                                "driver_id" => $ride->getDriverId()
                                            ]); ?>">
                                             #<?php echo $ride->getDriverId(); ?>
                                         </a>
+                                        <?php else: ?>
+                                        <span class="label <?php echo colorForStatus($ride->getStatus()) ?>">
+                                            <?php echo p__('cabride', 'N.A.') ?>
+                                        </span>
+                                        <?php endif; ?>
                                     </td>
                                     <td class="text-right">
                                         <?php echo round($ride->getDistance() / 1000, 1); ?> <?php echo $du ?>
@@ -291,5 +297,21 @@ $averageCost = Base::_formatPrice($avgCost, $cu);
 
     .alert-danger p.income-more {
         background-color: #823231;
+    }
+
+    table.high-contrast {
+        color: #202020;
+    }
+    table.high-contrast tr {
+        border-bottom: 1px solid #e2e2e2;
+    }
+    table.high-contrast tr.done {
+        border-left: 4px solid #5cb85c;
+    }
+    table.high-contrast tr.aborted {
+        border-left: 4px solid #d9534f;
+    }
+    table.high-contrast tr.expired {
+        border-left: 4px solid #f0ad4e;
     }
 </style>

@@ -54,6 +54,11 @@ function cabrideOverrideEditorTranslations ($payload) {
 
 $init = static function ($bootstrap) {
 
+    if (method_exists(PaymentMethod\Model\Gateway::class, 'use')) {
+        PaymentMethod\Model\Gateway::use('cash');
+        PaymentMethod\Model\Gateway::use('stripe');
+    }
+
     // Register API!
     Api::register('cabride', __('CabRide'), [
         'settings' => __('Settings'),
