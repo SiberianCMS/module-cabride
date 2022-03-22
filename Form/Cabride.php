@@ -213,6 +213,8 @@ RAW;
 RAW;
         $this->addSimpleHtml('tour_hint', $tourHint);
 
+        $canMakeOffer = $this->addSimpleCheckbox('can_make_offer', p__('cabride', 'Allow customers to offer a custom price?'));
+
         $this->groupElements('payment_gateways', $gatewaysList, p__('cabride', 'Payment gateways'));
 
         $this->groupElements('payments',
@@ -226,7 +228,8 @@ RAW;
                 'seats_default',
                 'seats_default_hint',
                 'enable_tour',
-                'tour_hint'
+                'tour_hint',
+                'can_make_offer'
             ],
             p__('cabride', 'Payments'));
 

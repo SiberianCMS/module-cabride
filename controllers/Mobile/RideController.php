@@ -695,7 +695,6 @@ class Cabride_Mobile_RideController extends MobileController
                 foreach ($fareKeyValue as $key => $value) {
                     $data[$key] = ($data[$value] > 0) ?
                         Base::_formatPrice($data[$value], $cabride->getCurrency()) : 0;
-                    $data[$key] = (float) $data[$key];
                 }
 
                 $types[] = $data;

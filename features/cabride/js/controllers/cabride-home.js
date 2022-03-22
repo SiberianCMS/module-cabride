@@ -572,9 +572,11 @@ angular.module('starter')
         });
     };
 
-    $scope.selectVehicle = function (vehicleType) {
+    $scope.selectVehicle = function (vehicleType, customAmount) {
         // Payment modal
         $scope.vehicleType = vehicleType;
+        $scope.customAmount = typeof customAmount !== 'undefined' ?
+            customAmount : false;
         $scope.paymentTypeModal();
     };
 
@@ -611,11 +613,24 @@ angular.module('starter')
 
         console.log('paymentTypes', paymentTypes);
 
+        // Checking if a custom amount is parsed
+        var amount = $scope.vehicleType.pricingValue;
+        var formattedAmount = $scope.vehicleType.pricing;
+
+        $scope.hasCustomOffer = false;
+        if (Cabride.settings.canMakeOffer &&
+            $scope.customAmount !== false) {
+            amount = $scope.vehicleType.pricingValue;
+            formattedAmount = $scope.customAmount.toFixed(Cabride.settings.currency.decimal_digits) + ' ' + Cabride.settings.currency.symbol;
+            $scope.hasCustomOffer = true;
+            $scope.customOfferAmount = amount;
+        }
+
         PaymentMethod.openModal($scope, {
             title: $translate.instant('Select a payment method', 'payment_demo'),
             type: PaymentMethod.AUTHORIZATION,
             display: {
-                amount: false,
+                amount: true,
                 recap: true
             },
             labels: {
@@ -642,8 +657,8 @@ angular.module('starter')
             enableVaults: true,
             payment: {
                 currency: Cabride.settings.currency.code,
-                amount: $scope.vehicleType.pricingValue,
-                formattedAmount: $scope.vehicleType.pricing,
+                amount: amount,
+                formattedAmount: formattedAmount,
                 recap: $scope.textRecap()
             },
             actions: [
@@ -673,7 +688,14 @@ angular.module('starter')
     $scope.validateRequest = function (paymentId) {
         Loader.show($translate.instant("Sending request ...", "cabride"));
         Cabride
-        .validateRequest($scope.vehicleType, $scope.currentRoute, $scope.ride, paymentId, Cabride.settings.customFormFieldsUser)
+        .validateRequest(
+            $scope.vehicleType,
+            $scope.currentRoute,
+            $scope.ride,
+            paymentId,
+            Cabride.settings.customFormFieldsUser,
+            $scope.hasCustomOffer,
+            $scope.customOfferAmount)
         .then(function (response) {
             Loader.hide();
             Dialog

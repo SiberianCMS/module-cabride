@@ -201,6 +201,10 @@ $schemas['cabride'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
+    'can_make_offer' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'custom_icon' => [ // currency
         'type' => 'mediumtext',
         'charset' => 'utf8',

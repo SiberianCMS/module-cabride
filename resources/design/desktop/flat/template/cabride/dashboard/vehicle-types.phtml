@@ -53,7 +53,9 @@ $vehicles = (new Vehicle())
                             <tbody>
                                 <?php foreach ($vehicles as $vehicle): ?>
                                     <tr class="sb-pager">
-                                        <td><?php echo $vehicle->getId(); ?></td>
+                                        <td>
+                                            <b>#<?php echo $vehicle->getId(); ?></b>
+                                        </td>
                                         <td>
                                             <img class="vehicle-type-icon"
                                                  src="<?php echo $vehicle->getIconUri(); ?>" />

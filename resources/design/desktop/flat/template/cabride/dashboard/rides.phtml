@@ -16,13 +16,7 @@ if (!$cabride->getId()) {
     $cabride->reload();
 }
 
-$rides = (new Request())->findAll([
-    "value_id = ?" => $valueId,
-], [
-    "created_at DESC"
-], [
-    "limit" => 1000 // Only 1000 last ride requests for now.
-]);
+$rides = (new Request())->findAllWithUsers($valueId);
 
 $du = $cabride->getDistanceUnit();
 $cu = $cabride->getCurrency();
@@ -94,6 +88,21 @@ if ($ratingItems > 0) {
 
 $averageCost = Base::_formatPrice($avgCost, $cu);
 
+$now = time();
+$ridesToday = (new Request())->ridesForDate($valueId, date('Y-m-d', $now) . '%');
+
+$week = $now;
+$ridesWeek = (new Request())->ridesForDate($valueId, date('Y-m-d', $week) . '%');
+$ridesWeek += (new Request())->ridesForDate($valueId, date('Y-m-d', $week-=86400) . '%');
+$ridesWeek += (new Request())->ridesForDate($valueId, date('Y-m-d', $week-=86400) . '%');
+$ridesWeek += (new Request())->ridesForDate($valueId, date('Y-m-d', $week-=86400) . '%');
+$ridesWeek += (new Request())->ridesForDate($valueId, date('Y-m-d', $week-=86400) . '%');
+$ridesWeek += (new Request())->ridesForDate($valueId, date('Y-m-d', $week-=86400) . '%');
+$ridesWeek += (new Request())->ridesForDate($valueId, date('Y-m-d', $week-=86400) . '%');
+
+$ridesMonth = (new Request())->ridesForDate($valueId, date('Y-m', $now) . '%');
+$ridesYear = (new Request())->ridesForDate($valueId, date('Y', $now) . '%');
+
 
 ?>
 <div class="row cabride-rides">
@@ -107,7 +116,7 @@ $averageCost = Base::_formatPrice($avgCost, $cu);
                 <div class="subcontent content-color">
 
                     <div class="col-md-3">
-                        <div class="alert alert-info">
+                        <div class="alert alert-info text-center">
                             <p class="dashboard-income"><?php echo $averageDistance ?> <?php echo $du ?></p>
                             <p class="income-more">
                                 <?php echo p__("cabride", "AVERAGE DISTANCE"); ?>
@@ -115,7 +124,7 @@ $averageCost = Base::_formatPrice($avgCost, $cu);
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="alert alert-warning">
+                        <div class="alert alert-warning text-center">
                             <p class="dashboard-income"><?php echo $averageDuration ?> mn</p>
                             <p class="income-more">
                                 <?php echo p__("cabride", "AVERAGE DURATION"); ?>
@@ -123,7 +132,7 @@ $averageCost = Base::_formatPrice($avgCost, $cu);
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="alert alert-success">
+                        <div class="alert alert-success text-center">
                             <p class="dashboard-income"><?php echo $averageCost ?></p>
                             <p class="income-more">
                                 <?php echo p__("cabride", "AVERAGE FARE"); ?>
@@ -131,10 +140,43 @@ $averageCost = Base::_formatPrice($avgCost, $cu);
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger text-center">
                             <p class="dashboard-income"><?php echo $averageRating ?> <i class="fa fa-star"></i></p>
                             <p class="income-more">
                                 <?php echo p__("cabride", "AVERAGE RATING"); ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="alert alert-warning text-center">
+                            <p class="dashboard-income"><?php echo $ridesToday ?></p>
+                            <p class="income-more">
+                                <?php echo p__("cabride", "RIDES TODAY"); ?>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="alert alert-success text-center">
+                            <p class="dashboard-income"><?php echo $ridesWeek ?></p>
+                            <p class="income-more">
+                                <?php echo p__("cabride", "RIDES LAST 7 DAYS"); ?>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="alert alert-danger text-center">
+                            <p class="dashboard-income"><?php echo $ridesMonth ?></p>
+                            <p class="income-more">
+                                <?php echo p__("cabride", "RIDES THIS MONTH"); ?>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="alert alert-info text-center">
+                            <p class="dashboard-income"><?php echo $ridesYear ?></p>
+                            <p class="income-more">
+                                <?php echo p__("cabride", "RIDES THIS YEAR"); ?>
                             </p>
                         </div>
                     </div>
@@ -146,6 +188,7 @@ $averageCost = Base::_formatPrice($avgCost, $cu);
                                 <th class="sortable numeric"><?php echo p__("cabride", "ID"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Client"); ?></th>
                                 <th class="sortable"><?php echo p__("cabride", "Driver"); ?></th>
+                                <th class="sortable numeric"><?php echo p__("cabride", "Date"); ?></th>
                                 <th class="sortable numeric text-right"><?php echo p__("cabride", "Dist. / Dur."); ?></th>
                                 <th class="sortable numeric text-right"><?php echo p__("cabride", "Est. cost"); ?></th>
                                 <th class="sortable numeric text-right"><?php echo p__("cabride", "Cost"); ?></th>
@@ -166,6 +209,8 @@ $averageCost = Base::_formatPrice($avgCost, $cu);
                                            href="<?php echo __path("/cabride/dashboard/users?q={$ride->getClientId()}"); ?>">
                                             #<?php echo $ride->getClientId(); ?>
                                         </a>
+                                        <br />
+                                        <?php echo sprintf("%s %s", $ride->getCustomerFirstname(), $ride->getCustomerLastname()) ?>
                                     </td>
                                     <td>
                                         <?php if ($ride->getDriverId() > 0): ?>
@@ -175,11 +220,17 @@ $averageCost = Base::_formatPrice($avgCost, $cu);
                                            ]); ?>">
                                             #<?php echo $ride->getDriverId(); ?>
                                         </a>
+                                        <br />
+                                        <?php echo sprintf("%s %s", $ride->getDriverFirstname(), $ride->getDriverLastname()) ?>
                                         <?php else: ?>
                                         <span class="label <?php echo colorForStatus($ride->getStatus()) ?>">
                                             <?php echo p__('cabride', 'N.A.') ?>
                                         </span>
                                         <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <span style="display: none"><?php echo datetime_to_format($ride->getCreatedAt(), Zend_Date::TIMESTAMP) ?></span>
+                                        <?php echo datetime_to_format($ride->getCreatedAt(), Zend_Date::DATETIME_SHORT) ?>
                                     </td>
                                     <td class="text-right">
                                         <?php echo round($ride->getDistance() / 1000, 1); ?> <?php echo $du ?>

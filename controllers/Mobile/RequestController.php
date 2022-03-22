@@ -325,6 +325,8 @@ class Cabride_Mobile_RequestController extends MobileController
             $route = $data['route'];
             $ride = $data['ride'] ?? null;
             $paymentId = $data['paymentId'];
+            $hasCustomOffer = $data['hasCustomOffer'] ?? false;
+            $customOfferAmount = $data['customOfferAmount'] ?? false;
             $gmapsKey = $application->getGooglemapsKey();
             $customFormFields = $data['customFormFields'];
 
@@ -375,7 +377,9 @@ class Cabride_Mobile_RequestController extends MobileController
                 $customFormFields,
                 Request::SOURCE_CLIENT,
                 $type,
-                $seats);
+                $seats,
+                $hasCustomOffer,
+                $customOfferAmount);
 
             $payload = [
                 'success' => true,

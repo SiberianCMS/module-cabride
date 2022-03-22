@@ -40,14 +40,32 @@ class Request extends Base
     const SOURCE_ADMIN = 'admin';
 
     /**
-     * Request constructor.
-     * @param array $params
+     * @var string
+     */
+    protected $_db_table = Db\Table\Request::class;
+
+    /**
+     * @param $valueId
+     * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
      * @throws \Zend_Exception
      */
-    public function __construct($params = [])
+    public function findAllWithUsers($valueId)
     {
-        parent::__construct($params);
-        $this->_db_table = Db\Table\Request::class;
+        return $this->getTable()->findAllWithUsers($valueId);
+    }
+
+    /**
+     * @param $valueId
+     * @param $date
+     * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
+     */
+    public function ridesForDate($valueId, $date)
+    {
+        return $this->getTable()->ridesForDate($valueId, $date);
     }
 
     /**
@@ -305,13 +323,16 @@ class Request extends Base
      * @param $source
      * @param $type
      * @param $seats
+     * @param $hasCustomOffer
+     * @param $customOfferAmount
      * @return $this
      * @throws Exception
      * @throws \Zend_Currency_Exception
      * @throws \Zend_Exception
      */
     public function createRideRequestV2($clientId, $vehicleType, $valueId, $drivers, $paymentId, $route, $ride,
-                                      $staticMap, $customFormFields, $source, $type = 'course', $seats = 1): self
+                                        $staticMap, $customFormFields, $source, $type = 'course', $seats = 1,
+                                        $hasCustomOffer = false, $customOfferAmount = false): self
     {
         $travel = $route["request"];
         if ($type === 'course') {
@@ -396,6 +417,11 @@ class Request extends Base
             ->setRequestMode('immediate')
             ->setCustomFormFields($customFormFields)
             ->setRawRoute(Json::encode($route));
+
+        // If there is a custom offer, then the "real price" is adjusted
+        if ($hasCustomOffer) {
+            $this->setAmount($customOfferAmount);
+        }
 
         // Drivers
         $now = time();

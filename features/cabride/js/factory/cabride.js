@@ -410,7 +410,8 @@ angular.module('starter')
             });
         };
 
-        factory.validateRequest = function (vehicleType, route, ride, paymentId, customFormFields) {
+        factory.validateRequest = function (vehicleType, route, ride, paymentId,
+                                            customFormFields, hasCustomOffer, customOfferAmount) {
             return $pwaRequest.post('/cabride/mobile_request/validate-v2', {
                 urlParams: {
                     value_id: factory.value_id
@@ -420,7 +421,9 @@ angular.module('starter')
                     paymentId: paymentId,
                     customFormFields: customFormFields,
                     ride: ride,
-                    route: route
+                    route: route,
+                    hasCustomOffer: hasCustomOffer,
+                    customOfferAmount: customOfferAmount
                 },
                 cache: false
             });

@@ -13,17 +13,68 @@ class Request extends Core_Model_Db_Table
     /**
      * @var string
      */
-    protected $_name = "cabride_request";
+    protected $_name = 'cabride_request';
 
     /**
      * @var string
      */
-    protected $_primary = "request_id";
+    protected $_primary = 'request_id';
+
+    /**
+     * @param $valueId
+     * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
+     * @throws \Zend_Exception
+     */
+    public function findAllWithUsers($valueId, $limit = 1000)
+    {
+        $select = $this->_db->select()
+            ->from(
+                ['request' => $this->_name],
+                [
+                    '*',
+                    'timestamp' => new \Zend_Db_Expr('UNIX_TIMESTAMP(request.created_at)'),
+                ]
+            )->joinLeft(
+                ['client' => 'cabride_client'],
+                'client.client_id = request.client_id',
+                []
+            )->joinLeft(
+                ['customer_client' => 'customer'],
+                'customer_client.customer_id = client.customer_id',
+                [
+                    'customer_firstname' => 'firstname',
+                    'customer_lastname' => 'lastname',
+                    'customer_email' => 'email'
+                ]
+            )->joinLeft(
+                ['driver' => 'cabride_driver'],
+                'driver.driver_id = request.driver_id',
+                []
+            )->joinLeft(
+                ['customer_driver' => 'customer'],
+                'customer_driver.customer_id = driver.customer_id',
+                [
+                    'driver_firstname' => 'firstname',
+                    'driver_lastname' => 'lastname',
+                    'driver_email' => 'email'
+                ]
+            )
+            ->where("request.value_id = ?", $valueId)
+            ->order("request.updated_at DESC")
+            ->limit($limit);
+
+        return $this->toModelClass($this->_db->fetchAll($select));
+    }
 
     /**
      * @param $valueId
      * @param $clientId
      * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
+     * @throws \Zend_Exception
      */
     public function findExtended($valueId, $clientId)
     {
@@ -32,7 +83,7 @@ class Request extends Core_Model_Db_Table
                 ["request" => $this->_name],
                 [
                     "*",
-                    "timestamp" =>new \Zend_Db_Expr("UNIX_TIMESTAMP(request.created_at)"),
+                    "timestamp" => new \Zend_Db_Expr("UNIX_TIMESTAMP(request.created_at)"),
                 ]
             )
             ->joinInner(
@@ -70,7 +121,9 @@ class Request extends Core_Model_Db_Table
 
     /**
      * @param $requestId
-     * @return string
+     * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
      */
     public function findOneExtended($requestId)
     {
@@ -79,7 +132,7 @@ class Request extends Core_Model_Db_Table
                 ["request" => $this->_name],
                 [
                     "*",
-                    "timestamp" =>new \Zend_Db_Expr("UNIX_TIMESTAMP(request.created_at)"),
+                    "timestamp" => new \Zend_Db_Expr("UNIX_TIMESTAMP(request.created_at)"),
                 ]
             )
             ->joinInner(
@@ -184,6 +237,9 @@ class Request extends Core_Model_Db_Table
 
     /**
      * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
+     * @throws \Zend_Exception
      */
     public function fetchPending()
     {
@@ -211,8 +267,28 @@ class Request extends Core_Model_Db_Table
     }
 
     /**
+     * @param $valueId
+     * @param $date
+     * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
+     */
+    public function ridesForDate($valueId, $date)
+    {
+        return $this->_db->fetchRow(
+            $this->_db->select()
+                ->from($this->_name, [new \Zend_Db_Expr("COUNT(*) AS total")])
+                ->where("created_at LIKE ?", $date)
+                ->where("value_id = ?", $valueId)
+        )['total'];
+    }
+
+    /**
      * @param $clientId
-     * @return \Cabride\Model\Request[]
+     * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
+     * @throws \Zend_Exception
      */
     public function fetchPendingForClient($clientId)
     {
