@@ -284,7 +284,7 @@ class Cabride_Mobile_ViewController extends MobileController
 
             $payload = [
                 'success' => true,
-                'message' => __('Success'),
+                'message' => p__("cabride", 'Success'),
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -331,7 +331,7 @@ class Cabride_Mobile_ViewController extends MobileController
 
             $payload = [
                 'success' => true,
-                'message' => __('Success'),
+                'message' => p__("cabride", 'Success'),
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -380,7 +380,7 @@ class Cabride_Mobile_ViewController extends MobileController
             $payload = [
                 'success' => true,
                 'isOnline' => (boolean) $isOnline,
-                'message' => __('Success'),
+                'message' => p__("cabride", 'Success'),
             ];
         } catch (\Exception $e) {
             $payload = [

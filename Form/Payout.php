@@ -29,16 +29,16 @@ class Payout extends Siberian_Form_Abstract
 
         // Builds the default form from schema!
         
-        $driver_id = $this->addSimpleText("driver_id", __("Driver Id"));
+        $driver_id = $this->addSimpleText("driver_id", p__("cabride", "Driver Id"));
         $driver_id->setRequired(true);
 
-        $amount = $this->addSimpleText("amount", __("Amount"));
+        $amount = $this->addSimpleText("amount", p__("cabride", "Amount"));
         $amount->setRequired(true);
 
-        $method = $this->addSimpleText("method", __("Method"));
+        $method = $this->addSimpleText("method", p__("cabride", "Method"));
         $method->setRequired(true);
 
-        $status = $this->addSimpleText("status", __("Status"));
+        $status = $this->addSimpleText("status", p__("cabride", "Status"));
         $status->setRequired(true);#
     }
 

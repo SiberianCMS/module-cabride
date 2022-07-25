@@ -17,7 +17,7 @@ class PeriodPicker extends Siberian_Form_Abstract
     {
         $periodFrom = $this->addSimpleDatetimepicker(
             "period_from",
-            __("From"),
+            p__("cabride", "From"),
             false,
             Siberian_Form_Abstract::DATEPICKER,
             "yy-mm-dd"
@@ -25,7 +25,7 @@ class PeriodPicker extends Siberian_Form_Abstract
 
         $periodTo = $this->addSimpleDatetimepicker(
             "period_to",
-            __("To"),
+            p__("cabride", "To"),
             false,
             Siberian_Form_Abstract::DATEPICKER,
             "yy-mm-dd"

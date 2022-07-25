@@ -18,7 +18,7 @@ try {
     }
 
     Feature::installCronjob(
-        __('Cabride, uws Server.'),
+        p__("cabride", 'Cabride, uws Server.'),
         '\\\\Cabride\\\\Model\\\\Service::serve',
         -1,
         -1,
@@ -32,7 +32,7 @@ try {
     );
 
     Feature::installCronjob(
-        __('Cabride, watcher.'),
+        p__("cabride", 'Cabride, watcher.'),
         '\\\\Cabride\\\\Model\\\\Service::watch',
         -1,
         -1,
@@ -46,7 +46,7 @@ try {
     );
 
     Feature::installCronjob(
-        __('Cabride, payouts.'),
+        p__("cabride", 'Cabride, payouts.'),
         '\\\\Cabride\\\\Model\\\\Service::bulk',
         0,
         -1,

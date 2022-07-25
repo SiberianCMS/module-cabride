@@ -29,7 +29,7 @@ class Client extends Siberian_Form_Abstract
 
         // Builds the default form from schema!
         
-        $customer_id = $this->addSimpleText("customer_id", __("Customer Id"));
+        $customer_id = $this->addSimpleText("customer_id", p__("cabride", "Customer Id"));
         $customer_id->setRequired(true);#
     }
 

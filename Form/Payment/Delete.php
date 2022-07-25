@@ -31,7 +31,7 @@ class Delete extends Siberian_Form_Abstract
             ->from('cabride_payment')
             ->where('cabride_payment.payment_id = :value');
 
-        $payment_id = $this->addSimpleHidden("payment_id", __("Payment"));
+        $payment_id = $this->addSimpleHidden("payment_id", p__("cabride", "Payment"));
         $payment_id->addValidator("Db_RecordExists", true, $select);
         $payment_id->setMinimalDecorator();
 

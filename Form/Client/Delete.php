@@ -31,7 +31,7 @@ class Delete extends Siberian_Form_Abstract
             ->from('cabride_client')
             ->where('cabride_client.client_id = :value');
 
-        $client_id = $this->addSimpleHidden("client_id", __("Client"));
+        $client_id = $this->addSimpleHidden("client_id", p__("cabride", "Client"));
         $client_id->addValidator("Db_RecordExists", true, $select);
         $client_id->setMinimalDecorator();
 

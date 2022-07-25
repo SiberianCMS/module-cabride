@@ -198,7 +198,7 @@ class Cabride_Api_MessageController extends Base
 
             $payload = [
                 'success' => true,
-                'message' => __('Success'),
+                'message' => p__("cabride", 'Success'),
                 'data' => $data,
             ];
         } catch (\Exception $e) {
@@ -221,7 +221,7 @@ class Cabride_Api_MessageController extends Base
 
             $payload = [
                 'success' => true,
-                'message' => __('ACK OK send-request')
+                'message' => p__("cabride", 'ACK OK send-request')
             ];
 
         } catch (\Exception $e) {

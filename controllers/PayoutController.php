@@ -102,7 +102,7 @@ class Cabride_PayoutController extends Application_Controller_Default
 
             $payload = [
                 "success" => true,
-                "message" => __("Success"),
+                "message" => p__("cabride", "Success"),
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -147,7 +147,7 @@ class Cabride_PayoutController extends Application_Controller_Default
 
             $payload = [
                 "success" => true,
-                "message" => __("Success"),
+                "message" => p__("cabride", "Success"),
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -174,7 +174,7 @@ class Cabride_PayoutController extends Application_Controller_Default
 
             $payload = [
                 'success' => true,
-                'message' => __('Success'),
+                'message' => p__("cabride", 'Success'),
                 'csvPath' => $csvPath,
             ];
         } catch (\Exception $e) {

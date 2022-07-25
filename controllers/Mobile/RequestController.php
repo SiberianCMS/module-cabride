@@ -126,7 +126,7 @@ class Cabride_Mobile_RequestController extends MobileController
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => __('An unknown error occurred, please try again later.'),
+                'message' => p__("cabride", 'An unknown error occurred, please try again later.'),
                 'except' => $e->getMessage()
             ];
         }
@@ -221,7 +221,7 @@ class Cabride_Mobile_RequestController extends MobileController
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => __('An unknown error occurred, please try again later.'),
+                'message' => p__("cabride", 'An unknown error occurred, please try again later.'),
                 'except' => $e->getMessage()
             ];
         }
@@ -298,7 +298,7 @@ class Cabride_Mobile_RequestController extends MobileController
 
             $payload = [
                 'success' => true,
-                'message' => __('Success'),
+                'message' => p__("cabride", 'Success'),
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -383,7 +383,7 @@ class Cabride_Mobile_RequestController extends MobileController
 
             $payload = [
                 'success' => true,
-                'message' => __('Success'),
+                'message' => p__("cabride", 'Success'),
             ];
         } catch (\Exception $e) {
             $payload = [

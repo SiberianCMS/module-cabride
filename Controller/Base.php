@@ -110,7 +110,7 @@ class Base extends Api_Controller_Default
             if (empty($this->user['customer_id'])) {
                 throw new Exception(__('User not logged in'));
             }
-            throw new Exception(__('User doesn\'t belong to App'));
+            throw new Exception(__('User does not belong to App'));
         }
 
         $this->option = $app->getOption('cabride');

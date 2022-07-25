@@ -46,12 +46,12 @@ class Cabride_TranslationController extends Application_Controller_Default
 
             $payload = [
                 'success' => true,
-                'message' => __('Saved.'),
+                'message' => p__("cabride", 'Saved.'),
             ];
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => __($e->getMessage()),
+                'message' => p__("cabride", $e->getMessage()),
             ];
         }
 

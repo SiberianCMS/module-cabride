@@ -54,11 +54,13 @@ class Cabride extends Siberian_Form_Abstract
             'distance_unit',
             p__('cabride', 'Distance unit'),
             [
-                'km' => __('Km'),
-                'mi' => __('Miles'),
+                'km' => p__("cabride", 'Km'),
+                'mi' => p__("cabride", 'Miles'),
             ]);
 
         $this->addSimpleText('center_map', p__('cabride', 'Center map address'));
+        $this->addSimpleText('center_map', p__('cabride', 'Yolo'));
+        $this->addSimpleText('center_map', p__('cabride', 'Yola'));
 
         $centerMapHint = p__('cabride', 'Leave blank to center map on user GPS position.');
         $html = <<<RAW

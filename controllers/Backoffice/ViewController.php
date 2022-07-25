@@ -17,7 +17,7 @@ class Cabride_Backoffice_ViewController extends Backoffice_Controller_Default
     {
         $payload = [
             'title' => sprintf('%s > %s > %s',
-                __('Manage'), __('Modules'), p__('cabride', 'Cabride')),
+                p__("cabride", 'Manage'), p__("cabride", 'Modules'), p__('cabride', 'Cabride')),
             'icon' => 'icofont icofont-car',
             'settings' => [
                 'cabride_server_auth' => __get('cabride_server_auth'),

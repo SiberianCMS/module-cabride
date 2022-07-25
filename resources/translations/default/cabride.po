@@ -2323,3 +2323,316 @@ msgstr "Tour base fare."
 msgctxt "cabride"
 msgid "Incomplete profile!"
 msgstr "Incomplete profile!"
+
+# GMT 1581668075.8073
+#, mobile
+msgctxt "cabride"
+msgid "ACK OK send-request"
+msgstr "ACK OK send-request"
+
+# GMT 1581668075.8074
+#, mobile
+msgctxt "cabride"
+msgid "Aggregate information"
+msgstr "Aggregate information"
+
+# GMT 1581668075.8075
+#, mobile
+msgctxt "cabride"
+msgid "Amount"
+msgstr "Amount"
+
+# GMT 1581668075.8076
+#, mobile
+msgctxt "cabride"
+msgid "An unknown error occurred, please try again later."
+msgstr "An unknown error occurred, please try again later."
+
+# GMT 1581668075.8077
+#, mobile
+msgctxt "cabride"
+msgid "Cabride"
+msgstr "Cabride"
+
+# GMT 1581668075.8078
+#, mobile
+msgctxt "cabride"
+msgid "CabRide"
+msgstr "CabRide"
+
+# GMT 1581668075.8079
+#, mobile
+msgctxt "cabride"
+msgid "Cabride, payouts."
+msgstr "Cabride, payouts."
+
+# GMT 1581668075.8080
+#, mobile
+msgctxt "cabride"
+msgid "Cabride, uws Server."
+msgstr "Cabride, uws Server."
+
+# GMT 1581668075.8081
+#, mobile
+msgctxt "cabride"
+msgid "Cabride, watcher."
+msgstr "Cabride, watcher."
+
+# GMT 1581668075.8082
+#, mobile
+msgctxt "cabride"
+msgid "Center map address"
+msgstr "Center map address"
+
+# GMT 1581668075.8083
+#, mobile
+msgctxt "cabride"
+msgid "Client"
+msgstr "Client"
+
+# GMT 1581668075.8084
+#, mobile
+msgctxt "cabride"
+msgid "Client Id"
+msgstr "Client Id"
+
+# GMT 1581668075.8085
+#, mobile
+msgctxt "cabride"
+msgid "Cost"
+msgstr "Cost"
+
+# GMT 1581668075.8086
+#, mobile
+msgctxt "cabride"
+msgid "Customer Id"
+msgstr "Customer Id"
+
+# GMT 1581668075.8087
+#, mobile
+msgctxt "cabride"
+msgid "Distance unit"
+msgstr "Distance unit"
+
+# GMT 1581668075.8088
+#, mobile
+msgctxt "cabride"
+msgid "Driver"
+msgstr "Driver"
+
+# GMT 1581668075.8089
+#, mobile
+msgctxt "cabride"
+msgid "Driver Id"
+msgstr "Driver Id"
+
+# GMT 1581668075.8090
+#, mobile
+msgctxt "cabride"
+msgid "Driver successfully deleted."
+msgstr "Driver successfully deleted."
+
+# GMT 1581668075.8091
+#, mobile
+msgctxt "cabride"
+msgid "From"
+msgstr "From"
+
+# GMT 1581668075.8092
+#, mobile
+msgctxt "cabride"
+msgid "From Address"
+msgstr "From Address"
+
+# GMT 1581668075.8093
+#, mobile
+msgctxt "cabride"
+msgid "From Lat"
+msgstr "From Lat"
+
+# GMT 1581668075.8094
+#, mobile
+msgctxt "cabride"
+msgid "From Lng"
+msgstr "From Lng"
+
+# GMT 1581668075.8095
+#, mobile
+msgctxt "cabride"
+msgid "Join lobby"
+msgstr "Join lobby"
+
+# GMT 1581668075.8096
+#, mobile
+msgctxt "cabride"
+msgid "Km"
+msgstr "Km"
+
+# GMT 1581668075.8097
+#, mobile
+msgctxt "cabride"
+msgid "Leave blank to center map on user GPS position."
+msgstr "Leave blank to center map on user GPS position."
+
+# GMT 1581668075.8098
+#, mobile
+msgctxt "cabride"
+msgid "Method"
+msgstr "Method"
+
+# GMT 1581668075.8099
+#, mobile
+msgctxt "cabride"
+msgid "Miles"
+msgstr "Miles"
+
+# GMT 1581668075.8100
+#, mobile
+msgctxt "cabride"
+msgid "Payment"
+msgstr "Payment"
+
+# GMT 1581668075.8101
+#, mobile
+msgctxt "cabride"
+msgid "Payment successfully deleted."
+msgstr "Payment successfully deleted."
+
+# GMT 1581668075.8102
+#, mobile
+msgctxt "cabride"
+msgid "Payout"
+msgstr "Payout"
+
+# GMT 1581668075.8103
+#, mobile
+msgctxt "cabride"
+msgid "Request"
+msgstr "Request"
+
+# GMT 1581668075.8104
+#, mobile
+msgctxt "cabride"
+msgid "Request Mode"
+msgstr "Request Mode"
+
+# GMT 1581668075.8105
+#, mobile
+msgctxt "cabride"
+msgid "Request successfully deleted."
+msgstr "Request successfully deleted."
+
+# GMT 1581668075.8106
+#, mobile
+msgctxt "cabride"
+msgid "Saved."
+msgstr "Saved."
+
+# GMT 1581668075.8107
+#, mobile
+msgctxt "cabride"
+msgid "Search ..."
+msgstr "Search ..."
+
+# GMT 1581668075.8108
+#, mobile
+msgctxt "cabride"
+msgid "Send request"
+msgstr "Send request"
+
+# GMT 1581668075.8109
+#, mobile
+msgctxt "cabride"
+msgid "Settings"
+msgstr "Settings"
+
+# GMT 1581668075.8110
+#, mobile
+msgctxt "cabride"
+msgid "Status"
+msgstr "Status"
+
+# GMT 1581668075.8111
+#, mobile
+msgctxt "cabride"
+msgid "Success"
+msgstr "Success"
+
+# GMT 1581668075.8112
+#, mobile
+msgctxt "cabride"
+msgid "Success."
+msgstr "Success."
+
+# GMT 1581668075.8113
+#, mobile
+msgctxt "cabride"
+msgid "The Cabride you are trying to edit does not exists."
+msgstr "The Cabride you are trying to edit does not exists."
+
+# GMT 1581668075.8114
+#, mobile
+msgctxt "cabride"
+msgid "The Client you are trying to edit does not exists."
+msgstr "The Client you are trying to edit does not exists."
+
+# GMT 1581668075.8115
+#, mobile
+msgctxt "cabride"
+msgid "The Driver you are trying to edit does not exists."
+msgstr "The Driver you are trying to edit does not exists."
+
+# GMT 1581668075.8116
+#, mobile
+msgctxt "cabride"
+msgid "The Payment you are trying to edit does not exists."
+msgstr "The Payment you are trying to edit does not exists."
+
+# GMT 1581668075.8117
+#, mobile
+msgctxt "cabride"
+msgid "The Request you are trying to edit does not exists."
+msgstr "The Request you are trying to edit does not exists."
+
+# GMT 1581668075.8118
+#, mobile
+msgctxt "cabride"
+msgid "The Vehicle you are trying to edit does not exists."
+msgstr "The Vehicle you are trying to edit does not exists."
+
+# GMT 1581668075.8119
+#, mobile
+msgctxt "cabride"
+msgid "To"
+msgstr "To"
+
+# GMT 1581668075.8120
+#, mobile
+msgctxt "cabride"
+msgid "To Address"
+msgstr "To Address"
+
+# GMT 1581668075.8121
+#, mobile
+msgctxt "cabride"
+msgid "To Lat"
+msgstr "To Lat"
+
+# GMT 1581668075.8122
+#, mobile
+msgctxt "cabride"
+msgid "To Lng"
+msgstr "To Lng"
+
+# GMT 1581668075.8123
+#, mobile
+msgctxt "cabride"
+msgid "Vehicle"
+msgstr "Vehicle"
+
+# GMT 1581668075.8124
+#, mobile
+msgctxt "cabride"
+msgid "Vehicle successfully deleted."
+msgstr "Vehicle successfully deleted."
+

@@ -33,13 +33,13 @@ class Cabride_ClientController extends Application_Controller_Default
             $payload = [
                 'success' => true,
                 'form' => $form->render(),
-                'message' => __('Success.'),
+                'message' => p__("cabride", 'Success.'),
             ];
         } else {
             // Do whatever you need when form is not valid!
             $payload = [
                 'error' => true,
-                'message' => __('The Client you are trying to edit doesn\'t exists.'),
+                'message' => p__("cabride", 'The Client you are trying to edit does not exists.'),
             ];
         }
 
@@ -63,7 +63,7 @@ class Cabride_ClientController extends Application_Controller_Default
 
             $payload = [
                 'success' => true,
-                'message' => __('Success.'),
+                'message' => p__("cabride", 'Success.'),
             ];
         } else {
             /** Do whatever you need when form is not valid */

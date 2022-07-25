@@ -31,13 +31,13 @@ class Cabride_RequestController extends Application_Controller_Default
             $payload = [
                 'success' => true,
                 'form' => $form->render(),
-                'message' => __('Success.'),
+                'message' => p__("cabride", 'Success.'),
             ];
         } else {
             // Do whatever you need when form is not valid!
             $payload = [
                 'error' => true,
-                'message' => __('The Request you are trying to edit doesn\'t exists.'),
+                'message' => p__("cabride", 'The Request you are trying to edit does not exists.'),
             ];
         }
 
@@ -61,7 +61,7 @@ class Cabride_RequestController extends Application_Controller_Default
 
             $payload = [
                 'success' => true,
-                'message' => __('Success.'),
+                'message' => p__("cabride", 'Success.'),
             ];
         } else {
             /** Do whatever you need when form is not valid */
@@ -91,7 +91,7 @@ class Cabride_RequestController extends Application_Controller_Default
 
             $payload = [
                 'success' => true,
-                'success_message' => __('Request successfully deleted.'),
+                'success_message' => p__("cabride", 'Request successfully deleted.'),
                 'message_loader' => 0,
                 'message_button' => 0,
                 'message_timeout' => 2

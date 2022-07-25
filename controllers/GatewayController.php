@@ -51,7 +51,7 @@ class Cabride_GatewayController extends Application_Controller_Default
 
             $payload = [
                 'success' => true,
-                'message' => __('Success'),
+                'message' => p__("cabride", 'Success'),
             ];
         } catch (\Exception $e) {
             if ($form === false) {

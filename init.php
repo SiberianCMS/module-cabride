@@ -60,11 +60,11 @@ $init = static function ($bootstrap) {
     }
 
     // Register API!
-    Api::register('cabride', __('CabRide'), [
-        'settings' => __('Settings'),
-        'join-lobby' => __('Join lobby'),
-        'send-request' => __('Send request'),
-        'aggregate-information' => __('Aggregate information'),
+    Api::register('cabride', p__('cabride', 'CabRide'), [
+        'settings' => p__('cabride', 'Settings'),
+        'join-lobby' => p__('cabride', 'Join lobby'),
+        'send-request' => p__('cabride', 'Send request'),
+        'aggregate-information' => p__('cabride', 'Aggregate information'),
     ]);
 
     // Registering cabride service
@@ -72,11 +72,6 @@ $init = static function ($bootstrap) {
         'command' => '\Cabride\Model\Service::serviceStatus',
         'text' => 'Running',
     ]);
-
-    Translation::registerExtractor(
-        'cabride',
-        'Cabride',
-        '/app/local/modules/Cabride/resources/translations/default/cabride.po');
 
     // Cab-Ride
     Assets::registerScss([

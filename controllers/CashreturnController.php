@@ -24,7 +24,7 @@ class Cabride_CashreturnController extends Application_Controller_Default
 
             $payload = [
                 "success" => true,
-                "message" => __("Success"),
+                "message" => p__("cabride", "Success"),
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -69,7 +69,7 @@ class Cabride_CashreturnController extends Application_Controller_Default
             
             $payload = [
                 "success" => true,
-                "message" => __("Success"),
+                "message" => p__("cabride", "Success"),
             ];
         } catch (\Exception $e) {
             $payload = [
