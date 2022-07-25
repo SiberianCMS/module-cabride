@@ -73,6 +73,11 @@ $init = static function ($bootstrap) {
         'text' => 'Running',
     ]);
 
+    Translation::registerExtractor(
+        'cabride',
+        'Cabride',
+        '/app/local/modules/Cabride/resources/translations/default/cabride.po');
+
     // Cab-Ride
     Assets::registerScss([
         '/app/local/modules/Cabride/features/cabride/scss/cabride.scss'

@@ -850,7 +850,7 @@ angular.module('starter')
             }, function (error) {
                 $rootScope.$broadcast('cabride.setIsOnline', false);
                 Dialog
-                .alert('Incomplete profile!', error.message, 'OK', 5000)
+                .alert('Incomplete profile!', error.message, 'OK', 5000, "cabride")
                 .then(function () {
                     if ($ionicSideMenuDelegate.isOpenLeft()) {
                         $ionicSideMenuDelegate.toggleLeft();

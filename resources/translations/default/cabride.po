@@ -2063,8 +2063,8 @@ msgstr "Payouts & Cash return scheduler"
 # GMT 1581668075.8028
 #, mobile
 msgctxt "cabride"
-msgid "We are sorry we didnt found any available driver around you!"
-msgstr "We are sorry we didnt found any available driver around you!"
+msgid "We are sorry we did not find any available driver around you!"
+msgstr "We are sorry we did not find any available driver around you!"
 
 # GMT 1581668075.8029
 #, mobile
@@ -2251,3 +2251,75 @@ msgstr "Offer"
 msgctxt "cabride"
 msgid "When enabled, customer will be able to make a custom offer for the rides, there is no min/max limit, they can even offer more than the estimated cost!"
 msgstr "When enabled, customer will be able to make a custom offer for the rides, there is no min/max limit, they can even offer more than the estimated cost!"
+
+# GMT 1581668075.8061
+#, mobile
+msgctxt "cabride"
+msgid "Every minute"
+msgstr "Every minute"
+
+# GMT 1581668075.8062
+#, mobile
+msgctxt "cabride"
+msgid "Time (every minute)"
+msgstr "Time (every minute)"
+
+# GMT 1581668075.8063
+#, mobile
+msgctxt "cabride"
+msgid "Extra seat time (every minute)"
+msgstr "Extra seat time (every minute)"
+
+# GMT 1581668075.8064
+#, mobile
+msgctxt "cabride"
+msgid "Extra time fare (every minute) for every seat after the first."
+msgstr "Extra time fare (every minute) for every seat after the first."
+
+# GMT 1581668075.8065
+#, mobile
+msgctxt "cabride"
+msgid "Extra distance fare (each km/mi) for every seat after the first."
+msgstr "Extra distance fare (each km/mi) for every seat after the first."
+
+# GMT 1581668075.8066
+#, mobile
+msgctxt "cabride"
+msgid "Set to 0 to disable extra seat fares"
+msgstr "Set to 0 to disable extra seat fares"
+
+# GMT 1581668075.8067
+#, mobile
+msgctxt "cabride"
+msgid "Set to 0 to disable base fare"
+msgstr "Set to 0 to disable base fare"
+
+# GMT 1581668075.8068
+#, mobile
+msgctxt "cabride"
+msgid "Fare for every time frame."
+msgstr "Fare for every time frame."
+
+# GMT 1581668075.8069
+#, mobile
+msgctxt "cabride"
+msgid "Time frame is 30 minutes."
+msgstr "Time frame is 30 minutes."
+
+# GMT 1581668075.8070
+#, mobile
+msgctxt "cabride"
+msgid "Extra fare for every seat after the first."
+msgstr "Extra fare for every seat after the first."
+
+# GMT 1581668075.8071
+#, mobile
+msgctxt "cabride"
+msgid "Tour base fare."
+msgstr "Tour base fare."
+
+# GMT 1581668075.8072
+#, mobile
+msgctxt "cabride"
+msgid "Incomplete profile!"
+msgstr "Incomplete profile!"

@@ -511,10 +511,10 @@ angular.module('starter')
                     $scope.vaults = response.vaults;
                     $scope.showModal(response.collection);
                 } else {
-                    Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK", -1, "cabride");
+                    Dialog.alert("", "We are sorry we did not find any available driver around you!", "OK", -1, "cabride");
                 }
             }, function (error) {
-                Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK", -1, "cabride");
+                Dialog.alert("", "We are sorry we did not find any available driver around you!", "OK", -1, "cabride");
             }).then(function () {
                 $scope.ride.isSearching = false;
                 $scope.ride.isTour = false;
@@ -539,10 +539,10 @@ angular.module('starter')
                     $scope.vaults = response.vaults;
                     $scope.showModal(response.collection);
                 } else {
-                    Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK", -1, "cabride");
+                    Dialog.alert("", "We are sorry we did not find any available driver around you!", "OK", -1, "cabride");
                 }
             }, function (error) {
-                Dialog.alert("", "We are sorry we didnt found any available driver around you!", "OK", -1, "cabride");
+                Dialog.alert("", "We are sorry we did not find any available driver around you!", "OK", -1, "cabride");
             }).then(function () {
                 $scope.ride.isSearching = false;
                 $scope.ride.isCourse = false;
