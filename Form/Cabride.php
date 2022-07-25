@@ -215,6 +215,21 @@ RAW;
 
         $canMakeOffer = $this->addSimpleCheckbox('can_make_offer', p__('cabride', 'Allow customers to offer a custom price?'));
 
+        $canMakeOfferHint = p__('cabride', 'When enabled, customer will be able to make a custom offer for the rides, there is no min/max limit, they can even offer more than the estimated cost!');
+        $offerHint = <<<RAW
+<div class="form-group sb-form-line">
+    <label class="col-sm-3">&nbsp;</label>
+    <div class="col-sm-7" 
+         style="margin: 0 9px 0 7px;">
+        <div class="alert alert-warning">
+            $canMakeOfferHint
+        </div>
+    </div>
+</div>
+RAW;
+
+        $this->addSimpleHtml('can_make_offer_hint', $offerHint);
+
         $this->groupElements('payment_gateways', $gatewaysList, p__('cabride', 'Payment gateways'));
 
         $this->groupElements('payments',
@@ -229,7 +244,8 @@ RAW;
                 'seats_default_hint',
                 'enable_tour',
                 'tour_hint',
-                'can_make_offer'
+                'can_make_offer',
+                'can_make_offer_hint'
             ],
             p__('cabride', 'Payments'));
 

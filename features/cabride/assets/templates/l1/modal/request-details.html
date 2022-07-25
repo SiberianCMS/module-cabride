@@ -37,20 +37,35 @@
                             </div>
                         </div>
                         <div class="row course-details">
-                            <div class="col-75">
+                            <div class="col-60">
                                 <span class="vehicle-type">{{ request.vehicle_type }}</span>
                             </div>
-                            <div class="col-25 course-price">
-                                <span ng-if="request.formatted_driver_price">
-                                    <b>{{ request.formatted_driver_price }}</b>
-                                    <br />
+                            <div class="col-40 course-price">
+                                <span ng-if="request.custom_offer == '1'">
+                                    <span ng-if="request.formatted_cost">
+                                        <span ng-if="userType == 'client'">{{ "Your offer" | translate:'cabride' }}</span>
+                                        <span ng-if="userType == 'driver'">{{ "Offer" | translate:'cabride' }}</span>
+                                        <b>{{ request.formatted_cost }}</b>
+                                        <br />
+                                        <span ng-if="userType == 'driver'"
+                                              ng-class="{'price-stroke': request.formatted_driver_price}"
+                                              class="price-stroke course-cost">
+                                            {{ request.formatted_price }}
+                                        </span>
+                                    </span>
                                 </span>
-                                <span ng-if="userType == 'client' && request.formatted_price != request.formatted_lowest_price"
-                                      ng-class="{'price-stroke': request.formatted_driver_price}"
-                                      class="course-cost">{{ ::'Est.' | translate:'cabride' }} {{ request.formatted_lowest_price }} - {{ request.formatted_price }}</span>
-                                <span ng-if="userType == 'client' && request.formatted_price == request.formatted_lowest_price"
-                                      ng-class="{'price-stroke': request.formatted_driver_price}"
-                                      class="course-cost">{{ request.formatted_price }}</span>
+                                <span ng-if="request.custom_offer == '0'">
+                                    <span ng-if="request.formatted_driver_price">
+                                        <b>{{ request.formatted_driver_price }}</b>
+                                        <br />
+                                    </span>
+                                    <span ng-if="userType == 'client' && request.formatted_price != request.formatted_lowest_price"
+                                          ng-class="{'price-stroke': request.formatted_driver_price}"
+                                          class="course-cost">{{ ::'Est.' | translate:'cabride' }} {{ request.formatted_lowest_price }} - {{ request.formatted_price }}</span>
+                                    <span ng-if="userType == 'client' && request.formatted_price == request.formatted_lowest_price"
+                                          ng-class="{'price-stroke': request.formatted_driver_price}"
+                                          class="course-cost">{{ request.formatted_price }}</span>
+                                </span>
                             </div>
                         </div>
                     </div>

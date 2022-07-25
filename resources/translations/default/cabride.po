@@ -2174,4 +2174,80 @@ msgctxt "cabride"
 msgid "N.A."
 msgstr "N.A."
 
+# GMT 1581668075.8048
+#, mobile
+msgctxt "cabride"
+msgid "Make an offer"
+msgstr "Make an offer"
 
+# GMT 1581668075.8049
+#, mobile
+msgctxt "cabride"
+msgid "Please type down the amount you want to offer for this ride!"
+msgstr "Please type down the amount you want to offer for this ride!"
+
+# GMT 1581668075.8050
+#, mobile
+msgctxt "cabride"
+msgid "CONFIRM"
+msgstr "CONFIRM"
+
+# GMT 1581668075.8051
+#, mobile
+msgctxt "cabride"
+msgid "CONFIRM"
+msgstr "CONFIRM"
+
+# GMT 1581668075.8052
+#, mobile
+msgctxt "cabride"
+msgid "The offered amount is not valid!"
+msgstr "The offered amount is not valid!"
+
+# GMT 1581668075.8053
+#, mobile
+msgctxt "cabride"
+msgid "You are about to offer"
+msgstr "You are about to offer"
+
+# GMT 1581668075.8054
+#, mobile
+msgctxt "cabride"
+msgid "Please confirm!"
+msgstr "Please confirm!"
+
+# GMT 1581668075.8055
+#, mobile
+msgctxt "cabride"
+msgid "Your offer"
+msgstr "Your offer"
+
+# GMT 1581668075.8056
+#, mobile
+msgctxt "cabride"
+msgid "Validate"
+msgstr "Validate"
+
+# GMT 1581668075.8057
+#, mobile
+msgctxt "cabride"
+msgid "Make an offer"
+msgstr "Make an offer"
+
+# GMT 1581668075.8058
+#, mobile
+msgctxt "cabride"
+msgid "Your offer"
+msgstr "Your offer"
+
+# GMT 1581668075.8059
+#, mobile
+msgctxt "cabride"
+msgid "Offer"
+msgstr "Offer"
+
+# GMT 1581668075.8060
+#, mobile
+msgctxt "cabride"
+msgid "When enabled, customer will be able to make a custom offer for the rides, there is no min/max limit, they can even offer more than the estimated cost!"
+msgstr "When enabled, customer will be able to make a custom offer for the rides, there is no min/max limit, they can even offer more than the estimated cost!"

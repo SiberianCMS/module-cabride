@@ -421,6 +421,7 @@ class Cabride_Mobile_RequestController extends MobileController
             unset($data['raw_route']);
 
             $data['formatted_price'] = Base::_formatPrice($data['estimated_cost'], $cabride->getCurrency());
+            $data['formatted_cost'] = Base::_formatPrice($data['cost'], $cabride->getCurrency());
             $data['formatted_lowest_price'] = Base::_formatPrice($data['estimated_lowest_cost'], $cabride->getCurrency());
 
             $data['formatted_driver_price'] = false;

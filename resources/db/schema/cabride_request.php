@@ -67,6 +67,10 @@ $schemas['cabride_request'] = [
     'cost' => [
         'type' => 'float',
     ],
+    'custom_offer' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'distance' => [
         'type' => 'float',
     ],

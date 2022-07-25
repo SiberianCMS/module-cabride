@@ -32,9 +32,20 @@
                     </span>
                 </div>
                 <div class="col-25 text-right">
-                    <span class="vehicle-type">{{ request.formatted_price }}</span>
-                    <br />
-                    <span>&nbsp;</span>
+                    <span ng-if="request.custom_offer == '1'">
+                        <span class="vehicle-type">{{ "Offer" | translate:'cabride' }}</span>
+                        <br />
+                        <span class="course-date">
+                            <span class="course-cost">{{ request.formatted_cost }}</span>
+                        </span>
+                    </span>
+
+                    <span ng-if="request.custom_offer == '0'">
+                        <span class="vehicle-type">{{ request.formatted_price }}</span>
+                        <br />
+                        <span>&nbsp;</span>
+                    </span>
+
                     <br />
                     <span class="course-date">{{ distance(request) }}</span>
                 </div>
@@ -59,8 +70,21 @@
                            style="margin-right: 5px;"></i>
                         {{ durationTour(request) }}
                     </span>
+
                     <br />
-                    <span class="vehicle-type">{{ request.formatted_price }}</span>
+
+                    <span ng-if="request.custom_offer == '1'">
+                        <span class="vehicle-type">{{ "Offer" }}</span>
+                        <br />
+                        <span class="course-date">
+                            <span class="course-cost">{{ request.formatted_cost }}</span>
+                        </span>
+                    </span>
+
+                    <span ng-if="request.custom_offer == '0'">
+                        <span class="vehicle-type">{{ request.formatted_price }}</span>
+                    </span>
+
                 </div>
             </div>
         </div>

@@ -44,30 +44,35 @@
         </ion-list>
     </ion-content>
 
-    <div ng-if="enableCustomForm && !canMakeOffer()">
-        <button class="button button-assertive button-assertive-custom button-full validate-button"
-                ng-if="enableCustomForm"
-                ng-click="validate();">
-            {{ ::'Validate' | translate:'cabride' }}
-        </button>
+    <div class="cabride-offer-footer">
+        <div ng-if="enableCustomForm && !canMakeOffer()">
+            <button class="button button-assertive button-assertive-custom button-full validate-button"
+                    ng-if="enableCustomForm"
+                    ng-click="validate();">
+                {{ ::'Validate' | translate:'cabride' }}
+            </button>
+        </div>
+
+        <div class="row"
+             ng-if="enableCustomForm && canMakeOffer()">
+            <button class="col-50 button button-positive button-positive-custom button-full validate-button"
+                    style="left: 0;"
+                    ng-click="validate();">
+                {{ ::'Validate' | translate:'cabride' }}
+            </button>
+            <button class="col-50 button button-assertive button-assertive-custom button-full validate-button"
+                    style="right: 0;"
+                    ng-click="makeOffer();">
+                {{ ::'Make an offer' | translate:'cabride' }}
+            </button>
+        </div>
+
+        <div ng-if="!enableCustomForm && canMakeOffer()">
+            <button class="button button-assertive button-assertive-custom button-full validate-button"
+                    ng-click="makeOffer();">
+                {{ ::'Make an offer' | translate:'cabride' }}
+            </button>
+        </div>
     </div>
 
-    <div class="row"
-         ng-if="enableCustomForm && canMakeOffer()">
-        <button class="col-50 button button-assertive button-assertive-custom button-full validate-button"
-                ng-click="validate();">
-            {{ ::'Validate' | translate:'cabride' }}
-        </button>
-        <button class="col-50 button button-assertive button-assertive-custom button-full validate-button"
-                ng-click="makeOffer();">
-            {{ ::'Make an offer' | translate:'cabride' }}
-        </button>
-    </div>
-
-    <div ng-if="!enableCustomForm && canMakeOffer()">
-        <button class="button button-assertive button-assertive-custom button-full validate-button"
-                ng-click="makeOffer();">
-            {{ ::'Make an offer' | translate:'cabride' }}
-        </button>
-    </div>
 </ion-modal-view>

@@ -43,6 +43,7 @@ class Cabride_Mobile_RideController extends MobileController
                 unset($data['raw_route']);
 
                 $data['formatted_price'] = Base::_formatPrice($data['estimated_cost'], $cabride->getCurrency());
+                $data['formatted_cost'] = Base::_formatPrice($data['cost'], $cabride->getCurrency());
                 $data['formatted_lowest_price'] = Base::_formatPrice($data['estimated_lowest_cost'], $cabride->getCurrency());
 
                 $data['formatted_driver_price'] = false;
@@ -180,6 +181,7 @@ class Cabride_Mobile_RideController extends MobileController
                 unset($data['raw_route']);
 
                 $data['formatted_price'] = Base::_formatPrice($data['estimated_cost'], $cabride->getCurrency());
+                $data['formatted_cost'] = Base::_formatPrice($data['cost'], $cabride->getCurrency());
 
                 // Recast values
                 $now = time();
@@ -336,6 +338,7 @@ class Cabride_Mobile_RideController extends MobileController
                 unset($data['raw_route']);
 
                 $data['formatted_price'] = Base::_formatPrice($data['estimated_cost'], $cabride->getCurrency());
+                $data['formatted_cost'] = Base::_formatPrice($data['cost'], $cabride->getCurrency());
 
                 // Recast values
                 $now = time();
@@ -384,7 +387,7 @@ class Cabride_Mobile_RideController extends MobileController
                 // Makes payload lighter!
                 unset($data['raw_route']);
 
-                $data['formatted_price'] = Base::_formatPrice($data['cost'], $cabride->getCurrency());
+                $data['formatted_cost'] = $data['formatted_price'] = Base::_formatPrice($data['cost'], $cabride->getCurrency());
 
                 // Recast values
                 $now = time();
@@ -437,7 +440,7 @@ class Cabride_Mobile_RideController extends MobileController
                 // Makes payload lighter!
                 unset($data['raw_route']);
 
-                $data['formatted_price'] = Base::_formatPrice($data['cost'], $cabride->getCurrency());
+                $data['formatted_cost'] = $data['formatted_price'] = Base::_formatPrice($data['cost'], $cabride->getCurrency());
 
                 // Recast values
                 $now = time();
@@ -486,6 +489,7 @@ class Cabride_Mobile_RideController extends MobileController
                 unset($data['raw_route']);
 
                 $data['formatted_price'] = Base::_formatPrice($data['estimated_cost'], $cabride->getCurrency());
+                $data['formatted_cost'] = Base::_formatPrice($data['cost'], $cabride->getCurrency());
 
                 // Recast values
                 $now = time();
@@ -603,18 +607,18 @@ class Cabride_Mobile_RideController extends MobileController
             $distanceKm = ceil($ride->getDistance() / 1000);
             $durationMinute = ceil($ride->getDuration() / 60);
 
-            if ($ride->getType() === 'course') {
-                $pricing = $driver->estimatePricing($distanceKm, $durationMinute, $ride->getSeats());
-            } else {
-                $pricing = $driver->estimatePricingTour($durationMinute, $ride->getSeats());
+            // Save real cost only if there was no custom offer!
+            if (!$ride->getCustomOffer()) {
+                if ($ride->getType() === 'course') {
+                    $pricing = $driver->estimatePricing($distanceKm, $durationMinute, $ride->getSeats());
+                } else {
+                    $pricing = $driver->estimatePricingTour($durationMinute, $ride->getSeats());
+                }
+                $driverPrice = $pricing['price'];
+                $ride->setCost($driverPrice);
             }
 
-            $driverPrice = $pricing['price'];
-
-            $ride->setCost($driverPrice);
-
             $ride->changeStatus('accepted', Request::SOURCE_DRIVER);
-
             $ride
                 ->setDriverId($driver->getId())
                 ->save();
@@ -1103,19 +1107,22 @@ class Cabride_Mobile_RideController extends MobileController
             $distanceKm = ceil($ride->getDistance() / 1000);
             $durationMinute = ceil($ride->getDuration() / 60);
 
-            if ($ride->getType() === 'course') {
-                $pricing = $driver->estimatePricing($distanceKm, $durationMinute, $ride->getSeats());
-            } else {
-                $pricing = $driver->estimatePricingTour($durationMinute, $ride->getSeats());
-            }
+            // We update the price/cost only if it is not a customn offer!
+            if (!$ride->getCustomOffer()) {
+                if ($ride->getType() === 'course') {
+                    $pricing = $driver->estimatePricing($distanceKm, $durationMinute, $ride->getSeats());
+                } else {
+                    $pricing = $driver->estimatePricingTour($durationMinute, $ride->getSeats());
+                }
 
-            $driverPrice = $pricing['price'];
+                $driverPrice = $pricing['price'];
+                $ride->setCost($driverPrice);
+            }
 
             $requestDriver
                 ->setStatus('done')
                 ->save();
 
-            $ride->setCost($driverPrice);
             $ride->changeStatus('done', Request::SOURCE_DRIVER);
 
             $charge = null;

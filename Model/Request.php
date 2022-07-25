@@ -420,7 +420,9 @@ class Request extends Base
 
         // If there is a custom offer, then the "real price" is adjusted
         if ($hasCustomOffer) {
-            $this->setAmount($customOfferAmount);
+            $this
+                ->setCost($customOfferAmount)
+                ->setCustomOffer(true);
         }
 
         // Drivers
@@ -462,7 +464,10 @@ class Request extends Base
     }
 
     /**
-     * @return Request[]
+     * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
+     * @throws \Zend_Exception
      */
     public function fetchPending()
     {
@@ -471,7 +476,10 @@ class Request extends Base
 
     /**
      * @param $clientId
-     * @return Request[]
+     * @return mixed
+     * @throws \Zend_Db_Select_Exception
+     * @throws \Zend_Db_Statement_Exception
+     * @throws \Zend_Exception
      */
     public function fetchPendingForClient($clientId)
     {

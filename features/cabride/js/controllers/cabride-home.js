@@ -557,8 +557,8 @@ angular.module('starter')
                 close: function () {
                     $scope.vtModal.remove();
                 },
-                selectVehicle: function (vehicleType) {
-                    $scope.selectVehicle(vehicleType);
+                selectVehicle: function (vehicleType, customOffer) {
+                    $scope.selectVehicle(vehicleType, customOffer);
                 },
                 ride: $scope.ride,
                 vehicles: vehicles
@@ -572,11 +572,11 @@ angular.module('starter')
         });
     };
 
-    $scope.selectVehicle = function (vehicleType, customAmount) {
+    $scope.selectVehicle = function (vehicleType, customOffer) {
         // Payment modal
         $scope.vehicleType = vehicleType;
-        $scope.customAmount = typeof customAmount !== 'undefined' ?
-            customAmount : false;
+        $scope.customOffer = typeof customOffer !== 'undefined' ?
+            customOffer : false;
         $scope.paymentTypeModal();
     };
 
@@ -610,20 +610,17 @@ angular.module('starter')
     };
 
     $scope.paymentTypeModal = function (paymentTypes) {
-
-        console.log('paymentTypes', paymentTypes);
-
         // Checking if a custom amount is parsed
         var amount = $scope.vehicleType.pricingValue;
         var formattedAmount = $scope.vehicleType.pricing;
 
         $scope.hasCustomOffer = false;
         if (Cabride.settings.canMakeOffer &&
-            $scope.customAmount !== false) {
-            amount = $scope.vehicleType.pricingValue;
-            formattedAmount = $scope.customAmount.toFixed(Cabride.settings.currency.decimal_digits) + ' ' + Cabride.settings.currency.symbol;
+            $scope.customOffer !== false) {
+            amount = $scope.customOffer;
+            formattedAmount = $scope.customOffer.toFixed(Cabride.settings.currency.decimal_digits) + ' ' + Cabride.settings.currency.symbol;
             $scope.hasCustomOffer = true;
-            $scope.customOfferAmount = amount;
+            $scope.customOfferAmount = $scope.customOffer;
         }
 
         PaymentMethod.openModal($scope, {
@@ -679,14 +676,8 @@ angular.module('starter')
         });
     };
 
-    $scope.selectVehicle = function (vehicleType) {
-        // Payment modal
-        $scope.vehicleType = vehicleType;
-        $scope.paymentTypeModal();
-    };
-
     $scope.validateRequest = function (paymentId) {
-        Loader.show($translate.instant("Sending request ...", "cabride"));
+        Loader.show($translate.instant('Sending request ...', 'cabride'));
         Cabride
         .validateRequest(
             $scope.vehicleType,

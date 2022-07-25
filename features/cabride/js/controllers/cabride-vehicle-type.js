@@ -62,14 +62,14 @@ angular
                     .then(function (amount) {
 
                         var currency = $scope.getCurrency();
-                        var current = parseFloat(amount);
-                        if (!Number.isFinite(current) ||
-                            current <= 0) {
+                        var customOffer = parseFloat(amount);
+                        if (!Number.isFinite(customOffer) ||
+                            customOffer <= 0) {
                             Dialog.alert('Error', 'The offered amount is not valid!', 'OK', -1, 'cabride');
                             return;
                         }
 
-                        var formattedAmount = amount.toFixed(currency.decimal_digits) + ' ' + currency.symbol;
+                        var formattedAmount = customOffer.toFixed(currency.decimal_digits) + ' ' + currency.symbol;
                         var textParts = [
                             $translate.instant('You are about to offer', 'cabride'),
                             formattedAmount,
@@ -80,7 +80,7 @@ angular
                             .confirm('Your offer', textParts.join('<br />'), ['YES', 'NO'], '', 'cabride')
                             .then(function (confirm) {
                                 if (confirm) {
-                                    $scope.selectVehicle($scope.currentVehicleType);
+                                    $scope.selectVehicle($scope.currentVehicleType, customOffer);
                                 }
                             });
                     })
