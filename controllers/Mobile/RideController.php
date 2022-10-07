@@ -896,7 +896,7 @@ class Cabride_Mobile_RideController extends MobileController
 
             if (count($errors) > 0) {
                 foreach ($errors as &$error) {
-                    $error = '- {$error}';
+                    $error = "- {$error}";
                 }
                 throw new Exception(implode('<br />', $errors));
             }

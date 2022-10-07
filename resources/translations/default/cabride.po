@@ -51,12 +51,14 @@ msgctxt "cabride"
 msgid "ID"
 msgstr "ID"
 
-# GMT 1558015600.5117
+# GMT 1581668075.8098
+#, mobile
 msgctxt "cabride"
 msgid "Method"
 msgstr "Method"
 
-# GMT 1558015600.5118
+# GMT 1581668075.8075
+#, mobile
 msgctxt "cabride"
 msgid "Amount"
 msgstr "Amount"
@@ -120,6 +122,7 @@ msgid "Vehicle types"
 msgstr "Vehicle types"
 
 # GMT 1558015600.6055
+#, mobile
 msgctxt "cabride"
 msgid "Settings"
 msgstr "Settings"
@@ -192,6 +195,7 @@ msgid "Archived requests"
 msgstr "Archived requests"
 
 # GMT 1558015614.9694
+#, mobile
 msgctxt "cabride"
 msgid "Status"
 msgstr "Status"
@@ -415,6 +419,7 @@ msgid "Est. cost"
 msgstr "Est. cost"
 
 # GMT 1558015720.2097
+#, mobile
 msgctxt "cabride"
 msgid "Cost"
 msgstr "Cost"
@@ -1295,16 +1300,19 @@ msgid "Timezone"
 msgstr "Timezone"
 
 # GMT 1558095859.7035
+#, mobile
 msgctxt "cabride"
 msgid "Distance unit"
 msgstr "Distance unit"
 
 # GMT 1558095859.7083
+#, mobile
 msgctxt "cabride"
 msgid "Center map address"
 msgstr "Center map address"
 
 # GMT 1558095859.7096
+#, mobile
 msgctxt "cabride"
 msgid "Leave blank to center map on user GPS position."
 msgstr "Leave blank to center map on user GPS position."
@@ -1690,6 +1698,7 @@ msgid "WebSocket server log."
 msgstr "WebSocket server log."
 
 # GMT 1579885553.4668
+#, mobile
 msgctxt "cabride"
 msgid "Cabride"
 msgstr "Cabride"
@@ -1855,6 +1864,7 @@ msgid "Photo"
 msgstr "Photo"
 
 # GMT 1580726886.324
+#, mobile
 msgctxt "cabride"
 msgid "Search ..."
 msgstr "Search ..."
@@ -1868,11 +1878,6 @@ msgstr "Delete driver"
 msgctxt "cabride"
 msgid "Yes, Delete"
 msgstr "Yes, Delete"
-
-# GMT 1581668075.7263
-msgctxt "cabride"
-msgid "Enable custom form"
-msgstr "Enable custom form"
 
 # GMT 1581668075.7264
 #, mobile
@@ -2175,6 +2180,7 @@ msgid "N.A."
 msgstr "N.A."
 
 # GMT 1581668075.8048
+# GMT 1581668075.8057
 #, mobile
 msgctxt "cabride"
 msgid "Make an offer"
@@ -2187,12 +2193,6 @@ msgid "Please type down the amount you want to offer for this ride!"
 msgstr "Please type down the amount you want to offer for this ride!"
 
 # GMT 1581668075.8050
-#, mobile
-msgctxt "cabride"
-msgid "CONFIRM"
-msgstr "CONFIRM"
-
-# GMT 1581668075.8051
 #, mobile
 msgctxt "cabride"
 msgid "CONFIRM"
@@ -2228,18 +2228,6 @@ msgctxt "cabride"
 msgid "Validate"
 msgstr "Validate"
 
-# GMT 1581668075.8057
-#, mobile
-msgctxt "cabride"
-msgid "Make an offer"
-msgstr "Make an offer"
-
-# GMT 1581668075.8058
-#, mobile
-msgctxt "cabride"
-msgid "Your offer"
-msgstr "Your offer"
-
 # GMT 1581668075.8059
 #, mobile
 msgctxt "cabride"
@@ -2257,12 +2245,6 @@ msgstr "When enabled, customer will be able to make a custom offer for the rides
 msgctxt "cabride"
 msgid "Every minute"
 msgstr "Every minute"
-
-# GMT 1581668075.8062
-#, mobile
-msgctxt "cabride"
-msgid "Time (every minute)"
-msgstr "Time (every minute)"
 
 # GMT 1581668075.8063
 #, mobile
@@ -2336,23 +2318,11 @@ msgctxt "cabride"
 msgid "Aggregate information"
 msgstr "Aggregate information"
 
-# GMT 1581668075.8075
-#, mobile
-msgctxt "cabride"
-msgid "Amount"
-msgstr "Amount"
-
 # GMT 1581668075.8076
 #, mobile
 msgctxt "cabride"
 msgid "An unknown error occurred, please try again later."
 msgstr "An unknown error occurred, please try again later."
-
-# GMT 1581668075.8077
-#, mobile
-msgctxt "cabride"
-msgid "Cabride"
-msgstr "Cabride"
 
 # GMT 1581668075.8078
 #, mobile
@@ -2378,47 +2348,17 @@ msgctxt "cabride"
 msgid "Cabride, watcher."
 msgstr "Cabride, watcher."
 
-# GMT 1581668075.8082
-#, mobile
-msgctxt "cabride"
-msgid "Center map address"
-msgstr "Center map address"
-
-# GMT 1581668075.8083
-#, mobile
-msgctxt "cabride"
-msgid "Client"
-msgstr "Client"
-
 # GMT 1581668075.8084
 #, mobile
 msgctxt "cabride"
 msgid "Client Id"
 msgstr "Client Id"
 
-# GMT 1581668075.8085
-#, mobile
-msgctxt "cabride"
-msgid "Cost"
-msgstr "Cost"
-
 # GMT 1581668075.8086
 #, mobile
 msgctxt "cabride"
 msgid "Customer Id"
 msgstr "Customer Id"
-
-# GMT 1581668075.8087
-#, mobile
-msgctxt "cabride"
-msgid "Distance unit"
-msgstr "Distance unit"
-
-# GMT 1581668075.8088
-#, mobile
-msgctxt "cabride"
-msgid "Driver"
-msgstr "Driver"
 
 # GMT 1581668075.8089
 #, mobile
@@ -2468,18 +2408,6 @@ msgctxt "cabride"
 msgid "Km"
 msgstr "Km"
 
-# GMT 1581668075.8097
-#, mobile
-msgctxt "cabride"
-msgid "Leave blank to center map on user GPS position."
-msgstr "Leave blank to center map on user GPS position."
-
-# GMT 1581668075.8098
-#, mobile
-msgctxt "cabride"
-msgid "Method"
-msgstr "Method"
-
 # GMT 1581668075.8099
 #, mobile
 msgctxt "cabride"
@@ -2497,12 +2425,6 @@ msgstr "Payment"
 msgctxt "cabride"
 msgid "Payment successfully deleted."
 msgstr "Payment successfully deleted."
-
-# GMT 1581668075.8102
-#, mobile
-msgctxt "cabride"
-msgid "Payout"
-msgstr "Payout"
 
 # GMT 1581668075.8103
 #, mobile
@@ -2528,35 +2450,11 @@ msgctxt "cabride"
 msgid "Saved."
 msgstr "Saved."
 
-# GMT 1581668075.8107
-#, mobile
-msgctxt "cabride"
-msgid "Search ..."
-msgstr "Search ..."
-
 # GMT 1581668075.8108
 #, mobile
 msgctxt "cabride"
 msgid "Send request"
 msgstr "Send request"
-
-# GMT 1581668075.8109
-#, mobile
-msgctxt "cabride"
-msgid "Settings"
-msgstr "Settings"
-
-# GMT 1581668075.8110
-#, mobile
-msgctxt "cabride"
-msgid "Status"
-msgstr "Status"
-
-# GMT 1581668075.8111
-#, mobile
-msgctxt "cabride"
-msgid "Success"
-msgstr "Success"
 
 # GMT 1581668075.8112
 #, mobile
@@ -2635,4 +2533,3 @@ msgstr "Vehicle"
 msgctxt "cabride"
 msgid "Vehicle successfully deleted."
 msgstr "Vehicle successfully deleted."
-
