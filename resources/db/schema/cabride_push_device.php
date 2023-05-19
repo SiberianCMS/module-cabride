@@ -3,7 +3,7 @@
  *
  * Schema definition for 'cabride'
  *
- * Last update: 2018-10-26
+ * Last update: 2022-02-10
  *
  */
 $schemas = (!isset($schemas)) ? [] : $schemas;
@@ -34,9 +34,6 @@ $schemas['cabride_push_device'] = [
     ],
     'device' => [
         'type' => 'varchar(32)',
-    ],
-    'token' => [
-        'type' => 'varchar(256)',
     ],
     'created_at' => [
         'type' => 'datetime',

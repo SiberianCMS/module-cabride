@@ -4,7 +4,7 @@
 angular.module('starter')
     .factory('Cabride', function (CabrideSocket, CabridePayment, Customer, Application, Pages, Modal, Location, SB,
                                   $q, $session, $rootScope, $interval, $timeout, $log, $ionicPlatform, ContextualMenu,
-                                  $pwaRequest, PushService, Push, Dialog, Loader, $state, $ionicSideMenuDelegate) {
+                                  $pwaRequest, Dialog, Loader, $state, $ionicSideMenuDelegate) {
         var factory = {
             value_id: null,
             settings: {
@@ -634,33 +634,12 @@ angular.module('starter')
          * Fetch user
          */
         factory.fetchUser = function () {
-            factory.updateUserPush();
             return $pwaRequest.post('/cabride/mobile_view/fetch-user', {
                 urlParams: {
                     value_id: factory.value_id
                 },
                 cache: false
             });
-        };
-
-        /**
-         * Ensure user is registered for pushes!
-         */
-        factory.updateUserPush = function () {
-            PushService
-                .isReadyPromise
-                .then(function () {
-                    $pwaRequest.post('/cabride/mobile_view/update-user-push', {
-                        urlParams: {
-                            value_id: factory.value_id,
-                            device: Push.device_type,
-                            token: Push.device_token
-                        },
-                        cache: false
-                    });
-                }, function () {
-                    $log.info("[Ride] not registering user device for push.");
-                });
         };
 
         /**
@@ -866,6 +845,9 @@ angular.module('starter')
         // We will hook push when App is open to force a local notification
         $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
             try {
+
+                console.log(event, data);
+
                 if (cordova.plugins.notification &&
                     cordova.plugins.notification.local) {
                     // Ok it's a cabride payload!

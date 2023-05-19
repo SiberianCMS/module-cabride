@@ -3,8 +3,10 @@
 namespace Cabride\Model;
 
 use Core\Model\Base;
+use Push2\Model\Onesignal\Message;
+use Push2\Model\Onesignal\Player;
+use Push2\Model\Onesignal\Scheduler;
 use Siberian\Hook;
-use Push_Model_Message as Message;
 
 /**
  * Class PushDevice
@@ -39,75 +41,39 @@ class PushDevice extends Base
             $valueId = Cabride::getCurrentValueId();
         }
 
-        $device = ((int) $this->getDevice()) === 1 ? 'android' : 'ios';
-
-        // History
-        $logPush = new Push();
-        $logPush
-            ->setValueId($valueId)
-            ->setAppId($appId)
-            ->setPushDeviceId($this->getId())
-            ->setRequestId($requestId)
-            ->setTarget($target)
-            ->setStatus($status)
-            ->setTitle($title)
-            ->setMessage($text)
-            ->setActionValue($actionValue)
-            ->save();
-
-        $message = new Message();
-        $message
-            ->setIsStandalone(true)
-            ->setToken($this->getToken())
-            ->setAppId($appId)
-            ->setTitle($title)
-            ->setText($text)
-            ->setSendToAll(false)
-            ->setActionValue($actionValue)
-            ->setForceAppRoute(true)
-            ->setBase64(false);
-
         Hook::listen(
-            'push.message.android.parsed',
-            'cabride.alter.android.push',
+            'push2.message.parsed',
+            'cabride.alter.push2',
             static function ($payload) use ($requestId) {
                 /**
-                 * @var $msg \Siberian\Service\Push\CloudMessaging\Message
+                 * @var $notification \onesignal\client\model\Notification
                  */
-                $msg = $payload['message'];
+                $notification = $payload['notification'];
 
-                $cabride = [
-                    'cabride' => true,
-                    'requestId' => $requestId
-                ];
+                $notification->setContentAvailable(true);
+                $notification->setData($notification->getData() + [
+                        'cabride' => true,
+                        'requestId' => $requestId,
+                    ]);
 
-                $msg->contentAvailable(true);
-                $msg->addData('additional_payload', $cabride);
-
-                $payload['message'] = $msg;
+                $payload['notification'] = $notification;
 
                 return $payload;
             });
 
-        Hook::listen(
-            'push.message.ios.parsed',
-            'cabride.alter.ios.push',
-            static function ($payload) use ($requestId) {
-                $msg = $payload['message'];
+        $application = (new \Application_Model_Application())->find($appId);
 
-                $cabride = [
-                    'cabride' => true,
-                    'requestId' => $requestId
-                ];
+        $messageValues = [
+            'title' => $title,
+            'body' => $text,
+            'action_value' => $actionValue,
+            'value_id' => $valueId,
+            'app_id' => $appId,
+        ];
 
-                // APS additional payload
-                $msg->additional_payload = $cabride;
+        $scheduler = new Scheduler($application);
+        $scheduler->buildMessageFromValues($messageValues);
+        $scheduler->sendToCustomer($this->getCustomerId());
 
-                $payload['message'] = $msg;
-
-                return $payload;
-            });
-
-        (new Push())->sendPush($device, $message, $appId);
     }
 }
