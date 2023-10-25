@@ -370,7 +370,7 @@ class Cabride_Mobile_ViewController extends MobileController
                 foreach ($profileErrors as &$profileError) {
                     $profileError = "- {$profileError}";
                 }
-                throw new Exception(p__('cabride', implode('<br />', $profileErrors)));
+                throw new Exception(p__('cabride', implode_polyfill('<br />', $profileErrors)));
             }
 
             $driver

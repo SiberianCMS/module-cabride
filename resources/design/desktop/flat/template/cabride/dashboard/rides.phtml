@@ -67,6 +67,9 @@ foreach ($rides as $ride) {
     }
 }
 
+if ($averageItems === 0) {
+    $averageItems = 1;
+}
 $avgCost = $averageCost / $averageItems;
 if (!is_numeric($avgCost) || is_nan($avgCost)) {
     $avgCost = 0;

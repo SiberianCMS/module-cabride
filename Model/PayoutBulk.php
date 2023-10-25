@@ -186,9 +186,9 @@ class PayoutBulk extends Base
         $bulk = new self();
         $bulk
             ->setValueId($valueId)
-            ->setDriverIds(implode(",", $driverIds))
-            ->setPaymentIds(implode(",", $bulkPaymentIds))
-            ->setPayoutIds(implode(",", $payoutIds))
+            ->setDriverIds(implode_polyfill(",", $driverIds))
+            ->setPaymentIds(implode_polyfill(",", $bulkPaymentIds))
+            ->setPayoutIds(implode_polyfill(",", $payoutIds))
             ->setTotal($grandTotal)
             ->setRawCsv(Json::encode($csvLines));
 
@@ -204,9 +204,9 @@ class PayoutBulk extends Base
         // E-mail CSV to admins!
         $csvTextLines = [];
         foreach ($csvLines as $csvLine) {
-            $csvTextLines[] = implode(";", $csvLine);
+            $csvTextLines[] = implode_polyfill(";", $csvLine);
         }
-        $csvText = implode("\n", $csvTextLines);
+        $csvText = implode_polyfill("\n", $csvTextLines);
 
         // uniqid
         $csvPath = rpath('/var/tmp/' . uniqid('bulk_', true) . '.csv');

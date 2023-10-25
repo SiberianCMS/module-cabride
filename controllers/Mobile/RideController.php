@@ -898,7 +898,7 @@ class Cabride_Mobile_RideController extends MobileController
                 foreach ($errors as &$error) {
                     $error = "- {$error}";
                 }
-                throw new Exception(implode('<br />', $errors));
+                throw new Exception(implode_polyfill('<br />', $errors));
             }
 
             $driver->save();

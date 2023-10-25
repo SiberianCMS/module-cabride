@@ -91,7 +91,7 @@ class Driver extends Base
      *
      * @return array|mixed|null|string
      */
-    public function toJson()
+    public function toJson($optionValue = null, $baseUrl = '')
     {
         $data = $this->getData();
         $data["hasVehicle"] = (boolean) $data["vehicle_id"];

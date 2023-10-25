@@ -120,7 +120,7 @@ RAW;
             $label = $gateway['label'];
             try {
                 $_gatewayInstance = new $gateway['class']();
-                $isSetup = $_gatewayInstance::isSetup();
+                $isSetup = $_gatewayInstance->isSetup();
             } catch (\Exception $e) {
                 $isSetup = false;
             }

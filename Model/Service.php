@@ -52,7 +52,7 @@ class Service extends Base
         // Special dev case!
         try {
             exec('uname', $uname);
-            if (stripos(implode('', $uname), 'arwin') !== false) {
+            if (stripos(implode_polyfill('', $uname), 'arwin') !== false) {
                 self::$binPath .= '.osx';
             }
         } catch (\Exception $e) {
@@ -93,7 +93,7 @@ class Service extends Base
             $cron->log('CabRide server exception.');
         }
 
-        if ($log = @file_get_contents(self::$logPath)) {
+        if ($log = file_get_contents(self::$logPath)) {
             $pos = strrpos($log, '---STARTING RTC---');
             if ($pos >= 0) {
                 $log = substr($log, $pos);

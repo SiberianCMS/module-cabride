@@ -116,6 +116,9 @@ $totalCount = count($originalTranslations);
                                         $indexJ++;
                                         $_originalKey = $originalTranslation->getOriginal();
                                         $_tmpTr = $translations[$code] ?? [];
+                                        if (!is_array($_tmpTr)) {
+                                            $_tmpTr = [];
+                                        }
                                         $_userValue = '';
                                         if (array_key_exists($code, $userTranslations) && array_key_exists($_originalKey, $userTranslations[$code])) {
                                             $_userValue = htmlentities($userTranslations[$code][$_originalKey]);

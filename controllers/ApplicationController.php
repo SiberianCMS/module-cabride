@@ -102,7 +102,7 @@ class Cabride_ApplicationController extends Application_Controller_Default
                 throw new Exception(p__('cabride','You must select at least one payment gateway!'));
             }
 
-            $values['payment_gateways'] = implode(',', $aGateways);
+            $values['payment_gateways'] = implode_polyfill(',', $aGateways);
 
             if ($form->isValid($values)) {
                 $cabride = new Cabride();
