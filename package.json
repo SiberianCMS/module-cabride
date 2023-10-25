@@ -7,11 +7,11 @@
     "show": true
   },
   "type": "module",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "dependencies": {
     "system": {
       "type": "SAE",
-      "version": "5.0.2"
+      "version": "5.0.6"
     }
   }
 }
