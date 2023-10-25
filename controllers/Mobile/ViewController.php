@@ -1,6 +1,5 @@
 <?php
 
-use Cabride\Model\PushDevice;
 use Cabride\Model\Cabride;
 use Cabride\Model\Client;
 use Cabride\Model\Driver;
@@ -281,53 +280,6 @@ class Cabride_Mobile_ViewController extends MobileController
 
                     break;
             }
-
-            $payload = [
-                'success' => true,
-                'message' => p__("cabride", 'Success'),
-            ];
-        } catch (\Exception $e) {
-            $payload = [
-                'error' => true,
-                'message' => $e->getMessage(),
-            ];
-        }
-
-        $this->_sendJson($payload);
-    }
-
-    /**
-     *
-     */
-    public function updateUserPushAction ()
-    {
-        try {
-            $request = $this->getRequest();
-            $valueId = Cabride::getCurrentValueId();
-            $customerId = $this->getSession()->getCustomerId();
-            $device = $request->getParam('device', null);
-            $token = $request->getParam('token', null);
-
-            if (empty($customerId) || empty($device) || empty($token)) {
-                throw new Siberian\Exception(__('A value is missing.'));
-            }
-
-            // Clear token if user switched between passenger & driver.
-            $pushDevices = (new PushDevice())->findAll([
-                'customer_id = ?' => $customerId
-            ]);
-            foreach ($pushDevices as $pushDevice) {
-                $pushDevice->delete();
-            }
-
-            // Create the new record!
-            $pushDevice = (new PushDevice());
-            $pushDevice
-                ->setCustomerId($customerId)
-                ->setValueId($valueId)
-                ->setDevice($device)
-                ->setToken($token)
-                ->save();
 
             $payload = [
                 'success' => true,

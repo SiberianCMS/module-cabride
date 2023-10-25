@@ -415,6 +415,7 @@ class Cabride_Mobile_RequestController extends MobileController
                     "This ride request doesn't exists!"));
             }
 
+            /** @var array $data */
             $data = $request;
 
             // Makes payload lighter!

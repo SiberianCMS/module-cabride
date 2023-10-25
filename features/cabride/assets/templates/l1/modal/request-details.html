@@ -236,7 +236,10 @@
                     <img ng-src="{{ customerPhoto(request.driverCustomer.image) }}" />
                     <h2>
                         <b>{{ request.driverCustomer.firstname }} {{ request.driverCustomer.lastname }}</b>
+                        -
+                        <b>{{ request.driver.driver_license }}</b>
                     </h2>
+                    <p>{{ request.driver.vehicle_model }}&nbsp;-&nbsp;{{ request.driver.vehicle_license_plate }}</p>
                     <p>{{ request.driver.driver_phone }}</p>
                     <p>{{ request.driver.driver_email }}</p>
                 </div>

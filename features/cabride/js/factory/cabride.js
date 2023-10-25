@@ -842,37 +842,5 @@ angular.module('starter')
             });
         });
 
-        // We will hook push when App is open to force a local notification
-        $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
-            try {
-
-                console.log(event, data);
-
-                if (cordova.plugins.notification &&
-                    cordova.plugins.notification.local) {
-                    // Ok it's a cabride payload!
-                    if (data.additionalData &&
-                        data.additionalData.additional_payload &&
-                        data.additionalData.additional_payload.cabride) {
-
-                        // Check if it's a foreground push
-                        if (data.additionalData.foreground) {
-                            var msgPayload = data;
-                            // Process, otherwise, push was already in notification tab.
-                            cordova.plugins.notification.local.schedule({
-                                title: msgPayload.title,
-                                text: msgPayload.message,
-                                smallIcon: "res://icon.png",
-                                channel: 'channel0',
-                                priority: 2,
-                            });
-                        }
-                    }
-                }
-            } catch (e) {
-                // Silently fails! we will have the modal anyway!
-            }
-        });
-
         return factory;
     });

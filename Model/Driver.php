@@ -2,8 +2,6 @@
 
 namespace Cabride\Model;
 
-use Core\Model\Base;
-
 /**
  * Class Driver
  * @package Cabride\Model
@@ -16,7 +14,7 @@ use Core\Model\Base;
  * @method float getTimeFare()
  * @method integer getVehicleId()
  */
-class Driver extends Base
+class Driver extends PushCapable
 {
     /**
      * Driver constructor.

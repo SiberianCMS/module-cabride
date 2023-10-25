@@ -2,9 +2,6 @@
 
 namespace Cabride\Model;
 
-use Core\Model\Base;
-use Siberian\Json;
-
 /**
  * Class Client
  * @package Cabride\Model
@@ -12,7 +9,7 @@ use Siberian\Json;
  * @method integer getId()
  * @method Db\Table\Client getTable()
  */
-class Client extends Base
+class Client extends PushCapable
 {
     /**
      * Client constructor.

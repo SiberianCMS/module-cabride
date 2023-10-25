@@ -545,12 +545,8 @@ class Request extends Base
                 foreach ($requestDrivers as $requestDriver) {
 
                     $driver = (new Driver())->find($requestDriver->getDriverId(), "driver_id");
-                    $customerId = $driver->getCustomerId();
-                    $pushDevice = (new PushDevice())
-                        ->find($customerId, "customer_id");
-
-                    if ($pushDevice && $pushDevice->getId()) {
-                        $pushDevice->sendMessage($title, $message, $requestId, "driver",
+                    if ($driver && $driver->getId()) {
+                        $driver->sendMessage($title, $message, $requestId, "driver",
                             $status, $actionUrl, $valueId, $appId);
                     }
                 }
@@ -565,12 +561,8 @@ class Request extends Base
                 $actionUrl = "/{$appKey}/cabride/mobile_my_rides/index";
 
                 $client = (new Client())->find($clientId, "client_id");
-                $customerId = $client->getCustomerId();
-                $pushDevice = (new PushDevice())
-                    ->find($customerId, "customer_id");
-
-                if ($pushDevice->getId()) {
-                    $pushDevice->sendMessage($title, $message, $requestId, "passenger",
+                if ($client && $client->getId()) {
+                    $client->sendMessage($title, $message, $requestId, "passenger",
                         $status, $actionUrl, $valueId, $appId);
                 }
                 break;
@@ -584,12 +576,8 @@ class Request extends Base
                 $actionUrl = "/{$appKey}/cabride/mobile_my_rides/index";
 
                 $client = (new Client())->find($clientId, "client_id");
-                $customerId = $client->getCustomerId();
-                $pushDevice = (new PushDevice())
-                    ->find($customerId, "customer_id");
-
-                if ($pushDevice->getId()) {
-                    $pushDevice->sendMessage($title, $message, $requestId, "passenger",
+                if ($client && $client->getId()) {
+                    $client->sendMessage($title, $message, $requestId, "passenger",
                         $status, $actionUrl, $valueId, $appId);
                 }
 
@@ -607,12 +595,8 @@ class Request extends Base
                 $actionUrl = "/{$appKey}/cabride/mobile_home/index";
 
                 $client = (new Client())->find($clientId, "client_id");
-                $customerId = $client->getCustomerId();
-                $pushDevice = (new PushDevice())
-                    ->find($customerId, "customer_id");
-
-                if ($pushDevice->getId()) {
-                    $pushDevice->sendMessage($title, $message, $requestId, "passenger",
+                if ($client && $client->getId()) {
+                    $client->sendMessage($title, $message, $requestId, "passenger",
                         $status, $actionUrl, $valueId, $appId);
                 }
 
@@ -627,12 +611,8 @@ class Request extends Base
                 $actionUrl = "/{$appKey}/cabride/mobile_home/index";
 
                 $client = (new Client())->find($clientId, "client_id");
-                $customerId = $client->getCustomerId();
-                $pushDevice = (new PushDevice())
-                    ->find($customerId, "customer_id");
-
-                if ($pushDevice->getId()) {
-                    $pushDevice->sendMessage($title, $message, $requestId, "passenger",
+                if ($client && $client->getId()) {
+                    $client->sendMessage($title, $message, $requestId, "passenger",
                         $status, $actionUrl, $valueId, $appId);
                 }
 
@@ -654,12 +634,8 @@ class Request extends Base
                         "We are sorry, but the passenger cancelled the ride!");
 
                     $driver = (new Driver())->find($this->getDriverId(), "driver_id");
-                    $customerId = $driver->getCustomerId();
-                    $pushDevice = (new PushDevice())
-                        ->find($customerId, "customer_id");
-
-                    if ($pushDevice && $pushDevice->getId()) {
-                        $pushDevice->sendMessage($title, $message, $requestId, "driver",
+                    if ($driver && $driver->getId()) {
+                        $driver->sendMessage($title, $message, $requestId, "driver",
                             $status, $actionUrl, $valueId, $appId);
                     }
                 }
@@ -670,12 +646,8 @@ class Request extends Base
                         "We are sorry, but the driver cancelled the ride!");
 
                     $client = (new Client())->find($clientId, "client_id");
-                    $customerId = $client->getCustomerId();
-                    $pushDevice = (new PushDevice())
-                        ->find($customerId, "customer_id");
-
-                    if ($pushDevice && $pushDevice->getId()) {
-                        $pushDevice->sendMessage($title, $message, $requestId, "passenger",
+                    if ($client && $client->getId()) {
+                        $client->sendMessage($title, $message, $requestId, "passenger",
                             $status, $actionUrl, $valueId, $appId);
                     }
                 }
@@ -691,12 +663,8 @@ class Request extends Base
                 $actionUrl = "/{$appKey}/cabride/mobile_home/index";
 
                 $client = (new Client())->find($clientId, "client_id");
-                $customerId = $client->getCustomerId();
-                $pushDevice = (new PushDevice())
-                    ->find($customerId, "customer_id");
-
-                if ($pushDevice && $pushDevice->getId()) {
-                    $pushDevice->sendMessage($title, $message, $requestId, "passenger",
+                if ($client && $client->getId()) {
+                    $client->sendMessage($title, $message, $requestId, "passenger",
                         $status, $actionUrl, $valueId, $appId);
                 }
 
@@ -729,12 +697,8 @@ class Request extends Base
         $actionUrl = "/{$appKey}/cabride/mobile_my_rides/index";
 
         $client = (new Client())->find($clientId, 'client_id');
-        $customerId = $client->getCustomerId();
-        $pushDevice = (new PushDevice())
-            ->find($customerId, 'customer_id');
-
-        if ($pushDevice && $pushDevice->getId()) {
-            $pushDevice->sendMessage($title, $message, $requestId, 'passenger',
+        if ($client && $client->getId()) {
+            $client->sendMessage($title, $message, $requestId, 'passenger',
                 'at_pickup', $actionUrl, $valueId, $appId);
         }
     }
