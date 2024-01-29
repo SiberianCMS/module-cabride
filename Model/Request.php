@@ -542,12 +542,15 @@ class Request extends Base
                     "You have a new ride request!");
                 $actionUrl = "/{$appKey}/cabride/mobile_pending_requests/index";
 
+                Log::writeDriverRequest("pending", $requestId, $requestDrivers);
                 foreach ($requestDrivers as $requestDriver) {
-
                     $driver = (new Driver())->find($requestDriver->getDriverId(), "driver_id");
                     if ($driver && $driver->getId()) {
+                        Log::writeDriverRequest("pending-found", $requestId, $requestDrivers);
                         $driver->sendMessage($title, $message, $requestId, "driver",
                             $status, $actionUrl, $valueId, $appId);
+                    } else {
+                        Log::writeDriverRequest("pending-notfound", $requestId, $requestDrivers);
                     }
                 }
 

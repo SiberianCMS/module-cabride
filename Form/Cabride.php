@@ -39,6 +39,38 @@ class Cabride extends Siberian_Form_Abstract
 
         $this->groupElements('admin', ['admin_emails'], p__('cabride', 'Contact'));
 
+        $email_notifications = $this->addSimpleCheckbox(
+            'email_notifications',
+            p__('cabride', "Also send ride requests notifications via email?"));
+
+        $sms_notifications = $this->addSimpleCheckbox(
+            'sms_notifications',
+            p__('cabride', "Also send ride requests notifications via SMS?"));
+
+        # Twilio configured in settings
+        $sms_notifications->setDescription(p__('cabride', 'Twilio must be configured'));
+
+        $this->groupElements('notifications',
+            ['email_notifications', 'sms_notifications'],
+            p__('cabride', 'Notifications'));
+
+        // Twilio settings inputs and groupd
+        $twilio_sid = $this->addSimpleText(
+            'twilio_sid',
+            p__('cabride', 'Twilio SID'));
+
+        $twilio_token = $this->addSimpleText(
+            'twilio_token',
+            p__('cabride', 'Twilio Token'));
+
+        $twilio_from = $this->addSimpleText(
+            'twilio_from',
+            p__('cabride', 'Twilio From'));
+
+        $this->groupElements('twilio',
+            ['twilio_sid', 'twilio_token', 'twilio_from'],
+            p__('cabride', 'Twilio API'));
+
         // All currencies
         $currency = $this->addSimpleSelect(
             'currency',

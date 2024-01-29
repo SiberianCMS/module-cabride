@@ -1,3 +1,4 @@
+
 <ion-view sb-page-background
           class="cabride cabride-view cabride-my-payments">
     <ion-nav-title>{{ pageTitle }}</ion-nav-title>
@@ -15,7 +16,7 @@
         </button>
     </ion-nav-buttons>
 
-    <ion-content class="has-footer">
+    <ion-content>
         <div ng-if="isLoading"
              class="loader">
             <ion-spinner class="spinner-custom"></ion-spinner>
@@ -24,8 +25,7 @@
         <div ng-if="!isLoading"
              class="list">
 
-            <div ng-if="filterName == 'payments'">
-
+            <div>
                 <div ng-if="payments.length == 0">
                     <div class="item item-custom text-center">
                         <span>{{ ::'You have no payments' | translate:'cabride' }}</span>
@@ -56,11 +56,6 @@
                     </div>
 
                     <div ng-if="payment.method == 'credit-card'">
-                        <i class="icon">
-                            <img src="{{ creditCardBrand(payment.brand) }}"
-                                 style="height: 60%;" />
-                        </i>
-
                         <div class="row"
                              style="margin-left: 10px;">
                             <div class="col-50"
@@ -79,50 +74,9 @@
                         </div>
                     </div>
                 </div>
-
-            </div>
-
-            <div ng-if="filterName == 'cards'">
-
-                <div ng-if="cards.length == 0">
-                    <div class="item item-custom text-center">
-                        <span>{{ ::"You have no card saved" | translate:"cabride" }}</span>
-                    </div>
-                </div>
-
-                <div ng-if="cards.length > 0"
-                     class="list">
-                    <div ng-repeat="card in cards"
-                         class="item item-custom item-icon-left item-icon-right">
-                        <i class="icon">
-                            <img src="{{ creditCardBrand(card.brand) }}"
-                                 style="height: 60%; margin-right: 15px;" />
-                        </i>
-                        <span class="saved-card">
-                            <span class="last-star">**** **** **** </span>
-                            <span class="last-four">{{ card.last }}</span>
-                            <span class="exp"> - {{ card.exp }}</span>
-                        </span>
-                        <i ng-click="deleteVault(card)"
-                           class="icon ion-trash-a"></i>
-                    </div>
-                </div>
             </div>
 
         </div>
-
     </ion-content>
 
-    <div class="tabs tabs-icon-top">
-        <a ng-click="statusFilter('payments')"
-           class="tab-item">
-            <i class="icon ion-clock"></i>
-            {{ ::'Payments' | translate:'cabride' }}
-        </a>
-        <a ng-click="statusFilter('cards')"
-           class="tab-item">
-            <i class="icon ion-archive"></i>
-            {{ ::'Saved cards' | translate:'cabride' }}
-        </a>
-    </div>
 </ion-view>

@@ -164,7 +164,7 @@ class PayoutBulk extends Base
                 $recipient
                     ->setEmail($payout->getEmail())
                     ->setFirstname($payout->getFirstname())
-                    ->setLastname($payout->getLastname);
+                    ->setLastname($payout->getLastname());
 
                 // SMTP Mailer
                 (new Mail())

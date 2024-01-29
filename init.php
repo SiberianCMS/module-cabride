@@ -13,6 +13,8 @@ use Cabride\Model\Service as Cabride_Service;
 /** Alias for non-confusing escape */
 class_alias('Cabride\Model\Cabride', 'Cabride_Model_Cabride');
 
+require_once path('/app/local/modules/Cabride/vendor/autoload.php');
+
 /**
  * @throws Exception
  */
@@ -50,6 +52,10 @@ function cabrideOverrideAppTranslations ($payload) {
  */
 function cabrideOverrideEditorTranslations ($payload) {
     return CabrideTranslation::overrideEditor($payload);
+}
+
+if (method_exists(PaymentMethod\Model\Gateway::class, 'use')) {
+    PaymentMethod\Model\Gateway::use('stripe');
 }
 
 $init = static function ($bootstrap) {

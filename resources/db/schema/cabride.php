@@ -34,6 +34,32 @@ $schemas['cabride'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'email_notifications' => [
+        'type' => 'tinyint(1)',
+        'default' => '1',
+    ],
+    'sms_notifications' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'twilio_sid' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'twilio_token' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
+    'twilio_from' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+        'null' => true,
+    ],
     'currency' => [ // currency
         'type' => 'varchar(10)',
         'charset' => 'utf8',

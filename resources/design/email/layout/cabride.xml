@@ -15,4 +15,12 @@
                            template="cabride/pending_payout.phtml" />
         </views>
     </pending_payout>
+
+    <ride_request>
+        <addLayout name="application_base_layout" />
+        <views>
+            <content_email class="core_view_email_default"
+                           template="cabride/ride_request.phtml" />
+        </views>
+    </ride_request>
 </layout>

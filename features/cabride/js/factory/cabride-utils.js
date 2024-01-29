@@ -2,7 +2,7 @@
  * CabrideUtils factory
  */
 angular.module('starter')
-    .factory('CabrideUtils', function (Cabride, ContextualMenu, $q, $translate) {
+    .factory('CabrideUtils', function (Cabride, ContextualMenu, Location, $q, $translate) {
         var factory = {
             directionsService: null,
         };
@@ -17,27 +17,27 @@ angular.module('starter')
         };
 
         /**factory.getRoute = function (pickup, dropoff, params) {
-            var params = angular.extend({
-                mode: google.maps.DirectionsTravelMode.DRIVING,
-                unitSystem: (Cabride.settings.distanceUnit === "km") ?
-                    google.maps.UnitSystem.METRIC : google.maps.UnitSystem.IMPERIAL,
-                request: {}
-            }, params);
+         var params = angular.extend({
+         mode: google.maps.DirectionsTravelMode.DRIVING,
+         unitSystem: (Cabride.settings.distanceUnit === "km") ?
+         google.maps.UnitSystem.METRIC : google.maps.UnitSystem.IMPERIAL,
+         request: {}
+         }, params);
 
-            // Si c'est le driver?
-            /**if (_.isObject(driver) && _.isObject(driver.position) && _.isNumber(+driver.position.lat+(+driver.position.lng))) {
-                params.request.waypoints = [{
-                    location: new google.maps.LatLng(start.latitude, start.longitude),
-                    stopover: true
-                }];
-                start = {
-                    latitude: +driver.position.lat,
-                    longitude: +driver.position.lng
-                };
-            }*
+         // Si c'est le driver?
+         /**if (_.isObject(driver) && _.isObject(driver.position) && _.isNumber(+driver.position.lat+(+driver.position.lng))) {
+         params.request.waypoints = [{
+         location: new google.maps.LatLng(start.latitude, start.longitude),
+         stopover: true
+         }];
+         start = {
+         latitude: +driver.position.lat,
+         longitude: +driver.position.lng
+         };
+         }*
 
-            return GoogleMaps.calculateRoute(pickup, dropoff, params, true);
-        };*/
+         return GoogleMaps.calculateRoute(pickup, dropoff, params, true);
+         };*/
 
         factory.rebuildContextualMenu = function () {
             if (!Cabride.isTaxiLayout &&
@@ -147,6 +147,19 @@ angular.module('starter')
             // Direction service if needed!
             if (factory.directionsService === null) {
                 factory.directionsService = new google.maps.DirectionsService();
+            }
+
+            if (driverPosition === undefined || driverPosition === null) {
+                Location
+                    .getLocation({}, true)
+                    .then(function (position) {
+                        driverPosition = {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        };
+                    }, function () {
+                        // Skipping this time!
+                    });
             }
 
             var request = {

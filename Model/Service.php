@@ -93,6 +93,21 @@ class Service extends Base
             $cron->log('CabRide server exception.');
         }
 
+        $size = filesize(self::$logPath);
+        if ($size > 32 * 1024 * 1024) {
+            for ($i = 3; $i > 0; $i--) {
+                $log = self::$logPath . '.' . $i;
+                if (file_exists($log)) {
+                    unlink($log);
+                }
+                $log = self::$logPath . '.' . ($i - 1);
+                if (file_exists($log)) {
+                    rename($log, self::$logPath . '.' . $i);
+                }
+            }
+            rename(self::$logPath, self::$logPath . '.0');
+        }
+
         if ($log = file_get_contents(self::$logPath)) {
             $pos = strrpos($log, '---STARTING RTC---');
             if ($pos >= 0) {

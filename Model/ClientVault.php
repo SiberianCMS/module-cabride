@@ -36,7 +36,7 @@ class ClientVault extends Base
     /**
      * @return array|string
      */
-    public function toJson()
+    public function toJson($optionValue = null, $baseUrl = "")
     {
         $data = [
             "vaultId" => (integer) $this->getId(),
